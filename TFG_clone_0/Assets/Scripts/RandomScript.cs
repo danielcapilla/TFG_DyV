@@ -34,7 +34,7 @@ public class RandomScript : MonoBehaviour
     // To Join a game
     public void StartClient()
     {
-        Debug.Log("PENE");
+        //Debug.Log("PENE");
         ipAddress = ip.text;
         SetIpAddress();
         NetworkManager.Singleton.StartClient();
