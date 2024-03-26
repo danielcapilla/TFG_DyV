@@ -11,4 +11,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/PruebaMovimiento.unity
     guid: 6f8e8adae77abfb4893b4742f5336854
-  m_configObjects: {}
+  m_configObjects:
+    com.unity.addressableassets: {fileID: 11400000, guid: 026a1b4705c18db48b2a93dc0df394a8, type: 2}
+    com.unity.localization.settings: {fileID: 11400000, guid: 98d39c4294797de48b16bd874ae0dcce, type: 2}
