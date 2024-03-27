@@ -83,36 +83,4 @@ public class RandomScript : MonoBehaviour
     }
 
     // Controls to control character
-    public void Right()
-    {
-        if (pcAssigned)
-        {
-            pc.Movement("Right");
-        }
-    }
-
-    public void Left()
-    {
-        if (pcAssigned)
-        {
-            pc.Movement("Left");
-        }
-    }
-
-    public void Forward()
-    {
-        if (pcAssigned)
-        {
-            pc.Movement("Forward");
-        }
-    }
-
-    public void Back()
-    {
-        if (pcAssigned)
-        {
-            pc.Movement("Back");
-        }
-    }
-
 }
