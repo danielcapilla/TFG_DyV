@@ -193,17 +193,6 @@
                     "isOR": false
                 }
             ]
-        },
-        {
-            "name": "TouchScreen",
-            "bindingGroup": "TouchScreen",
-            "devices": [
-                {
-                    "devicePath": "<Touchscreen>",
-                    "isOptional": false,
-                    "isOR": false
-                }
-            ]
         }
     ]
 }
