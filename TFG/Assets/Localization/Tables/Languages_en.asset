@@ -19,7 +19,11 @@ MonoBehaviour:
     m_Items: []
   m_TableData:
   - m_Id: 1293239726080
-    m_Localized: Host
+    m_Localized: Create Room
+    m_Metadata:
+      m_Items: []
+  - m_Id: 742186103746560
+    m_Localized: Join
     m_Metadata:
       m_Items: []
   references:

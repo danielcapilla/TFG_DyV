@@ -19,6 +19,10 @@ MonoBehaviour:
     m_Key: host
     m_Metadata:
       m_Items: []
+  - m_Id: 742186103746560
+    m_Key: client
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:
