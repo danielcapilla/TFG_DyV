@@ -42,7 +42,7 @@ public class PlayerController : MonoBehaviour
 
         Vector3 desiredMovement = new Vector3(input.x, 0f, input.y) * force;
 
-        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(desiredMovement), rotationSpeed);
+        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(desiredMovement), rotationSpeed * Time.deltaTime);
         //rb.AddForce(new Vector3(input.x, 0f, input.y)*force);
         rb.AddForce(desiredMovement);
     }
