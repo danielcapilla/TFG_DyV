@@ -6,6 +6,12 @@ public class IngredientBox : InteractableObject
 {
     public IngredientsScriptableObject ingredient;
 
+    private void Start()
+    {
+        GameObject instance = Instantiate(ingredient.Model,transform);
+        instance.transform.localPosition = new Vector3(0,0.5f,0);
+    }
+
     public override void Interact(PlayerCarry player)
     {
         base.Interact(player);
@@ -14,8 +20,9 @@ public class IngredientBox : InteractableObject
         {
             Debug.Log("Spawneando: " + ingredient.IngredientName);
             GameObject instance = Instantiate(ingredient.Model);
-            //TODO Add ingredient behaviour script
-            player.carryObject(instance);
+            IngredientBehaviour carryObject = instance.AddComponent<IngredientBehaviour>();
+            carryObject.ingredient = ingredient;
+            player.carryObject(carryObject);
         }
     }
 

@@ -6,7 +6,7 @@ public class Table : InteractableObject
 {
     bool isOccupied = false;
     [SerializeField] Transform placePosition;
-    GameObject holdingObject;
+    CarryObject holdingObject;
 
     public override void Interact(PlayerCarry player)
     {
@@ -19,11 +19,22 @@ public class Table : InteractableObject
             holdingObject.transform.localPosition = Vector3.zero;
             isOccupied = true;
         }
-        else if (isOccupied && !player.isCarrying) 
+        else if (isOccupied && !player.isCarrying)
         {
             holdingObject.transform.parent = null;
             player.carryObject(holdingObject);
             isOccupied = false;
+        }
+        //TODO if plate on table and player holding ingredient, add ingredient
+        else if (isOccupied && player.isCarrying) 
+        {
+            if (holdingObject.gameObject.TryGetComponent<PlateBehaviour>(out PlateBehaviour plate)) 
+            {
+                if (player.carryingObject.TryGetComponent<IngredientBehaviour>(out IngredientBehaviour ingredient)) 
+                {
+                    plate.AddIngredient((IngredientBehaviour)player.dropObject());
+                }
+            }
         }
     }
 }

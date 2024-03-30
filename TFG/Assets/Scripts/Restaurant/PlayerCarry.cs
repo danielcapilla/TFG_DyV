@@ -6,9 +6,9 @@ public class PlayerCarry : MonoBehaviour
 {
     [SerializeField] Transform CarryPosition;
     public bool isCarrying = false;
-    private GameObject carryingObject;
+    public CarryObject carryingObject;
 
-    public void carryObject(GameObject carryObject) 
+    public void carryObject(CarryObject carryObject) 
     {
         carryObject.transform.parent = CarryPosition;
         carryObject.transform.localPosition = Vector3.zero;
@@ -16,9 +16,9 @@ public class PlayerCarry : MonoBehaviour
         isCarrying = true;
     }
 
-    public GameObject dropObject()
+    public CarryObject dropObject()
     {
-        GameObject temp = carryingObject;
+        CarryObject temp = carryingObject;
         carryingObject = null;
         temp.transform.parent = null;
         //Give object to other script

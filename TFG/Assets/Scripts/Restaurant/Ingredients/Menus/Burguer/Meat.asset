@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: 1
   IngredientName: Meat
-  Model: {fileID: 0}
+  Model: {fileID: 2845565645419624898, guid: 9208738206f044c419a56e947e47b97f, type: 3}
   Sprite: {fileID: 0}
