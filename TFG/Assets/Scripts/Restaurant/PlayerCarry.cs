@@ -19,8 +19,11 @@ public class PlayerCarry : MonoBehaviour
     public CarryObject dropObject()
     {
         CarryObject temp = carryingObject;
-        carryingObject = null;
-        temp.transform.parent = null;
+        if (carryingObject)
+        {
+            carryingObject = null;
+            temp.transform.parent = null;
+        }
         //Give object to other script
         isCarrying=false;
         return temp;
