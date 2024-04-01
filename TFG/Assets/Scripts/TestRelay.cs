@@ -50,8 +50,9 @@ public class TestRelay : MonoBehaviour
                 allocation.ConnectionData
                 );
             NetworkManager.Singleton.StartHost();
-            //SceneManager.LoadScene("PruebaMovimiento");
-            this.gameObject.SetActive(false);
+            //SceneManager.LoadScene("MinijuegoRestaurante");
+            NetworkManager.Singleton.SceneManager.LoadScene("MinijuegoRestaurante",LoadSceneMode.Single);
+            //this.gameObject.SetActive(false);
             Debug.Log(joinCode);
         } catch (RelayServiceException e)
         {
@@ -80,7 +81,8 @@ public class TestRelay : MonoBehaviour
                 joinAllocation.HostConnectionData
                 );
             NetworkManager.Singleton.StartClient();
-            this.gameObject.SetActive(false);
+            //this.gameObject.SetActive(false);
+            //SceneManager.LoadScene("MinijuegoRestaurante");
         } catch (RelayServiceException e) 
         {
             Debug.Log("Error: " + e);
