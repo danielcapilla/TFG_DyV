@@ -1,7 +1,8 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Unity.Netcode;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : NetworkBehaviour
 {
     [SerializeField] float force, rotationSpeed;
     Rigidbody rb;
@@ -14,10 +15,15 @@ public class PlayerController : MonoBehaviour
 
     PlayerCarry carryScript;
     LayerMask layer;
-    // Start is called before the first frame update
-    void Start()
+
+
+    public override void OnNetworkSpawn()
     {
+        base.OnNetworkSpawn();
+
+        if (!IsOwner) return;
         playerInput = GetComponent<PlayerInput>();
+        playerInput.enabled = true;
         rb = GetComponent<Rigidbody>();
         playerInput.actions["Interact"].performed += Interact;
 
@@ -40,19 +46,26 @@ public class PlayerController : MonoBehaviour
 
         layer = ~layer;
     }
+    void Start()
+    {
+        
+    }
 
     // Update is called once per frame
     void Update()
     {
+        if (!IsOwner) return;
+        
         input = playerInput.actions["Movement"].ReadValue<Vector2>();
     }
 
     private void FixedUpdate()
     {
+        if(!IsOwner) return;
         //Vector3 desiredMovement = (forward * input.y + right * input.x);
 
         Vector3 desiredMovement = new Vector3(input.x, 0f, input.y);
-
+        Debug.Log(input.x + " "+ input.y);
         if (desiredMovement.magnitude > 0.1f)
         {
             rb.AddForce(desiredMovement * force);
