@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
-public abstract class CarryObject : MonoBehaviour
+public class ObjectNetwork : NetworkBehaviour
 {
 
 }

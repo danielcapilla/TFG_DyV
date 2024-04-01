@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.UIElements;
 
-public class PlayerCarry : MonoBehaviour
+public class PlayerCarry : MonoBehaviour, INetworkSerializable
 {
     [SerializeField] Transform CarryPosition;
     public bool isCarrying = false;
@@ -28,4 +30,12 @@ public class PlayerCarry : MonoBehaviour
         isCarrying=false;
         return temp;
     }
+
+    // INetworkSerializable
+    public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
+    {
+        serializer.SerializeValue(ref isCarrying);
+        //serializer.SerializeValue(ref carryingObject);
+    }
+    // ~INetworkSerializable
 }

@@ -191,6 +191,7 @@ GameObject:
   - component: {fileID: 160802577}
   - component: {fileID: 160802576}
   - component: {fileID: 160802575}
+  - component: {fileID: 160802580}
   - component: {fileID: 160802579}
   m_Layer: 0
   m_Name: IngredientBox
@@ -298,6 +299,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ingredient: {fileID: 11400000, guid: 2ac9d416f0144ba458ef4cd2c55190ff, type: 2}
+  listaObjetos: {fileID: 11400000, guid: daec491caa83eb54a94fcba7f3ce01b1, type: 2}
+--- !u!114 &160802580
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 160802574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 2398553381
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!1 &216292450
 GameObject:
   m_ObjectHideFlags: 0
@@ -821,7 +844,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 889409465}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.22975291, y: 0.00001805823, z: -0.000004263097, w: 0.973249}
+  m_LocalRotation: {x: 0.22975291, y: 0.000018131075, z: -0.0000042802862, w: 0.973249}
   m_LocalPosition: {x: 0, y: 10, z: -20}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1146,6 +1169,7 @@ GameObject:
   - component: {fileID: 1155165436}
   - component: {fileID: 1155165435}
   - component: {fileID: 1155165434}
+  - component: {fileID: 1155165438}
   - component: {fileID: 1155165433}
   m_Layer: 0
   m_Name: IngredientBox (2)
@@ -1167,6 +1191,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ingredient: {fileID: 11400000, guid: 63c79b2bea4e86f468831d4bb689f8e6, type: 2}
+  listaObjetos: {fileID: 0}
 --- !u!65 &1155165434
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1253,6 +1278,27 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1155165438
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1155165432}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 1122221764
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!1 &1160696449
 GameObject:
   m_ObjectHideFlags: 0
@@ -1803,6 +1849,7 @@ GameObject:
   - component: {fileID: 2001933372}
   - component: {fileID: 2001933371}
   - component: {fileID: 2001933370}
+  - component: {fileID: 2001933374}
   - component: {fileID: 2001933369}
   m_Layer: 0
   m_Name: IngredientBox (1)
@@ -1824,6 +1871,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ingredient: {fileID: 11400000, guid: 25a7e4eaf79471147a8d3e440e059422, type: 2}
+  listaObjetos: {fileID: 0}
 --- !u!65 &2001933370
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1910,6 +1958,27 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2001933374
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2001933368}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 260202020
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!1 &2083041847
 GameObject:
   m_ObjectHideFlags: 0
