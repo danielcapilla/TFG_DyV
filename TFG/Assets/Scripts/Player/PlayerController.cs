@@ -65,7 +65,6 @@ public class PlayerController : NetworkBehaviour
         //Vector3 desiredMovement = (forward * input.y + right * input.x);
 
         Vector3 desiredMovement = new Vector3(input.x, 0f, input.y);
-        Debug.Log(input.x + " "+ input.y);
         if (desiredMovement.magnitude > 0.1f)
         {
             rb.AddForce(desiredMovement * force);
