@@ -22,6 +22,10 @@ MonoBehaviour:
     m_Localized: Crear sala
     m_Metadata:
       m_Items: []
+  - m_Id: 742186103746560
+    m_Localized: Unirse
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
