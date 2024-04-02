@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
-public abstract class CarryObject : MonoBehaviour
+public abstract class CarryObject : NetworkBehaviour
 {
-
+    public NetworkObject GetNetworkObject()
+    {
+        return NetworkObject;
+    }
 }

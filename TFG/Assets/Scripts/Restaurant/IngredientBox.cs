@@ -17,14 +17,15 @@ public class IngredientBox : InteractableObject
     public override void Interact(PlayerCarry player)
     {
         base.Interact(player);
-        SpawnMultiplayerServerRPC(player);
+        SpawnMultiplayerServerRPC(player.GetNetworkObject());
         
     }
     [ServerRpc(RequireOwnership = false)]
-    void SpawnMultiplayerServerRPC(PlayerCarry player)
+    void SpawnMultiplayerServerRPC(NetworkObjectReference playerNetworkObjectReference)
     {
-
-        if (!player.isCarrying)
+        playerNetworkObjectReference.TryGet(out NetworkObject playerNetworkObject);
+        PlayerCarry playerCarry = playerNetworkObject.GetComponent<PlayerCarry>();
+        if (!playerCarry.isCarrying)
         {
             Debug.Log("Spawneando: " + ingredient.IngredientName);
             GameObject instance = Instantiate(ingredient.Model);
@@ -35,7 +36,7 @@ public class IngredientBox : InteractableObject
 
             IngredientBehaviour carryObject = instance.AddComponent<IngredientBehaviour>();
             carryObject.ingredient = ingredient;
-            player.carryObject(carryObject);
+            playerCarry.carryObjectServerRPC(carryObject.GetNetworkObject());
         }
     }
     //Missing box display its content and highlight when player can interact

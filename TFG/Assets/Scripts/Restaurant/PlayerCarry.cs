@@ -4,13 +4,13 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class PlayerCarry : MonoBehaviour, INetworkSerializable
+public class PlayerCarry : NetworkBehaviour
 {
     [SerializeField] Transform CarryPosition;
     public bool isCarrying = false;
     public CarryObject carryingObject;
-
-    public void carryObject(CarryObject carryObject) 
+    [ServerRpc(RequireOwnership = false)]
+    public void carryObjectServerRPC(NetworkObjectReference carryObjectNetworkReference) 
     {
         carryObject.transform.parent = CarryPosition;
         carryObject.transform.localPosition = Vector3.zero;
@@ -31,11 +31,15 @@ public class PlayerCarry : MonoBehaviour, INetworkSerializable
         return temp;
     }
 
-    // INetworkSerializable
-    public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
+    public NetworkObject GetNetworkObject()
     {
-        serializer.SerializeValue(ref isCarrying);
-        //serializer.SerializeValue(ref carryingObject);
+        return NetworkObject;
     }
-    // ~INetworkSerializable
+    //// INetworkSerializable
+    //public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
+    //{
+    //    serializer.SerializeValue(ref isCarrying);
+    //    //serializer.SerializeValue(ref carryingObject);
+    //}
+    //// ~INetworkSerializable
 }
