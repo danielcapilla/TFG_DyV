@@ -22,7 +22,7 @@ public class Table : InteractableObject
         else if (isOccupied && !player.isCarrying)
         {
             holdingObject.transform.parent = null;
-            player.carryObject(holdingObject);
+            //player.carryObject(holdingObject);
             isOccupied = false;
         }
         //TODO if plate on table and player holding ingredient, add ingredient

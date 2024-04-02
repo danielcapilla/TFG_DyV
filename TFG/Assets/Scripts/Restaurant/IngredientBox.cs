@@ -36,7 +36,7 @@ public class IngredientBox : InteractableObject
 
             IngredientBehaviour carryObject = instance.AddComponent<IngredientBehaviour>();
             carryObject.ingredient = ingredient;
-            playerCarry.carryObjectServerRPC(carryObject.GetNetworkObject());
+            playerCarry.CarryObjectServerRPC(carryObject.GetNetworkObject());
         }
     }
     //Missing box display its content and highlight when player can interact

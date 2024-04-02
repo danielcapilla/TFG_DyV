@@ -11,7 +11,7 @@ public class PlateSpawner : InteractableObject
         if (!player.isCarrying)
         {
             GameObject instance = Instantiate(plate);
-            player.carryObject(instance.GetComponent<PlateBehaviour>());
+            //player.carryObject(instance.GetComponent<PlateBehaviour>());
         }
     }
 }

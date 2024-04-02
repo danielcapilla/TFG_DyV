@@ -9,15 +9,22 @@ public class PlayerCarry : NetworkBehaviour
     [SerializeField] Transform CarryPosition;
     public bool isCarrying = false;
     public CarryObject carryingObject;
+
     [ServerRpc(RequireOwnership = false)]
-    public void carryObjectServerRPC(NetworkObjectReference carryObjectNetworkReference) 
+    public void CarryObjectServerRPC(NetworkObjectReference carryObjectNetworkObjectReference) 
     {
+        CarryObjectClientRPC(carryObjectNetworkObjectReference);
+        isCarrying = true;
+    }
+    [ClientRpc]
+    private void CarryObjectClientRPC(NetworkObjectReference carryObjectNetworkObjectReference)
+    {
+        carryObjectNetworkObjectReference.TryGet(out NetworkObject carryObjectNetworkObject);
+        CarryObject carryObject = carryObjectNetworkObject.GetComponent<CarryObject>();
         carryObject.transform.parent = CarryPosition;
         carryObject.transform.localPosition = Vector3.zero;
         carryingObject = carryObject;
-        isCarrying = true;
     }
-
     public CarryObject dropObject()
     {
         CarryObject temp = carryingObject;
