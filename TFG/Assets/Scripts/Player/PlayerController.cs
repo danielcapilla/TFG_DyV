@@ -16,6 +16,7 @@ public class PlayerController : NetworkBehaviour
     PlayerCarry carryScript;
     LayerMask layer;
 
+    public InteractableObject interactableInRange;
 
     public override void OnNetworkSpawn()
     {
@@ -57,6 +58,28 @@ public class PlayerController : NetworkBehaviour
         if (!IsOwner) return;
         
         input = playerInput.actions["Movement"].ReadValue<Vector2>();
+
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, 5, layer))
+        {
+            if (hit.transform.gameObject.TryGetComponent<InteractableObject>(out InteractableObject interactable))
+            {
+                if (interactable != interactableInRange && interactableInRange!=null) 
+                {
+                    interactableInRange.toggleHighlight(false);
+                }
+                interactable.toggleHighlight(true);
+                interactableInRange = interactable;
+            }
+        }
+        else
+        {
+            if (interactableInRange != null)
+            {
+                interactableInRange.toggleHighlight(false);
+                interactableInRange = null;
+            }
+        }
     }
 
     private void FixedUpdate()
@@ -82,13 +105,9 @@ public class PlayerController : NetworkBehaviour
         Debug.Log("Interaccion");
 
         //Check for interactable object in front and call its interact method
-        RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, 5, layer)) 
+        if (interactableInRange != null) 
         {
-            if (hit.transform.gameObject.TryGetComponent<InteractableObject>(out InteractableObject interactable)) 
-            {
-                interactable.Interact(carryScript);
-            }
+            interactableInRange.Interact(carryScript);
         }
     }
 
