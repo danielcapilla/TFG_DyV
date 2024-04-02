@@ -9,4 +9,17 @@ public abstract class CarryObject : NetworkBehaviour
     {
         return NetworkObject;
     }
+    //private Transform targetTransform;
+
+    //public void SetTargetTransform(Transform targetTransform)
+    //{
+    //    this.targetTransform = targetTransform;
+    //}
+    //private void LateUpdate()
+    //{
+    //    if (targetTransform == null) return;
+
+    //    transform.position = targetTransform.position;
+
+    //}
 }

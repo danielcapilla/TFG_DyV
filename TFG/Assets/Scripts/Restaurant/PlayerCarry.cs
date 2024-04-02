@@ -9,7 +9,7 @@ public class PlayerCarry : NetworkBehaviour
     [SerializeField] Transform CarryPosition;
     public bool isCarrying = false;
     public CarryObject carryingObject;
-
+    
     [ServerRpc(RequireOwnership = false)]
     public void CarryObjectServerRPC(NetworkObjectReference carryObjectNetworkObjectReference) 
     {
@@ -21,8 +21,12 @@ public class PlayerCarry : NetworkBehaviour
     {
         carryObjectNetworkObjectReference.TryGet(out NetworkObject carryObjectNetworkObject);
         CarryObject carryObject = carryObjectNetworkObject.GetComponent<CarryObject>();
-        carryObject.transform.parent = CarryPosition;
-        carryObject.transform.localPosition = Vector3.zero;
+        carryObject.transform.parent = this.transform;
+        //NetworkObject.TrySetParent(carryObject.transform);
+        //carryObjectNetworkObject.transform.parent = transform;
+        //carryObjectNetworkObject.transform.localPosition = Vector3.zero;
+        //carryObject.SetTargetTransform(CarryPosition);
+        carryObject.transform.localPosition = CarryPosition.localPosition;
         carryingObject = carryObject;
     }
     public CarryObject dropObject()
