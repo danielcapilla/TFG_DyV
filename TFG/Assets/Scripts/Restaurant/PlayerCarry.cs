@@ -6,10 +6,15 @@ using UnityEngine.UIElements;
 
 public class PlayerCarry : NetworkBehaviour
 {
-    [SerializeField] Transform CarryPosition;
+    private Transform CarryPosition;
     public bool isCarrying = false;
     public CarryObject carryingObject;
-    
+
+    public override void OnNetworkSpawn()
+    {
+        CarryPosition = GetComponentInChildren<Transform>();    
+        base.OnNetworkSpawn();
+    }
     [ServerRpc(RequireOwnership = false)]
     public void CarryObjectServerRPC(NetworkObjectReference carryObjectNetworkObjectReference) 
     {
@@ -21,7 +26,8 @@ public class PlayerCarry : NetworkBehaviour
     {
         carryObjectNetworkObjectReference.TryGet(out NetworkObject carryObjectNetworkObject);
         CarryObject carryObject = carryObjectNetworkObject.GetComponent<CarryObject>();
-        carryObject.transform.parent = this.transform;
+        Debug.Log(carryObject.transform.parent);
+        carryObject.transform.SetParent(transform);
         //NetworkObject.TrySetParent(carryObject.transform);
         //carryObjectNetworkObject.transform.parent = transform;
         //carryObjectNetworkObject.transform.localPosition = Vector3.zero;
