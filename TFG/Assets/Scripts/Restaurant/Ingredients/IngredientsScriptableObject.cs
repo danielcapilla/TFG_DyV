@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName ="Ingredient",menuName ="Ingredients/Ingredient")]
 public class IngredientsScriptableObject : ScriptableObject
 {
-    public int ID;
+    public int MinimumQuantity;
     public string IngredientName;
     public GameObject Model;
     public Sprite Sprite;
