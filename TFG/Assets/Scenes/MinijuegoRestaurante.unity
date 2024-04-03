@@ -145,8 +145,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca1c741f85e17e14b8b04cfadcf3d0a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CarryPosition: {fileID: 0}
   isCarrying: 0
-  carryingObject: {fileID: 0}
 --- !u!1 &8168277
 GameObject:
   m_ObjectHideFlags: 0
@@ -355,7 +355,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderers: {fileID: 0}
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
-  placePosition: {fileID: 1160696450}
 --- !u!65 &216292452
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -499,6 +498,7 @@ GameObject:
   - component: {fileID: 360936487}
   - component: {fileID: 360936486}
   - component: {fileID: 360936485}
+  - component: {fileID: 360936489}
   - component: {fileID: 360936484}
   m_Layer: 0
   m_Name: Trash
@@ -607,6 +607,27 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &360936489
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 360936483}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 1787778049
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!1001 &814129902
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -848,7 +869,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 889409465}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.22975291, y: 0.000021461135, z: -0.0000050660897, w: 0.973249}
+  m_LocalRotation: {x: 0.22975291, y: 0.00002162417, z: -0.0000051045613, w: 0.973249}
   m_LocalPosition: {x: 0, y: 10, z: -20}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1011,7 +1032,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderers: {fileID: 0}
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
-  placePosition: {fileID: 8168278}
 --- !u!1 &1027888216
 GameObject:
   m_ObjectHideFlags: 0
@@ -1046,7 +1066,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderers: {fileID: 0}
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
-  placePosition: {fileID: 1794325129}
 --- !u!65 &1027888218
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2001,6 +2020,7 @@ GameObject:
   - component: {fileID: 2083041851}
   - component: {fileID: 2083041850}
   - component: {fileID: 2083041849}
+  - component: {fileID: 2083041853}
   - component: {fileID: 2083041848}
   m_Layer: 0
   m_Name: PlateSpawner
@@ -2110,6 +2130,27 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2083041853
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2083041847}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 4148301312
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

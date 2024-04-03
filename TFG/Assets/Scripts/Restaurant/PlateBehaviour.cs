@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
-public class PlateBehaviour : CarryObject
+public class PlateBehaviour : NetworkBehaviour, ICarryObject
 {
     List<IngredientBehaviour> Ingredients = new List<IngredientBehaviour>();
     // Start is called before the first frame update
@@ -30,5 +31,14 @@ public class PlateBehaviour : CarryObject
             ingredient.transform.localPosition = new Vector3(0, ingredient.transform.localScale.y*2, 0);
         }
         Ingredients.Add(ingredient);
+    }
+    public NetworkObject GetNetworkObject()
+    {
+        return NetworkObject;
+    }
+
+    public GameObject GetGameObject()
+    {
+        return gameObject;
     }
 }

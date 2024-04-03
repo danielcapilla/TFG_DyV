@@ -21,22 +21,22 @@ public class IngredientBox : InteractableObject
         
     }
     [ServerRpc(RequireOwnership = false)]
-    void SpawnMultiplayerServerRPC(NetworkObjectReference playerNetworkObjectReference)
+    private void SpawnMultiplayerServerRPC(NetworkObjectReference playerNetworkObjectReference)
     {
         playerNetworkObjectReference.TryGet(out NetworkObject playerNetworkObject);
         PlayerCarry playerCarry = playerNetworkObject.GetComponent<PlayerCarry>();
         if (!playerCarry.isCarrying)
         {
             GameObject instance = Instantiate(ingredient.Model);
-
+            ICarryObject carryObject = instance.GetComponent<IngredientBehaviour>();
             //Para que lo vean los clientes
             NetworkObject instanceNetworkObject = instance.GetComponent<NetworkObject>();
             instanceNetworkObject.Spawn(true);
 
-            IngredientBehaviour carryObject = instance.AddComponent<IngredientBehaviour>();
+            
             //Poner de padre al player que lo ha invocado (solo funciona si se pone en una serverRPC)
-            carryObject.transform.SetParent(playerCarry.transform);
-            carryObject.ingredient = ingredient;
+            carryObject.GetGameObject().transform.SetParent(playerCarry.transform);
+            carryObject.GetGameObject().GetComponent<IngredientBehaviour>().ingredient = ingredient;
             playerCarry.CarryObject(carryObject);
         }
     }

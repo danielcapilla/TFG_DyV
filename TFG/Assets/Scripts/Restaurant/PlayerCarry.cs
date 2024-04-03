@@ -9,42 +9,41 @@ public class PlayerCarry : NetworkBehaviour
     [SerializeField]
     private Transform CarryPosition;
     public bool isCarrying = false;
-    public CarryObject carryingObject;
+    private ICarryObject carryingObject;
 
     //public override void OnNetworkSpawn()
     //{
     //    CarryPosition = GetComponentInChildren<Transform>();    
     //    base.OnNetworkSpawn();
     //}
-    public void CarryObject(CarryObject carryObject)
+    public void CarryObject(ICarryObject carryObject)
     {
         CarryObjectServerRPC(carryObject.GetNetworkObject());
     }
     [ServerRpc(RequireOwnership = false)]
     public void CarryObjectServerRPC(NetworkObjectReference carryObjectNetworkObjectReference) 
     {
-        CarryObjectClientRPC(carryObjectNetworkObjectReference);
-        
+        CarryObjectClientRPC(carryObjectNetworkObjectReference);       
     }
     [ClientRpc]
     public void CarryObjectClientRPC(NetworkObjectReference carryObjectNetworkObjectReference)
     {
         carryObjectNetworkObjectReference.TryGet(out NetworkObject carryObjectNetworkObject);
-        CarryObject carryObject = carryObjectNetworkObject.GetComponent<CarryObject>();
+        ICarryObject carryObject = carryObjectNetworkObject.GetComponent<ICarryObject>();
         carryObjectNetworkObject.gameObject.transform.localPosition = CarryPosition.localPosition;
         carryingObject = carryObject;
         isCarrying = true;
     }
-    public CarryObject dropObject()
+    public ICarryObject DropObject()
     {
-        CarryObject temp = carryingObject;
-        if (carryingObject)
+        ICarryObject temp = carryingObject;
+        if (carryingObject != null)
         {
             carryingObject = null;
-            temp.transform.parent = null;
+            temp.GetGameObject().transform.parent = null;
         }
-        //Give object to other script
-        isCarrying=false;
+        //give object to other script
+        isCarrying = false;
         return temp;
     }
 
@@ -52,11 +51,4 @@ public class PlayerCarry : NetworkBehaviour
     {
         return NetworkObject;
     }
-    //// INetworkSerializable
-    //public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
-    //{
-    //    serializer.SerializeValue(ref isCarrying);
-    //    //serializer.SerializeValue(ref carryingObject);
-    //}
-    //// ~INetworkSerializable
 }

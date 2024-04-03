@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
-public abstract class CarryObject : NetworkBehaviour
+public interface ICarryObject 
 {
-    public NetworkObject GetNetworkObject()
-    {
-        return NetworkObject;
-    }
+    public NetworkObject GetNetworkObject();
+    
+    public GameObject GetGameObject();
 }
