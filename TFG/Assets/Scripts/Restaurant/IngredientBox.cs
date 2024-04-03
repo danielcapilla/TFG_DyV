@@ -27,7 +27,6 @@ public class IngredientBox : InteractableObject
         PlayerCarry playerCarry = playerNetworkObject.GetComponent<PlayerCarry>();
         if (!playerCarry.isCarrying)
         {
-            Debug.Log("Spawneando: " + ingredient.IngredientName);
             GameObject instance = Instantiate(ingredient.Model);
 
             //Para que lo vean los clientes
@@ -35,8 +34,10 @@ public class IngredientBox : InteractableObject
             instanceNetworkObject.Spawn(true);
 
             IngredientBehaviour carryObject = instance.AddComponent<IngredientBehaviour>();
+            //Poner de padre al player que lo ha invocado (solo funciona si se pone en una serverRPC)
+            carryObject.transform.SetParent(playerCarry.transform);
             carryObject.ingredient = ingredient;
-            playerCarry.CarryObjectServerRPC(carryObject.GetNetworkObject());
+            playerCarry.CarryObject(carryObject);
         }
     }
     //Missing box display its content and highlight when player can interact

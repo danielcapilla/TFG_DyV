@@ -6,34 +6,34 @@ using UnityEngine.UIElements;
 
 public class PlayerCarry : NetworkBehaviour
 {
+    [SerializeField]
     private Transform CarryPosition;
     public bool isCarrying = false;
     public CarryObject carryingObject;
 
-    public override void OnNetworkSpawn()
+    //public override void OnNetworkSpawn()
+    //{
+    //    CarryPosition = GetComponentInChildren<Transform>();    
+    //    base.OnNetworkSpawn();
+    //}
+    public void CarryObject(CarryObject carryObject)
     {
-        CarryPosition = GetComponentInChildren<Transform>();    
-        base.OnNetworkSpawn();
+        CarryObjectServerRPC(carryObject.GetNetworkObject());
     }
     [ServerRpc(RequireOwnership = false)]
     public void CarryObjectServerRPC(NetworkObjectReference carryObjectNetworkObjectReference) 
     {
         CarryObjectClientRPC(carryObjectNetworkObjectReference);
-        isCarrying = true;
+        
     }
     [ClientRpc]
-    private void CarryObjectClientRPC(NetworkObjectReference carryObjectNetworkObjectReference)
+    public void CarryObjectClientRPC(NetworkObjectReference carryObjectNetworkObjectReference)
     {
         carryObjectNetworkObjectReference.TryGet(out NetworkObject carryObjectNetworkObject);
         CarryObject carryObject = carryObjectNetworkObject.GetComponent<CarryObject>();
-        Debug.Log(carryObject.transform.parent);
-        carryObject.transform.SetParent(transform);
-        //NetworkObject.TrySetParent(carryObject.transform);
-        //carryObjectNetworkObject.transform.parent = transform;
-        //carryObjectNetworkObject.transform.localPosition = Vector3.zero;
-        //carryObject.SetTargetTransform(CarryPosition);
-        carryObject.transform.localPosition = CarryPosition.localPosition;
+        carryObjectNetworkObject.gameObject.transform.localPosition = CarryPosition.localPosition;
         carryingObject = carryObject;
+        isCarrying = true;
     }
     public CarryObject dropObject()
     {
