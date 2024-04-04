@@ -9,7 +9,7 @@ public class PlayerCarry : NetworkBehaviour
     [SerializeField]
     private Transform CarryPosition;
     public bool isCarrying = false;
-    private ICarryObject carryingObject;
+    public ICarryObject carryingObject {  get;  private set; }
 
     //public override void OnNetworkSpawn()
     //{
@@ -40,13 +40,21 @@ public class PlayerCarry : NetworkBehaviour
         if (carryingObject != null)
         {
             carryingObject = null;
-            temp.GetGameObject().transform.parent = null;
+            DropOnjectServerRPC(temp.GetNetworkObject());
+            //temp.GetGameObject().transform.parent = null;
         }
         //give object to other script
         isCarrying = false;
         return temp;
     }
+    [ServerRpc (RequireOwnership = false)]
+    private void DropOnjectServerRPC(NetworkObjectReference tempNetworkObjectReference)
+    {
+        tempNetworkObjectReference.TryGet(out NetworkObject carryObjectNetworkObject);
+        ICarryObject temp = carryObjectNetworkObject.GetComponent<ICarryObject>();
 
+        temp.GetGameObject().transform.parent = null;
+    }
     public NetworkObject GetNetworkObject()
     {
         return NetworkObject;
