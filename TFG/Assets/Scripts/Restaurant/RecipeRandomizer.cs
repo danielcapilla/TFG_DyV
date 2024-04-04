@@ -59,7 +59,7 @@ public class RecipeRandomizer : MonoBehaviour
     public void DisplayRecipes() 
     {
         HashSet<int> utilizados = new HashSet<int>();
-        for (int i = 0; i < currentMenu.NumberOfExampleRecipes; i++) 
+        for (int i = 0; i < currentMenu.NumberOfExampleRecipes-1; i++) 
         {
             
         }
