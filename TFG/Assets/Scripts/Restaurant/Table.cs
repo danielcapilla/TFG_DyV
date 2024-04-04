@@ -49,14 +49,12 @@ public class Table : InteractableObject
         playerNetworkObjectReference.TryGet(out NetworkObject playerNetworkObject);
         PlayerCarry playerCarry = playerNetworkObject.GetComponent<PlayerCarry>();
         holdingObject = playerCarry.DropObject();
-        SetParentServerRPC();
-        Debug.Log(holdingObject);
-
+        SetParentTableServerRPC();
         holdingObject.GetGameObject().transform.localPosition = placePosition.localPosition;
         isOccupied = true;
     }
     [ServerRpc (RequireOwnership = false)]
-    private void SetParentServerRPC()
+    private void SetParentTableServerRPC()
     {
         holdingObject.GetGameObject().transform.parent = this.transform;
     }
