@@ -23,6 +23,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 18de10f244c124e408298195b3b7d629, type: 2}
   - {fileID: 11400000, guid: ec51d024fdc0fe84182e2338ecd0a9da, type: 2}
   - {fileID: 11400000, guid: 454a391bad102ca42943249a8cb7113e, type: 2}
+  - {fileID: 11400000, guid: c3f0356240167d947aa8c03fffd3af7f, type: 2}
   NumberOfExampleRecipes: 0
   MinIngredientsPerExample: 0
   MaxIngredientsPerExample: 0

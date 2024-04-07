@@ -20,8 +20,6 @@ public class RecipeRandomizer : MonoBehaviour
         GenerateRandomRecipes();
         //TODO shuffle recipe appearing order
 
-        Debug.Log("Paired Ingredients: " + pairedIngredients);
-        Debug.Log("Recipes: " + recipes);
 
         //Si es cliente recibe el randomizado hecho por el host o server
 

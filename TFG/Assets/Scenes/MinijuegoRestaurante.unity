@@ -892,7 +892,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 889409465}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.22975291, y: 0.00002670598, z: -0.00000630373, w: 0.973249}
+  m_LocalRotation: {x: 0.22975291, y: 0.000027267928, z: -0.0000064363344, w: 0.973249}
   m_LocalPosition: {x: 0, y: 10, z: -20}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1692,6 +1692,7 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 731c961d6c43ac843af380e19f0839ea, type: 3}
   - {fileID: 2800000, guid: eefa31d9d6ad9e7429085521f5505d38, type: 3}
   - {fileID: 2800000, guid: a6a7bf565b7bbaa4aa43fab491f2b9e9, type: 3}
+  extraIngredients: []
 --- !u!4 &1377549226
 Transform:
   m_ObjectHideFlags: 0
