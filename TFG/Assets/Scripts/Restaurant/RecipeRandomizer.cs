@@ -7,6 +7,7 @@ public class RecipeRandomizer : MonoBehaviour
 {
     public MenuScriptableObject currentMenu;
     [SerializeField] List<Texture2D> Codes;
+    [SerializeField]
     public Dictionary<int, IngredientsScriptableObject> pairedIngredients = new Dictionary<int, IngredientsScriptableObject>();
     HashSet<List<IngredientsScriptableObject>> recipes = new HashSet<List<IngredientsScriptableObject>>();
 
@@ -24,7 +25,7 @@ public class RecipeRandomizer : MonoBehaviour
 
     public void RandomizeIngredients() 
     {
-        //Asigna imagenes a los ingredientes
+        //Asigna imagenes a los ingredientes sin que se repitan
 
         //Para la carne en el caso de la hamburguesa
         foreach (IngredientsScriptableObject ingredient in currentMenu.importantIngredients)
