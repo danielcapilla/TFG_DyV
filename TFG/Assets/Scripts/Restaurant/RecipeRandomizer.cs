@@ -8,6 +8,7 @@ public class RecipeRandomizer : MonoBehaviour
     public MenuScriptableObject currentMenu;
     [SerializeField] List<Image> Codes;
     public Dictionary<int, IngredientsScriptableObject> pairedIngredients = new Dictionary<int, IngredientsScriptableObject>();
+    HashSet<List<IngredientsScriptableObject>> recipes = new HashSet<List<IngredientsScriptableObject>>();
 
     // Start is called before the first frame update
     void Start()
@@ -15,14 +16,10 @@ public class RecipeRandomizer : MonoBehaviour
         //Si es host o server
 
         RandomizeIngredients();
+        GenerateRandomRecipes();
+        //TODO shuffle recipe appearing order
 
         //Si es cliente recibe el randomizado hecho por el host o server
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     public void RandomizeIngredients() 
@@ -50,15 +47,41 @@ public class RecipeRandomizer : MonoBehaviour
 
     public void GenerateRandomOrder() 
     {
+        List<IngredientsScriptableObject> order = new List<IngredientsScriptableObject>();
         //Añadir pan
+        foreach (IngredientsScriptableObject coreIngredient in currentMenu.coreIngredients)
+        {
+            order.Add(coreIngredient);
+        }
         //Añadir 1 carne
+        int importantIngredientIDX = Random.Range(0, currentMenu.importantIngredients.Count);
+        order.Add(currentMenu.importantIngredients[importantIngredientIDX]);
         //Añadir extras (considerar posibilidad de añadir la misma carne como extra)
+        int burguerSize = Random.Range(2,5);
+        for (int i = 0; i<burguerSize;i++) 
+        {
+            int ingredientIDX = Random.Range(0, currentMenu.extraIngredients.Count+1);
+            //We added a fake extra ingredient as meat duplicate
+            if (ingredientIDX == currentMenu.extraIngredients.Count) 
+            {
+                order.Add(currentMenu.importantIngredients[importantIngredientIDX]);
+                continue;
+            }
+            order.Add(currentMenu.extraIngredients[ingredientIDX]);
+        }
+
         //Añadir pan
+        foreach (IngredientsScriptableObject coreIngredient in currentMenu.coreIngredients)
+        {
+            if (coreIngredient.MinimumQuantity > 1)
+            {
+                order.Add(coreIngredient);
+            }
+        }
     }
 
     public void GenerateRandomRecipes() 
     {
-        HashSet<List<IngredientsScriptableObject>> recipes = new HashSet<List<IngredientsScriptableObject>>();
         List<IngredientsScriptableObject> extraIngredients = new List<IngredientsScriptableObject>();
         extraIngredients.AddRange(currentMenu.extraIngredients);
         //Add random extra ingredients duplicates
@@ -96,12 +119,13 @@ public class RecipeRandomizer : MonoBehaviour
             }
             else 
             {
+                //2nd and 3rd recipe contain dupe ingredients
                 int numberOfExtraIngredients = 2;
-                if (i == 1) 
+                if (i == 1 || i == 2) 
                 {
                     numberOfExtraIngredients = 1;
-                    recipe.Add(extraIngredients[copyIdx+1]);
-                    extraIngredients.RemoveAt(copyIdx+1);
+                    recipe.Add(extraIngredients[copyIdx]);
+                    extraIngredients.RemoveAt(copyIdx);
                 }
                 
                 //Add extra ingredients
