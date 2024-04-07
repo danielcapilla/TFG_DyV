@@ -14,6 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coreIngredients:
   - {fileID: 11400000, guid: 63c79b2bea4e86f468831d4bb689f8e6, type: 2}
-  otherIngredients:
+  importantIngredients:
   - {fileID: 11400000, guid: 25a7e4eaf79471147a8d3e440e059422, type: 2}
+  extraIngredients:
   - {fileID: 11400000, guid: 2ac9d416f0144ba458ef4cd2c55190ff, type: 2}
+  NumberOfExampleRecipes: 0
+  MinIngredientsPerExample: 0
+  MaxIngredientsPerExample: 0

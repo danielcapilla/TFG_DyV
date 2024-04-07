@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class RecipeRandomizer : MonoBehaviour
 {
     public MenuScriptableObject currentMenu;
-    [SerializeField] List<Image> Codes;
+    [SerializeField] List<Texture2D> Codes;
     public Dictionary<int, IngredientsScriptableObject> pairedIngredients = new Dictionary<int, IngredientsScriptableObject>();
     HashSet<List<IngredientsScriptableObject>> recipes = new HashSet<List<IngredientsScriptableObject>>();
 
@@ -24,6 +24,9 @@ public class RecipeRandomizer : MonoBehaviour
 
     public void RandomizeIngredients() 
     {
+        //Asigna imagenes a los ingredientes
+
+        //Para la carne en el caso de la hamburguesa
         foreach (IngredientsScriptableObject ingredient in currentMenu.importantIngredients)
         {
             int rand = Random.Range(0, Codes.Count);
@@ -33,7 +36,7 @@ public class RecipeRandomizer : MonoBehaviour
             }
             pairedIngredients[rand] = ingredient;
         }
-
+        //Para el queso, lechuga... en el caso de la hamburguesa
         foreach (IngredientsScriptableObject ingredient in currentMenu.extraIngredients) 
         {
             int rand = Random.Range(0,Codes.Count);
