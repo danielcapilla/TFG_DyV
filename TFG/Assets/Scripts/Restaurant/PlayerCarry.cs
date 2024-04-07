@@ -11,11 +11,6 @@ public class PlayerCarry : NetworkBehaviour
     public bool isCarrying = false;
     public ICarryObject carryingObject {  get;  private set; }
 
-    //public override void OnNetworkSpawn()
-    //{
-    //    CarryPosition = GetComponentInChildren<Transform>();    
-    //    base.OnNetworkSpawn();
-    //}
     public void CarryObject(ICarryObject carryObject)
     {
         CarryObjectServerRPC(carryObject.GetNetworkObject());

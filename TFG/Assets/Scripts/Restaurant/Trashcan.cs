@@ -31,12 +31,4 @@ public class Trashcan : InteractableObject
             }
         }
     }
-    [ClientRpc]
-    private void DespawnObjectsClientRPC(NetworkObjectReference destroyObjectNetworkReference)
-    {
-        destroyObjectNetworkReference.TryGet(out NetworkObject destroyObjectNetworkObject);
-        ICarryObject destroyObject = destroyObjectNetworkObject.GetComponent<ICarryObject>();
-
-        Destroy(destroyObject.GetGameObject());
-    }
 }
