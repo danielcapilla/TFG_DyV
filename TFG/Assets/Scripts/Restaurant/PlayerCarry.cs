@@ -6,57 +6,52 @@ using UnityEngine.UIElements;
 
 public class PlayerCarry : NetworkBehaviour
 {
+    [SerializeField]
     private Transform CarryPosition;
     public bool isCarrying = false;
-    public CarryObject carryingObject;
+    public ICarryObject carryingObject {  get;  private set; }
 
-    public override void OnNetworkSpawn()
+    public void CarryObject(ICarryObject carryObject)
     {
-        CarryPosition = GetComponentInChildren<Transform>();    
-        base.OnNetworkSpawn();
+        CarryObjectServerRPC(carryObject.GetNetworkObject());
     }
     [ServerRpc(RequireOwnership = false)]
     public void CarryObjectServerRPC(NetworkObjectReference carryObjectNetworkObjectReference) 
     {
-        CarryObjectClientRPC(carryObjectNetworkObjectReference);
-        isCarrying = true;
+        CarryObjectClientRPC(carryObjectNetworkObjectReference);       
     }
     [ClientRpc]
-    private void CarryObjectClientRPC(NetworkObjectReference carryObjectNetworkObjectReference)
+    public void CarryObjectClientRPC(NetworkObjectReference carryObjectNetworkObjectReference)
     {
         carryObjectNetworkObjectReference.TryGet(out NetworkObject carryObjectNetworkObject);
-        CarryObject carryObject = carryObjectNetworkObject.GetComponent<CarryObject>();
-        Debug.Log(carryObject.transform.parent);
-        carryObject.transform.SetParent(transform);
-        //NetworkObject.TrySetParent(carryObject.transform);
-        //carryObjectNetworkObject.transform.parent = transform;
-        //carryObjectNetworkObject.transform.localPosition = Vector3.zero;
-        //carryObject.SetTargetTransform(CarryPosition);
-        carryObject.transform.localPosition = CarryPosition.localPosition;
+        ICarryObject carryObject = carryObjectNetworkObject.GetComponent<ICarryObject>();
+        carryObjectNetworkObject.gameObject.transform.localPosition = CarryPosition.localPosition;
         carryingObject = carryObject;
+        isCarrying = true;
     }
-    public CarryObject dropObject()
+    public ICarryObject DropObject()
     {
-        CarryObject temp = carryingObject;
-        if (carryingObject)
+        ICarryObject temp = carryingObject;
+        if (carryingObject != null)
         {
             carryingObject = null;
-            temp.transform.parent = null;
+            DropOnjectServerRPC(temp.GetNetworkObject());
+            //temp.GetGameObject().transform.parent = null;
         }
-        //Give object to other script
-        isCarrying=false;
+        //give object to other script
+        isCarrying = false;
         return temp;
     }
+    [ServerRpc (RequireOwnership = false)]
+    private void DropOnjectServerRPC(NetworkObjectReference tempNetworkObjectReference)
+    {
+        tempNetworkObjectReference.TryGet(out NetworkObject carryObjectNetworkObject);
+        ICarryObject temp = carryObjectNetworkObject.GetComponent<ICarryObject>();
 
+        temp.GetGameObject().transform.parent = null;
+    }
     public NetworkObject GetNetworkObject()
     {
         return NetworkObject;
     }
-    //// INetworkSerializable
-    //public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
-    //{
-    //    serializer.SerializeValue(ref isCarrying);
-    //    //serializer.SerializeValue(ref carryingObject);
-    //}
-    //// ~INetworkSerializable
 }

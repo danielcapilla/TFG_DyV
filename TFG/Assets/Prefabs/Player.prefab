@@ -294,6 +294,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   force: 20
   rotationSpeed: 10
+  interactableInRange: {fileID: 0}
 --- !u!114 &-8147101046939092231
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -394,5 +395,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca1c741f85e17e14b8b04cfadcf3d0a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CarryPosition: {fileID: 6756028583465858594}
   isCarrying: 0
   carryingObject: {fileID: 0}

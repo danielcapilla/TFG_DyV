@@ -3,23 +3,9 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
-public abstract class CarryObject : NetworkBehaviour
+public interface ICarryObject 
 {
-    public NetworkObject GetNetworkObject()
-    {
-        return NetworkObject;
-    }
-    //private Transform targetTransform;
-
-    //public void SetTargetTransform(Transform targetTransform)
-    //{
-    //    this.targetTransform = targetTransform;
-    //}
-    //private void LateUpdate()
-    //{
-    //    if (targetTransform == null) return;
-
-    //    transform.position = targetTransform.position;
-
-    //}
+    public NetworkObject GetNetworkObject();
+    
+    public GameObject GetGameObject();
 }
