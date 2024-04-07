@@ -20,10 +20,16 @@ public class RecipeRandomizer : MonoBehaviour
         GenerateRandomRecipes();
         //TODO shuffle recipe appearing order
 
-
         //Si es cliente recibe el randomizado hecho por el host o server
 
         //Muestra las comandas
+
+        //Si es host o server
+        //Solicita pedido
+
+        //Si es cliente recibe pedido del host o server
+
+        //Muestra pedido
     }
 
     public void RandomizeIngredients() 
