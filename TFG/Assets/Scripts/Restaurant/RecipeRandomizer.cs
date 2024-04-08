@@ -6,8 +6,7 @@ using UnityEngine.UI;
 public class RecipeRandomizer : MonoBehaviour
 {
     public MenuScriptableObject currentMenu;
-    [SerializeField] List<Texture2D> Codes;
-    [SerializeField] Dictionary<int, IngredientsScriptableObject> pairedIngredients = new Dictionary<int, IngredientsScriptableObject>();
+    [SerializeField] Dictionary<IngredientsScriptableObject, int> pairedIngredients = new Dictionary<IngredientsScriptableObject, int>();
     [SerializeField] List<List<IngredientsScriptableObject>> recipes = new List<List<IngredientsScriptableObject>>();
     [SerializeField] List<IngredientsScriptableObject> extraIngredients = new List<IngredientsScriptableObject>();
 
@@ -25,7 +24,7 @@ public class RecipeRandomizer : MonoBehaviour
 
         RandomizeIngredients();
         GenerateRandomRecipes();
-        commandSpawner.SpawnRecipes(recipes);
+        commandSpawner.SpawnRecipes(recipes, pairedIngredients);
         //TODO shuffle recipe appearing order
 
         //Si es cliente recibe el randomizado hecho por el host o server
@@ -47,22 +46,22 @@ public class RecipeRandomizer : MonoBehaviour
         //Para la carne en el caso de la hamburguesa
         foreach (IngredientsScriptableObject ingredient in currentMenu.importantIngredients)
         {
-            int rand = Random.Range(0, Codes.Count);
-            while (pairedIngredients.ContainsKey(rand))
+            int rand = Random.Range(0, commandSpawner.Codes.Count);
+            while (pairedIngredients.ContainsValue(rand))
             {
-                rand = Random.Range(0, Codes.Count);
+                rand = Random.Range(0, commandSpawner.Codes.Count);
             }
-            pairedIngredients[rand] = ingredient;
+            pairedIngredients[ingredient] = rand;
         }
         //Para el queso, lechuga... en el caso de la hamburguesa
         foreach (IngredientsScriptableObject ingredient in currentMenu.extraIngredients) 
         {
-            int rand = Random.Range(0,Codes.Count);
-            while (pairedIngredients.ContainsKey(rand)) 
+            int rand = Random.Range(0,commandSpawner.Codes.Count);
+            while (pairedIngredients.ContainsValue(rand)) 
             {
-                rand = Random.Range(0, Codes.Count);
+                rand = Random.Range(0, commandSpawner.Codes.Count);
             }
-            pairedIngredients[rand] = ingredient;
+            pairedIngredients[ingredient] = rand;
         }
     }
 

@@ -16,3 +16,4 @@ MonoBehaviour:
   IngredientName: Onion
   Model: {fileID: 7789280622902521811, guid: 485455ea4e5b6924a8ca8c62f034b86f, type: 3}
   Sprite: {fileID: 0}
+  Rarity: 2

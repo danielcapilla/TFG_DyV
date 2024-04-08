@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 601315c931ff61e459aefb230d819922, type: 3}
   m_Name: Lettuce
   m_EditorClassIdentifier: 
-  ID: 2
+  MinimumQuantity: 0
   IngredientName: Lettuce
   Model: {fileID: 7966426488334251216, guid: 633b67be75938e4449c767a29b765681, type: 3}
   Sprite: {fileID: 0}
+  Rarity: 2

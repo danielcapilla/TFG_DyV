@@ -16,3 +16,4 @@ MonoBehaviour:
   IngredientName: Bacon
   Model: {fileID: 944577026005157140, guid: d8848bcd71008bc41b36452e57d04373, type: 3}
   Sprite: {fileID: 0}
+  Rarity: 2

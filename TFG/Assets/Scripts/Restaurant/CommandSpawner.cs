@@ -2,19 +2,29 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CommandSpawner : MonoBehaviour
 {
     [SerializeField]
     private GameObject panel;
-    public TextMeshProUGUI [] textMeshProUGUI;
+    [SerializeField] 
+    public List<Sprite> Codes;
 
-    private void Start()
-    {
-        textMeshProUGUI = GetComponentsInChildren<TextMeshProUGUI>();
-    }
+    //[SerializeField]
+    //private UIInventoryItem itemPrefab;
 
-    public void SpawnRecipes(List<List<IngredientsScriptableObject>> recipes )
+    //[SerializeField]
+    //private RectTransform contentPanel;
+
+    //[SerializeField]
+    //private UIInventoryDescription itemDescription;
+
+    //[SerializeField]
+    //private MouseFollower mouseFollower;
+
+
+    public void SpawnRecipes(List<List<IngredientsScriptableObject>> recipes, Dictionary<IngredientsScriptableObject, int> codes)
     {
 
         for (int i = 0; i < recipes.Count; i++)
@@ -24,12 +34,23 @@ public class CommandSpawner : MonoBehaviour
             RectTransform instanceRectTransform = instance.GetComponent<RectTransform>();
             //Para mover cosas en canvas usar anchoredPosition!!!!
             instanceRectTransform.anchoredPosition = new Vector3(instanceRectTransform.sizeDelta.x*i,0f,0f);
-            //textMeshProUGUI[i].text += "[ ";
-            //foreach (IngredientsScriptableObject ingredient in recipes[i])
-            //{
-            //    textMeshProUGUI[i].text += ingredient.name.ToString() + " ";
-            //}
-            //textMeshProUGUI[i].text += "] ";
+
+            instance.GetComponentInChildren<TextMeshProUGUI>().text += "[ ";
+            foreach (IngredientsScriptableObject ingredient in recipes[i])
+            {
+                if(ingredient.Rarity == IngredientRarity.core) { continue;  }
+                GameObject prefab = new GameObject("code");
+                prefab.transform.SetParent(instanceRectTransform.GetChild(1).transform);
+                prefab.AddComponent<LayoutElement>().preferredWidth = 0;
+
+                Image prefabImage = prefab.AddComponent<Image>();
+                prefabImage.sprite = Codes[codes[ingredient]];
+                
+                instance.GetComponentInChildren<TextMeshProUGUI>().text += ingredient.name.ToString() + " ";
+            }
+            instance.GetComponentInChildren<TextMeshProUGUI>().text += "] ";
         }
+
+        
     }
 }
