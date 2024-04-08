@@ -8,7 +8,7 @@ public class RecipeRandomizer : MonoBehaviour
     public MenuScriptableObject currentMenu;
     [SerializeField] List<Texture2D> Codes;
     [SerializeField] Dictionary<int, IngredientsScriptableObject> pairedIngredients = new Dictionary<int, IngredientsScriptableObject>();
-    [SerializeField] HashSet<List<IngredientsScriptableObject>> recipes = new HashSet<List<IngredientsScriptableObject>>();
+    [SerializeField] public static HashSet<List<IngredientsScriptableObject>> recipes = new HashSet<List<IngredientsScriptableObject>>();
     [SerializeField] List<IngredientsScriptableObject> extraIngredients = new List<IngredientsScriptableObject>();
 
     // Start is called before the first frame update
@@ -17,7 +17,7 @@ public class RecipeRandomizer : MonoBehaviour
         //Si es host o server
 
         RandomizeIngredients();
-        GenerateRandomRecipes();
+        //GenerateRandomRecipes();
         //TODO shuffle recipe appearing order
 
         //Si es cliente recibe el randomizado hecho por el host o server
@@ -95,8 +95,9 @@ public class RecipeRandomizer : MonoBehaviour
 
     public void GenerateRandomRecipes() 
     {
+        //HashSet<List<IngredientsScriptableObject>> recipes = new HashSet<List<IngredientsScriptableObject>>();
         extraIngredients.AddRange(currentMenu.extraIngredients);
-
+        Debug.Log("PENE");
         //Add random extra ingredients duplicates
         int randIng1 = Random.Range(0,currentMenu.extraIngredients.Count);
         int randIng2 = Random.Range(0, currentMenu.extraIngredients.Count);
@@ -111,8 +112,6 @@ public class RecipeRandomizer : MonoBehaviour
         extraIngredients.Add(currentMenu.extraIngredients[randIng1]);
         extraIngredients.Add(currentMenu.extraIngredients[randIng2]);
         extraIngredients.Add(currentMenu.extraIngredients[randIng2]);
-
-        Debug.Log(extraIngredients);
 
         for (int i = 0; i < currentMenu.NumberOfExampleRecipes; i++) 
         {
@@ -138,7 +137,6 @@ public class RecipeRandomizer : MonoBehaviour
                 int numberOfExtraIngredients = 2;
                 if (i == 1 || i == 2) 
                 {
-                    Debug.Log(copyIdx);
                     numberOfExtraIngredients = 1;
                     recipe.Add(extraIngredients[extraIngredients.Count-1]);
                     extraIngredients.RemoveAt(extraIngredients.Count-1);
@@ -175,5 +173,6 @@ public class RecipeRandomizer : MonoBehaviour
 
             recipes.Add(recipe);
         }
+       // return recipes;
     }
 }
