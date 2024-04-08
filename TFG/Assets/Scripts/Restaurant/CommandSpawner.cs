@@ -23,7 +23,6 @@ public class CommandSpawner : MonoBehaviour
             textMeshProUGUI.text += "[ ";
             foreach (IngredientsScriptableObject ingredient in recipe)
             {
-                Debug.Log(ingredient.name);
                 textMeshProUGUI.text += ingredient.name.ToString() + " ";
             }
             textMeshProUGUI.text += "] ";

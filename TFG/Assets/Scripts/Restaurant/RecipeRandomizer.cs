@@ -97,7 +97,6 @@ public class RecipeRandomizer : MonoBehaviour
     {
         //HashSet<List<IngredientsScriptableObject>> recipes = new HashSet<List<IngredientsScriptableObject>>();
         extraIngredients.AddRange(currentMenu.extraIngredients);
-        Debug.Log("PENE");
         //Add random extra ingredients duplicates
         int randIng1 = Random.Range(0,currentMenu.extraIngredients.Count);
         int randIng2 = Random.Range(0, currentMenu.extraIngredients.Count);
