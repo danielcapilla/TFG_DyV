@@ -5,28 +5,31 @@ using UnityEngine;
 
 public class CommandSpawner : MonoBehaviour
 {
-    HashSet<List<IngredientsScriptableObject>> recipes = new HashSet<List<IngredientsScriptableObject>>();
-    RecipeRandomizer randomizer;
     [SerializeField]
-    private TextMeshProUGUI textMeshProUGUI;
-    private void Awake()
-    {
-        randomizer = this.GetComponent<RecipeRandomizer>();
-    }
+    private GameObject panel;
+    public TextMeshProUGUI [] textMeshProUGUI;
+
     private void Start()
     {
-        randomizer.GenerateRandomRecipes();
-        //recipes = randomizer.GenerateRandomRecipes();
-        
-        foreach (List<IngredientsScriptableObject> recipe in RecipeRandomizer.recipes) 
+        textMeshProUGUI = GetComponentsInChildren<TextMeshProUGUI>();
+    }
+
+    public void SpawnRecipes(List<List<IngredientsScriptableObject>> recipes )
+    {
+
+        for (int i = 0; i < recipes.Count; i++)
         {
-            textMeshProUGUI.text += "[ ";
-            foreach (IngredientsScriptableObject ingredient in recipe)
-            {
-                textMeshProUGUI.text += ingredient.name.ToString() + " ";
-            }
-            textMeshProUGUI.text += "] ";
+            GameObject instance = Instantiate(panel);
+            instance.transform.SetParent(this.transform, false);
+            RectTransform instanceRectTransform = instance.GetComponent<RectTransform>();
+            //Para mover cosas en canvas usar anchoredPosition!!!!
+            instanceRectTransform.anchoredPosition = new Vector3(instanceRectTransform.sizeDelta.x*i,0f,0f);
+            //textMeshProUGUI[i].text += "[ ";
+            //foreach (IngredientsScriptableObject ingredient in recipes[i])
+            //{
+            //    textMeshProUGUI[i].text += ingredient.name.ToString() + " ";
+            //}
+            //textMeshProUGUI[i].text += "] ";
         }
-       
     }
 }

@@ -8,8 +8,15 @@ public class RecipeRandomizer : MonoBehaviour
     public MenuScriptableObject currentMenu;
     [SerializeField] List<Texture2D> Codes;
     [SerializeField] Dictionary<int, IngredientsScriptableObject> pairedIngredients = new Dictionary<int, IngredientsScriptableObject>();
-    [SerializeField] public static HashSet<List<IngredientsScriptableObject>> recipes = new HashSet<List<IngredientsScriptableObject>>();
+    [SerializeField] List<List<IngredientsScriptableObject>> recipes = new List<List<IngredientsScriptableObject>>();
     [SerializeField] List<IngredientsScriptableObject> extraIngredients = new List<IngredientsScriptableObject>();
+
+    CommandSpawner commandSpawner;
+
+    private void Awake()
+    {
+        commandSpawner = GetComponent<CommandSpawner>();
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -17,7 +24,8 @@ public class RecipeRandomizer : MonoBehaviour
         //Si es host o server
 
         RandomizeIngredients();
-        //GenerateRandomRecipes();
+        GenerateRandomRecipes();
+        commandSpawner.SpawnRecipes(recipes);
         //TODO shuffle recipe appearing order
 
         //Si es cliente recibe el randomizado hecho por el host o server
@@ -100,17 +108,21 @@ public class RecipeRandomizer : MonoBehaviour
         //Add random extra ingredients duplicates
         int randIng1 = Random.Range(0,currentMenu.extraIngredients.Count);
         int randIng2 = Random.Range(0, currentMenu.extraIngredients.Count);
+        int randIng3 = Random.Range(0, currentMenu.extraIngredients.Count);
         //Avoid same ingredients
         while (randIng1 == randIng2) 
         {
             randIng2 = Random.Range(0, currentMenu.extraIngredients.Count);
         }
-
+        while (randIng3 == randIng2 || randIng3 == randIng1)
+        {
+            randIng3 = Random.Range(0, currentMenu.extraIngredients.Count);
+        }
         //Add 1 extra of one type and 2 of the other
         int copyIdx = extraIngredients.Count;
         extraIngredients.Add(currentMenu.extraIngredients[randIng1]);
         extraIngredients.Add(currentMenu.extraIngredients[randIng2]);
-        extraIngredients.Add(currentMenu.extraIngredients[randIng2]);
+        extraIngredients.Add(currentMenu.extraIngredients[randIng3]);
 
         for (int i = 0; i < currentMenu.NumberOfExampleRecipes; i++) 
         {
