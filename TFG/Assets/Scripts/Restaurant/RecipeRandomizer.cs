@@ -104,6 +104,7 @@ public class RecipeRandomizer : MonoBehaviour
     {
         //HashSet<List<IngredientsScriptableObject>> recipes = new HashSet<List<IngredientsScriptableObject>>();
         extraIngredients.AddRange(currentMenu.extraIngredients);
+        List<IngredientsScriptableObject> dupedIngredients = new List<IngredientsScriptableObject>();
         //Add random extra ingredients duplicates
         int randIng1 = Random.Range(0,currentMenu.extraIngredients.Count);
         int randIng2 = Random.Range(0, currentMenu.extraIngredients.Count);
@@ -118,10 +119,16 @@ public class RecipeRandomizer : MonoBehaviour
             randIng3 = Random.Range(0, currentMenu.extraIngredients.Count);
         }
         //Add 1 extra of one type and 2 of the other
-        int copyIdx = extraIngredients.Count;
-        extraIngredients.Add(currentMenu.extraIngredients[randIng1]);
-        extraIngredients.Add(currentMenu.extraIngredients[randIng2]);
-        extraIngredients.Add(currentMenu.extraIngredients[randIng3]);
+        dupedIngredients.Add(currentMenu.extraIngredients[randIng1]);
+        dupedIngredients.Add(currentMenu.extraIngredients[randIng2]);
+        dupedIngredients.Add(currentMenu.extraIngredients[randIng3]);
+        dupedIngredients.Add(currentMenu.extraIngredients[randIng1]);
+        dupedIngredients.Add(currentMenu.extraIngredients[randIng2]);
+        dupedIngredients.Add(currentMenu.extraIngredients[randIng3]);
+
+        extraIngredients.Remove(currentMenu.extraIngredients[randIng1]);
+        extraIngredients.Remove(currentMenu.extraIngredients[randIng2]);
+        extraIngredients.Remove(currentMenu.extraIngredients[randIng3]);
 
         for (int i = 0; i < currentMenu.NumberOfExampleRecipes; i++) 
         {
@@ -136,40 +143,34 @@ public class RecipeRandomizer : MonoBehaviour
             //Add important ingredient if there are various options (ex meat in burguer) distribute in round robin
             recipe.Add(currentMenu.importantIngredients[i % currentMenu.importantIngredients.Count]);
 
-            if (i == 0)
+            //Add extra ingredients
+            int extraIngredientsToAdd = 1;
+            if (i == 0) 
             {
-                recipe.Add(extraIngredients[copyIdx]);
-                extraIngredients.RemoveAt(copyIdx);
+                extraIngredientsToAdd = 0;
+                recipe.Add(dupedIngredients[0]);
+                dupedIngredients.RemoveAt(0);
             }
-            else 
+            else if (i == 1) 
             {
-                //2nd and 3rd recipe contain dupe ingredients
-                int numberOfExtraIngredients = 2;
-                if (i == 1 || i == 2) 
-                {
-                    numberOfExtraIngredients = 1;
-                    recipe.Add(extraIngredients[extraIngredients.Count-1]);
-                    extraIngredients.RemoveAt(extraIngredients.Count-1);
-                }
-                
-                //Add extra ingredients
-                for (int j = 0; j < numberOfExtraIngredients; j++)
-                {
-                    //Choose random ingredient
-                    int rand = Random.Range(0, extraIngredients.Count);
+                extraIngredientsToAdd = 0;
+                recipe.Add(dupedIngredients[2]);
+                dupedIngredients.RemoveAt(2);
+                recipe.Add(dupedIngredients[1]);
+                dupedIngredients.RemoveAt(1);
+            }
+            else if (dupedIngredients.Count > 0) 
+            {
+                recipe.Add(dupedIngredients[0]);
+                dupedIngredients.RemoveAt(0);
+            }
 
-                    //If recipe already contains that ingredient choose another
-                    while (recipe.Contains(extraIngredients[rand]))
-                    {
-                        rand = Random.Range(0, extraIngredients.Count);
-                        //TODO it can happen that dupe ingredients are left for last leading to infinite loop
-                    }
 
-                    //Add ingredient to recipe
-                    recipe.Add(extraIngredients[rand]);
-                    //Remove used ingredient
-                    extraIngredients.RemoveAt(rand);
-                }
+            for(int j = 0; j < extraIngredientsToAdd; j++) 
+            {
+                int rand = Random.Range(0, extraIngredients.Count);
+                recipe.Add(extraIngredients[rand]);
+                extraIngredients.RemoveAt(rand);
             }
 
             //Add core ingredients again if needed
