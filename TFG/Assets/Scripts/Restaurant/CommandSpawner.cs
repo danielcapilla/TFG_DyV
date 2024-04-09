@@ -41,6 +41,7 @@ public class CommandSpawner : MonoBehaviour
                 if(ingredient.Rarity == IngredientRarity.core) { continue;  }
                 GameObject prefab = new GameObject("code");
                 prefab.transform.SetParent(instanceRectTransform.GetChild(1).transform);
+                prefab.transform.localScale = new Vector3(0.5f,0.5f,0.5f);
                 prefab.AddComponent<LayoutElement>().preferredWidth = 0;
 
                 Image prefabImage = prefab.AddComponent<Image>();
