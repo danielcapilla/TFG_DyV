@@ -8,9 +8,10 @@ public class CommandSpawner : MonoBehaviour
 {
     [SerializeField]
     private GameObject panel;
+    [SerializeField]
+    private GameObject panelOrder;
     [SerializeField] 
     public List<Sprite> Codes;
-
     //[SerializeField]
     //private UIInventoryItem itemPrefab;
 
@@ -47,7 +48,7 @@ public class CommandSpawner : MonoBehaviour
                 prefab.transform.SetParent(instanceRectTransform.GetChild(1).transform);
                 prefab.transform.SetSiblingIndex(Random.Range(0, instanceRectTransform.childCount));
                 prefab.transform.localScale = new Vector3(0.5f,0.5f,0.5f);
-                prefab.AddComponent<LayoutElement>().preferredWidth = 0;
+                prefab.AddComponent<LayoutElement>();
 
                 Image prefabImage = prefab.AddComponent<Image>();
                 prefabImage.sprite = Codes[codes[ingredient]];
@@ -56,7 +57,32 @@ public class CommandSpawner : MonoBehaviour
             }
             instance.GetComponentInChildren<TextMeshProUGUI>().text += "] ";
         }
-
         
+    }
+
+    public void SpawnOrder(Dictionary<IngredientsScriptableObject, int> codes, List<IngredientsScriptableObject> order)
+    {
+        GameObject instance = Instantiate(panelOrder);
+        instance.transform.SetParent(this.transform, false);
+        RectTransform instanceRectTransform = instance.GetComponent<RectTransform>();
+        //Para mover cosas en canvas usar anchoredPosition!!!!
+        instanceRectTransform.anchoredPosition = new Vector3(0f , 0f, 0f);
+        foreach (IngredientsScriptableObject ingredient in order)
+        {
+
+            if (ingredient.Rarity == IngredientRarity.core) { continue; }
+
+            //Give to the script the code object ignoring breads
+            GameObject prefab = new GameObject("code");
+            prefab.transform.SetParent(instanceRectTransform.GetChild(1).transform);
+            prefab.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+            prefab.AddComponent<LayoutElement>();
+
+            Image prefabImage = prefab.AddComponent<Image>();
+            prefabImage.sprite = Codes[codes[ingredient]];
+
+
+        }
+
     }
 }

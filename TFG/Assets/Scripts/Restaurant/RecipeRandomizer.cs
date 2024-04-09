@@ -25,6 +25,8 @@ public class RecipeRandomizer : MonoBehaviour
         RandomizeIngredients();
         GenerateRandomRecipes();
         commandSpawner.SpawnRecipes(recipes, pairedIngredients);
+        GenerateRandomOrder();
+        
         //TODO shuffle recipe appearing order
 
         //Si es cliente recibe el randomizado hecho por el host o server
@@ -98,6 +100,7 @@ public class RecipeRandomizer : MonoBehaviour
                 order.Add(coreIngredient);
             }
         }
+        commandSpawner.SpawnOrder(pairedIngredients, order);
     }
 
     public void GenerateRandomRecipes() 
