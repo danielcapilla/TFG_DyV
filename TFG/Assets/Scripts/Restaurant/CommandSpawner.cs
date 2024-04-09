@@ -38,7 +38,11 @@ public class CommandSpawner : MonoBehaviour
             instance.GetComponentInChildren<TextMeshProUGUI>().text += "[ ";
             foreach (IngredientsScriptableObject ingredient in recipes[i])
             {
+                //Get instance script give it the ingredient image to display on top of the previous one
+
                 if(ingredient.Rarity == IngredientRarity.core) { continue;  }
+
+                //Give to the script the code object ignoring breads
                 GameObject prefab = new GameObject("code");
                 prefab.transform.SetParent(instanceRectTransform.GetChild(1).transform);
                 prefab.transform.localScale = new Vector3(0.5f,0.5f,0.5f);
