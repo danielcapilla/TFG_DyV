@@ -39,19 +39,20 @@ public class CommandSpawner : MonoBehaviour
             foreach (IngredientsScriptableObject ingredient in recipes[i])
             {
                 //Get instance script give it the ingredient image to display on top of the previous one
-
-                if(ingredient.Rarity == IngredientRarity.core) { continue;  }
+                instance.GetComponentInChildren<TextMeshProUGUI>().text += ingredient.name.ToString() + " ";
+                if (ingredient.Rarity == IngredientRarity.core) { continue;  }
 
                 //Give to the script the code object ignoring breads
                 GameObject prefab = new GameObject("code");
                 prefab.transform.SetParent(instanceRectTransform.GetChild(1).transform);
+                prefab.transform.SetSiblingIndex(Random.Range(0, instanceRectTransform.childCount));
                 prefab.transform.localScale = new Vector3(0.5f,0.5f,0.5f);
                 prefab.AddComponent<LayoutElement>().preferredWidth = 0;
 
                 Image prefabImage = prefab.AddComponent<Image>();
                 prefabImage.sprite = Codes[codes[ingredient]];
                 
-                instance.GetComponentInChildren<TextMeshProUGUI>().text += ingredient.name.ToString() + " ";
+                
             }
             instance.GetComponentInChildren<TextMeshProUGUI>().text += "] ";
         }

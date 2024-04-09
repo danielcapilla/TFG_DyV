@@ -183,7 +183,12 @@ public class RecipeRandomizer : MonoBehaviour
             }
 
             recipes.Add(recipe);
+            RandomizeRecipes();
         }
-       // return recipes;
+    }
+
+    private void RandomizeRecipes()
+    {
+        recipes.Sort((a, b) => 1 - 2 * Random.Range(0, recipes.Count));
     }
 }
