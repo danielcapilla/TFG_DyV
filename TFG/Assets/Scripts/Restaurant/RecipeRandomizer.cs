@@ -2,30 +2,52 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Unity.Netcode;
 
-public class RecipeRandomizer : MonoBehaviour
+public class RecipeRandomizer : NetworkBehaviour
 {
     public MenuScriptableObject currentMenu;
     [SerializeField] Dictionary<IngredientsScriptableObject, int> pairedIngredients = new Dictionary<IngredientsScriptableObject, int>();
     [SerializeField] List<List<IngredientsScriptableObject>> recipes = new List<List<IngredientsScriptableObject>>();
     [SerializeField] List<IngredientsScriptableObject> extraIngredients = new List<IngredientsScriptableObject>();
 
+    private NetworkVariable<int> randomSeed = new();
+
     CommandSpawner commandSpawner;
 
-    private void Awake()
+
+    public override void OnNetworkSpawn()
     {
         commandSpawner = GetComponent<CommandSpawner>();
+        randomSeed.OnValueChanged += SetRandomSeed;
+        Random.InitState(randomSeed.Value);
+        if (IsServer || IsHost)
+        {
+            randomSeed.Value = Random.Range(int.MinValue, int.MaxValue);
+        }
+        else
+        {
+
+        }
+
+        
+        RandomizeIngredients();
+        GenerateRandomRecipes();
+        commandSpawner.SpawnRecipes(recipes, pairedIngredients);
+        GenerateRandomOrder();
     }
 
+    private void SetRandomSeed(int current, int newValue)
+    {
+        randomSeed.Value = newValue;
+        Random.InitState(randomSeed.Value);
+    }
     // Start is called before the first frame update
     void Start()
     {
         //Si es host o server
 
-        RandomizeIngredients();
-        GenerateRandomRecipes();
-        commandSpawner.SpawnRecipes(recipes, pairedIngredients);
-        GenerateRandomOrder();
+        
         
         //TODO shuffle recipe appearing order
 
