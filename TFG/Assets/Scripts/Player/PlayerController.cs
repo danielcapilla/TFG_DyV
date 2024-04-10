@@ -4,7 +4,7 @@ using Unity.Netcode;
 
 public class PlayerController : NetworkBehaviour
 {
-    [SerializeField] float force, rotationSpeed;
+    [SerializeField] float force, rotationSpeed, InteractionRange;
     Rigidbody rb;
     PlayerInput playerInput;
     Vector2 input;
@@ -60,7 +60,7 @@ public class PlayerController : NetworkBehaviour
         input = playerInput.actions["Movement"].ReadValue<Vector2>();
 
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, 5, layer))
+        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, InteractionRange, layer))
         {
             if (hit.transform.gameObject.TryGetComponent<InteractableObject>(out InteractableObject interactable))
             {
@@ -114,6 +114,6 @@ public class PlayerController : NetworkBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.blue;
-        Gizmos.DrawLine(transform.position, transform.TransformDirection(Vector3.forward) * 5 + transform.position);
+        Gizmos.DrawLine(transform.position, transform.TransformDirection(Vector3.forward) * InteractionRange + transform.position);
     }
 }
