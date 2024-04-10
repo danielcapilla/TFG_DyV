@@ -95,7 +95,7 @@ public class RecipeRandomizer : MonoBehaviour
         //Añadir pan
         foreach (IngredientsScriptableObject coreIngredient in currentMenu.coreIngredients)
         {
-            if (coreIngredient.MinimumQuantity > 1)
+            if (coreIngredient.MinimumQuantity > 1 )
             {
                 order.Add(coreIngredient);
             }

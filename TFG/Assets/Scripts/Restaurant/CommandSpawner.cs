@@ -37,20 +37,22 @@ public class CommandSpawner : MonoBehaviour
             instanceRectTransform.anchoredPosition = new Vector3(instanceRectTransform.sizeDelta.x*i,0f,0f);
 
             //instance.GetComponentInChildren<TextMeshProUGUI>().text += "[ ";
+            int j = 0;
             foreach (IngredientsScriptableObject ingredient in recipes[i])
             {
                 //Get instance script give it the ingredient image to display on top of the previous one
                 //instance.GetComponentInChildren<TextMeshProUGUI>().text += ingredient.name.ToString() + " ";
                 GameObject sprite = new GameObject("sprite");
-                sprite.transform.SetParent(instanceRectTransform.GetChild(0).transform);
+                sprite.transform.SetParent(instanceRectTransform.GetChild(0).GetChild(0).transform);
                 sprite.AddComponent<LayoutElement>();
                 sprite.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
-                sprite.AddComponent<Image>().sprite = ingredient.Sprite;
+                sprite.AddComponent<Image>().sprite = ingredient.AlternativeSprite && j == recipes[i].Count-1 ? ingredient.AlternativeSprite  : ingredient.Sprite;
+                j++;
                 if (ingredient.Rarity == IngredientRarity.core) { continue;  }
 
                 //Give to the script the code object ignoring breads
                 GameObject prefab = new GameObject("code");
-                prefab.transform.SetParent(instanceRectTransform.GetChild(1).transform);
+                prefab.transform.SetParent(instanceRectTransform.GetChild(1).GetChild(0).transform);
                 prefab.transform.SetSiblingIndex(Random.Range(0, instanceRectTransform.childCount));
                 prefab.transform.localScale = new Vector3(0.5f,0.5f,0.5f);
                 prefab.AddComponent<LayoutElement>();

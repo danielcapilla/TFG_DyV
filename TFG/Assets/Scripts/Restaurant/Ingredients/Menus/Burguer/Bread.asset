@@ -16,4 +16,5 @@ MonoBehaviour:
   IngredientName: Bread
   Model: {fileID: 6341754279310391365, guid: e0db261581501d64c84029968abbb453, type: 3}
   Sprite: {fileID: 21300000, guid: 0c7a836d3634c9b48b0b1116c405bd97, type: 3}
+  AlternativeSprite: {fileID: 21300000, guid: bb6e20e67b2fb804bb6db87edadac88d, type: 3}
   Rarity: 0
