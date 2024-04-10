@@ -15,5 +15,5 @@ MonoBehaviour:
   MinimumQuantity: 0
   IngredientName: Egg
   Model: {fileID: 621915611715464262, guid: 226842f19df9d7a49adac6621bd3749b, type: 3}
-  Sprite: {fileID: 0}
+  Sprite: {fileID: 21300000, guid: ce45b818fe079dc409cd46cbb6993e5e, type: 3}
   Rarity: 2

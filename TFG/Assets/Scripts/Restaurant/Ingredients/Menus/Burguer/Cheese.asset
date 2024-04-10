@@ -15,5 +15,5 @@ MonoBehaviour:
   MinimumQuantity: 0
   IngredientName: Cheese
   Model: {fileID: 5513251173702650335, guid: 5d910aefc601d0b42804dbdfb6eaa00f, type: 3}
-  Sprite: {fileID: 0}
+  Sprite: {fileID: 21300000, guid: c83441f22b07a7343957defabedb4d18, type: 3}
   Rarity: 2

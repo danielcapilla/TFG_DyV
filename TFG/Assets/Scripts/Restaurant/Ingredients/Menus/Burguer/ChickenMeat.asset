@@ -15,5 +15,5 @@ MonoBehaviour:
   MinimumQuantity: 0
   IngredientName: ChickenMeat
   Model: {fileID: 4453979478567394714, guid: 5e573b81d8333b24ba73b5c007031ca7, type: 3}
-  Sprite: {fileID: 0}
+  Sprite: {fileID: 21300000, guid: b49645297f3d56c4d9e9d8fb6ebacb90, type: 3}
   Rarity: 1

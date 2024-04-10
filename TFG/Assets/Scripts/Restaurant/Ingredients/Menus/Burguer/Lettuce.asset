@@ -15,5 +15,5 @@ MonoBehaviour:
   MinimumQuantity: 0
   IngredientName: Lettuce
   Model: {fileID: 7966426488334251216, guid: 633b67be75938e4449c767a29b765681, type: 3}
-  Sprite: {fileID: 0}
+  Sprite: {fileID: 21300000, guid: 7c76373aa0e21cf41bfdf7d12d8d0744, type: 3}
   Rarity: 2

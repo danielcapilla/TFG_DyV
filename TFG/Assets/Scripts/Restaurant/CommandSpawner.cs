@@ -36,11 +36,16 @@ public class CommandSpawner : MonoBehaviour
             //Para mover cosas en canvas usar anchoredPosition!!!!
             instanceRectTransform.anchoredPosition = new Vector3(instanceRectTransform.sizeDelta.x*i,0f,0f);
 
-            instance.GetComponentInChildren<TextMeshProUGUI>().text += "[ ";
+            //instance.GetComponentInChildren<TextMeshProUGUI>().text += "[ ";
             foreach (IngredientsScriptableObject ingredient in recipes[i])
             {
                 //Get instance script give it the ingredient image to display on top of the previous one
-                instance.GetComponentInChildren<TextMeshProUGUI>().text += ingredient.name.ToString() + " ";
+                //instance.GetComponentInChildren<TextMeshProUGUI>().text += ingredient.name.ToString() + " ";
+                GameObject sprite = new GameObject("sprite");
+                sprite.transform.SetParent(instanceRectTransform.GetChild(0).transform);
+                sprite.AddComponent<LayoutElement>();
+                sprite.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+                sprite.AddComponent<Image>().sprite = ingredient.Sprite;
                 if (ingredient.Rarity == IngredientRarity.core) { continue;  }
 
                 //Give to the script the code object ignoring breads
@@ -55,7 +60,7 @@ public class CommandSpawner : MonoBehaviour
                 
                 
             }
-            instance.GetComponentInChildren<TextMeshProUGUI>().text += "] ";
+            //instance.GetComponentInChildren<TextMeshProUGUI>().text += "] ";
         }
         
     }
