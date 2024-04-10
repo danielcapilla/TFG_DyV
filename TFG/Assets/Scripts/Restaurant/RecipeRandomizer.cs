@@ -20,14 +20,14 @@ public class RecipeRandomizer : NetworkBehaviour
     {
         commandSpawner = GetComponent<CommandSpawner>();
         randomSeed.OnValueChanged += SetRandomSeed;
-        Random.InitState(randomSeed.Value);
+        
         if (IsServer || IsHost)
         {
             randomSeed.Value = Random.Range(int.MinValue, int.MaxValue);
         }
         else
         {
-
+            Random.InitState(randomSeed.Value);
         }
 
         
