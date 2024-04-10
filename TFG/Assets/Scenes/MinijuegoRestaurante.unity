@@ -707,6 +707,10 @@ PrefabInstance:
       propertyPath: GlobalObjectIdHash
       value: 376675584
       objectReference: {fileID: 0}
+    - target: {fileID: 6507548150039832440, guid: fe8a7d002e19cc148a11302f8b750b27, type: 3}
+      propertyPath: InScenePlacedSourceGlobalObjectIdHash
+      value: 2929396751
+      objectReference: {fileID: 0}
     - target: {fileID: 7185788069917756553, guid: fe8a7d002e19cc148a11302f8b750b27, type: 3}
       propertyPath: m_Constraints
       value: 112
@@ -892,7 +896,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 889409465}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.22975291, y: 0.000054899396, z: -0.000012959507, w: 0.973249}
+  m_LocalRotation: {x: 0.22975291, y: 0.000055225635, z: -0.000013036536, w: 0.973249}
   m_LocalPosition: {x: 0, y: 10, z: -20}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1894,15 +1898,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3408101748596596066, guid: cd74a2710bb517849909b966a81a6d35, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4134584760249372080, guid: cd74a2710bb517849909b966a81a6d35, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 330
+      value: 300
       objectReference: {fileID: 0}
     - target: {fileID: 4134584760249372080, guid: cd74a2710bb517849909b966a81a6d35, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 330
+      value: 300
       objectReference: {fileID: 0}
     - target: {fileID: 5554409889514370806, guid: cd74a2710bb517849909b966a81a6d35, type: 3}
       propertyPath: m_Pivot.x
@@ -1986,15 +1990,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6173347641896951429, guid: cd74a2710bb517849909b966a81a6d35, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6264646631163443690, guid: cd74a2710bb517849909b966a81a6d35, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 330
+      value: 300
       objectReference: {fileID: 0}
     - target: {fileID: 6264646631163443690, guid: cd74a2710bb517849909b966a81a6d35, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 330
+      value: 300
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
