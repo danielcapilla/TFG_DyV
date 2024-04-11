@@ -64,6 +64,7 @@ public class TestRelay : MonoBehaviour
     {
         //Asignamos el texto que se ha introducido
         joinCode = code.text;
+        joinCode = joinCode.ToUpper();
         try
         {
             //Problema que surge con el textMeshPro
