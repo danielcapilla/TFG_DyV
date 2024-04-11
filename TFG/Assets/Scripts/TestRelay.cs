@@ -14,7 +14,9 @@ using UnityEngine.SceneManagement;
 public class TestRelay : MonoBehaviour
 {
     [SerializeField]
-    TextMeshProUGUI code;
+    private TextMeshProUGUI code;
+    [SerializeField]
+    private TextMeshProUGUI showCode;
     //Función asíncrona
     private async void Start()
     {
@@ -30,7 +32,12 @@ public class TestRelay : MonoBehaviour
         await AuthenticationService.Instance.SignInAnonymouslyAsync();
         
     }
+    [ClientRpc]
 
+    private void ShowCodeClientRPC(string code)
+    {
+        showCode.text = code;
+    }
     public async void CreateRelay()
     {
         try 
@@ -50,8 +57,8 @@ public class TestRelay : MonoBehaviour
                 allocation.ConnectionData
                 );
             NetworkManager.Singleton.StartHost();
-            //SceneManager.LoadScene("MinijuegoRestaurante");
-            NetworkManager.Singleton.SceneManager.LoadScene("MinijuegoRestaurante",LoadSceneMode.Single);
+            ShowCodeClientRPC(joinCode);
+            NetworkManager.Singleton.SceneManager.LoadScene("MinijuegoRestaurante", LoadSceneMode.Single);
             //this.gameObject.SetActive(false);
             Debug.Log(joinCode);
         } catch (RelayServiceException e)
@@ -81,8 +88,6 @@ public class TestRelay : MonoBehaviour
                 joinAllocation.HostConnectionData
                 );
             NetworkManager.Singleton.StartClient();
-            //this.gameObject.SetActive(false);
-            //SceneManager.LoadScene("MinijuegoRestaurante");
         } catch (RelayServiceException e) 
         {
             Debug.Log("Error: " + e);
