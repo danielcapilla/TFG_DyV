@@ -15,20 +15,24 @@ public class HostManager : NetworkBehaviour
 
     public void TurnOffVisuals()
     {
-        activarEscena = false;
-        objetosActivos = GameObject.FindObjectsOfType<MeshRenderer>();
-        foreach (MeshRenderer objeto in objetosActivos)
+        if(activarEscena)
         {
-            objeto.enabled = false;
+            activarEscena = false;
+            objetosActivos = GameObject.FindObjectsOfType<MeshRenderer>();
+            foreach (MeshRenderer objeto in objetosActivos)
+            {
+                objeto.enabled = false;
+            }
         }
-    }
-    public void TurnOnVisuals()
-    {
-        activarEscena = true;
-        objetosActivos = GameObject.FindObjectsOfType<MeshRenderer>();
-        foreach (MeshRenderer objeto in objetosActivos)
+        else
         {
-            objeto.enabled = true;
+            activarEscena = true;
+            objetosActivos = GameObject.FindObjectsOfType<MeshRenderer>();
+            foreach (MeshRenderer objeto in objetosActivos)
+            {
+                objeto.enabled = true;
+            }
         }
+        
     }
 }
