@@ -10,6 +10,7 @@ public class RecipeRandomizer : NetworkBehaviour
     [SerializeField] Dictionary<IngredientsScriptableObject, int> pairedIngredients = new Dictionary<IngredientsScriptableObject, int>();
     [SerializeField] List<List<IngredientsScriptableObject>> recipes = new List<List<IngredientsScriptableObject>>();
     [SerializeField] List<IngredientsScriptableObject> extraIngredients = new List<IngredientsScriptableObject>();
+    public List<IngredientsScriptableObject> currentOrder = new List<IngredientsScriptableObject>();
 
     private NetworkVariable<int> randomSeed = new();
 
@@ -91,15 +92,15 @@ public class RecipeRandomizer : NetworkBehaviour
 
     public void GenerateRandomOrder() 
     {
-        List<IngredientsScriptableObject> order = new List<IngredientsScriptableObject>();
+        
         //Añadir pan
         foreach (IngredientsScriptableObject coreIngredient in currentMenu.coreIngredients)
         {
-            order.Add(coreIngredient);
+            currentOrder.Add(coreIngredient);
         }
         //Añadir 1 carne
         int importantIngredientIDX = Random.Range(0, currentMenu.importantIngredients.Count);
-        order.Add(currentMenu.importantIngredients[importantIngredientIDX]);
+        currentOrder.Add(currentMenu.importantIngredients[importantIngredientIDX]);
         //Añadir extras (considerar posibilidad de añadir la misma carne como extra)
         int burguerSize = Random.Range(2,5);
         for (int i = 0; i<burguerSize;i++) 
@@ -108,10 +109,10 @@ public class RecipeRandomizer : NetworkBehaviour
             //We added a fake extra ingredient as meat duplicate
             if (ingredientIDX == currentMenu.extraIngredients.Count) 
             {
-                order.Add(currentMenu.importantIngredients[importantIngredientIDX]);
+                currentOrder.Add(currentMenu.importantIngredients[importantIngredientIDX]);
                 continue;
             }
-            order.Add(currentMenu.extraIngredients[ingredientIDX]);
+            currentOrder.Add(currentMenu.extraIngredients[ingredientIDX]);
         }
 
         //Añadir pan
@@ -119,10 +120,10 @@ public class RecipeRandomizer : NetworkBehaviour
         {
             if (coreIngredient.MinimumQuantity > 1 )
             {
-                order.Add(coreIngredient);
+                currentOrder.Add(coreIngredient);
             }
         }
-        commandSpawner.SpawnOrder(pairedIngredients, order);
+        commandSpawner.SpawnOrder(pairedIngredients, currentOrder);
     }
 
     public void GenerateRandomRecipes() 
