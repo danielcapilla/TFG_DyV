@@ -65,7 +65,6 @@ public class DeliveryStation : InteractableObject
         PlayerCarry playerCarry = playerNetworkObject.GetComponent<PlayerCarry>();
         holdingObject = playerCarry.DropObject();
         SetParentTableServerRPC();
-        holdingObject.GetGameObject().transform.localPosition = placePosition.localPosition;
     }
     [ServerRpc(RequireOwnership = false)]
     private void SetParentTableServerRPC()
@@ -75,9 +74,12 @@ public class DeliveryStation : InteractableObject
     [ClientRpc]
     public void MovePlateClientRPC(NetworkObjectReference plateNetworkObjectReference) 
     {
-        plateNetworkObjectReference.TryGet(out NetworkObject playerNetworkObject);
-        PlateBehaviour plate = playerNetworkObject.GetComponent<PlateBehaviour>();
-        plate.transform.DOMove(endPos.position, time).SetEase(Ease.InQuart).OnComplete(()=> {
+        plateNetworkObjectReference.TryGet(out NetworkObject plateNetworkObject);
+        PlateBehaviour plate = plateNetworkObject.GetComponent<PlateBehaviour>();
+
+        holdingObject.GetGameObject().transform.localPosition = placePosition.localPosition;
+
+        holdingObject.GetGameObject().transform.DOMove(endPos.position, time).SetEase(Ease.InQuart).OnComplete(()=> {
             foreach (ICarryObject objToDestroy in plate.GetGameObject().transform.GetComponentsInChildren<ICarryObject>())
             {
                 objToDestroy.GetNetworkObject().Despawn(objToDestroy.GetGameObject());
