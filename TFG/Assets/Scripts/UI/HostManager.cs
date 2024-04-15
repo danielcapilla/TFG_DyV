@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
@@ -6,16 +7,27 @@ using UnityEngine;
 public class HostManager : NetworkBehaviour
 {
     public MeshRenderer[] objetosActivos;
-    public static bool activarEscena;
+    public static bool activarEscena = true;
+    [SerializeField]
+    private Canvas orderCanvas;
+    [SerializeField]
+    private Canvas hostCanvas;
+
     public override void OnNetworkSpawn()
     {
-        if (!IsHost) return;
-        TurnOffVisuals();
+        if (!IsHost)
+        {
+            hostCanvas.enabled = false;
+            return;
+        }
+        //TurnOffVisuals();
     }
+
 
     public void TurnOffVisuals()
     {
-        if(activarEscena)
+        if (!IsHost) return;
+        if (activarEscena)
         {
             activarEscena = false;
             objetosActivos = GameObject.FindObjectsOfType<MeshRenderer>();
@@ -23,6 +35,7 @@ public class HostManager : NetworkBehaviour
             {
                 objeto.enabled = false;
             }
+            orderCanvas.enabled = false;
         }
         else
         {
@@ -32,6 +45,7 @@ public class HostManager : NetworkBehaviour
             {
                 objeto.enabled = true;
             }
+            orderCanvas.enabled = true;
         }
         
     }
