@@ -1,10 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
+using Unity.Netcode;
 
 public class DeliveryStation : InteractableObject
 {
     [SerializeField] RecipeRandomizer randomizer;
+    [SerializeField] Transform endPos;
+    [SerializeField] float time;
     // Start is called before the first frame update
     void Start()
     {
@@ -26,6 +30,7 @@ public class DeliveryStation : InteractableObject
         {
             //Colocar plato en superficie
             //Animar plato (con DOTween puede que con alguna corutina o algo) para que sea entregado
+            plate.transform.DOMove(endPos.position, time).SetEase(Ease.InQuart);
             //Evaluar plato respecto al pedido
             bool same = true;
             if (randomizer.currentOrder.Count == plate.Ingredients.Count)
@@ -48,5 +53,17 @@ public class DeliveryStation : InteractableObject
                 //TODO añadir puntuacion
             }
         }
+    }
+
+    [ServerRpc]
+    public void DeliverPlateServerRPC() 
+    {
+        
+    }
+
+    [ClientRpc]
+    public void MovePlateClientRPC() 
+    {
+        
     }
 }
