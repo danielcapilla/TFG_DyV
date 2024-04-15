@@ -52,7 +52,9 @@ public class DeliveryStation : InteractableObject
             if (same)
             {
                 //TODO añadir puntuacion
+                Debug.Log("Hamburguesa correcta");
             }
+            else Debug.Log("La has cagado....");
         }
     }
     [ClientRpc]
@@ -74,6 +76,11 @@ public class DeliveryStation : InteractableObject
     {
         plateNetworkObjectReference.TryGet(out NetworkObject playerNetworkObject);
         PlateBehaviour plate = playerNetworkObject.GetComponent<PlateBehaviour>();
-        plate.transform.DOMove(endPos.position, time).SetEase(Ease.InQuart);
+        plate.transform.DOMove(endPos.position, time).SetEase(Ease.InQuart).OnComplete(()=> {
+            foreach (ICarryObject objToDestroy in plate.GetGameObject().transform.GetComponentsInChildren<ICarryObject>())
+            {
+                objToDestroy.GetNetworkObject().Despawn(objToDestroy.GetGameObject());
+            }
+        });
     }
 }
