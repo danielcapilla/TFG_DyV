@@ -6,7 +6,6 @@ using UnityEngine;
 public abstract class InteractableObject : NetworkBehaviour
 {
     //we assign all the renderers here through the inspector
-    [SerializeField]
     Renderer renderers;
     [SerializeField]
     private Color color = new Color(68,68,68,255);
