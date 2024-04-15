@@ -17,12 +17,12 @@ public class IngredientBox : InteractableObject
     public override void Interact(PlayerCarry player)
     {
         base.Interact(player);
-        SpawnMultiplayerServerRPC(player.GetNetworkObject());
-        
+        SpawnMultiplayerServerRPC(player.GetNetworkObject());    
     }
     [ServerRpc(RequireOwnership = false)]
     private void SpawnMultiplayerServerRPC(NetworkObjectReference playerNetworkObjectReference)
     {
+        
         playerNetworkObjectReference.TryGet(out NetworkObject playerNetworkObject);
         PlayerCarry playerCarry = playerNetworkObject.GetComponent<PlayerCarry>();
         if (!playerCarry.isCarrying)
