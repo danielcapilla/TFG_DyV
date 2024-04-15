@@ -9,7 +9,7 @@ public class HostManager : NetworkBehaviour
     public MeshRenderer[] objetosActivos;
     public static bool activarEscena = true;
     [SerializeField]
-    private Canvas orderCanvas;
+    private GameObject orderCanvas;
     [SerializeField]
     private Canvas hostCanvas;
 
@@ -35,7 +35,7 @@ public class HostManager : NetworkBehaviour
             {
                 objeto.enabled = false;
             }
-            orderCanvas.enabled = false;
+            orderCanvas.SetActive(false);   
         }
         else
         {
@@ -45,7 +45,7 @@ public class HostManager : NetworkBehaviour
             {
                 objeto.enabled = true;
             }
-            orderCanvas.enabled = true;
+            orderCanvas.SetActive(false);
         }
         
     }

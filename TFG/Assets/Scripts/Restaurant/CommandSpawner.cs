@@ -31,7 +31,7 @@ public class CommandSpawner : MonoBehaviour
         for (int i = 0; i < recipes.Count; i++)
         {
             GameObject instance = Instantiate(panel);
-            instance.transform.SetParent(this.transform, false);
+            instance.transform.SetParent(this.transform.GetChild(0), false);
             RectTransform instanceRectTransform = instance.GetComponent<RectTransform>();
             //Para mover cosas en canvas usar anchoredPosition!!!!
             instanceRectTransform.anchoredPosition = new Vector3(instanceRectTransform.sizeDelta.x*i,0f,0f);
@@ -70,7 +70,7 @@ public class CommandSpawner : MonoBehaviour
     public void SpawnOrder(Dictionary<IngredientsScriptableObject, int> codes, List<IngredientsScriptableObject> order)
     {
         GameObject instance = Instantiate(panelOrder);
-        instance.transform.SetParent(this.transform, false);
+        instance.transform.SetParent(this.transform.GetChild(0), false);
         RectTransform instanceRectTransform = instance.GetComponent<RectTransform>();
         //Para mover cosas en canvas usar anchoredPosition!!!!
         instanceRectTransform.anchoredPosition = new Vector3(0f , 0f, 0f);
