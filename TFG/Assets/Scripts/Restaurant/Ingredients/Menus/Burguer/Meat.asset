@@ -16,4 +16,6 @@ MonoBehaviour:
   IngredientName: Meat
   Model: {fileID: 2845565645419624898, guid: 9208738206f044c419a56e947e47b97f, type: 3}
   Sprite: {fileID: 21300000, guid: 2419763b959c0114080ab245411646c2, type: 3}
+  AlternativeSprite: {fileID: 0}
   Rarity: 1
+  ID: 2

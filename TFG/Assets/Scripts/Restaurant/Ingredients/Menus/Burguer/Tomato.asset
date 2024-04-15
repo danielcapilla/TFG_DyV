@@ -16,4 +16,6 @@ MonoBehaviour:
   IngredientName: Tomato
   Model: {fileID: 3651126550734343570, guid: b6de7d861ae3faf4bab5148f35877050, type: 3}
   Sprite: {fileID: 21300000, guid: 3d438b92236bf2d4a8ce3d9fdad31a6c, type: 3}
+  AlternativeSprite: {fileID: 0}
   Rarity: 2
+  ID: 7

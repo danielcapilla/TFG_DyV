@@ -11,6 +11,7 @@ public class IngredientsScriptableObject : ScriptableObject
     public Sprite Sprite;
     public Sprite AlternativeSprite;
     public IngredientRarity Rarity;
+    public int ID;
 }
 public enum IngredientRarity
 {

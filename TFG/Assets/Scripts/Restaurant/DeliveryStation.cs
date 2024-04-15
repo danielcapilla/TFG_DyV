@@ -38,7 +38,8 @@ public class DeliveryStation : InteractableObject
             {
                 for (int i = 0; i < randomizer.currentOrder.Count; ++i)
                 {
-                    if (randomizer.currentOrder[i] != plate.Ingredients[i])
+                    
+                    if (randomizer.currentOrder[i].ID != plate.Ingredients[i].ingredient.ID)
                     {
                         same = false;
                     }
