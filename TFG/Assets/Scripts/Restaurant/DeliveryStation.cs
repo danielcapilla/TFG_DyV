@@ -8,29 +8,30 @@ public class DeliveryStation : InteractableObject
 {
     [SerializeField] RecipeRandomizer randomizer;
     [SerializeField] Transform endPos;
+    [SerializeField] Transform placePosition;
     [SerializeField] float time;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    ICarryObject holdingObject;
 
     public override void Interact(PlayerCarry player)
     {
         base.Interact(player);
-
+        DeliverPlateServerRPC(player.GetNetworkObject());
         //Si lleva un plato
-        if (player.carryingObject.GetGameObject().TryGetComponent<PlateBehaviour>(out PlateBehaviour plate)) 
+        
+    }
+
+    [ServerRpc (RequireOwnership = false)]
+    public void DeliverPlateServerRPC(NetworkObjectReference playerNetworkObjectReference) 
+    {
+        playerNetworkObjectReference.TryGet(out NetworkObject playerNetworkObject);
+        PlayerCarry playerCarry = playerNetworkObject.GetComponent<PlayerCarry>();
+
+        if (playerCarry.carryingObject.GetGameObject().TryGetComponent<PlateBehaviour>(out PlateBehaviour plate))
         {
             //Colocar plato en superficie
+            PlaceOrderClientRPC(playerNetworkObjectReference);
             //Animar plato (con DOTween puede que con alguna corutina o algo) para que sea entregado
-            plate.transform.DOMove(endPos.position, time).SetEase(Ease.InQuart);
+            MovePlateClientRPC(plate.GetNetworkObject());
             //Evaluar plato respecto al pedido
             bool same = true;
             if (randomizer.currentOrder.Count == plate.Ingredients.Count)
@@ -43,27 +44,36 @@ public class DeliveryStation : InteractableObject
                     }
                 }
             }
-            else 
+            else
             {
                 same = false;
             }
             //Entregar puntuacion
-            if (same) 
+            if (same)
             {
                 //TODO añadir puntuacion
             }
         }
     }
-
-    [ServerRpc]
-    public void DeliverPlateServerRPC() 
-    {
-        
-    }
-
     [ClientRpc]
-    public void MovePlateClientRPC() 
+    private void PlaceOrderClientRPC(NetworkObjectReference playerNetworkObjectReference)
     {
-        
+        playerNetworkObjectReference.TryGet(out NetworkObject playerNetworkObject);
+        PlayerCarry playerCarry = playerNetworkObject.GetComponent<PlayerCarry>();
+        holdingObject = playerCarry.DropObject();
+        SetParentTableServerRPC();
+        holdingObject.GetGameObject().transform.localPosition = placePosition.localPosition;
+    }
+    [ServerRpc(RequireOwnership = false)]
+    private void SetParentTableServerRPC()
+    {
+        holdingObject.GetGameObject().transform.parent = this.transform;
+    }
+    [ClientRpc]
+    public void MovePlateClientRPC(NetworkObjectReference plateNetworkObjectReference) 
+    {
+        plateNetworkObjectReference.TryGet(out NetworkObject playerNetworkObject);
+        PlateBehaviour plate = playerNetworkObject.GetComponent<PlateBehaviour>();
+        plate.transform.DOMove(endPos.position, time).SetEase(Ease.InQuart);
     }
 }
