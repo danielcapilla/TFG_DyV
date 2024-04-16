@@ -49,8 +49,9 @@ public class LobbyManager : NetworkBehaviour
     {
         GameObject instance = Instantiate(tarjetitaPrefab);
         NetworkObject instanceNetworkObject = instance.GetComponent<NetworkObject>();
-        instance.transform.SetParent(layout.transform, false);
+        
         instanceNetworkObject.Spawn(true);
+        instance.transform.SetParent(layout.transform, false);
     }
     public override void OnNetworkDespawn()
     {
