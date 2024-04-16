@@ -48,7 +48,9 @@ public class LobbyManager : NetworkBehaviour
     private void ShowUserInfoClientRPC()
     {
         GameObject instance = Instantiate(tarjetitaPrefab);
+        NetworkObject instanceNetworkObject = instance.GetComponent<NetworkObject>();
         instance.transform.SetParent(layout.transform, false);
+        instanceNetworkObject.Spawn(true);
     }
     public override void OnNetworkDespawn()
     {
