@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class Score : NetworkBehaviour
 {
-    public NetworkVariable<int> score = new();
+    public NetworkVariable<int> score = new ();
     [SerializeField]
     private TextMeshProUGUI scoreText;
 

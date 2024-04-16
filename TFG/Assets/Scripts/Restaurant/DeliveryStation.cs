@@ -53,7 +53,6 @@ public class DeliveryStation : InteractableObject
             //Entregar puntuacion
             if (same)
             {
-                //TODO añadir puntuacion
                 Debug.Log("Hamburguesa correcta");
                 playerScore.score.Value++;
             }
