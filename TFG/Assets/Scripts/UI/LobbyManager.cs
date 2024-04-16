@@ -12,6 +12,10 @@ public class LobbyManager : NetworkBehaviour
     private TextMeshProUGUI joinCodeTMP;
     [SerializeField]
     private GameObject button;
+    [SerializeField]
+    private GameObject tarjetitaPrefab;
+    [SerializeField]
+    private GameObject layout;
 
     public override void OnNetworkSpawn()
     {
@@ -24,56 +28,33 @@ public class LobbyManager : NetworkBehaviour
         {
             joinCodeTMP.text = TestRelay.staticCode;
             NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
-            NetworkManager.Singleton.SceneManager.OnLoadEventCompleted += SceneLoaded;
         }
         
     }
 
-    private void SceneLoaded(string sceneName, LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
-    {
-        
-        //Destruir los Players al volver al Lobby (si hace falta)
-        if (GameObject.FindGameObjectsWithTag("Player") != null)
-        {
-            GameObject[] arrayFighters = GameObject.FindGameObjectsWithTag("Player");
-            foreach (GameObject obj in arrayFighters)
-            {
-                Destroy(obj.gameObject);
-
-            }
-        }
-        if (IsServer && sceneName == "MinijuegoRestaurante")
-        {
-            Debug.Log("TETAS");
-            foreach (ulong id in clientsCompleted)
-            {
-                Debug.Log($"Id generado... {id}");
-                //Pongos los fighters como hijos del player
-                //arrayPlayers[id].GetComponent<PlayerNetworkConfig>().InstantiateCharacterServerRpc(id);
-                //NetworkManager.Singleton.ConnectedClients[id].PlayerObject.GetComponent<UserNetworkConfig>().InstantiatePlayerServerRpc(id);
-                //PlayerNetworkConfig.Instance.InstantiateCharacterServerRpc(id);
-                //player.transform.SetParent(transform, false);
-            }
-        }
-    }
+   
 
     private void OnClientConnected(ulong clientId)
     {
         ShowJoinCodeClientRPC();
-       
+        ShowUserInfoClientRPC();
     }
     [ClientRpc]
     private void ShowJoinCodeClientRPC()
     {
         joinCodeTMP.text = TestRelay.staticCode;
     }
-
+    [ClientRpc]
+    private void ShowUserInfoClientRPC()
+    {
+        GameObject instance = Instantiate(tarjetitaPrefab);
+        instance.transform.SetParent(layout.transform, false);
+    }
     public override void OnNetworkDespawn()
     {
         base.OnNetworkDespawn();
         if (!IsServer) return;
         NetworkManager.Singleton.OnClientConnectedCallback -= OnClientConnected;
-        NetworkManager.Singleton.SceneManager.OnLoadEventCompleted -= SceneLoaded;
     }
 
     public void IrAJuego()

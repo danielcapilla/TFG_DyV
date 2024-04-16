@@ -864,7 +864,7 @@ MonoBehaviour:
   m_ChildAlignment: 4
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 100, y: 100}
+  m_CellSize: {x: 300, y: 100}
   m_Spacing: {x: 10, y: 10}
   m_Constraint: 0
   m_ConstraintCount: 2
@@ -2118,6 +2118,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   joinCodeTMP: {fileID: 358766735}
   button: {fileID: 94843726}
+  tarjetitaPrefab: {fileID: 3536284070991409544, guid: 084a746f46362d64a8b4d5eabf5662ac, type: 3}
+  layout: {fileID: 500175588}
 --- !u!1 &3123008810397233930
 GameObject:
   m_ObjectHideFlags: 0
@@ -2148,7 +2150,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1304671159
+  GlobalObjectIdHash: 820736707
   InScenePlacedSourceGlobalObjectIdHash: 1725020416
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1

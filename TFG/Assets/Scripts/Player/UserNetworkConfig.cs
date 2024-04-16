@@ -20,13 +20,6 @@ public class UserNetworkConfig : NetworkBehaviour
         base.OnNetworkDespawn();
         
     }
-    [ServerRpc(RequireOwnership = false)]
-    public void InstantiatePlayerServerRpc(ulong id)
-    {
-        Debug.Log("TT");
-        GameObject playerGameObject = Instantiate(playerPrefab);
-        playerGameObject.GetComponent<NetworkObject>().SpawnWithOwnership(id);
-        playerGameObject.transform.SetParent(transform, false);
-    }
+    
 
 }
