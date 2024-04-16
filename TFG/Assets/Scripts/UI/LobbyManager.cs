@@ -37,15 +37,15 @@ public class LobbyManager : NetworkBehaviour
     private void OnClientConnected(ulong clientId)
     {
         ShowJoinCodeClientRPC();
-        ShowUserInfoClientRPC();
+        ShowUserInfoServerRPC();
     }
     [ClientRpc]
     private void ShowJoinCodeClientRPC()
     {
         joinCodeTMP.text = TestRelay.staticCode;
     }
-    [ClientRpc]
-    private void ShowUserInfoClientRPC()
+    [ServerRpc (RequireOwnership = false)]
+    private void ShowUserInfoServerRPC()
     {
         GameObject instance = Instantiate(tarjetitaPrefab);
         NetworkObject instanceNetworkObject = instance.GetComponent<NetworkObject>();
