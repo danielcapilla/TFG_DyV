@@ -31,13 +31,10 @@ public class LobbyManager : NetworkBehaviour
         }
         
     }
-
-   
-
     private void OnClientConnected(ulong clientId)
     {
         ShowJoinCodeClientRPC();
-        ShowUserInfoServerRPC();
+        ShowUserInfoServerRPC(clientId);
     }
     [ClientRpc]
     private void ShowJoinCodeClientRPC()
@@ -45,11 +42,11 @@ public class LobbyManager : NetworkBehaviour
         joinCodeTMP.text = TestRelay.staticCode;
     }
     [ServerRpc (RequireOwnership = false)]
-    private void ShowUserInfoServerRPC()
+    private void ShowUserInfoServerRPC(ulong id)
     {
         GameObject instance = Instantiate(tarjetitaPrefab);
         NetworkObject instanceNetworkObject = instance.GetComponent<NetworkObject>();
-        
+        instance.GetComponentInChildren<TextMeshProUGUI>().text = id.ToString();
         instanceNetworkObject.Spawn(true);
         instance.transform.SetParent(layout.transform, false);
     }
