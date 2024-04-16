@@ -10,6 +10,7 @@ public class DeliveryStation : InteractableObject
     [SerializeField] Transform endPos;
     [SerializeField] Transform placePosition;
     [SerializeField] float time;
+    [SerializeField] Score playerScore;
     ICarryObject holdingObject;
 
     public override void Interact(PlayerCarry player)
@@ -54,6 +55,7 @@ public class DeliveryStation : InteractableObject
             {
                 //TODO añadir puntuacion
                 Debug.Log("Hamburguesa correcta");
+                playerScore.score.Value++;
             }
             else Debug.Log("La has cagado....");
         }

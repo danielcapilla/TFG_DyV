@@ -15,6 +15,7 @@ public class HostManager : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
+
         if (!IsHost)
         {
             hostCanvas.enabled = false;
@@ -45,7 +46,7 @@ public class HostManager : NetworkBehaviour
             {
                 objeto.enabled = true;
             }
-            orderCanvas.SetActive(false);
+            orderCanvas.SetActive(true);
         }
         
     }
