@@ -21,7 +21,7 @@ public class PlayerController : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
-
+        DontDestroyOnLoad(gameObject);
         if (!IsOwner) return;
         playerInput = GetComponent<PlayerInput>();
         playerInput.enabled = true;

@@ -8,12 +8,15 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MainMenu.unity
     guid: 830441a49ef9ddd48aca6946281deedb
-  - enabled: 0
-    path: Assets/Scenes/PruebaMovimiento.unity
-    guid: 6f8e8adae77abfb4893b4742f5336854
+  - enabled: 1
+    path: Assets/Scenes/Lobby.unity
+    guid: 0ca520979d1c3a84f819acb90c247722
   - enabled: 1
     path: Assets/Scenes/MinijuegoRestaurante.unity
     guid: 45f288080f41a1c4087af658197a0d13
+  - enabled: 0
+    path: Assets/Scenes/PruebaMovimiento.unity
+    guid: 6f8e8adae77abfb4893b4742f5336854
   - enabled: 1
     path: Assets/Scenes/Estadisticas.unity
     guid: 45a0024fbfb32154da4ac8f1b3749256

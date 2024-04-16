@@ -17,6 +17,7 @@ public class TestRelay : MonoBehaviour
     private TextMeshProUGUI code;
     [SerializeField]
     private TextMeshProUGUI showCode;
+    public static string staticCode;
     //Función asíncrona
     private async void Start()
     {
@@ -31,12 +32,6 @@ public class TestRelay : MonoBehaviour
         //Se inicia la sesión de manera anónima
         await AuthenticationService.Instance.SignInAnonymouslyAsync();
         
-    }
-    [ClientRpc]
-
-    private void ShowCodeClientRPC(string code)
-    {
-        showCode.text = code;
     }
     public async void CreateRelay()
     {
@@ -57,8 +52,8 @@ public class TestRelay : MonoBehaviour
                 allocation.ConnectionData
                 );
             NetworkManager.Singleton.StartHost();
-            ShowCodeClientRPC(joinCode);
-            NetworkManager.Singleton.SceneManager.LoadScene("MinijuegoRestaurante", LoadSceneMode.Single);
+            staticCode = joinCode;
+            NetworkManager.Singleton.SceneManager.LoadScene("Lobby", LoadSceneMode.Single);
             //this.gameObject.SetActive(false);
             Debug.Log(joinCode);
         } catch (RelayServiceException e)
@@ -72,6 +67,7 @@ public class TestRelay : MonoBehaviour
         //Asignamos el texto que se ha introducido
         joinCode = code.text;
         joinCode = joinCode.ToUpper();
+        staticCode = joinCode;
         try
         {
             //Problema que surge con el textMeshPro
