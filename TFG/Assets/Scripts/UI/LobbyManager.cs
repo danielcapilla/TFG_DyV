@@ -78,6 +78,7 @@ public class LobbyManager : NetworkBehaviour
         if (!IsServer) return;
         NetworkManager.Singleton.OnClientConnectedCallback -= OnClientConnected;
         NetworkManager.Singleton.OnClientDisconnectCallback -= OnClientDisconnected;
+
     }
 
     public void IrAJuego()

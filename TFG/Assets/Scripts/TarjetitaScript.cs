@@ -10,13 +10,15 @@ public class TarjetitaScript : NetworkBehaviour
 {
     public NetworkVariable<FixedString64Bytes> tarjetitaNameNetworkVariable = new(default, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     public UserNetworkConfig userNetworkConfig;
+    [SerializeField]
+    private TextMeshProUGUI textMeshProUGUI;
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
         //Se tiene que ver tanto en el server (original) como en el owner (clone)
         tarjetitaNameNetworkVariable.OnValueChanged += CambiarTarjetitaName;
         //Si ya tenía nombre puesto, escribe el nombre que ya tenía (nuevas conexiones)
-        GetComponentInChildren<TextMeshProUGUI>().text = tarjetitaNameNetworkVariable.Value.ToString();       
+        textMeshProUGUI.text = tarjetitaNameNetworkVariable.Value.ToString();       
     }
     public override void OnNetworkDespawn()
     {
@@ -32,7 +34,7 @@ public class TarjetitaScript : NetworkBehaviour
     {
         
         tarjetitaNameNetworkVariable.Value = newValue;
-        GetComponentInChildren<TextMeshProUGUI>().text = tarjetitaNameNetworkVariable.Value.ToString();
+        textMeshProUGUI.text = tarjetitaNameNetworkVariable.Value.ToString();
     }
     
 }
