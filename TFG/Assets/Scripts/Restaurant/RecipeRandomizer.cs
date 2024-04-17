@@ -10,7 +10,7 @@ public class RecipeRandomizer : NetworkBehaviour
     [SerializeField] Dictionary<IngredientsScriptableObject, int> pairedIngredients = new Dictionary<IngredientsScriptableObject, int>();
     [SerializeField] List<List<IngredientsScriptableObject>> recipes = new List<List<IngredientsScriptableObject>>();
     [SerializeField] List<IngredientsScriptableObject> extraIngredients = new List<IngredientsScriptableObject>();
-    public List<IngredientsScriptableObject> currentOrder = new List<IngredientsScriptableObject>();
+    public List<List<IngredientsScriptableObject>> currentOrders = new List<List<IngredientsScriptableObject>>();
 
     private NetworkVariable<int> randomSeed = new();
 
@@ -92,38 +92,44 @@ public class RecipeRandomizer : NetworkBehaviour
 
     public void GenerateRandomOrder() 
     {
-        
-        //Añadir pan
-        foreach (IngredientsScriptableObject coreIngredient in currentMenu.coreIngredients)
+        for (int j = 0; j < 3; j++)
         {
-            currentOrder.Add(coreIngredient);
-        }
-        //Añadir 1 carne
-        int importantIngredientIDX = Random.Range(0, currentMenu.importantIngredients.Count);
-        currentOrder.Add(currentMenu.importantIngredients[importantIngredientIDX]);
-        //Añadir extras (considerar posibilidad de añadir la misma carne como extra)
-        int burguerSize = Random.Range(2,5);
-        for (int i = 0; i<burguerSize;i++) 
-        {
-            int ingredientIDX = Random.Range(0, currentMenu.extraIngredients.Count+1);
-            //We added a fake extra ingredient as meat duplicate
-            if (ingredientIDX == currentMenu.extraIngredients.Count) 
-            {
-                currentOrder.Add(currentMenu.importantIngredients[importantIngredientIDX]);
-                continue;
-            }
-            currentOrder.Add(currentMenu.extraIngredients[ingredientIDX]);
-        }
 
-        //Añadir pan
-        foreach (IngredientsScriptableObject coreIngredient in currentMenu.coreIngredients)
-        {
-            if (coreIngredient.MinimumQuantity > 1 )
+            List<IngredientsScriptableObject> currentOrder = new List<IngredientsScriptableObject>();
+            //Añadir pan
+            foreach (IngredientsScriptableObject coreIngredient in currentMenu.coreIngredients)
             {
                 currentOrder.Add(coreIngredient);
             }
+            //Añadir 1 carne
+            int importantIngredientIDX = Random.Range(0, currentMenu.importantIngredients.Count);
+            currentOrder.Add(currentMenu.importantIngredients[importantIngredientIDX]);
+            //Añadir extras (considerar posibilidad de añadir la misma carne como extra)
+            int burguerSize = Random.Range(2, 5);
+            for (int i = 0; i < burguerSize; i++)
+            {
+                int ingredientIDX = Random.Range(0, currentMenu.extraIngredients.Count + 1);
+                //We added a fake extra ingredient as meat duplicate
+                if (ingredientIDX == currentMenu.extraIngredients.Count)
+                {
+                    currentOrder.Add(currentMenu.importantIngredients[importantIngredientIDX]);
+                    continue;
+                }
+                currentOrder.Add(currentMenu.extraIngredients[ingredientIDX]);
+            }
+
+            //Añadir pan
+            foreach (IngredientsScriptableObject coreIngredient in currentMenu.coreIngredients)
+            {
+                if (coreIngredient.MinimumQuantity > 1)
+                {
+                    currentOrder.Add(coreIngredient);
+                }
+            }
+
+            currentOrders.Add(currentOrder);
         }
-        commandSpawner.SpawnOrder(pairedIngredients, currentOrder);
+        commandSpawner.SpawnOrder(pairedIngredients, currentOrders[0]);
     }
 
     public void GenerateRandomRecipes() 

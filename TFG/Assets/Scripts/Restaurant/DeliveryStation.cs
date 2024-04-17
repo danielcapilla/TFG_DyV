@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using Unity.Netcode;
+using System.Linq;
 
 public class DeliveryStation : InteractableObject
 {
@@ -35,12 +36,12 @@ public class DeliveryStation : InteractableObject
             MovePlateClientRPC(plate.GetNetworkObject());
             //Evaluar plato respecto al pedido
             bool same = true;
-            if (randomizer.currentOrder.Count == plate.Ingredients.Count)
+            if (randomizer.currentOrders[0].Count == plate.Ingredients.Count)
             {
-                for (int i = 0; i < randomizer.currentOrder.Count; ++i)
+                for (int i = 0; i < randomizer.currentOrders[0].Count; ++i)
                 {
                     
-                    if (randomizer.currentOrder[i].ID != plate.Ingredients[i].ingredient.ID)
+                    if (randomizer.currentOrders[0][i].ID != plate.Ingredients[i].ingredient.ID)
                     {
                         same = false;
                     }
@@ -81,7 +82,7 @@ public class DeliveryStation : InteractableObject
         holdingObject.GetGameObject().transform.localPosition = placePosition.localPosition;
 
         holdingObject.GetGameObject().transform.DOMove(endPos.position, time).SetEase(Ease.InQuart).OnComplete(()=> {
-            foreach (ICarryObject objToDestroy in plate.GetGameObject().transform.GetComponentsInChildren<ICarryObject>())
+            foreach (ICarryObject objToDestroy in plate.GetGameObject().transform.GetComponentsInChildren<ICarryObject>().Reverse())
             {
                 objToDestroy.GetNetworkObject().Despawn(objToDestroy.GetGameObject());
             }
