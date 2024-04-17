@@ -48,7 +48,15 @@ public class LobbyManager : NetworkBehaviour
         NetworkObject instanceNetworkObject = instance.GetComponent<NetworkObject>();
         instanceNetworkObject.Spawn(true);
         instance.transform.SetParent(layout.transform, false);
-        instance.GetComponent<TarjetitaScript>().tarjetitaNameNetworkVariable.Value = id.ToString();
+        TarjetitaScript tarjetita = instance.GetComponent<TarjetitaScript>();
+        UserNetworkConfig userNetwork = NetworkManager.Singleton.ConnectedClients[id].PlayerObject.gameObject.GetComponent<UserNetworkConfig>();
+        //Cambiamos el nombre de la tarjetita por el introducido en el login
+        tarjetita.tarjetitaNameNetworkVariable.Value = userNetwork.usernameNetworkVariable.Value;
+        //Para asegurarse de que el paso de nombre al user sucede antes que la tarjetita
+        userNetwork.usernameNetworkVariable.OnValueChanged += tarjetita.CambiarTarjetitaName;
+        //Asignamos la referencia del userNetwork en la tarjetita para desuscribir
+        tarjetita.userNetworkConfig = userNetwork;
+
     }
 
     public override void OnNetworkDespawn()

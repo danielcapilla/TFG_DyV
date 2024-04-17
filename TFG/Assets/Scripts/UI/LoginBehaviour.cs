@@ -14,7 +14,6 @@ public class LoginBehaviour : MonoBehaviour
         {
             //Guardar info en la clase statica
             PlayerData.Name = input.text;
-            Debug.Log("Pasando a main menu");
             SceneManager.LoadScene("MainMenu");
         }
         else 
