@@ -8,22 +8,22 @@ using TMPro;
 
 public class TarjetitaScript : NetworkBehaviour
 {
-    public NetworkVariable<FixedString64Bytes> tarjetitaNameNetworkVariable = new(default, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+    public NetworkVariable<FixedString64Bytes> tarjetitaNameNetworkVariable = new(default, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     public UserNetworkConfig userNetworkConfig;
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
+        //Se tiene que ver tanto en el server (original) como en el owner (clone)
         tarjetitaNameNetworkVariable.OnValueChanged += CambiarTarjetitaName;
-        GetComponentInChildren<TextMeshProUGUI>().text = tarjetitaNameNetworkVariable.Value.ToString();
-        if (!IsOwner) return;
-        tarjetitaNameNetworkVariable.Value = "";
-        
+        //Si ya tenía nombre puesto, escribe el nombre que ya tenía (nuevas conexiones)
+        GetComponentInChildren<TextMeshProUGUI>().text = tarjetitaNameNetworkVariable.Value.ToString();       
     }
     public override void OnNetworkDespawn()
     {
         base.OnNetworkDespawn();
         tarjetitaNameNetworkVariable.OnValueChanged -= CambiarTarjetitaName;
-        //Desuscribir al user del cambio de nombre de la tarjetita (si se cambia el nombre por lo que sea y no se hace peta)
+        //Desuscribir al user del cambio de nombre de la tarjetita (si se cambia el nombre por lo que sea y no se hace peta).
+        //PARA EL CAMBIO DE ESCENA user se mantiene vivo pero tarjetita muere. Por si se cambia el nombre en partida.
         if (!IsServer) return;
         userNetworkConfig.usernameNetworkVariable.OnValueChanged -= CambiarTarjetitaName;
     }

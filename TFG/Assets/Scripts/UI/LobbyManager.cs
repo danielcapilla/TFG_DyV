@@ -20,13 +20,13 @@ public class LobbyManager : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
+        ShowJoinCode();
         if (!IsServer)
         {
             button.SetActive(false);
         }
         if(IsServer)
         {
-            joinCodeTMP.text = TestRelay.staticCode;
             NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
             NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnected;
         }
@@ -47,16 +47,14 @@ public class LobbyManager : NetworkBehaviour
 
     private void OnClientConnected(ulong clientId)
     {
-        ShowJoinCodeClientRPC();
-        ShowUserInfoServerRPC(clientId);
+        ShowUserInfo(clientId);
     }
-    [ClientRpc]
-    private void ShowJoinCodeClientRPC()
+    
+    private void ShowJoinCode()
     {
         joinCodeTMP.text = TestRelay.staticCode;
     }
-    [ServerRpc (RequireOwnership = false)]
-    private void ShowUserInfoServerRPC(ulong id)
+    private void ShowUserInfo(ulong id)
     {
         GameObject instance = Instantiate(tarjetitaPrefab);
         NetworkObject instanceNetworkObject = instance.GetComponent<NetworkObject>();
@@ -66,7 +64,8 @@ public class LobbyManager : NetworkBehaviour
         UserNetworkConfig userNetwork = NetworkManager.Singleton.ConnectedClients[id].PlayerObject.gameObject.GetComponent<UserNetworkConfig>();
         //Cambiamos el nombre de la tarjetita por el introducido en el login
         tarjetita.tarjetitaNameNetworkVariable.Value = userNetwork.usernameNetworkVariable.Value;
-        //Para asegurarse de que el paso de nombre al user sucede antes que la tarjetita
+        //Para asegurarse de que el paso de nombre al user sucede antes que la tarjetita. 
+        //Esto se hace sobre todo por la concurrencia y cuestiones de tiempo.
         userNetwork.usernameNetworkVariable.OnValueChanged += tarjetita.CambiarTarjetitaName;
         //Asignamos la referencia del userNetwork en la tarjetita para desuscribir
         tarjetita.userNetworkConfig = userNetwork;
