@@ -14,6 +14,7 @@ public class TarjetitaScript : NetworkBehaviour
     {
         base.OnNetworkSpawn();
         tarjetitaNameNetworkVariable.OnValueChanged += CambiarTarjetitaName;
+        GetComponentInChildren<TextMeshProUGUI>().text = tarjetitaNameNetworkVariable.Value.ToString();
         if (!IsOwner) return;
         tarjetitaNameNetworkVariable.Value = "";
         
