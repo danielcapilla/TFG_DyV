@@ -82,6 +82,7 @@ public class DeliveryStation : InteractableObject
         holdingObject.GetGameObject().transform.localPosition = placePosition.localPosition;
 
         holdingObject.GetGameObject().transform.DOMove(endPos.position, time).SetEase(Ease.InQuart).OnComplete(()=> {
+            DOTween.Kill(holdingObject.GetGameObject().transform);
             foreach (ICarryObject objToDestroy in plate.GetGameObject().transform.GetComponentsInChildren<ICarryObject>().Reverse())
             {
                 objToDestroy.GetNetworkObject().Despawn(objToDestroy.GetGameObject());
