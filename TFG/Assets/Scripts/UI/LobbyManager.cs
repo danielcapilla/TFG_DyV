@@ -1,0 +1,66 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using TMPro;
+using Unity.Netcode;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
+public class LobbyManager : NetworkBehaviour
+{
+    [SerializeField]
+    private TextMeshProUGUI joinCodeTMP;
+    [SerializeField]
+    private GameObject button;
+    [SerializeField]
+    private GameObject tarjetitaPrefab;
+    [SerializeField]
+    private GameObject layout;
+
+    public override void OnNetworkSpawn()
+    {
+        base.OnNetworkSpawn();
+        if (!IsServer)
+        {
+            button.SetActive(false);
+        }
+        if(IsServer)
+        {
+            joinCodeTMP.text = TestRelay.staticCode;
+            NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
+        }
+        
+    }
+    private void OnClientConnected(ulong clientId)
+    {
+        ShowJoinCodeClientRPC();
+        ShowUserInfoServerRPC(clientId);
+    }
+    [ClientRpc]
+    private void ShowJoinCodeClientRPC()
+    {
+        joinCodeTMP.text = TestRelay.staticCode;
+    }
+    [ServerRpc (RequireOwnership = false)]
+    private void ShowUserInfoServerRPC(ulong id)
+    {
+        GameObject instance = Instantiate(tarjetitaPrefab);
+        NetworkObject instanceNetworkObject = instance.GetComponent<NetworkObject>();
+        instanceNetworkObject.Spawn(true);
+        instance.transform.SetParent(layout.transform, false);
+        instance.GetComponent<TarjetitaScript>().tarjetitaNameNetworkVariable.Value = id.ToString();
+    }
+
+    public override void OnNetworkDespawn()
+    {
+        base.OnNetworkDespawn();
+        if (!IsServer) return;
+        NetworkManager.Singleton.OnClientConnectedCallback -= OnClientConnected;
+    }
+
+    public void IrAJuego()
+    {
+
+        NetworkManager.Singleton.SceneManager.LoadScene("MinijuegoRestaurante", LoadSceneMode.Single);
+    }
+}
