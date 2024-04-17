@@ -7,8 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class UserNetworkConfig : NetworkBehaviour
 {
-    [SerializeField]
-    private GameObject playerPrefab;
+
 
     public override void OnNetworkSpawn()
     {

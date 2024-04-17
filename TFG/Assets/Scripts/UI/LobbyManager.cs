@@ -46,10 +46,11 @@ public class LobbyManager : NetworkBehaviour
     {
         GameObject instance = Instantiate(tarjetitaPrefab);
         NetworkObject instanceNetworkObject = instance.GetComponent<NetworkObject>();
-        instance.GetComponentInChildren<TextMeshProUGUI>().text = id.ToString();
         instanceNetworkObject.Spawn(true);
         instance.transform.SetParent(layout.transform, false);
+        instance.GetComponent<TarjetitaScript>().tarjetitaNameNetworkVariable.Value = id.ToString();
     }
+
     public override void OnNetworkDespawn()
     {
         base.OnNetworkDespawn();

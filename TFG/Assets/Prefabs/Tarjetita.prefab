@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4144740819774486937}
   - component: {fileID: 5028389979027653685}
   - component: {fileID: 6234010549328300503}
+  - component: {fileID: -4559481764014926880}
   m_Layer: 5
   m_Name: Tarjetita
   m_TagString: Untagged
@@ -90,7 +91,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 0
+  GlobalObjectIdHash: 2379921415
   InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -99,6 +100,18 @@ MonoBehaviour:
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
+--- !u!114 &-4559481764014926880
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3536284070991409544}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 545c81c10d49e524688b3ce01cf1a65c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5555550730052750143
 GameObject:
   m_ObjectHideFlags: 0
