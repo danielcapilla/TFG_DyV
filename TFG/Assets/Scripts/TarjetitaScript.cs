@@ -13,8 +13,10 @@ public class TarjetitaScript : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
-        tarjetitaNameNetworkVariable.Value = "";
         tarjetitaNameNetworkVariable.OnValueChanged += CambiarTarjetitaName;
+        if (!IsOwner) return;
+        tarjetitaNameNetworkVariable.Value = "";
+        
     }
     public override void OnNetworkDespawn()
     {
