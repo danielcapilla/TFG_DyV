@@ -4,6 +4,8 @@ using UnityEngine;
 using DG.Tweening;
 using Unity.Netcode;
 using System.Linq;
+using System;
+using System.Globalization;
 
 public class DeliveryStation : InteractableObject
 {
@@ -13,6 +15,7 @@ public class DeliveryStation : InteractableObject
     [SerializeField] float time;
     [SerializeField] Score playerScore;
     ICarryObject holdingObject;
+    [SerializeField] TeamMenager teamMenager;
 
     public override void Interact(PlayerCarry player)
     {
@@ -27,6 +30,7 @@ public class DeliveryStation : InteractableObject
     {
         playerNetworkObjectReference.TryGet(out NetworkObject playerNetworkObject);
         PlayerCarry playerCarry = playerNetworkObject.GetComponent<PlayerCarry>();
+        PlayerStats playerStats = playerNetworkObject.GetComponent<PlayerStats>();
 
         if (playerCarry.carryingObject.GetGameObject().TryGetComponent<PlateBehaviour>(out PlateBehaviour plate))
         {
@@ -36,12 +40,13 @@ public class DeliveryStation : InteractableObject
             MovePlateClientRPC(plate.GetNetworkObject());
             //Evaluar plato respecto al pedido
             bool same = true;
-            if (randomizer.currentOrders[0].Count == plate.Ingredients.Count)
+            TeamInfoRestaurante teamInfo = (TeamInfoRestaurante)teamMenager.teams[playerStats.idGrupo.Value];
+            if (randomizer.currentOrders[teamInfo.idOrder].Count == plate.Ingredients.Count)
             {
-                for (int i = 0; i < randomizer.currentOrders[0].Count; ++i)
+                for (int i = 0; i < randomizer.currentOrders[teamInfo.idOrder].Count; ++i)
                 {
                     
-                    if (randomizer.currentOrders[0][i].ID != plate.Ingredients[i].ingredient.ID)
+                    if (randomizer.currentOrders[teamInfo.idOrder][i].ID != plate.Ingredients[i].ingredient.ID)
                     {
                         same = false;
                     }
@@ -56,10 +61,21 @@ public class DeliveryStation : InteractableObject
             {
                 Debug.Log("Hamburguesa correcta");
                 playerScore.score.Value++;
+                teamInfo.Puntuacion++;
             }
             else Debug.Log("La has cagado....");
+
+            teamInfo.idOrder++;
+            NextOrderClientRpc(teamInfo.idOrder);
         }
     }
+
+    [ClientRpc]
+    public void NextOrderClientRpc(int order) 
+    {
+        randomizer.NextOrder(order);
+    }
+
     [ClientRpc]
     private void PlaceOrderClientRPC(NetworkObjectReference playerNetworkObjectReference)
     {

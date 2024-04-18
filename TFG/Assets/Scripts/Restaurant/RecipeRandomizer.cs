@@ -223,4 +223,9 @@ public class RecipeRandomizer : NetworkBehaviour
     {
         recipes.Sort((a, b) => 1 - 2 * Random.Range(0, recipes.Count));
     }
+
+    public void NextOrder(int order) 
+    {
+        commandSpawner.SpawnOrder(pairedIngredients, currentOrders[order]);
+    }
 }
