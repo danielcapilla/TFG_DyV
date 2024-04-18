@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Unity.Netcode;
 
-public class TeamMenager : MonoBehaviour
+public class TeamMenager : NetworkBehaviour
 {
     public int maxPlayers;
     public int playersPerTeam;
@@ -13,6 +14,7 @@ public class TeamMenager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (!IsServer) return;
         int totalTeams = maxPlayers / playersPerTeam;
         for (int i = 0; i < totalTeams; i++) 
         {

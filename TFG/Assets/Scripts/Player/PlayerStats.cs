@@ -6,12 +6,13 @@ using UnityEngine;
 
 public class PlayerStats : NetworkBehaviour
 {
-    public NetworkVariable<int> idGrupo = new();
+    public NetworkVariable<int> idGrupo = new(default, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
         idGrupo.OnValueChanged += NewIdGrupo;
+        idGrupo.Value = 0;
     }
     public override void OnNetworkDespawn()
     {

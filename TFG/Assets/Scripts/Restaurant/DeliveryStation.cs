@@ -6,6 +6,7 @@ using Unity.Netcode;
 using System.Linq;
 using System;
 using System.Globalization;
+using UnityEditor.PackageManager;
 
 public class DeliveryStation : InteractableObject
 {
@@ -66,12 +67,18 @@ public class DeliveryStation : InteractableObject
             else Debug.Log("La has cagado....");
 
             teamInfo.idOrder++;
-            NextOrderClientRpc(teamInfo.idOrder);
+            NextOrderClientRpc(teamInfo.idOrder, new ClientRpcParams
+            {
+                Send = new ClientRpcSendParams
+                {
+                    TargetClientIds = new ulong[] { 1 }
+                }
+            });
         }
     }
 
     [ClientRpc]
-    public void NextOrderClientRpc(int order) 
+    public void NextOrderClientRpc(int order, ClientRpcParams clientRpcParams = default ) 
     {
         randomizer.NextOrder(order);
     }
