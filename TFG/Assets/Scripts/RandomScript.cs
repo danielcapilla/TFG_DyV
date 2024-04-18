@@ -8,7 +8,7 @@ using System.Net.Sockets;
 public class RandomScript : MonoBehaviour
 {
     private PlayerController pc;
-    private bool pcAssigned;
+    //private bool pcAssigned;
 
     [SerializeField] TextMeshProUGUI ipAddressText;
     [SerializeField] TMP_InputField ip;
@@ -20,7 +20,7 @@ public class RandomScript : MonoBehaviour
     {
         ipAddress = "0.0.0.0";
         SetIpAddress(); // Set the Ip to the above address
-        pcAssigned = false;
+        //pcAssigned = false;
         InvokeRepeating("assignPlayerController", 0.1f, 0.1f);
     }
 
@@ -77,7 +77,7 @@ public class RandomScript : MonoBehaviour
         }
         else if (pc == FindObjectOfType<PlayerController>())
         {
-            pcAssigned = true;
+            //pcAssigned = true;
             CancelInvoke();
         }
     }
