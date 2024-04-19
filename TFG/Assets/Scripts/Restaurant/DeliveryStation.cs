@@ -65,13 +65,17 @@ public class DeliveryStation : InteractableObject
                 teamInfo.Puntuacion++;
             }
             else Debug.Log("La has cagado....");
-
+            ulong[] auxIdIntegrantes = new ulong[teamInfo.integrantes.Count];
+            for(int i =0; i < teamInfo.integrantes.Count; i++)
+            {
+                auxIdIntegrantes[i] = teamInfo.integrantes[i];
+            }
             teamInfo.idOrder++;
             NextOrderClientRpc(teamInfo.idOrder, new ClientRpcParams
             {
                 Send = new ClientRpcSendParams
                 {
-                    TargetClientIds = new ulong[] { 1 }
+                    TargetClientIds = teamInfo.integrantes.ToArray() 
                 }
             });
         }
