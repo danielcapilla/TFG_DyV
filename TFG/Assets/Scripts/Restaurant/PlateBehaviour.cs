@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
@@ -45,5 +46,11 @@ public class PlateBehaviour : NetworkBehaviour, ICarryObject
     public GameObject GetGameObject()
     {
         return gameObject;
+    }
+
+    public override void OnNetworkDespawn()
+    {
+        base.OnNetworkDespawn();
+        DOTween.Kill(transform);
     }
 }
