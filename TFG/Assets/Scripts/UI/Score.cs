@@ -5,26 +5,16 @@ using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 
-public class Score : NetworkBehaviour
+public class Score : MonoBehaviour
 {
-    public NetworkVariable<int> score = new ();
+    int score = 0;
     [SerializeField]
     private TextMeshProUGUI scoreText;
 
-    public override void OnNetworkDespawn()
+    public void AddScore()
     {
-        score.OnValueChanged -= NewScore;
-    }
-
-    public override void OnNetworkSpawn()
-    {
-        score.OnValueChanged += NewScore;
-    }
-
-    private void NewScore(int previousValue, int newValue)
-    {
-        score.Value = newValue;
-        scoreText.text = score.Value.ToString();
+        score++;
+        scoreText.text = score.ToString();
     }
 }
 

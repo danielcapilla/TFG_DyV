@@ -61,7 +61,6 @@ public class DeliveryStation : InteractableObject
             if (same)
             {
                 Debug.Log("Hamburguesa correcta");
-                playerScore.score.Value++;
                 teamInfo.Puntuacion++;
             }
             else Debug.Log("La has cagado....");
@@ -84,6 +83,7 @@ public class DeliveryStation : InteractableObject
     [ClientRpc]
     public void NextOrderClientRpc(int order, ClientRpcParams clientRpcParams = default ) 
     {
+        playerScore.AddScore();
         randomizer.NextOrder(order);
     }
 
