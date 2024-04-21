@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class ChooseGroup : NetworkBehaviour
 {
     PlayerStats player;
-    [SerializeField] TeamMenager teamMenager;
+    [SerializeField] TeamMenager teamManager;
     [SerializeField] Button readyButton;
     public override void OnNetworkSpawn()
     {
@@ -32,12 +32,13 @@ public class ChooseGroup : NetworkBehaviour
     public void ReadyPlayer()
     {
         ReadyPlayerServerRPC(NetworkManager.Singleton.LocalClientId);
-        this.gameObject.SetActive(false);
+        
     }
     [ServerRpc (RequireOwnership = false)]
     public void ReadyPlayerServerRPC(ulong id)
     {
-        TeamInfoRestaurante teamInfo = (TeamInfoRestaurante)teamMenager.teams[player.idGrupo.Value];
+        TeamInfoRestaurante teamInfo = (TeamInfoRestaurante)teamManager.teams[player.idGrupo.Value];
         teamInfo.integrantes.Add(id);
+        teamManager.SetPlayerReady(id);
     }
 }

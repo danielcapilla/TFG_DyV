@@ -2908,7 +2908,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 889409465}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.22975291, y: 0.000077708384, z: -0.000018341536, w: 0.973249}
+  m_LocalRotation: {x: 0.22975291, y: 0.00007775697, z: -0.000018352996, w: 0.973249}
   m_LocalPosition: {x: 0, y: 10, z: -20}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -4548,7 +4548,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47cb4b2ba62721645adaaf7c3b927cd7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  teamMenager: {fileID: 1645041031}
+  teamManager: {fileID: 1645041031}
   readyButton: {fileID: 1732089051}
 --- !u!222 &1272749908
 CanvasRenderer:
@@ -5112,6 +5112,7 @@ MonoBehaviour:
   playersPerTeam: 5
   teamType: {fileID: 11400000, guid: 0bbaf5999cd93284684d5246a83477f9, type: 2}
   teams: []
+  groupCanvas: {fileID: 1272749904}
 --- !u!4 &1645041032
 Transform:
   m_ObjectHideFlags: 0
