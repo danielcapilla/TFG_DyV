@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
+using TMPro;
+using UnityEngine.UI;
 
 public class ChooseGroup : NetworkBehaviour
 {
@@ -15,13 +17,14 @@ public class ChooseGroup : NetworkBehaviour
     }
     public void Cambio()
     {
-        CambioServerRPC(NetworkManager.Singleton.LocalClientId);
+        Button clickedButton = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.GetComponent<Button>();
+        CambioServerRPC(NetworkManager.Singleton.LocalClientId, (int.Parse(clickedButton.GetComponentInChildren<TextMeshProUGUI>().text)));
     }
     [ServerRpc (RequireOwnership = false)]
-    private void CambioServerRPC(ulong id)
+    private void CambioServerRPC(ulong id, int groupNumber)
     {
         player = NetworkManager.Singleton.ConnectedClients[id].PlayerObject.gameObject.GetComponentInChildren<PlayerStats>();
-        player.idGrupo.Value = 1;
+        player.idGrupo.Value = groupNumber-1;
         TeamInfoRestaurante teamInfo = (TeamInfoRestaurante)teamMenager.teams[player.idGrupo.Value];
         teamInfo.integrantes.Add(id);
     }
