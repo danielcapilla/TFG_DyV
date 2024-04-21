@@ -12,6 +12,7 @@ public class CommandSpawner : MonoBehaviour
     private GameObject panelOrder;
     [SerializeField] 
     public List<Sprite> Codes;
+    private GameObject instance;
     //[SerializeField]
     //private UIInventoryItem itemPrefab;
 
@@ -69,7 +70,9 @@ public class CommandSpawner : MonoBehaviour
 
     public void SpawnOrder(Dictionary<IngredientsScriptableObject, int> codes, List<IngredientsScriptableObject> order)
     {
-        GameObject instance = Instantiate(panelOrder);
+
+        if (instance != null) Destroy(instance);
+        instance = Instantiate(panelOrder);
         instance.transform.SetParent(this.transform.GetChild(0), false);
         RectTransform instanceRectTransform = instance.GetComponent<RectTransform>();
         //Para mover cosas en canvas usar anchoredPosition!!!!

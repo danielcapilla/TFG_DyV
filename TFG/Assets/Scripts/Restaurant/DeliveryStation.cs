@@ -7,6 +7,7 @@ using System.Linq;
 using System;
 using System.Globalization;
 using UnityEditor.PackageManager;
+using TMPro;
 
 public class DeliveryStation : InteractableObject
 {
@@ -17,7 +18,8 @@ public class DeliveryStation : InteractableObject
     [SerializeField] Score playerScore;
     ICarryObject holdingObject;
     [SerializeField] TeamMenager teamMenager;
-
+    [SerializeField]
+    private TextMeshProUGUI scoreText;
     public override void Interact(PlayerCarry player)
     {
         base.Interact(player);
@@ -63,14 +65,12 @@ public class DeliveryStation : InteractableObject
                 Debug.Log("Hamburguesa correcta");
                 teamInfo.Puntuacion++;
             }
-            else Debug.Log("La has cagado....");
-            ulong[] auxIdIntegrantes = new ulong[teamInfo.integrantes.Count];
-            for(int i =0; i < teamInfo.integrantes.Count; i++)
+            else
             {
-                auxIdIntegrantes[i] = teamInfo.integrantes[i];
-            }
+                Debug.Log("La has cagado....");
+            }               
             teamInfo.idOrder++;
-            NextOrderClientRpc(teamInfo.idOrder, new ClientRpcParams
+            NextOrderClientRpc(teamInfo.idOrder, teamInfo.Puntuacion, new ClientRpcParams
             {
                 Send = new ClientRpcSendParams
                 {
@@ -81,9 +81,10 @@ public class DeliveryStation : InteractableObject
     }
 
     [ClientRpc]
-    public void NextOrderClientRpc(int order, ClientRpcParams clientRpcParams = default ) 
+    public void NextOrderClientRpc(int order,int teamScore, ClientRpcParams clientRpcParams = default ) 
     {
-        playerScore.AddScore();
+        //playerScore.AddScore();
+        scoreText.text = teamScore.ToString();
         randomizer.NextOrder(order);
     }
 

@@ -7,7 +7,7 @@ public abstract class TeamInfo : ScriptableObject
 {
     public int ID;
     public List<ulong> integrantes = new List<ulong>();
-    public int Puntuacion;
+    public int Puntuacion = 0;
 
     public virtual TeamInfo clone() 
     {
