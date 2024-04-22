@@ -37,6 +37,7 @@ public class ChooseGroup : NetworkBehaviour
     [ServerRpc (RequireOwnership = false)]
     public void ReadyPlayerServerRPC(ulong id)
     {
+        player = NetworkManager.Singleton.ConnectedClients[id].PlayerObject.gameObject.GetComponentInChildren<PlayerStats>();
         TeamInfoRestaurante teamInfo = (TeamInfoRestaurante)teamManager.teams[player.idGrupo.Value];
         teamInfo.integrantes.Add(id);
         teamManager.SetPlayerReady(id);
