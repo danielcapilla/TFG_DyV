@@ -29,12 +29,8 @@ public class TeamMenager : NetworkBehaviour
             teams.Add(copia);
         }
     }
+
     public void SetPlayerReady(ulong id)
-    {
-        SetPlayerReadyServerRpc(id);
-    }
-    [ServerRpc(RequireOwnership = false)]
-    private void SetPlayerReadyServerRpc(ulong id)
     {
         playerReadyDictionary[id] = true;
         bool allClientsReady = true;
