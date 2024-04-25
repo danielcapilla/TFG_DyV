@@ -11,7 +11,6 @@ public class DeliveryStation : InteractableObject
     [SerializeField] Transform endPos;
     [SerializeField] Transform placePosition;
     [SerializeField] float time;
-    [SerializeField] Score playerScore;
     ICarryObject holdingObject;
     [SerializeField] TeamMenager teamMenager;
     [SerializeField]
