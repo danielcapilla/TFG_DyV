@@ -8,6 +8,7 @@ public class LoginBehaviour : MonoBehaviour
 {
     [SerializeField]
     TMP_InputField input;
+    [SerializeField] TextMeshProUGUI errorText;
     public void Login() 
     {
         if (input.text.Length > 0)
@@ -19,6 +20,7 @@ public class LoginBehaviour : MonoBehaviour
         else 
         {
             //Poner en rojo y avisar de que hay que introducir info en los campos
+            errorText.gameObject.SetActive(true);
         }
     }
 }
