@@ -5,4 +5,6 @@ using UnityEngine;
 public static class PlayerData
 {
     public static string Name;
+    public static int Age;
+    public static string Gender;
 }
