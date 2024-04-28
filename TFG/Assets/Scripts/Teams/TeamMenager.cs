@@ -52,5 +52,9 @@ public class TeamMenager : NetworkBehaviour
     {
         groupCanvas.SetActive(false);
     }
-
+    [ServerRpc (RequireOwnership = false)]
+    public void QuitPlayerFromTheTeamServerRPC(ulong id, int groupNumber)
+    {
+        teams[groupNumber].integrantes.Remove(id);
+    }
 }
