@@ -37,7 +37,11 @@ public class RecipeRandomizer : NetworkBehaviour
         commandSpawner.SpawnRecipes(recipes, pairedIngredients);
         GenerateRandomOrder();
     }
-
+    public override void OnNetworkDespawn()
+    {
+        base.OnNetworkDespawn();
+        randomSeed.OnValueChanged -= SetRandomSeed;
+    }
     private void SetRandomSeed(int current, int newValue)
     {
         randomSeed.Value = newValue;

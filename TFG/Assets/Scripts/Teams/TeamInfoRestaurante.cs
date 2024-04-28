@@ -7,7 +7,7 @@ public class TeamInfoRestaurante : TeamInfo
 {
     public int idOrder;
 
-    public override TeamInfo clone()
+    public override TeamInfo Clone()
     {
         return (TeamInfo)ScriptableObject.CreateInstance<TeamInfoRestaurante>();
     }

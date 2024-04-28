@@ -50,8 +50,17 @@ public class PlayerCarry : NetworkBehaviour
 
         temp.GetGameObject().transform.parent = null;
     }
+    public override void OnNetworkDespawn()
+    {
+        base.OnNetworkDespawn();
+        foreach (ICarryObject objToDestroy in carryingObject.GetGameObject().transform.GetComponentsInChildren<ICarryObject>())
+        {
+            objToDestroy.GetNetworkObject().Despawn(objToDestroy.GetGameObject());
+        }
+    }
     public NetworkObject GetNetworkObject()
     {
         return NetworkObject;
     }
+
 }

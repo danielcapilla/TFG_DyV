@@ -24,7 +24,7 @@ public class TeamMenager : NetworkBehaviour
         int totalTeams = maxPlayers / playersPerTeam;
         for (int i = 0; i < totalTeams; i++) 
         {
-            TeamInfo copia = teamType.clone();
+            TeamInfo copia = teamType.Clone();
             copia.ID = i;
             teams.Add(copia);
         }
