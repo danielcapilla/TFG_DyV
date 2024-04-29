@@ -84,6 +84,7 @@ public class TestRelay : MonoBehaviour
                 joinAllocation.ConnectionData,
                 joinAllocation.HostConnectionData
                 );
+
             NetworkManager.Singleton.StartClient();
         } catch (RelayServiceException e) 
         {

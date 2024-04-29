@@ -3,27 +3,38 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
 using UnityEngine.SceneManagement;
+using System;
 
 public class PlayerSpawner : NetworkBehaviour
 {
     [SerializeField]
     private GameObject playerPrefab;
-    private bool gameStarted = false;
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
+        
         if (IsServer)
         {
             NetworkManager.Singleton.SceneManager.OnLoadEventCompleted += SceneLoaded;
         }
 
     }
+    private void Start()
+    {
+        if (!IsServer) return;
+        NetworkManager.NetworkConfig.ConnectionApproval = true;
+        NetworkManager.Singleton.ConnectionApprovalCallback += ApprovalCheck;
+    }
+
+    private void ApprovalCheck(NetworkManager.ConnectionApprovalRequest request, NetworkManager.ConnectionApprovalResponse response)
+    {
+        response.Approved = false;
+    }
 
     private void SceneLoaded(string sceneName, LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
     {
-        if (IsServer && sceneName == "MinijuegoRestaurante" && !gameStarted)
+        if (IsServer && sceneName == "MinijuegoRestaurante")
         {
-            gameStarted = true;
             foreach (ulong id in clientsCompleted)
             {
                
@@ -44,5 +55,6 @@ public class PlayerSpawner : NetworkBehaviour
         base.OnNetworkDespawn();
         if (!IsServer) return;
         NetworkManager.Singleton.SceneManager.OnLoadEventCompleted -= SceneLoaded;
+        
     }
 }

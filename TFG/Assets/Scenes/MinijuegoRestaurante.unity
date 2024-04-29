@@ -147,6 +147,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CarryPosition: {fileID: 0}
   isCarrying: 0
+  teamManager: {fileID: 0}
 --- !u!1 &8168277
 GameObject:
   m_ObjectHideFlags: 0
@@ -5287,7 +5288,6 @@ MonoBehaviour:
   endPos: {fileID: 1424923609}
   placePosition: {fileID: 1450882771}
   time: 2
-  playerScore: {fileID: 1196646258}
   teamMenager: {fileID: 1645041031}
   scoreText: {fileID: 490896976}
 --- !u!1001 &652488626
@@ -7544,7 +7544,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 889409465}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.32804236, y: 0.00018146701, z: -0.00004549666, w: 0.944663}
+  m_LocalRotation: {x: 0.32804236, y: 0.00018189134, z: -0.000045552104, w: 0.944663}
   m_LocalPosition: {x: 3.08, y: 10.72, z: -9.54}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -11508,6 +11508,72 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2105322582}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1426090317
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1426090320}
+  - component: {fileID: 1426090318}
+  - component: {fileID: 1426090319}
+  m_Layer: 0
+  m_Name: LateJoinsManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1426090318
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1426090317}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 3560177631
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+--- !u!114 &1426090319
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1426090317}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94160efe8f1ea114bb5d0310f2866145, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1426090320
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1426090317}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1440763071
 PrefabInstance:
@@ -17535,7 +17601,6 @@ MonoBehaviour:
   endPos: {fileID: 1424923609}
   placePosition: {fileID: 1450882771}
   time: 2
-  playerScore: {fileID: 1196646258}
   teamMenager: {fileID: 1645041031}
   scoreText: {fileID: 490896976}
 --- !u!1 &2113845727
@@ -17920,3 +17985,4 @@ SceneRoots:
   - {fileID: 1152455154}
   - {fileID: 837842818}
   - {fileID: 924622439}
+  - {fileID: 1426090320}
