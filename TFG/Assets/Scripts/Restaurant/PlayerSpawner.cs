@@ -8,6 +8,7 @@ public class PlayerSpawner : NetworkBehaviour
 {
     [SerializeField]
     private GameObject playerPrefab;
+    private bool gameStarted = false;
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
@@ -20,13 +21,12 @@ public class PlayerSpawner : NetworkBehaviour
 
     private void SceneLoaded(string sceneName, LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
     {
-
-        if (IsServer && sceneName == "MinijuegoRestaurante")
+        if (IsServer && sceneName == "MinijuegoRestaurante" && !gameStarted)
         {
-            Debug.Log("TETAS");
+            gameStarted = true;
             foreach (ulong id in clientsCompleted)
             {
-                Debug.Log($"Id generado... {id}");
+               
                 //Pongos los fighters como hijos del player
                 //arrayPlayers[id].GetComponent<PlayerNetworkConfig>().InstantiateCharacterServerRpc(id);
                 GameObject playerGameObject = Instantiate(playerPrefab);
