@@ -9,6 +9,8 @@ public class PlayerSpawner : NetworkBehaviour
 {
     [SerializeField]
     private GameObject playerPrefab;
+
+    private LateJoinsBehaviour lateJoinsBehaviour;
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
@@ -16,25 +18,16 @@ public class PlayerSpawner : NetworkBehaviour
         if (IsServer)
         {
             NetworkManager.Singleton.SceneManager.OnLoadEventCompleted += SceneLoaded;
+            lateJoinsBehaviour = FindObjectOfType<LateJoinsBehaviour>();
         }
 
-    }
-    private void Start()
-    {
-        if (!IsServer) return;
-        NetworkManager.NetworkConfig.ConnectionApproval = true;
-        NetworkManager.Singleton.ConnectionApprovalCallback += ApprovalCheck;
-    }
-
-    private void ApprovalCheck(NetworkManager.ConnectionApprovalRequest request, NetworkManager.ConnectionApprovalResponse response)
-    {
-        response.Approved = false;
     }
 
     private void SceneLoaded(string sceneName, LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
     {
         if (IsServer && sceneName == "MinijuegoRestaurante")
         {
+            lateJoinsBehaviour.aprovedConection = false;
             foreach (ulong id in clientsCompleted)
             {
                
