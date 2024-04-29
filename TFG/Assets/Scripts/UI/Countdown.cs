@@ -2,22 +2,19 @@ using UnityEngine;
 using TMPro;
 using Unity.Netcode;
 using System;
+using UnityEngine.SceneManagement;
 
 public class Countdown : NetworkBehaviour
 {
-    //Variable compartida tiempo
-    //public NetworkVariable<float> timeNet = new();
     float tiempo;
     public NetworkVariable<bool> timeStarted = new();
     [SerializeField] TextMeshProUGUI GUI;
-    //public GameObject contador;
-    
+    private LateJoinsBehaviour lateJoinsBehaviour;
     private void Start()
     {
-        //timeNet.Value = 30.0f;
-        tiempo = 120.0f;
+        tiempo = 10.0f;
         timeStarted.Value = false;
-
+        lateJoinsBehaviour = FindObjectOfType<LateJoinsBehaviour>();
     }
 
     //NOS AHORRAMOS LA VARIABLE COMPARTIDA
@@ -56,7 +53,8 @@ public class Countdown : NetworkBehaviour
         GUI.text = ((int)tiempo).ToString();
         if (tiempo <= 0)
         {
-            Debug.Log("Se acabó el tiempo!!!");
+            lateJoinsBehaviour.aprovedConection = true;
+            NetworkManager.Singleton.SceneManager.LoadScene("Lobby", LoadSceneMode.Single);
         }
         //// como hago para que sea server? porq en weapon lo ahce
         //if (IsServer)

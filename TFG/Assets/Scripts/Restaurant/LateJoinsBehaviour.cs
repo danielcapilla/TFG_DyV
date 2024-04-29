@@ -8,12 +8,24 @@ public class LateJoinsBehaviour :NetworkBehaviour
 {
     
     public bool aprovedConection = true;
+
+    public static GameObject Instance { get; private set; }
     private void Start()
     {
-        DontDestroyOnLoad(this.gameObject);
+        
         if (!IsServer) return;
+        DontDestroyOnLoad(this.gameObject);
+        if (Instance != null && Instance != this.gameObject)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            Instance = this.gameObject;
+            NetworkManager.Singleton.ConnectionApprovalCallback += ApprovalCheck;
+        }
         //NetworkManager.Singleton.NetworkConfig.ConnectionApproval = true;
-        NetworkManager.Singleton.ConnectionApprovalCallback += ApprovalCheck;
+        
     }
     private void OnDestroy()
     {
