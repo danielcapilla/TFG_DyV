@@ -53,8 +53,12 @@ public class Countdown : NetworkBehaviour
         GUI.text = ((int)tiempo).ToString();
         if (tiempo <= 0)
         {
-            lateJoinsBehaviour.aprovedConection = true;
-            NetworkManager.Singleton.SceneManager.LoadScene("Lobby", LoadSceneMode.Single);
+            
+            if(IsServer )
+            {
+                lateJoinsBehaviour.aprovedConection = true;
+                NetworkManager.Singleton.SceneManager.LoadScene("Lobby", LoadSceneMode.Single);
+            }
         }
         //// como hago para que sea server? porq en weapon lo ahce
         //if (IsServer)
