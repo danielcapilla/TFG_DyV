@@ -18,9 +18,23 @@ public class PlayerSpawner : NetworkBehaviour
         if (IsServer)
         {
             NetworkManager.Singleton.SceneManager.OnLoadEventCompleted += SceneLoaded;
+            NetworkManager.Singleton.SceneManager.OnUnload += UnSceceLoaded;
             lateJoinsBehaviour = FindObjectOfType<LateJoinsBehaviour>();
         }
 
+    }
+
+    private void UnSceceLoaded(ulong clientId, string sceneName, AsyncOperation asyncOperation)
+    {
+        if (IsServer && sceneName == "MinijuegoRestaurante")
+        {
+            lateJoinsBehaviour.aprovedConection = true;
+            foreach (ulong id in NetworkManager.ConnectedClientsIds)
+            {
+                NetworkObject playerNetworkObject = NetworkManager.Singleton.ConnectedClients[id].PlayerObject.transform.GetChild(0).GetComponent<NetworkObject>();
+                playerNetworkObject.Despawn(true);
+            }
+        }
     }
 
     private void SceneLoaded(string sceneName, LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
@@ -48,6 +62,7 @@ public class PlayerSpawner : NetworkBehaviour
         base.OnNetworkDespawn();
         if (!IsServer) return;
         NetworkManager.Singleton.SceneManager.OnLoadEventCompleted -= SceneLoaded;
-        
+        NetworkManager.Singleton.SceneManager.OnUnload -= UnSceceLoaded;
+
     }
 }
