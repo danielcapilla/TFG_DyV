@@ -31,7 +31,15 @@ public class LobbyManager : NetworkBehaviour
             NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnected;
 
         }
-        
+        ShowUsersInfo();
+    }
+
+    private void ShowUsersInfo()
+    {
+        foreach (ulong id in NetworkManager.Singleton.ConnectedClientsIds)
+        {
+            ShowUserInfo(id);
+        }
     }
 
     private void OnClientDisconnected(ulong id)
