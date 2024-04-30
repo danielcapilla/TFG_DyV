@@ -29,9 +29,9 @@ public class LobbyManager : NetworkBehaviour
         {
             NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
             NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnected;
-
+            ShowUsersInfo();
         }
-        ShowUsersInfo();
+        
     }
 
     private void ShowUsersInfo()
