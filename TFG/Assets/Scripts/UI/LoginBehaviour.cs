@@ -15,6 +15,8 @@ public class LoginBehaviour : MonoBehaviour
     [SerializeField]
     TMP_InputField usernameRegister;
     [SerializeField]
+    TMP_InputField classCodeRegister;
+    [SerializeField]
     TextMeshProUGUI ageRegisterText;
     private int age = 5;
     [SerializeField] GameObject usernameRegisterPanel;
@@ -47,9 +49,10 @@ public class LoginBehaviour : MonoBehaviour
 
     public void RegisterUsername()
     {
-        if (usernameRegister.text.Length > 0)
+        if (usernameRegister.text.Length > 0 && classCodeRegister.text.Length > 0)
         {
             PlayerData.Name = usernameRegister.text;
+            PlayerData.ClassCode = classCodeRegister.text;
             usernameRegisterPanel.SetActive(false);
             ageRegisterPanel.SetActive(true);
         }
