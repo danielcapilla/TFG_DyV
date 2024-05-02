@@ -9,7 +9,7 @@ public abstract class TeamInfo : ScriptableObject
     public List<ulong> integrantes = new List<ulong>();
     public int Puntuacion = 0;
 
-    public virtual TeamInfo clone() 
+    public virtual TeamInfo Clone() 
     {
         return (TeamInfo)ScriptableObject.CreateInstance<TeamInfo>(); ;
     }

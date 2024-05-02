@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
@@ -10,7 +11,13 @@ public class PlayerCarry : NetworkBehaviour
     private Transform CarryPosition;
     public bool isCarrying = false;
     public ICarryObject carryingObject {  get;  private set; }
-
+    [SerializeField]
+    private TeamMenager teamManager;
+    public override void OnNetworkSpawn()
+    {
+        base.OnNetworkSpawn();
+        teamManager = GameObject.Find("TeamManager").GetComponent<TeamMenager>();
+    }
     public void CarryObject(ICarryObject carryObject)
     {
         CarryObjectServerRPC(carryObject.GetNetworkObject());
@@ -50,8 +57,21 @@ public class PlayerCarry : NetworkBehaviour
 
         temp.GetGameObject().transform.parent = null;
     }
+    public override void OnNetworkDespawn()
+    {
+        if(carryingObject != null   )
+        {
+            foreach (ICarryObject objToDestroy in carryingObject.GetGameObject().transform.GetComponentsInChildren<ICarryObject>())
+            {
+                objToDestroy.GetNetworkObject().Despawn();
+            }
+        }
+        teamManager.QuitPlayerFromTheTeamServerRPC(OwnerClientId, gameObject.GetComponent<PlayerStats>().idGrupo.Value);        
+    }
     public NetworkObject GetNetworkObject()
     {
         return NetworkObject;
     }
+
+
 }

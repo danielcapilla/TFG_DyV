@@ -3,30 +3,48 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
 using UnityEngine.SceneManagement;
+using System;
 
 public class PlayerSpawner : NetworkBehaviour
 {
     [SerializeField]
     private GameObject playerPrefab;
+
+    private LateJoinsBehaviour lateJoinsBehaviour;
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
+        
         if (IsServer)
         {
             NetworkManager.Singleton.SceneManager.OnLoadEventCompleted += SceneLoaded;
+            NetworkManager.Singleton.SceneManager.OnUnload += UnSceceLoaded;
+            lateJoinsBehaviour = FindObjectOfType<LateJoinsBehaviour>();
         }
 
     }
 
-    private void SceneLoaded(string sceneName, LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
+    private void UnSceceLoaded(ulong clientId, string sceneName, AsyncOperation asyncOperation)
     {
-
         if (IsServer && sceneName == "MinijuegoRestaurante")
         {
-            Debug.Log("TETAS");
+            lateJoinsBehaviour.aprovedConection = true;
+            foreach (ulong id in NetworkManager.ConnectedClientsIds)
+            {
+                NetworkObject playerNetworkObject = NetworkManager.Singleton.ConnectedClients[id].PlayerObject.transform.GetChild(0).GetComponent<NetworkObject>();
+                playerNetworkObject.Despawn(true);
+            }
+        }
+    }
+
+    private void SceneLoaded(string sceneName, LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
+    {
+        if (IsServer && sceneName == "MinijuegoRestaurante")
+        {
+            lateJoinsBehaviour.aprovedConection = false;
             foreach (ulong id in clientsCompleted)
             {
-                Debug.Log($"Id generado... {id}");
+               
                 //Pongos los fighters como hijos del player
                 //arrayPlayers[id].GetComponent<PlayerNetworkConfig>().InstantiateCharacterServerRpc(id);
                 GameObject playerGameObject = Instantiate(playerPrefab);
@@ -44,5 +62,7 @@ public class PlayerSpawner : NetworkBehaviour
         base.OnNetworkDespawn();
         if (!IsServer) return;
         NetworkManager.Singleton.SceneManager.OnLoadEventCompleted -= SceneLoaded;
+        NetworkManager.Singleton.SceneManager.OnUnload -= UnSceceLoaded;
+
     }
 }
