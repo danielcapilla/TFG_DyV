@@ -90,9 +90,4 @@ public class LobbyManager : NetworkBehaviour
 
     }
 
-    public void IrAJuego()
-    {
-
-        NetworkManager.Singleton.SceneManager.LoadScene("MinijuegoRestaurante", LoadSceneMode.Single);
-    }
 }

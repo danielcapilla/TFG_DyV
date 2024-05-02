@@ -28,9 +28,9 @@ public class LateJoinsBehaviour :NetworkBehaviour
         
     }
 
-    public override void OnDestroy()
+    public override void OnNetworkDespawn()
     {
-        base.OnDestroy();
+        base.OnNetworkDespawn();
         if (!IsServer) return;
         NetworkManager.Singleton.ConnectionApprovalCallback -= ApprovalCheck;
     }
