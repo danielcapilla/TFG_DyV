@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 using Unity.Netcode;
 using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
 
 public class TeamMenager : NetworkBehaviour
 {
@@ -45,7 +46,19 @@ public class TeamMenager : NetworkBehaviour
         if (allClientsReady)
         {
             DesactivateGroupCanvasClientRPC();
+            foreach (ulong playerId in NetworkManager.ConnectedClientsIds)
+            {
+                PlayerInput playerInput = NetworkManager.ConnectedClients[playerId].PlayerObject.GetComponentInChildren<PlayerInput>();
+                ActivatePlayerInputClientRPC(playerInput.GetComponent<NetworkObject>());
+            }
         }
+    }
+    [ClientRpc]
+    private void ActivatePlayerInputClientRPC(NetworkObjectReference playerInputNetworkObjectReference)
+    {
+        playerInputNetworkObjectReference.TryGet(out NetworkObject playerInputNetworkObject);
+        PlayerController playerController = playerInputNetworkObject.GetComponent<PlayerController>();
+        playerController.enabled = true;
     }
     [ClientRpc]
     public void DesactivateGroupCanvasClientRPC()

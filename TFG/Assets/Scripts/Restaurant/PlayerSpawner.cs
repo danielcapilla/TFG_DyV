@@ -4,6 +4,7 @@ using UnityEngine;
 using Unity.Netcode;
 using UnityEngine.SceneManagement;
 using System;
+using UnityEngine.InputSystem;
 
 public class PlayerSpawner : NetworkBehaviour
 {
@@ -50,13 +51,21 @@ public class PlayerSpawner : NetworkBehaviour
                 GameObject playerGameObject = Instantiate(playerPrefab);
                 playerGameObject.GetComponent<NetworkObject>().SpawnWithOwnership(id);
                 playerGameObject.transform.SetParent(NetworkManager.Singleton.ConnectedClients[id].PlayerObject.transform, false);
+                DesactivateMovementClientRPC(playerGameObject.GetComponent<NetworkObject>());
                 //NetworkManager.Singleton.ConnectedClients[id].PlayerObject;
                 //PlayerNetworkConfig.Instance.InstantiateCharacterServerRpc(id);
                 //player.transform.SetParent(transform, false);
             }
         }
     }
+    [ClientRpc]
+    private void DesactivateMovementClientRPC(NetworkObjectReference playerNetworkObjectReference)
+    {
+        playerNetworkObjectReference.TryGet(out NetworkObject playerNetworkObject);
+        PlayerController playerController = playerNetworkObject.GetComponent<PlayerController>();
 
+        playerController.enabled = false;
+    }
     public override void OnNetworkDespawn()
     {
         base.OnNetworkDespawn();
