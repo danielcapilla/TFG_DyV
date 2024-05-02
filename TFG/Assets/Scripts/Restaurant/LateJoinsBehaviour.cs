@@ -27,11 +27,12 @@ public class LateJoinsBehaviour :NetworkBehaviour
         //NetworkManager.Singleton.NetworkConfig.ConnectionApproval = true;
         
     }
-    private void OnDestroy()
+
+    public override void OnDestroy()
     {
+        base.OnDestroy();
         if (!IsServer) return;
         NetworkManager.Singleton.ConnectionApprovalCallback -= ApprovalCheck;
-
     }
 
     private void ApprovalCheck(NetworkManager.ConnectionApprovalRequest request, NetworkManager.ConnectionApprovalResponse response)
