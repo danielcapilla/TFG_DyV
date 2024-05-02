@@ -7,12 +7,13 @@ using UnityEngine.SceneManagement;
 public class Countdown : NetworkBehaviour
 {
     float tiempo;
-    public NetworkVariable<bool> timeStarted = new();
+    public NetworkVariable<bool> timeStarted = new(default, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     [SerializeField] TextMeshProUGUI GUI;
+
     //private LateJoinsBehaviour lateJoinsBehaviour;
     private void Start()
     {
-        tiempo = 10.0f;
+        tiempo = 3.0f;
         timeStarted.Value = false;
         //lateJoinsBehaviour = FindObjectOfType<LateJoinsBehaviour>();
     }
@@ -32,20 +33,20 @@ public class Countdown : NetworkBehaviour
     }
 
     private void FixedUpdate()
-    {
+    {       
+                        
         //Usando solo una llamada Rpc, nos ahorramos una variable compartida
-        if(!timeStarted.Value) { return; }
+        if (!timeStarted.Value) { return; }
         tiempo -= Time.fixedDeltaTime;
         GUI.text = ((int)tiempo).ToString();
         if (tiempo <= 0)
         {
-            
             if(IsServer )
             {
                 //lateJoinsBehaviour.aprovedConection = true;
                 NetworkManager.Singleton.SceneManager.LoadScene("Lobby", LoadSceneMode.Single);
             }
-        }
+        }             
 
     }
 

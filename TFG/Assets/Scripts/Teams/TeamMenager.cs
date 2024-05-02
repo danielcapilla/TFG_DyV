@@ -15,8 +15,9 @@ public class TeamMenager : NetworkBehaviour
     private Dictionary<ulong, bool> playerReadyDictionary;
     [SerializeField]
     private GameObject groupCanvas;
+    [SerializeField]
+    private Countdown countdown;
     
-    // Start is called before the first frame update
     void Start()
     {
         playerReadyDictionary = new Dictionary<ulong, bool>();
@@ -46,6 +47,7 @@ public class TeamMenager : NetworkBehaviour
         if (allClientsReady)
         {
             DesactivateGroupCanvasClientRPC();
+            countdown.CambiarVariable();
             foreach (ulong playerId in NetworkManager.ConnectedClientsIds)
             {
                 PlayerInput playerInput = NetworkManager.ConnectedClients[playerId].PlayerObject.GetComponentInChildren<PlayerInput>();
