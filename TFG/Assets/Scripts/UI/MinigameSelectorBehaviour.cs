@@ -17,6 +17,8 @@ public class MinigameSelectorBehaviour : NetworkBehaviour
     [SerializeField] string selectedGame;
     [SerializeField] GameObject PlayButton;
 
+    Button selectedButton;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -54,5 +56,15 @@ public class MinigameSelectorBehaviour : NetworkBehaviour
         {
             NetworkManager.Singleton.SceneManager.LoadScene(selectedGame, LoadSceneMode.Single);
         }
+    }
+
+    public void SelectButton(Button pressedButton) 
+    {
+        if (selectedButton != null) 
+        {
+            selectedButton.interactable = true;
+        }
+        selectedButton = pressedButton;
+        selectedButton.interactable = false;
     }
 }
