@@ -21,9 +21,13 @@ public class LoginBehaviour : MonoBehaviour
     private int age = 5;
     [SerializeField] GameObject usernameRegisterPanel;
     [SerializeField] GameObject ageRegisterPanel;
+    [SerializeField] GameObject roleRegisterPanel;
+    [SerializeField] GameObject GenderRegisterPanel;
     [SerializeField] TextMeshProUGUI usernameRegisterErrorText;
     private bool isGenderSet = false;
+    private bool isRoleSet = false;
     [SerializeField] TextMeshProUGUI genderRegisterErrorText;
+    [SerializeField] TextMeshProUGUI roleRegisterErrorText;
 
 
     private void Start()
@@ -80,6 +84,33 @@ public class LoginBehaviour : MonoBehaviour
             PlayerData.Gender = "Male";
         }
         isGenderSet = true;
+    }
+
+
+    public void SetRole(int role)
+    {
+        if (role == 0)
+        {
+            PlayerData.Role = "Teacher";
+        }
+        else if (role == 1)
+        {
+            PlayerData.Role = "Student";
+        }
+        isRoleSet = true;
+    }
+
+    public void AdvanceToGenderSelector() 
+    {
+        if (isRoleSet)
+        {
+            roleRegisterPanel.SetActive(false);
+            GenderRegisterPanel.SetActive(true);
+        }
+        else 
+        {
+            roleRegisterErrorText.gameObject.SetActive(true);
+        }
     }
 
     public void RegisterPlayer() 
