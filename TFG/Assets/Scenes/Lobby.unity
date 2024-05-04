@@ -332,6 +332,19 @@ MonoBehaviour:
           m_StringArgument: host
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1445284402}
+        m_TargetAssemblyTypeName: UnityEngine.Localization.Components.LocalizeStringEvent,
+          Unity.Localization
+        m_MethodName: SetEntry
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: host
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 1509598238}
         m_TargetAssemblyTypeName: MinigameSelectorBehaviour, Assembly-CSharp
         m_MethodName: SelectGame
@@ -342,6 +355,18 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: MinijuegoRestaurante
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1509598238}
+        m_TargetAssemblyTypeName: MinigameSelectorBehaviour, Assembly-CSharp
+        m_MethodName: ChangeImage
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 1509598238}
@@ -2567,8 +2592,10 @@ MonoBehaviour:
   minigameSelectorPanel: {fileID: 854982457}
   time: 1
   startPos: {x: 0, y: 0, z: 0}
-  GameDescription: {fileID: 0}
-  gameImage: {fileID: 0}
+  gameImage: {fileID: 883596988}
+  minigameImages:
+  - {fileID: 21300000, guid: 2419763b959c0114080ab245411646c2, type: 3}
+  - {fileID: 21300000, guid: c83441f22b07a7343957defabedb4d18, type: 3}
   selectedGame: 
   PlayButton: {fileID: 1837622447}
 --- !u!1 &1612974577
@@ -2665,6 +2692,31 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: client
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1445284402}
+        m_TargetAssemblyTypeName: UnityEngine.Localization.Components.LocalizeStringEvent,
+          Unity.Localization
+        m_MethodName: SetEntry
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: client
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1509598238}
+        m_TargetAssemblyTypeName: MinigameSelectorBehaviour, Assembly-CSharp
+        m_MethodName: ChangeImage
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 1509598238}

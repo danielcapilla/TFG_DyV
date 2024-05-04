@@ -2,8 +2,8 @@ using UnityEngine;
 using DG.Tweening;
 using Unity.Netcode;
 using UnityEngine.SceneManagement;
-using TMPro;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class MinigameSelectorBehaviour : NetworkBehaviour
 {
@@ -11,8 +11,8 @@ public class MinigameSelectorBehaviour : NetworkBehaviour
     [SerializeField] float time;
     [SerializeField] Vector3 startPos;
 
-    [SerializeField] TextMeshProUGUI GameDescription;
     [SerializeField] Image gameImage;
+    [SerializeField] List<Sprite> minigameImages;
 
     [SerializeField] string selectedGame;
     [SerializeField] GameObject PlayButton;
@@ -66,5 +66,10 @@ public class MinigameSelectorBehaviour : NetworkBehaviour
         }
         selectedButton = pressedButton;
         selectedButton.interactable = false;
+    }
+
+    public void ChangeImage(int id) 
+    {
+        gameImage.sprite = minigameImages[id];
     }
 }
