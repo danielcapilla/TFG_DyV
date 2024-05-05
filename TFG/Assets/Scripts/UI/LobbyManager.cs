@@ -73,9 +73,11 @@ public class LobbyManager : NetworkBehaviour
         UserNetworkConfig userNetwork = NetworkManager.Singleton.ConnectedClients[id].PlayerObject.gameObject.GetComponent<UserNetworkConfig>();
         //Cambiamos el nombre de la tarjetita por el introducido en el login
         tarjetita.tarjetitaNameNetworkVariable.Value = userNetwork.usernameNetworkVariable.Value;
+        tarjetita.profilePicIDNetworkVariable.Value = userNetwork.profilePicIDNetworkVariable.Value;
         //Para asegurarse de que el paso de nombre al user sucede antes que la tarjetita. 
         //Esto se hace sobre todo por la concurrencia y cuestiones de tiempo.
         userNetwork.usernameNetworkVariable.OnValueChanged += tarjetita.CambiarTarjetitaName;
+        userNetwork.profilePicIDNetworkVariable.OnValueChanged += tarjetita.CambiarProfilePic;
         //Asignamos la referencia del userNetwork en la tarjetita para desuscribir
         tarjetita.userNetworkConfig = userNetwork;
 
@@ -90,4 +92,9 @@ public class LobbyManager : NetworkBehaviour
 
     }
 
+    public void ExitLobby() 
+    {
+        NetworkManager.Singleton.Shutdown();
+        SceneManager.LoadScene("MainMenu");
+    }
 }

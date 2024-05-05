@@ -10,4 +10,5 @@ public static class PlayerData
     public static string Role;
 
     public static string ClassCode;
+    public static int ProfilePicID = 0;
 }

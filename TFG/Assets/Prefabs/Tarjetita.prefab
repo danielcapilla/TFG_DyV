@@ -181,8 +181,11 @@ MonoBehaviour:
         byte0059: 0
         byte0060: 0
         byte0061: 0
+  profilePicIDNetworkVariable:
+    m_InternalValue: 0
   userNetworkConfig: {fileID: 0}
   textMeshProUGUI: {fileID: 7310135407588720821}
+  image: {fileID: 493972575351414340}
 --- !u!1 &5555550730052750143
 GameObject:
   m_ObjectHideFlags: 0
