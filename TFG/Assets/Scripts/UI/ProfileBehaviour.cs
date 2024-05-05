@@ -24,4 +24,9 @@ public class ProfileBehaviour : MonoBehaviour
         PlayerData.ProfilePicID = id;
         image.sprite = imageList.ProfilePics[PlayerData.ProfilePicID];
     }
+
+    public void CloseProfilePicSelector() 
+    {
+        //Update data in DB
+    }
 }
