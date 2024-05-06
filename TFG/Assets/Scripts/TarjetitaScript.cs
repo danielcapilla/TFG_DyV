@@ -10,7 +10,7 @@ using UnityEngine.UI;
 public class TarjetitaScript : NetworkBehaviour
 {
     public NetworkVariable<FixedString64Bytes> tarjetitaNameNetworkVariable = new(default, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
-    public NetworkVariable<int> profilePicIDNetworkVariable = new(default, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+    public NetworkVariable<int> profilePicIDNetworkVariable = new(default, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
 
     public UserNetworkConfig userNetworkConfig;
     [SerializeField]
