@@ -29,7 +29,7 @@ public class PlayerSpawner : NetworkBehaviour
     {
         if (IsServer && sceneName == "MinijuegoRestaurante")
         {
-            lateJoinsBehaviour.aprovedConection = true;
+            //lateJoinsBehaviour.aprovedConection = true;
             foreach (ulong id in NetworkManager.ConnectedClientsIds)
             {
                 NetworkObject playerNetworkObject = NetworkManager.Singleton.ConnectedClients[id].PlayerObject.transform.GetChild(0).GetComponent<NetworkObject>();

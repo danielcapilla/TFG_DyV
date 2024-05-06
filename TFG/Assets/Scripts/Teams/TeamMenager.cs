@@ -20,9 +20,10 @@ public class TeamMenager : NetworkBehaviour
     
     void Start()
     {
-        playerReadyDictionary = new Dictionary<ulong, bool>();
-        if (!IsServer) return;
         
+        if (!IsServer) return;
+        DontDestroyOnLoad(gameObject);
+        playerReadyDictionary = new Dictionary<ulong, bool>();
         int totalTeams = maxPlayers / playersPerTeam;
         for (int i = 0; i < totalTeams; i++) 
         {

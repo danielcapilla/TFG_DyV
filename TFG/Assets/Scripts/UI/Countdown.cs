@@ -62,7 +62,7 @@ public class Countdown : NetworkBehaviour
             if (IsServer)
             {
                 //lateJoinsBehaviour.aprovedConection = true;
-                NetworkManager.Singleton.SceneManager.LoadScene("Lobby", LoadSceneMode.Single);
+                NetworkManager.Singleton.SceneManager.LoadScene("Podium", LoadSceneMode.Single);
             }
         }
     }
