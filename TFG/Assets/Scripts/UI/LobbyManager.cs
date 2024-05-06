@@ -11,8 +11,6 @@ public class LobbyManager : NetworkBehaviour
     [SerializeField]
     private TextMeshProUGUI joinCodeTMP;
     [SerializeField]
-    private GameObject button;
-    [SerializeField]
     private GameObject tarjetitaPrefab;
     [SerializeField]
     private GameObject layout;
@@ -21,10 +19,6 @@ public class LobbyManager : NetworkBehaviour
     {
         base.OnNetworkSpawn();
         ShowJoinCode();
-        if (!IsServer)
-        {
-            button.SetActive(false);
-        }
         if(IsServer)
         {
             NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
