@@ -5,6 +5,7 @@ using System;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using DG.Tweening;
+using System.Collections;
 
 public class Countdown : NetworkBehaviour
 {
@@ -48,44 +49,38 @@ public class Countdown : NetworkBehaviour
     }
 
     private void FixedUpdate()
-    {       
-                        
-        //Usando solo una llamada Rpc, nos ahorramos una variable compartida
+    {                         
         if (!timeStarted.Value) { return; }
-        
-        if(!regresiveTimerFinished)
+        if(!regresiveTimerFinished) { return; }
+        tiempo -= Time.fixedDeltaTime;
+        GUI.text = ((int)tiempo).ToString();
+        fill.fillAmount = tiempo / max;
+
+        if (tiempo <= 0)
         {
-            regresiveTime -= Time.fixedDeltaTime;
-            GUI.text = ((int)regresiveTime).ToString();
+            tiempo = 0;
+            if (IsServer)
+            {
+                //lateJoinsBehaviour.aprovedConection = true;
+                NetworkManager.Singleton.SceneManager.LoadScene("Lobby", LoadSceneMode.Single);
+            }
+        }
+    }
+    private IEnumerator RunTimer()
+    {
+
+        while (regresiveTime >= 0f)
+        {
+            GUI.text = (regresiveTime).ToString();
             OnScale();
-            if (regresiveTime <= 0)
-            {
-                regresiveTime = 0;
-                regresiveTimerFinished = true;
-            }
+            yield return new WaitForSeconds(1.3f); // Esperar un segundo antes de continuar
+            regresiveTime -= 1f; // Reducir el tiempo restante
         }
-        else
-        {
-            tiempo -= Time.fixedDeltaTime;
-            GUI.text = ((int)tiempo).ToString();
-            fill.fillAmount = tiempo / max;
-
-            if (tiempo <= 0)
-            {
-                tiempo = 0;
-                if (IsServer)
-                {
-                    //lateJoinsBehaviour.aprovedConection = true;
-                    NetworkManager.Singleton.SceneManager.LoadScene("Lobby", LoadSceneMode.Single);
-                }
-            }
-        }
-             
-
+        regresiveTimerFinished = true;
     }
     private void OnScale()
     {
-        GUI.transform.DOScale(scaleTo * 2, 0.5f).SetEase(Ease.InOutSine)
+        GUI.transform.DOScale(scaleTo, 0.5f).SetEase(Ease.InOutSine)
             .OnComplete(()=>
             {
                 GUI.transform.DOScale(originalScale, 0.5f)
@@ -95,5 +90,11 @@ public class Countdown : NetworkBehaviour
     public void CambiarVariable()
     {
         timeStarted.Value = true;
+        StartRegresiveCountdownClientRPC();
+    }
+    [ClientRpc]
+    private void StartRegresiveCountdownClientRPC()
+    {
+        StartCoroutine(RunTimer());
     }
 }
