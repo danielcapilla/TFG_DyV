@@ -23,7 +23,7 @@ public class MinigameSelectorBehaviour : NetworkBehaviour
     void Start()
     {
         startPos = minigameSelectorPanel.transform.localPosition;
-        if (IsClient) 
+        if (!IsServer) 
         {
             PlayButton.SetActive(false);
         }
