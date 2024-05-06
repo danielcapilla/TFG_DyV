@@ -3,17 +3,24 @@ using TMPro;
 using Unity.Netcode;
 using System;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class Countdown : NetworkBehaviour
 {
-    float tiempo;
+    [SerializeField]
+    private float tiempo;
     public NetworkVariable<bool> timeStarted = new(default, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
-    [SerializeField] TextMeshProUGUI GUI;
+    [SerializeField]
+    private TextMeshProUGUI GUI;
+    [SerializeField]
+    private float max;
+    [SerializeField]
+    private Image fill;
 
     //private LateJoinsBehaviour lateJoinsBehaviour;
     private void Start()
     {
-        tiempo = 3.0f;
+        //tiempo = 3.0f;
         timeStarted.Value = false;
         //lateJoinsBehaviour = FindObjectOfType<LateJoinsBehaviour>();
     }
@@ -39,9 +46,12 @@ public class Countdown : NetworkBehaviour
         if (!timeStarted.Value) { return; }
         tiempo -= Time.fixedDeltaTime;
         GUI.text = ((int)tiempo).ToString();
+        fill.fillAmount = tiempo / max;
+
         if (tiempo <= 0)
         {
-            if(IsServer )
+            tiempo = 0;
+            if (IsServer )
             {
                 //lateJoinsBehaviour.aprovedConection = true;
                 NetworkManager.Singleton.SceneManager.LoadScene("Lobby", LoadSceneMode.Single);
