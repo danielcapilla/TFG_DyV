@@ -9,6 +9,7 @@ using UnityEngine.SceneManagement;
 public class UserNetworkConfig : NetworkBehaviour
 {
     public NetworkVariable<FixedString64Bytes> usernameNetworkVariable = new(default, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+    public NetworkVariable<int> profilePicIDNetworkVariable = new(default, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
     public override void OnNetworkSpawn()
     {
@@ -16,6 +17,13 @@ public class UserNetworkConfig : NetworkBehaviour
         if (!IsOwner) return;
         usernameNetworkVariable.OnValueChanged += UpdateName;
         usernameNetworkVariable.Value = PlayerData.Name;
+        profilePicIDNetworkVariable.OnValueChanged += UpdateProfilePic;
+        profilePicIDNetworkVariable.Value = PlayerData.ProfilePicID;
+    }
+
+    private void UpdateProfilePic(int previousValue, int newValue)
+    {
+        profilePicIDNetworkVariable.Value = newValue;
     }
 
     private void UpdateName(FixedString64Bytes previousValue, FixedString64Bytes newValue)
@@ -23,6 +31,8 @@ public class UserNetworkConfig : NetworkBehaviour
         usernameNetworkVariable.Value = newValue;
         Debug.Log("User: "+ usernameNetworkVariable.Value);
     }
+
+
 
     public override void OnNetworkDespawn()
     {

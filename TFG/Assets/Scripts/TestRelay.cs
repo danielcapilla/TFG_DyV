@@ -30,7 +30,10 @@ public class TestRelay : MonoBehaviour
             Debug.Log("Signed in " + AuthenticationService.Instance.PlayerId);
         };
         //Se inicia la sesión de manera anónima
-        await AuthenticationService.Instance.SignInAnonymouslyAsync();
+        if (!AuthenticationService.Instance.IsSignedIn)
+        {
+            await AuthenticationService.Instance.SignInAnonymouslyAsync();
+        }
         
     }
     public async void CreateRelay()
