@@ -13,10 +13,10 @@ public class PodiumTarjetitaScript : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI score;
 
-    public void SetData(string position, string groupName, string score)
+    public void SetData(string position, string score)
     {
         this.position.text = position;
-        this.groupName.text = groupName;
+        //this.groupName.text = groupName;
         this.score.text = score;
     }
 }

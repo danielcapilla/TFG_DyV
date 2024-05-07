@@ -3,6 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.Localization;
+using UnityEngine.Localization.Components;
+using UnityEngine.Localization.Settings;
+using UnityEngine.Localization.SmartFormat.Extensions;
+using UnityEngine.Localization.SmartFormat.PersistentVariables;
 
 public class PodiumManager : NetworkBehaviour
 {
@@ -12,6 +17,9 @@ public class PodiumManager : NetworkBehaviour
     private GameObject podium;
     [SerializeField]
     private Transform panelVG;
+    [SerializeField]
+    private LocalizeStringEvent localizeStringEvent;
+
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
@@ -41,10 +49,19 @@ public class PodiumManager : NetworkBehaviour
     [ClientRpc]
     private void ShowPodiumClientRPC(int position, int groupId, int score)
     {
+        
         GameObject podiumGameObject = Instantiate(podium);
         podiumGameObject.transform.SetParent(panelVG);
         PodiumTarjetitaScript podiumScript = podiumGameObject.GetComponent<PodiumTarjetitaScript>();
-        podiumScript.SetData($"{position + 1}º", $"{groupId}", $"{score}");
+        localizeStringEvent = podiumGameObject.GetComponentInChildren<LocalizeStringEvent>();
+        var groupIdLocalizationString = localizeStringEvent.StringReference["groupId"] as IntVariable;
+        groupIdLocalizationString.Value = groupId;
+        //var positiondLocalizationString = localizeStringEvent.StringReference["position"] as IntVariable;
+        //positiondLocalizationString.Value = position;
+        //var scoreLocalizationString = localizeStringEvent.StringReference["score"] as IntVariable;
+        //scoreLocalizationString.Value = groupId;
+        //localizeStringEvent.StringReference.Arguments = new object[] { groupId};
+        podiumScript.SetData($"{position + 1}º", $"{score}");
     }
     public override void OnNetworkDespawn()
     {

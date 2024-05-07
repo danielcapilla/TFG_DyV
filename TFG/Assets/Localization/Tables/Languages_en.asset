@@ -16,7 +16,8 @@ MonoBehaviour:
     m_Code: en
   m_SharedData: {fileID: 11400000, guid: 1a1d6a68cf9a0fd4484609b20b2b3950, type: 2}
   m_Metadata:
-    m_Items: []
+    m_Items:
+    - rid: 2814509147925774342
   m_TableData:
   - m_Id: 1293239726080
     m_Localized: Create Room
@@ -30,6 +31,19 @@ MonoBehaviour:
     m_Localized: Order
     m_Metadata:
       m_Items: []
+  - m_Id: 15228512950038528
+    m_Localized: 'Group {groupId} '
+    m_Metadata:
+      m_Items:
+      - rid: 2814509147925774342
+  - m_Id: 15228512996175872
+    m_Localized: sdfgg
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 2814509147925774342
+      type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_Entries: 0030d878401a3600
