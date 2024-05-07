@@ -16,7 +16,6 @@ public class PodiumTarjetitaScript : MonoBehaviour
     public void SetData(string position, string score)
     {
         this.position.text = position;
-        //this.groupName.text = groupName;
         this.score.text = score;
     }
 }

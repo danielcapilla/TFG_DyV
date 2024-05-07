@@ -95,6 +95,7 @@ public class LobbyManager : NetworkBehaviour
     public void ExitLobby() 
     {
         NetworkManager.Singleton.Shutdown();
+        Destroy(NetworkManager.Singleton.gameObject);
         SceneManager.LoadScene("MainMenu");
     }
 }

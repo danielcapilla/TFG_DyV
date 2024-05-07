@@ -25,8 +25,8 @@ public class PodiumManager : NetworkBehaviour
         base.OnNetworkSpawn();
         if(!IsServer) return;
         NetworkManager.Singleton.SceneManager.OnUnload += UnSceceLoaded;
-        teamManager = FindObjectOfType<TeamMenager>();
-        lateJoinsBehaviour = FindObjectOfType<LateJoinsBehaviour>();
+        teamManager = FindFirstObjectByType<TeamMenager>();
+        lateJoinsBehaviour = FindFirstObjectByType<LateJoinsBehaviour>();
 
         ShowPodium();
     }
@@ -56,11 +56,6 @@ public class PodiumManager : NetworkBehaviour
         localizeStringEvent = podiumGameObject.GetComponentInChildren<LocalizeStringEvent>();
         var groupIdLocalizationString = localizeStringEvent.StringReference["groupId"] as IntVariable;
         groupIdLocalizationString.Value = groupId;
-        //var positiondLocalizationString = localizeStringEvent.StringReference["position"] as IntVariable;
-        //positiondLocalizationString.Value = position;
-        //var scoreLocalizationString = localizeStringEvent.StringReference["score"] as IntVariable;
-        //scoreLocalizationString.Value = groupId;
-        //localizeStringEvent.StringReference.Arguments = new object[] { groupId};
         podiumScript.SetData($"{position + 1}º", $"{score}");
     }
     public override void OnNetworkDespawn()

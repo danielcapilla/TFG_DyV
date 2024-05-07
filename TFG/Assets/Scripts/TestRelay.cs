@@ -18,6 +18,7 @@ public class TestRelay : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI showCode;
     public static string staticCode;
+    private LateJoinsBehaviour lateJoinsBehaviour;
     //Función asíncrona
     private async void Start()
     {
@@ -34,8 +35,14 @@ public class TestRelay : MonoBehaviour
         {
             await AuthenticationService.Instance.SignInAnonymouslyAsync();
         }
+        lateJoinsBehaviour = FindFirstObjectByType<LateJoinsBehaviour>();
+        if(lateJoinsBehaviour != null)
+        {
+            Destroy(lateJoinsBehaviour.gameObject);
+        }
         
     }
+    
     public async void CreateRelay()
     {
         try 
