@@ -37,6 +37,7 @@ public class MinigameSelectorBehaviour : NetworkBehaviour
 
     public void OpenPanel()
     {
+        Debug.Log("OpenPanel");
         minigameSelectorPanel.transform.DOLocalMove(Vector3.zero, time);
     }
 

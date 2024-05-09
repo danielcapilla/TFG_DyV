@@ -42,7 +42,7 @@ public class PlayerSpawner : NetworkBehaviour
     {
         if (IsServer && sceneName == "MinijuegoRestaurante")
         {
-            lateJoinsBehaviour.aprovedConection = false;
+            LateJoinsBehaviour.aprovedConection = false;
             foreach (ulong id in clientsCompleted)
             {
                

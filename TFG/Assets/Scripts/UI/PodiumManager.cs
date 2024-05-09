@@ -8,6 +8,7 @@ using UnityEngine.Localization.Components;
 using UnityEngine.Localization.Settings;
 using UnityEngine.Localization.SmartFormat.Extensions;
 using UnityEngine.Localization.SmartFormat.PersistentVariables;
+using UnityEngine.SceneManagement;
 
 public class PodiumManager : NetworkBehaviour
 {
@@ -30,10 +31,15 @@ public class PodiumManager : NetworkBehaviour
 
         ShowPodium();
     }
+    private void Start()
+    {
+        if (!IsServer) return;
+        NetworkManager.Singleton.SceneManager.LoadScene("Lobby", LoadSceneMode.Single);
+    }
     private void ShowPodium()
     {
         ShowPodiumServerRPC();
-        
+
         
     }
     [ServerRpc (RequireOwnership = false)]
@@ -45,6 +51,7 @@ public class PodiumManager : NetworkBehaviour
 
             ShowPodiumClientRPC(i, teamManager.teams[i].ID, teamManager.teams[i].Puntuacion);
         }
+        
     }
     [ClientRpc]
     private void ShowPodiumClientRPC(int position, int groupId, int score)
@@ -67,7 +74,7 @@ public class PodiumManager : NetworkBehaviour
     {
         if (IsServer && sceneName == "Podium")
         {
-            lateJoinsBehaviour.aprovedConection = true;
+            LateJoinsBehaviour.aprovedConection = true;
         }
     }
 }

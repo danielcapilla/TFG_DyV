@@ -7,12 +7,12 @@ using UnityEngine;
 public class LateJoinsBehaviour :NetworkBehaviour
 {
     
-    public bool aprovedConection = true;
+    public static bool aprovedConection = true;
 
-    public static GameObject Instance { get; private set; }
+    public static GameObject Instance { get; set; }
     private void Start()
     {
-        
+
         if (!IsServer) return;
         DontDestroyOnLoad(this.gameObject);
         if (Instance != null && Instance != this.gameObject)
@@ -24,8 +24,8 @@ public class LateJoinsBehaviour :NetworkBehaviour
             Instance = this.gameObject;
             NetworkManager.Singleton.ConnectionApprovalCallback += ApprovalCheck;
         }
-        //NetworkManager.Singleton.NetworkConfig.ConnectionApproval = true;
-        
+        NetworkManager.Singleton.NetworkConfig.ConnectionApproval = !aprovedConection;
+
     }
 
     public override void OnNetworkDespawn()
