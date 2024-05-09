@@ -14,10 +14,10 @@ public class LateJoinsBehaviour :NetworkBehaviour
     {
 
         if (!IsServer) return;
-        DontDestroyOnLoad(this.gameObject);
+        //DontDestroyOnLoad(this.gameObject);
         if (Instance != null && Instance != this.gameObject)
         {
-            Destroy(this.gameObject);
+            //Destroy(this.gameObject);
         }
         else
         {
