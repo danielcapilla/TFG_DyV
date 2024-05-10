@@ -34,7 +34,7 @@ public class PodiumManager : NetworkBehaviour
     private void Start()
     {
         if (!IsServer) return;
-        NetworkManager.Singleton.SceneManager.LoadScene("Lobby", LoadSceneMode.Single);
+        //NetworkManager.Singleton.SceneManager.LoadScene("Lobby", LoadSceneMode.Single);
     }
     private void ShowPodium()
     {
