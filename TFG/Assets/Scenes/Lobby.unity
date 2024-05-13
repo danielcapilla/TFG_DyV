@@ -2680,6 +2680,7 @@ GameObject:
   - component: {fileID: 1509598236}
   - component: {fileID: 1509598235}
   - component: {fileID: 1509598234}
+  - component: {fileID: 1509598239}
   - component: {fileID: 1509598238}
   m_Layer: 5
   m_Name: Canvas
@@ -2799,6 +2800,27 @@ MonoBehaviour:
   - {fileID: 21300000, guid: c83441f22b07a7343957defabedb4d18, type: 3}
   selectedGame: 
   PlayButton: {fileID: 1837622447}
+--- !u!114 &1509598239
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1509598233}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 2369654866
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!1 &1612974577
 GameObject:
   m_ObjectHideFlags: 0
@@ -4131,7 +4153,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   joinCodeTMP: {fileID: 358766735}
-  button: {fileID: 94843726}
   tarjetitaPrefab: {fileID: 3536284070991409544, guid: 084a746f46362d64a8b4d5eabf5662ac, type: 3}
   layout: {fileID: 500175588}
 --- !u!1 &3123008810397233930
