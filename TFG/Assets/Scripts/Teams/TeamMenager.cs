@@ -17,7 +17,6 @@ public class TeamMenager : NetworkBehaviour
     private GameObject groupCanvas;
     [SerializeField]
     private Countdown countdown;
-    
     void Start()
     {
         

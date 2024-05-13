@@ -9,6 +9,7 @@ using UnityEngine.Localization.Settings;
 using UnityEngine.Localization.SmartFormat.Extensions;
 using UnityEngine.Localization.SmartFormat.PersistentVariables;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class PodiumManager : NetworkBehaviour
 {
@@ -20,21 +21,19 @@ public class PodiumManager : NetworkBehaviour
     private Transform panelVG;
     [SerializeField]
     private LocalizeStringEvent localizeStringEvent;
+    [SerializeField]
+    private GameObject lobbyButton;
 
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
-        if(!IsServer) return;
+        lobbyButton.SetActive(IsServer);
+        if (!IsServer) return;
         NetworkManager.Singleton.SceneManager.OnUnload += UnSceceLoaded;
         teamManager = FindFirstObjectByType<TeamMenager>();
         lateJoinsBehaviour = FindFirstObjectByType<LateJoinsBehaviour>();
 
         ShowPodium();
-    }
-    private void Start()
-    {
-        if (!IsServer) return;
-        //NetworkManager.Singleton.SceneManager.LoadScene("Lobby", LoadSceneMode.Single);
     }
     private void ShowPodium()
     {
@@ -72,9 +71,15 @@ public class PodiumManager : NetworkBehaviour
     }
     private void UnSceceLoaded(ulong clientId, string sceneName, AsyncOperation asyncOperation)
     {
+        Destroy(teamManager.gameObject);
         if (IsServer && sceneName == "Podium")
         {
             LateJoinsBehaviour.aprovedConection = true;
         }
     }
+    public void ToLobby()
+    {
+        NetworkManager.Singleton.SceneManager.LoadScene("Lobby", LoadSceneMode.Single);
+    }
+
 }
