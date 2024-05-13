@@ -186,6 +186,7 @@ MonoBehaviour:
   userNetworkConfig: {fileID: 0}
   textMeshProUGUI: {fileID: 7310135407588720821}
   image: {fileID: 493972575351414340}
+  lobbyManager: {fileID: 2770377370693093251, guid: 45536e1e82bed8f479a5105b1041bf4a, type: 3}
 --- !u!1 &5555550730052750143
 GameObject:
   m_ObjectHideFlags: 0

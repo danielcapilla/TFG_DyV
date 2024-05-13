@@ -18,12 +18,12 @@ public class TarjetitaScript : NetworkBehaviour
     [SerializeField]
     private Image image;
 
-    private ProfileImageList lobbyManager;
+    public ProfileImageList lobbyManager;
 
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
-        lobbyManager = FindAnyObjectByType<ProfileImageList>();
+        //lobbyManager = FindAnyObjectByType<ProfileImageList>();
         //Se tiene que ver tanto en el server (original) como en el owner (clone)
         tarjetitaNameNetworkVariable.OnValueChanged += CambiarTarjetitaName;
         profilePicIDNetworkVariable.OnValueChanged += CambiarProfilePic;

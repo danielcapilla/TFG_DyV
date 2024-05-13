@@ -43,11 +43,16 @@ public class Pause : NetworkBehaviour
     }
     public void ExitGame()
     {
-        Time.timeScale = 1;
+        ExitGameClientRPC();
         LateJoinsBehaviour.aprovedConection = true;
         Destroy(teamMenager.gameObject);
-        DOTween.Clear(true);
         NetworkManager.Singleton.SceneManager.LoadScene("Lobby", LoadSceneMode.Single);
+    }
+    [ClientRpc]
+    private void ExitGameClientRPC()
+    {
+        Time.timeScale = 1;
+        DOTween.Clear(true);
     }
 
 }
