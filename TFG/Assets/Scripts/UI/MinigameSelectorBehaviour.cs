@@ -16,6 +16,7 @@ public class MinigameSelectorBehaviour : NetworkBehaviour
 
     [SerializeField] string selectedGame;
     [SerializeField] GameObject PlayButton;
+    [SerializeField] GameObject transparentPanel;
 
     Button selectedButton;
 
@@ -39,11 +40,13 @@ public class MinigameSelectorBehaviour : NetworkBehaviour
     {
         Debug.Log("OpenPanel");
         minigameSelectorPanel.transform.DOLocalMove(Vector3.zero, time);
+        transparentPanel.SetActive(true);
     }
 
     public void ClosePanel() 
     {
         minigameSelectorPanel.transform.DOLocalMove(startPos, time);
+        transparentPanel.SetActive(false);
     }
 
     public void SelectGame(string value) 
