@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using TMPro;
-using UnityEngine.SceneManagement;
+using UnityEngine;
 
 public class LoginBehaviour : MonoBehaviour
 {
@@ -29,21 +26,22 @@ public class LoginBehaviour : MonoBehaviour
     [SerializeField] TextMeshProUGUI genderRegisterErrorText;
     [SerializeField] TextMeshProUGUI roleRegisterErrorText;
 
+    [SerializeField] DataBaseCommander commander;
+
 
     private void Start()
     {
         ageRegisterText.text = age.ToString();
     }
 
-    public void Login() 
+    public void Login()
     {
         if (usernameLogin.text.Length > 0)
         {
             //Guardar info en la clase statica
-            PlayerData.Name = usernameLogin.text;
-            SceneManager.LoadScene("MainMenu");
+            commander.LoadGame(usernameLogin.text);
         }
-        else 
+        else
         {
             //Poner en rojo y avisar de que hay que introducir info en los campos
             errorText.gameObject.SetActive(true);
@@ -60,26 +58,26 @@ public class LoginBehaviour : MonoBehaviour
             usernameRegisterPanel.SetActive(false);
             ageRegisterPanel.SetActive(true);
         }
-        else 
+        else
         {
             usernameRegisterErrorText.gameObject.SetActive(true);
         }
     }
 
-    public void ChangeAge(int amount) 
+    public void ChangeAge(int amount)
     {
         age += amount;
         PlayerData.Age = age;
         ageRegisterText.text = age.ToString();
     }
 
-    public void SetGender(int gender) 
+    public void SetGender(int gender)
     {
         if (gender == 0)
         {
             PlayerData.Gender = "Female";
         }
-        else if (gender == 1) 
+        else if (gender == 1)
         {
             PlayerData.Gender = "Male";
         }
@@ -100,27 +98,28 @@ public class LoginBehaviour : MonoBehaviour
         isRoleSet = true;
     }
 
-    public void AdvanceToGenderSelector() 
+    public void AdvanceToGenderSelector()
     {
         if (isRoleSet)
         {
             roleRegisterPanel.SetActive(false);
             GenderRegisterPanel.SetActive(true);
         }
-        else 
+        else
         {
             roleRegisterErrorText.gameObject.SetActive(true);
         }
     }
 
-    public void RegisterPlayer() 
+    public void RegisterPlayer()
     {
         if (isGenderSet)
         {
             //Register
-            SceneManager.LoadScene("MainMenu");
+
+            commander.RegisterUser();
         }
-        else 
+        else
         {
             genderRegisterErrorText.gameObject.SetActive(true);
         }
