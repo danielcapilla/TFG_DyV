@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -11,9 +12,6 @@ public class DataBaseCommander : MonoBehaviour
     string UserDataTable = "UserData";
 
     string contentType = "application/json";
-
-    //TODO capture and display duplicate username error
-    //TODO capture and display username doesnt exist in db at login
 
     string CreateSaveJSON()
     {
@@ -35,60 +33,6 @@ public class DataBaseCommander : MonoBehaviour
         return json;
     }
 
-
-    IEnumerator SendPostRequest(string data)
-    {
-
-
-        using (UnityWebRequest www = UnityWebRequest.Post(url + "insert", data, contentType))
-        {
-            yield return www.SendWebRequest();
-
-            if (www.result != UnityWebRequest.Result.Success)
-            {
-                print("Error: " + www.error);
-            }
-            else
-            {
-                print("Respuesta: " + www.downloadHandler.text);
-            }
-        }
-    }
-
-    public void RegisterUser()
-    {
-        string json = CreateSaveJSON();
-        StartCoroutine(RegisterUserDB(json));
-    }
-
-    IEnumerator RegisterUserDB(string save)
-    {
-        Debug.Log(save);
-        using (UnityWebRequest www = UnityWebRequest.Post(url + "insert", save, contentType))
-        {
-            yield return www.SendWebRequest();
-
-            if (www.result != UnityWebRequest.Result.Success)
-            {
-                print("Error: " + www.error);
-                Debug.Log("Error info: " + www.result);
-                print("Respuesta: " + www.downloadHandler.text);
-            }
-            else
-            {
-                print("Respuesta: " + www.downloadHandler.text);
-                SceneManager.LoadScene("MainMenu");
-            }
-        }
-    }
-
-
-    public void LoadGame(string Username)
-    {
-        string json = CreateSelectJSON(Username);
-        StartCoroutine(LoadGameDB(json));
-    }
-
     string CreateSelectJSON(string username)
     {
         string json = $@"{{
@@ -103,7 +47,49 @@ public class DataBaseCommander : MonoBehaviour
         return json;
     }
 
-    IEnumerator LoadGameDB(string filter)
+    public void RegisterUser(Action<int> FailCallback)
+    {
+        string json = CreateSaveJSON();
+        StartCoroutine(RegisterUserDB(json, FailCallback));
+    }
+
+    IEnumerator RegisterUserDB(string save, Action<int> FailCallback)
+    {
+        Debug.Log(save);
+        using (UnityWebRequest www = UnityWebRequest.Post(url + "insert", save, contentType))
+        {
+            yield return www.SendWebRequest();
+
+            if (www.result != UnityWebRequest.Result.Success)
+            {
+                print("Error: " + www.error);
+                Debug.Log("Error info: " + www.result);
+                print("Respuesta: " + www.downloadHandler.text);
+
+                if (www.result == UnityWebRequest.Result.ProtocolError)
+                {
+                    FailCallback(0);
+                }
+                else
+                {
+                    FailCallback(1);
+                }
+            }
+            else
+            {
+                print("Respuesta: " + www.downloadHandler.text);
+                SceneManager.LoadScene("MainMenu");
+            }
+        }
+    }
+
+    public void LoadGame(string Username, Action<int> FailCallback)
+    {
+        string json = CreateSelectJSON(Username);
+        StartCoroutine(LoadGameDB(json, FailCallback));
+    }
+
+    IEnumerator LoadGameDB(string filter, Action<int> FailCallback)
     {
         using (UnityWebRequest www = UnityWebRequest.Post(url + "get", filter, contentType))
         {
@@ -112,6 +98,7 @@ public class DataBaseCommander : MonoBehaviour
             if (www.result != UnityWebRequest.Result.Success)
             {
                 print("Error: " + www.error);
+                FailCallback(1);
             }
             else
             {
@@ -131,6 +118,71 @@ public class DataBaseCommander : MonoBehaviour
 
                     SceneManager.LoadScene("MainMenu");
                 }
+                else
+                {
+                    FailCallback(0);
+                }
+            }
+        }
+    }
+
+
+    public void SaveGame()
+    {
+        string json = CreateSaveJSON();
+        string delete = CreateSelectJSON(PlayerData.Name);
+        StartCoroutine(SaveGameDB(delete, json));
+    }
+
+    IEnumerator SaveGameDB(string delete, string save)
+    {
+        //Delete previous save
+        using (UnityWebRequest www = UnityWebRequest.Post(url + "delete", delete, contentType))
+        {
+            yield return www.SendWebRequest();
+
+            if (www.result != UnityWebRequest.Result.Success)
+            {
+                print("Error: " + www.error);
+            }
+            else
+            {
+                print("Respuesta: " + www.downloadHandler.text);
+            }
+        }
+
+
+        //Upload new save
+        using (UnityWebRequest www = UnityWebRequest.Post(url + "insert", save, contentType))
+        {
+            yield return www.SendWebRequest();
+
+            if (www.result != UnityWebRequest.Result.Success)
+            {
+                print("Error: " + www.error);
+            }
+            else
+            {
+                print("Respuesta: " + www.downloadHandler.text);
+            }
+        }
+    }
+
+    IEnumerator SendPostRequest(string data)
+    {
+
+
+        using (UnityWebRequest www = UnityWebRequest.Post(url + "insert", data, contentType))
+        {
+            yield return www.SendWebRequest();
+
+            if (www.result != UnityWebRequest.Result.Success)
+            {
+                print("Error: " + www.error);
+            }
+            else
+            {
+                print("Respuesta: " + www.downloadHandler.text);
             }
         }
     }

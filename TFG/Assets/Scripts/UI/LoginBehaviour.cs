@@ -6,7 +6,6 @@ public class LoginBehaviour : MonoBehaviour
     [Header("Login")]
     [SerializeField]
     TMP_InputField usernameLogin;
-    [SerializeField] TextMeshProUGUI errorText;
 
     [Header("Register")]
     [SerializeField]
@@ -20,11 +19,17 @@ public class LoginBehaviour : MonoBehaviour
     [SerializeField] GameObject ageRegisterPanel;
     [SerializeField] GameObject roleRegisterPanel;
     [SerializeField] GameObject GenderRegisterPanel;
-    [SerializeField] TextMeshProUGUI usernameRegisterErrorText;
+
     private bool isGenderSet = false;
     private bool isRoleSet = false;
-    [SerializeField] TextMeshProUGUI genderRegisterErrorText;
-    [SerializeField] TextMeshProUGUI roleRegisterErrorText;
+    [Header("Error Texts")]
+    [SerializeField] TextMeshProUGUI MissingFieldsErrorText;
+    [SerializeField] TextMeshProUGUI UsernameRegisterErrorText;
+    [SerializeField] TextMeshProUGUI GenderRegisterErrorText;
+    [SerializeField] TextMeshProUGUI RoleRegisterErrorText;
+    [SerializeField] TextMeshProUGUI DBErrorText;
+    [SerializeField] TextMeshProUGUI UserNotFoundErrorText;
+    [SerializeField] TextMeshProUGUI UserAlreadyExistsErrorText;
 
     [SerializeField] DataBaseCommander commander;
 
@@ -34,17 +39,45 @@ public class LoginBehaviour : MonoBehaviour
         ageRegisterText.text = age.ToString();
     }
 
+    public void HideErrorTexts()
+    {
+        MissingFieldsErrorText.gameObject.SetActive(false);
+        UsernameRegisterErrorText.gameObject.SetActive(false);
+        UserAlreadyExistsErrorText.gameObject.SetActive(false);
+        GenderRegisterErrorText.gameObject.SetActive(false);
+        RoleRegisterErrorText.gameObject.SetActive(false);
+        DBErrorText.gameObject.SetActive(false);
+        UserNotFoundErrorText.gameObject.SetActive(false);
+        UserAlreadyExistsErrorText.gameObject.SetActive(false);
+    }
+
     public void Login()
     {
+        HideErrorTexts();
         if (usernameLogin.text.Length > 0)
         {
             //Guardar info en la clase statica
-            commander.LoadGame(usernameLogin.text);
+            commander.LoadGame(usernameLogin.text, LoginError);
         }
         else
         {
             //Poner en rojo y avisar de que hay que introducir info en los campos
-            errorText.gameObject.SetActive(true);
+            MissingFieldsErrorText.gameObject.SetActive(true);
+        }
+    }
+
+    public void LoginError(int error)
+    {
+        if (error == 0)
+        {
+            //Error lo que has buscado no existe
+            Debug.Log("No hay usuario");
+            UserNotFoundErrorText.gameObject.SetActive(true);
+        }
+        else if (error == 1)
+        {
+            //La BD ha petado por algo
+            DBErrorText.gameObject.SetActive(true);
         }
     }
 
@@ -60,7 +93,7 @@ public class LoginBehaviour : MonoBehaviour
         }
         else
         {
-            usernameRegisterErrorText.gameObject.SetActive(true);
+            UsernameRegisterErrorText.gameObject.SetActive(true);
         }
     }
 
@@ -107,21 +140,36 @@ public class LoginBehaviour : MonoBehaviour
         }
         else
         {
-            roleRegisterErrorText.gameObject.SetActive(true);
+            RoleRegisterErrorText.gameObject.SetActive(true);
         }
     }
 
     public void RegisterPlayer()
     {
+        HideErrorTexts();
         if (isGenderSet)
         {
             //Register
-
-            commander.RegisterUser();
+            commander.RegisterUser(RegisterError);
         }
         else
         {
-            genderRegisterErrorText.gameObject.SetActive(true);
+            GenderRegisterErrorText.gameObject.SetActive(true);
+        }
+    }
+
+    public void RegisterError(int error)
+    {
+        if (error == 0)
+        {
+            //Este usuario ya existe
+            Debug.Log("Este usuario ya existe");
+            UserAlreadyExistsErrorText.gameObject.SetActive(true);
+        }
+        else if (error == 1)
+        {
+            //Other unkown error
+            DBErrorText.gameObject.SetActive(true);
         }
     }
 }
