@@ -13,6 +13,7 @@ public class CommandSpawner : MonoBehaviour
     [SerializeField] 
     public List<Sprite> Codes;
     private GameObject instance;
+    
     //[SerializeField]
     //private UIInventoryItem itemPrefab;
 
@@ -24,7 +25,6 @@ public class CommandSpawner : MonoBehaviour
 
     //[SerializeField]
     //private MouseFollower mouseFollower;
-
 
     public void SpawnRecipes(List<List<IngredientsScriptableObject>> recipes, Dictionary<IngredientsScriptableObject, int> codes)
     {

@@ -17,7 +17,6 @@ public class MinigameSelectorBehaviour : NetworkBehaviour
     [SerializeField] string selectedGame;
     [SerializeField] GameObject PlayButton;
     [SerializeField] GameObject transparentPanel;
-
     Button selectedButton;
 
     // Start is called before the first frame update

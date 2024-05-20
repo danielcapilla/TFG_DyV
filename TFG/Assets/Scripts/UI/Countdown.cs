@@ -31,6 +31,8 @@ public class Countdown : NetworkBehaviour
     [SerializeField]
     private LocalizedStringTable LocalizedStringTable;
 
+    public EventHandler OnRegresiveTimerFinished;
+
     private void Start()
     {
         //tiempo = 3.0f;
@@ -88,6 +90,7 @@ public class Countdown : NetworkBehaviour
         }
         preGUI.text = "";
         regresiveTimerFinished = true;
+        OnRegresiveTimerFinished?.Invoke(this, EventArgs.Empty);
     }
     private void OnScale(Transform gui)
     {

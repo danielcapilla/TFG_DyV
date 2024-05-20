@@ -16,10 +16,13 @@ public class RecipeRandomizer : NetworkBehaviour
 
     CommandSpawner commandSpawner;
 
+    private Countdown countdown;
 
     public override void OnNetworkSpawn()
     {
         commandSpawner = GetComponent<CommandSpawner>();
+        countdown = GetComponent<Countdown>();
+        countdown.OnRegresiveTimerFinished += SpawnRestaurantUI;
         randomSeed.OnValueChanged += SetRandomSeed;
         
         if (IsServer || IsHost)
@@ -30,17 +33,21 @@ public class RecipeRandomizer : NetworkBehaviour
         {
             Random.InitState(randomSeed.Value);
         }
+    }
 
-        
+    private void SpawnRestaurantUI(object sender, System.EventArgs e)
+    {
         RandomizeIngredients();
         GenerateRandomRecipes();
         commandSpawner.SpawnRecipes(recipes, pairedIngredients);
         GenerateRandomOrder();
     }
+
     public override void OnNetworkDespawn()
     {
         base.OnNetworkDespawn();
         randomSeed.OnValueChanged -= SetRandomSeed;
+        countdown.OnRegresiveTimerFinished -= SpawnRestaurantUI;
     }
     private void SetRandomSeed(int current, int newValue)
     {
