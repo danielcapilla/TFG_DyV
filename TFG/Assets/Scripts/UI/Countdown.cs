@@ -6,6 +6,8 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using DG.Tweening;
 using System.Collections;
+using UnityEngine.Localization.Components;
+using UnityEngine.Localization.SmartFormat.PersistentVariables;
 
 public class Countdown : NetworkBehaviour
 {
@@ -17,13 +19,16 @@ public class Countdown : NetworkBehaviour
     [SerializeField]
     private TextMeshProUGUI GUI;
     [SerializeField]
+    private TextMeshProUGUI preGUI;
+    [SerializeField]
     private float max;
     [SerializeField]
     private Image fill;
     private bool regresiveTimerFinished = false;
     private Vector3 originalScale;
     private Vector3 scaleTo;
-
+    [SerializeField]
+    private LocalizeStringEvent localizeStringEvent;
     //private LateJoinsBehaviour lateJoinsBehaviour;
     private void Start()
     {
@@ -69,21 +74,32 @@ public class Countdown : NetworkBehaviour
     private IEnumerator RunTimer()
     {
 
-        while (regresiveTime >= 0f)
+        while (regresiveTime > 0f)
         {
-            GUI.text = (regresiveTime).ToString();
+            preGUI.text = (regresiveTime).ToString();
             OnScale();
             yield return new WaitForSeconds(1.3f); // Esperar un segundo antes de continuar
             regresiveTime -= 1f; // Reducir el tiempo restante
         }
+        if (regresiveTime == 0f)
+        {
+            localizeStringEvent = podiumGameObject.GetComponentInChildren<LocalizeStringEvent>();
+            var groupIdLocalizationString = localizeStringEvent.StringReference["groupId"] as IntVariable;
+            groupIdLocalizationString.Value = groupId;
+            preGUI.text = "YA!";
+            OnScale();
+            yield return new WaitForSeconds(1.3f);
+            regresiveTime -= 1f; // Reducir el tiempo restante
+        }
+        preGUI.text = "";
         regresiveTimerFinished = true;
     }
     private void OnScale()
     {
-        GUI.transform.DOScale(scaleTo, 0.5f).SetEase(Ease.InOutSine)
+        preGUI.transform.DOScale(scaleTo, 0.5f).SetEase(Ease.InOutSine)
             .OnComplete(()=>
             {
-                GUI.transform.DOScale(originalScale, 0.5f)
+                preGUI.transform.DOScale(originalScale, 0.5f)
                 .SetEase(Ease.InOutSine);
             });
     }
