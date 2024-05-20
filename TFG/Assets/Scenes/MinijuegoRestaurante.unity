@@ -14402,7 +14402,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 31.74768, y: 57.271606}
+  m_AnchoredPosition: {x: 31.747559, y: 57.271606}
   m_SizeDelta: {x: -1138.729, y: -239.27301}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &471294226
@@ -18227,7 +18227,6 @@ GameObject:
   - component: {fileID: 589315832}
   - component: {fileID: 589315834}
   - component: {fileID: 589315833}
-  - component: {fileID: 589315835}
   m_Layer: 5
   m_Name: PreCountdown
   m_TagString: Untagged
@@ -18351,34 +18350,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 589315831}
   m_CullTransparentMesh: 1
---- !u!114 &589315835
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 589315831}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56eb0353ae6e5124bb35b17aff880f16, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_StringReference:
-    m_TableReference:
-      m_TableCollectionName: 
-    m_TableEntryReference:
-      m_KeyId: 0
-      m_Key: 
-    m_FallbackState: 0
-    m_WaitForCompletion: 0
-    m_LocalVariables: []
-  m_FormatArguments: []
-  m_UpdateString:
-    m_PersistentCalls:
-      m_Calls: []
-  references:
-    version: 2
-    RefIds: []
 --- !u!1 &590774404
 GameObject:
   m_ObjectHideFlags: 0
@@ -42797,6 +42768,9 @@ MonoBehaviour:
   preGUI: {fileID: 589315833}
   max: 10
   fill: {fileID: 6847456495830495642}
+  LocalizedStringTable:
+    m_TableReference:
+      m_TableCollectionName: GUID:1a1d6a68cf9a0fd4484609b20b2b3950
 --- !u!1001 &1199925394
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -8,6 +8,7 @@ using DG.Tweening;
 using System.Collections;
 using UnityEngine.Localization.Components;
 using UnityEngine.Localization.SmartFormat.PersistentVariables;
+using UnityEngine.Localization;
 
 public class Countdown : NetworkBehaviour
 {
@@ -28,21 +29,19 @@ public class Countdown : NetworkBehaviour
     private Vector3 originalScale;
     private Vector3 scaleTo;
     [SerializeField]
-    private LocalizeStringEvent localizeStringEvent;
-    //private LateJoinsBehaviour lateJoinsBehaviour;
+    private LocalizedStringTable LocalizedStringTable;
+
     private void Start()
     {
         //tiempo = 3.0f;
         timeStarted.Value = false;
         originalScale = GUI.transform.localScale;
         scaleTo = originalScale * 1.5f;
-        //lateJoinsBehaviour = FindObjectOfType<LateJoinsBehaviour>();
     }
 
     public override void OnNetworkSpawn()
     {
         timeStarted.OnValueChanged += ComprobarTimeStarted;
-
     }
     public override void OnNetworkDespawn()
     {
@@ -66,7 +65,6 @@ public class Countdown : NetworkBehaviour
             tiempo = 0;
             if (IsServer)
             {
-                //lateJoinsBehaviour.aprovedConection = true;
                 NetworkManager.Singleton.SceneManager.LoadScene("Podium", LoadSceneMode.Single);
             }
         }
@@ -77,29 +75,26 @@ public class Countdown : NetworkBehaviour
         while (regresiveTime > 0f)
         {
             preGUI.text = (regresiveTime).ToString();
-            OnScale();
+            OnScale(preGUI.transform);
             yield return new WaitForSeconds(1.3f); // Esperar un segundo antes de continuar
             regresiveTime -= 1f; // Reducir el tiempo restante
         }
         if (regresiveTime == 0f)
         {
-            localizeStringEvent = podiumGameObject.GetComponentInChildren<LocalizeStringEvent>();
-            var groupIdLocalizationString = localizeStringEvent.StringReference["groupId"] as IntVariable;
-            groupIdLocalizationString.Value = groupId;
-            preGUI.text = "YA!";
-            OnScale();
+            preGUI.text = LocalizedStringTable.GetTable().GetEntry("PreCountdown").GetLocalizedString();
+            OnScale(preGUI.transform);
             yield return new WaitForSeconds(1.3f);
             regresiveTime -= 1f; // Reducir el tiempo restante
         }
         preGUI.text = "";
         regresiveTimerFinished = true;
     }
-    private void OnScale()
+    private void OnScale(Transform gui)
     {
-        preGUI.transform.DOScale(scaleTo, 0.5f).SetEase(Ease.InOutSine)
+        gui.DOScale(scaleTo, 0.5f).SetEase(Ease.InOutSine)
             .OnComplete(()=>
             {
-                preGUI.transform.DOScale(originalScale, 0.5f)
+                gui.DOScale(originalScale, 0.5f)
                 .SetEase(Ease.InOutSine);
             });
     }
