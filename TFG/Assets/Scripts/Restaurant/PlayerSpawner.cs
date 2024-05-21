@@ -12,6 +12,10 @@ public class PlayerSpawner : NetworkBehaviour
     private GameObject playerPrefab;
 
     private LateJoinsBehaviour lateJoinsBehaviour;
+
+
+    [SerializeField]
+    private Transform playerBucketTransform;
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
@@ -53,7 +57,7 @@ public class PlayerSpawner : NetworkBehaviour
                 {
                     //Pongos los fighters como hijos del player
                     //arrayPlayers[id].GetComponent<PlayerNetworkConfig>().InstantiateCharacterServerRpc(id);
-                    GameObject playerGameObject = Instantiate(playerPrefab);
+                    GameObject playerGameObject = Instantiate(playerPrefab, playerBucketTransform.position, playerBucketTransform.rotation);
                     playerGameObject.GetComponent<NetworkObject>().SpawnWithOwnership(id);
                     playerGameObject.transform.SetParent(NetworkManager.Singleton.ConnectedClients[id].PlayerObject.transform, false);
                     DesactivateMovementClientRPC(playerGameObject.GetComponent<NetworkObject>());

@@ -12,7 +12,7 @@ public class PlayerStats : NetworkBehaviour
     {
         base.OnNetworkSpawn();
         idGrupo.OnValueChanged += NewIdGrupo;
-        idGrupo.Value = 0;
+        idGrupo.Value = -1;
     }
     public override void OnNetworkDespawn()
     {

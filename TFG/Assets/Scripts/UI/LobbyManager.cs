@@ -32,6 +32,7 @@ public class LobbyManager : NetworkBehaviour
     {
         foreach (ulong id in NetworkManager.Singleton.ConnectedClientsIds)
         {
+            if(id == OwnerClientId) continue;
             ShowUserInfo(id);
         }
     }
