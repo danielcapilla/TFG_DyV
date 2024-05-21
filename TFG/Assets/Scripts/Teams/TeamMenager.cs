@@ -5,6 +5,7 @@ using System;
 using Unity.Netcode;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
+using System.Linq;
 
 public class TeamMenager : NetworkBehaviour
 {
@@ -17,12 +18,15 @@ public class TeamMenager : NetworkBehaviour
     private GameObject groupCanvas;
     [SerializeField]
     private Countdown countdown;
+    private List<ulong> connectedPlayers;
     void Start()
     {
         
         if (!IsServer) return;
         DontDestroyOnLoad(gameObject);
         playerReadyDictionary = new Dictionary<ulong, bool>();
+        connectedPlayers = NetworkManager.Singleton.ConnectedClientsIds.ToList<ulong>();
+        connectedPlayers.Remove(OwnerClientId);
         int totalTeams = maxPlayers / playersPerTeam;
         for (int i = 0; i < totalTeams; i++) 
         {
@@ -36,7 +40,7 @@ public class TeamMenager : NetworkBehaviour
     {
         playerReadyDictionary[id] = true;
         bool allClientsReady = true;
-        foreach (ulong clientId in NetworkManager.Singleton.ConnectedClientsIds)
+        foreach (ulong clientId in connectedPlayers)
         {
             if (!playerReadyDictionary.ContainsKey(clientId) || !playerReadyDictionary[clientId])
             {
@@ -48,7 +52,7 @@ public class TeamMenager : NetworkBehaviour
         {
             DesactivateGroupCanvasClientRPC();
             countdown.CambiarVariable();
-            foreach (ulong playerId in NetworkManager.ConnectedClientsIds)
+            foreach (ulong playerId in connectedPlayers)
             {
                 PlayerInput playerInput = NetworkManager.ConnectedClients[playerId].PlayerObject.GetComponentInChildren<PlayerInput>();
                 ActivatePlayerInputClientRPC(playerInput.GetComponent<NetworkObject>());

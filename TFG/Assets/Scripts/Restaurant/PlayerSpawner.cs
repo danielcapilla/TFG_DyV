@@ -32,8 +32,12 @@ public class PlayerSpawner : NetworkBehaviour
             //lateJoinsBehaviour.aprovedConection = true;
             foreach (ulong id in NetworkManager.ConnectedClientsIds)
             {
-                NetworkObject playerNetworkObject = NetworkManager.Singleton.ConnectedClients[id].PlayerObject.transform.GetChild(0).GetComponent<NetworkObject>();
-                playerNetworkObject.Despawn(true);
+                if (id != OwnerClientId)
+                {
+                    NetworkObject playerNetworkObject = NetworkManager.Singleton.ConnectedClients[id].PlayerObject.transform.GetChild(0).GetComponent<NetworkObject>();
+                    playerNetworkObject.Despawn(true);
+                }
+
             }
         }
     }
@@ -45,16 +49,19 @@ public class PlayerSpawner : NetworkBehaviour
             LateJoinsBehaviour.aprovedConection = false;
             foreach (ulong id in clientsCompleted)
             {
-               
-                //Pongos los fighters como hijos del player
-                //arrayPlayers[id].GetComponent<PlayerNetworkConfig>().InstantiateCharacterServerRpc(id);
-                GameObject playerGameObject = Instantiate(playerPrefab);
-                playerGameObject.GetComponent<NetworkObject>().SpawnWithOwnership(id);
-                playerGameObject.transform.SetParent(NetworkManager.Singleton.ConnectedClients[id].PlayerObject.transform, false);
-                DesactivateMovementClientRPC(playerGameObject.GetComponent<NetworkObject>());
-                //NetworkManager.Singleton.ConnectedClients[id].PlayerObject;
-                //PlayerNetworkConfig.Instance.InstantiateCharacterServerRpc(id);
-                //player.transform.SetParent(transform, false);
+                if(id != OwnerClientId)
+                {
+                    //Pongos los fighters como hijos del player
+                    //arrayPlayers[id].GetComponent<PlayerNetworkConfig>().InstantiateCharacterServerRpc(id);
+                    GameObject playerGameObject = Instantiate(playerPrefab);
+                    playerGameObject.GetComponent<NetworkObject>().SpawnWithOwnership(id);
+                    playerGameObject.transform.SetParent(NetworkManager.Singleton.ConnectedClients[id].PlayerObject.transform, false);
+                    DesactivateMovementClientRPC(playerGameObject.GetComponent<NetworkObject>());
+                    //NetworkManager.Singleton.ConnectedClients[id].PlayerObject;
+                    //PlayerNetworkConfig.Instance.InstantiateCharacterServerRpc(id);
+                    //player.transform.SetParent(transform, false);
+                }
+
             }
         }
     }
