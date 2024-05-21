@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -13,9 +11,9 @@ public class Table : InteractableObject
     {
         base.Interact(player);
         ReplaceObjectsServerRPC(player.GetNetworkObject());
-        
+
     }
-    [ServerRpc (RequireOwnership = false)]
+    [ServerRpc(RequireOwnership = false)]
     private void ReplaceObjectsServerRPC(NetworkObjectReference playerNetworkObjectReference)
     {
         playerNetworkObjectReference.TryGet(out NetworkObject playerNetworkObject);
@@ -23,7 +21,8 @@ public class Table : InteractableObject
 
         if (!isOccupied && playerCarry.isCarrying)
         {
-            ReplaceObjectsClientRPC(playerNetworkObjectReference);          
+            ReplaceObjects(playerNetworkObjectReference);
+            ReplaceObjectsClientRPC(playerNetworkObjectReference);
         }
         else if (isOccupied && !playerCarry.isCarrying)
         {
@@ -43,8 +42,8 @@ public class Table : InteractableObject
             }
         }
     }
-    [ClientRpc]
-    private void ReplaceObjectsClientRPC(NetworkObjectReference playerNetworkObjectReference)
+
+    private void ReplaceObjects(NetworkObjectReference playerNetworkObjectReference)
     {
         playerNetworkObjectReference.TryGet(out NetworkObject playerNetworkObject);
         PlayerCarry playerCarry = playerNetworkObject.GetComponent<PlayerCarry>();
@@ -53,7 +52,13 @@ public class Table : InteractableObject
         holdingObject.GetGameObject().transform.localPosition = placePosition.localPosition;
         isOccupied = true;
     }
-    [ServerRpc (RequireOwnership = false)]
+
+    [ClientRpc]
+    private void ReplaceObjectsClientRPC(NetworkObjectReference playerNetworkObjectReference)
+    {
+        ReplaceObjects(playerNetworkObjectReference);
+    }
+    [ServerRpc(RequireOwnership = false)]
     private void SetParentTableServerRPC()
     {
         holdingObject.GetGameObject().transform.parent = this.transform;

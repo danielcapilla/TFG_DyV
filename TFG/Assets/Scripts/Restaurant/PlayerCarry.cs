@@ -1,16 +1,12 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class PlayerCarry : NetworkBehaviour
 {
     [SerializeField]
     private Transform CarryPosition;
     public bool isCarrying = false;
-    public ICarryObject carryingObject {  get;  private set; }
+    public ICarryObject carryingObject { get; private set; }
     [SerializeField]
     private TeamMenager teamManager;
     public override void OnNetworkSpawn()
@@ -20,26 +16,25 @@ public class PlayerCarry : NetworkBehaviour
     }
     public void CarryObject(ICarryObject carryObject)
     {
-        CarryObjectServerRPC(carryObject.GetNetworkObject());
+        Debug.Log("Attemp carry object");
+        CarryObject(carryObject.GetNetworkObject());
+        CarryObjectClientRPC(carryObject.GetNetworkObject());
     }
-    [ServerRpc(RequireOwnership = false)]
-    public void CarryObjectServerRPC(NetworkObjectReference carryObjectNetworkObjectReference) 
+    public void CarryObject(NetworkObjectReference carryObjectNetworkObjectReference)
     {
+        Debug.Log("Carry Server RPC");
         carryObjectNetworkObjectReference.TryGet(out NetworkObject carryObjectNetworkObject);
         ICarryObject carryObject = carryObjectNetworkObject.GetComponent<ICarryObject>();
         carryObjectNetworkObject.gameObject.transform.localPosition = CarryPosition.localPosition;
         carryingObject = carryObject;
         isCarrying = true;
-        CarryObjectClientRPC(carryObjectNetworkObjectReference);       
+        //CarryObjectClientRPC(carryObjectNetworkObjectReference);
     }
     [ClientRpc]
     public void CarryObjectClientRPC(NetworkObjectReference carryObjectNetworkObjectReference)
     {
-        carryObjectNetworkObjectReference.TryGet(out NetworkObject carryObjectNetworkObject);
-        ICarryObject carryObject = carryObjectNetworkObject.GetComponent<ICarryObject>();
-        carryObjectNetworkObject.gameObject.transform.localPosition = CarryPosition.localPosition;
-        carryingObject = carryObject;
-        isCarrying = true;
+        Debug.Log("Client Server RPC");
+        CarryObject(carryObjectNetworkObjectReference);
     }
     public ICarryObject DropObject()
     {
@@ -47,15 +42,14 @@ public class PlayerCarry : NetworkBehaviour
         if (carryingObject != null)
         {
             carryingObject = null;
-            DropOnjectServerRPC(temp.GetNetworkObject());
+            DropObject(temp.GetNetworkObject());
             //temp.GetGameObject().transform.parent = null;
         }
         //give object to other script
         isCarrying = false;
         return temp;
     }
-    [ServerRpc (RequireOwnership = false)]
-    private void DropOnjectServerRPC(NetworkObjectReference tempNetworkObjectReference)
+    private void DropObject(NetworkObjectReference tempNetworkObjectReference)
     {
         tempNetworkObjectReference.TryGet(out NetworkObject carryObjectNetworkObject);
         ICarryObject temp = carryObjectNetworkObject.GetComponent<ICarryObject>();
@@ -64,14 +58,14 @@ public class PlayerCarry : NetworkBehaviour
     }
     public override void OnNetworkDespawn()
     {
-        if(carryingObject != null   )
+        if (carryingObject != null)
         {
             foreach (ICarryObject objToDestroy in carryingObject.GetGameObject().transform.GetComponentsInChildren<ICarryObject>())
             {
                 objToDestroy.GetNetworkObject().Despawn();
             }
         }
-        teamManager.QuitPlayerFromTheTeamServerRPC(OwnerClientId, gameObject.GetComponent<PlayerStats>().idGrupo.Value);        
+        teamManager.QuitPlayerFromTheTeamServerRPC(OwnerClientId, gameObject.GetComponent<PlayerStats>().idGrupo.Value);
     }
     public NetworkObject GetNetworkObject()
     {
