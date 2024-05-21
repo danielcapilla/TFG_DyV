@@ -33,7 +33,9 @@ public class RestaurantBehaviour : MonoBehaviour
     {
         if(id == NetworkManager.Singleton.LocalClientId)
         {
-            transform.position = bucketPosition.position;
+            //Si pones bucketPosition da error en una cocina
+            //No sabemos el porqué
+            transform.position = new Vector3(0f,50f,100f);
         }
         occupiedPositions--;
     }
