@@ -25,6 +25,11 @@ public class PlayerCarry : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public void CarryObjectServerRPC(NetworkObjectReference carryObjectNetworkObjectReference) 
     {
+        carryObjectNetworkObjectReference.TryGet(out NetworkObject carryObjectNetworkObject);
+        ICarryObject carryObject = carryObjectNetworkObject.GetComponent<ICarryObject>();
+        carryObjectNetworkObject.gameObject.transform.localPosition = CarryPosition.localPosition;
+        carryingObject = carryObject;
+        isCarrying = true;
         CarryObjectClientRPC(carryObjectNetworkObjectReference);       
     }
     [ClientRpc]

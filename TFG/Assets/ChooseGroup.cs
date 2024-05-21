@@ -14,7 +14,11 @@ public class ChooseGroup : NetworkBehaviour
     {
         base.OnNetworkSpawn();
         readyButton.gameObject.SetActive(false);
-        
+        if(IsServer || IsHost)
+        {
+            this.gameObject.SetActive(false);
+        }
+
     }
     public void Cambio()
     {

@@ -104,6 +104,10 @@ public class Countdown : NetworkBehaviour
     public void CambiarVariable()
     {
         timeStarted.Value = true;
+        if(IsServer)
+        { 
+            StartCoroutine(RunTimer()); 
+        }
         StartRegresiveCountdownClientRPC();
     }
     [ClientRpc]

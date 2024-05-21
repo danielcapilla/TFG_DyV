@@ -61,7 +61,7 @@ public class TestRelay : MonoBehaviour
                 allocation.Key,
                 allocation.ConnectionData
                 );
-            NetworkManager.Singleton.StartHost();
+            NetworkManager.Singleton.StartServer();
             staticCode = joinCode;
             NetworkManager.Singleton.SceneManager.LoadScene("Lobby", LoadSceneMode.Single);
             //this.gameObject.SetActive(false);

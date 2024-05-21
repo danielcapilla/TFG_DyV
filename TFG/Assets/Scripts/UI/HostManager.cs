@@ -16,7 +16,7 @@ public class HostManager : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
 
-        if (!IsHost)
+        if (!IsServer)
         {
             hostCanvas.enabled = false;
             return;
@@ -27,7 +27,7 @@ public class HostManager : NetworkBehaviour
 
     public void TurnOffVisuals()
     {
-        if (!IsHost) return;
+        if (!IsServer) return;
         if (activarEscena)
         {
             activarEscena = false;
