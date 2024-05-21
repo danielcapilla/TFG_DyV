@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
 public class RestaurantBehaviour : MonoBehaviour
@@ -20,14 +21,20 @@ public class RestaurantBehaviour : MonoBehaviour
         restaurant = this.transform.parent.gameObject;
     }
 
-    public void AddPosition(Transform transform)
+    public void AddPosition(Transform transform, ulong id)
     {
-        transform.position = spawnPositions[occupiedPositions%spawnPositions.Length].position;
+        if(id == NetworkManager.Singleton.LocalClientId)
+        {
+            transform.position = spawnPositions[occupiedPositions % spawnPositions.Length].position;
+        }
         occupiedPositions++;
     }
-    public void RemovePosition(Transform transform)
+    public void RemovePosition(Transform transform, ulong id)
     {
-        transform.position = bucketPosition.position;
+        if(id == NetworkManager.Singleton.LocalClientId)
+        {
+            transform.position = bucketPosition.position;
+        }
         occupiedPositions--;
     }
 }

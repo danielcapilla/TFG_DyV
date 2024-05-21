@@ -26,13 +26,14 @@ public class ChooseGroup : NetworkBehaviour
     {
         base.OnNetworkSpawn();
         readyButton.gameObject.SetActive(false);
-        if(IsServer)
+        restaurantBehaviourArray = FindObjectsOfType<RestaurantBehaviour>();
+        if (IsServer)
         {
             this.gameObject.SetActive(false);
             playerReadyDictionary = new Dictionary<ulong, bool>();
             connectedPlayers = NetworkManager.Singleton.ConnectedClientsIds.ToList<ulong>();
             connectedPlayers.Remove(OwnerClientId);
-            restaurantBehaviourArray = FindObjectsOfType<RestaurantBehaviour>();
+            
         }
         
     }
@@ -46,12 +47,10 @@ public class ChooseGroup : NetworkBehaviour
     private void CambioServerRPC(ulong id, int groupNumber)
     {
         player = NetworkManager.Singleton.ConnectedClients[id].PlayerObject.gameObject.GetComponentInChildren<PlayerStats>();
-        if(player.idGrupo.Value != -1)
-        {
-            restaurantBehaviourArray[player.idGrupo.Value].RemovePosition(player.transform);
-        }
+        SetPlayerPositionPart1ClientRPC(player.NetworkObject);
         player.idGrupo.Value = groupNumber;
-        restaurantBehaviourArray[groupNumber].AddPosition(player.transform);
+        SetPlayerPositionPart2ClientRPC(groupNumber, player.NetworkObject);
+        
     }
     public void ReadyPlayer()
     {
@@ -93,9 +92,21 @@ public class ChooseGroup : NetworkBehaviour
         }
     }
     [ClientRpc]
-    private void SetPlayerPositionClientRPC()
+    private void SetPlayerPositionPart1ClientRPC(NetworkObjectReference playerStatsNetworkObjectReference)
     {
-
+        playerStatsNetworkObjectReference.TryGet(out NetworkObject playerStatsNetworkObject);
+        PlayerStats player = playerStatsNetworkObject.GetComponent<PlayerStats>();
+        if (player.idGrupo.Value != -1)
+        {
+            restaurantBehaviourArray[player.idGrupo.Value].RemovePosition(player.transform,player.OwnerClientId);
+        }
+    }
+    [ClientRpc]
+    private void SetPlayerPositionPart2ClientRPC(int groupNumber, NetworkObjectReference playerStatsNetworkObjectReference)
+    {
+        playerStatsNetworkObjectReference.TryGet(out NetworkObject playerStatsNetworkObject);
+        PlayerStats player = playerStatsNetworkObject.GetComponent<PlayerStats>();
+        restaurantBehaviourArray[groupNumber].AddPosition(player.transform, player.OwnerClientId);
     }
     [ClientRpc]
     private void ActivatePlayerInputClientRPC(NetworkObjectReference playerInputNetworkObjectReference)
