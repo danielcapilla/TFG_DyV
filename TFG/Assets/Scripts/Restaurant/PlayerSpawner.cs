@@ -57,7 +57,7 @@ public class PlayerSpawner : NetworkBehaviour
                 {
                     //Pongos los fighters como hijos del player
                     //arrayPlayers[id].GetComponent<PlayerNetworkConfig>().InstantiateCharacterServerRpc(id);
-                    GameObject playerGameObject = Instantiate(playerPrefab, playerBucketTransform.position, playerBucketTransform.rotation);
+                    GameObject playerGameObject = Instantiate(playerPrefab);
                     playerGameObject.GetComponent<NetworkObject>().SpawnWithOwnership(id);
                     playerGameObject.transform.SetParent(NetworkManager.Singleton.ConnectedClients[id].PlayerObject.transform, false);
                     DesactivateMovementClientRPC(playerGameObject.GetComponent<NetworkObject>());
