@@ -4,9 +4,9 @@ using UnityEngine;
 using Unity.Netcode;
 using TMPro;
 using UnityEngine.UI;
-using UnityEditor.Networking.PlayerConnection;
 using UnityEngine.InputSystem;
 using System.Linq;
+using System;
 
 public class ChooseGroup : NetworkBehaviour
 {
@@ -21,12 +21,14 @@ public class ChooseGroup : NetworkBehaviour
     private PlayerSpawner playerSpawner;
     [SerializeField]
     private CameraSelector cameraSelector;
+    [SerializeField]
     private RestaurantBehaviour[] restaurantBehaviourArray;
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
         readyButton.gameObject.SetActive(false);
-        restaurantBehaviourArray = FindObjectsOfType<RestaurantBehaviour>();
+        //restaurantBehaviourArray = FindObjectsOfType<RestaurantBehaviour>();
+        //Array.Sort(restaurantBehaviourArray);
         if (IsServer)
         {
             this.gameObject.SetActive(false);
@@ -85,7 +87,8 @@ public class ChooseGroup : NetworkBehaviour
             countdown.CambiarVariable();
             foreach (ulong playerId in connectedPlayers)
             {
-                cameraSelector.ActivateCamera(NetworkManager.ConnectedClients[playerId].PlayerObject.GetComponentInChildren<PlayerStats>().idGrupo.Value);
+                //cameraSelector.ActivateCamera(NetworkManager.ConnectedClients[playerId].PlayerObject.GetComponentInChildren<PlayerStats>().idGrupo.Value);
+                SetCameraClientRPC(NetworkManager.ConnectedClients[playerId].PlayerObject.GetComponentInChildren<PlayerStats>().idGrupo.Value, playerId);
                 PlayerInput playerInput = NetworkManager.ConnectedClients[playerId].PlayerObject.GetComponentInChildren<PlayerInput>();
                 ActivatePlayerInputClientRPC(playerInput.GetComponent<NetworkObject>());
             }
@@ -119,5 +122,11 @@ public class ChooseGroup : NetworkBehaviour
     public void DesactivateGroupCanvasClientRPC()
     {
         this.gameObject.SetActive(false);
+    }
+    [ClientRpc]
+    private void SetCameraClientRPC(int groupID, ulong id)
+    {
+        if(id != NetworkManager.Singleton.LocalClientId) return;
+        cameraSelector.ActivateCamera(groupID);
     }
 }
