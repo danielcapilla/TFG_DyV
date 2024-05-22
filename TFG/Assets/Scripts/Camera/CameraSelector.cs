@@ -1,4 +1,5 @@
 using Cinemachine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,7 +9,11 @@ public class CameraSelector : MonoBehaviour
     [SerializeField] List<CinemachineVirtualCamera> cameras;
     CinemachineVirtualCamera currentCamera; 
     int currentViewingCameraID = 0;
-
+    public EventHandler<OnCameraChangeEventArgs> OnCameraChange;
+    public class OnCameraChangeEventArgs : System.EventArgs
+    {
+        public int cameraID;
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -32,7 +37,7 @@ public class CameraSelector : MonoBehaviour
     {
         currentViewingCameraID++;
         if (currentViewingCameraID >= cameras.Count) currentViewingCameraID = 0;
-        Debug.Log("Current camera ID: " + currentViewingCameraID);
+        OnCameraChange?.Invoke(this, new OnCameraChangeEventArgs { cameraID = currentViewingCameraID});
         ActivateCamera(currentViewingCameraID);
     }
 
@@ -40,7 +45,7 @@ public class CameraSelector : MonoBehaviour
     {
         currentViewingCameraID--;
         if (currentViewingCameraID < 0) currentViewingCameraID = cameras.Count-1;
-        Debug.Log("Current camera ID: " + currentViewingCameraID);
+        OnCameraChange?.Invoke(this, new OnCameraChangeEventArgs { cameraID = currentViewingCameraID });
         ActivateCamera(currentViewingCameraID);
     }
 }

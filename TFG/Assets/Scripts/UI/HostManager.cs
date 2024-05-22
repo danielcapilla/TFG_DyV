@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -12,22 +13,35 @@ public class HostManager : NetworkBehaviour
     private GameObject orderCanvas;
     [SerializeField]
     private Canvas hostCanvas;
-
+    [SerializeField]
+    private CameraSelector cameraSelector;
+    [SerializeField]
+    private TeamMenager teamManager;
+    [SerializeField]
+    private TextMeshProUGUI scoreText;
     public override void OnNetworkSpawn()
     {
 
-        if (!IsHost)
+        if (!IsServer)
         {
             hostCanvas.enabled = false;
             return;
         }
+        cameraSelector.OnCameraChange += ChangeScore;
         //TurnOffVisuals();
     }
-
+    public override void OnNetworkDespawn()
+    {
+        cameraSelector.OnCameraChange -= ChangeScore;
+    }
+    private void ChangeScore(object sender, CameraSelector.OnCameraChangeEventArgs e)
+    {
+        scoreText.text = teamManager.teams[e.cameraID].Puntuacion.ToString();
+    }
 
     public void TurnOffVisuals()
     {
-        if (!IsHost) return;
+        if (!IsServer) return;
         if (activarEscena)
         {
             activarEscena = false;

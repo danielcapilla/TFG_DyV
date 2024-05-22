@@ -28912,6 +28912,9 @@ MonoBehaviour:
   objetosActivos: []
   orderCanvas: {fileID: 760264691}
   hostCanvas: {fileID: 1866267646}
+  cameraSelector: {fileID: 1822124153}
+  teamManager: {fileID: 1645041031}
+  scoreText: {fileID: 490896976}
 --- !u!1 &839104516
 GameObject:
   m_ObjectHideFlags: 0
