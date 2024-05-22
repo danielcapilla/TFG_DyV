@@ -1,6 +1,6 @@
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using Unity.Netcode;
 
 public class PlayerController : NetworkBehaviour
 {
@@ -18,11 +18,14 @@ public class PlayerController : NetworkBehaviour
 
     public InteractableObject interactableInRange;
 
+    [SerializeField] GameObject FeetLocalizer;
+
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
         DontDestroyOnLoad(gameObject);
         if (!IsOwner) return;
+        FeetLocalizer.SetActive(true);
         playerInput = GetComponent<PlayerInput>();
         playerInput.enabled = true;
         rb = GetComponent<Rigidbody>();
@@ -49,14 +52,14 @@ public class PlayerController : NetworkBehaviour
     }
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
         if (!IsOwner) return;
-        
+
         input = playerInput.actions["Movement"].ReadValue<Vector2>();
 
         RaycastHit hit;
@@ -64,7 +67,7 @@ public class PlayerController : NetworkBehaviour
         {
             if (hit.transform.gameObject.TryGetComponent<InteractableObject>(out InteractableObject interactable))
             {
-                if (interactable != interactableInRange && interactableInRange!=null) 
+                if (interactable != interactableInRange && interactableInRange != null)
                 {
                     interactableInRange.toggleHighlight(false);
                 }
@@ -84,7 +87,7 @@ public class PlayerController : NetworkBehaviour
 
     private void FixedUpdate()
     {
-        if(!IsOwner) return;
+        if (!IsOwner) return;
         //Vector3 desiredMovement = (forward * input.y + right * input.x);
 
         Vector3 desiredMovement = new Vector3(input.x, 0f, input.y);
@@ -94,18 +97,18 @@ public class PlayerController : NetworkBehaviour
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(desiredMovement, Vector3.up), rotationSpeed * Time.deltaTime);
             //rb.AddForce(new Vector3(input.x, 0f, input.y)*force);
         }
-        else 
+        else
         {
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(transform.forward, Vector3.up), rotationSpeed * Time.deltaTime);
         }
     }
 
-    public void Interact(InputAction.CallbackContext context) 
+    public void Interact(InputAction.CallbackContext context)
     {
         Debug.Log("Interaccion");
 
         //Check for interactable object in front and call its interact method
-        if (interactableInRange != null) 
+        if (interactableInRange != null)
         {
             interactableInRange.Interact(carryScript);
         }
