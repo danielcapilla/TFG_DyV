@@ -67,6 +67,7 @@ public class DeliveryStation : InteractableObject
                 Debug.Log("La has cagado....");
             }
             teamInfo.idOrder++;
+            teamInfo.OnIdOrderChange?.Invoke(teamInfo.idOrder);
             NextOrderClientRpc(teamInfo.idOrder, teamInfo.Puntuacion, new ClientRpcParams
             {
                 Send = new ClientRpcSendParams

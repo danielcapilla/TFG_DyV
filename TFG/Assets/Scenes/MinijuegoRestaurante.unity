@@ -28915,6 +28915,7 @@ MonoBehaviour:
   cameraSelector: {fileID: 1822124153}
   teamManager: {fileID: 1645041031}
   scoreText: {fileID: 490896976}
+  recipeRandomizer: {fileID: 1196646254}
 --- !u!1 &839104516
 GameObject:
   m_ObjectHideFlags: 0
@@ -30594,8 +30595,8 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 1000
-  field of view: 77
+  far clip plane: 50
+  field of view: 78
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -30622,7 +30623,7 @@ Transform:
   m_GameObject: {fileID: 889409465}
   serializedVersion: 2
   m_LocalRotation: {x: 0.32804236, y: 0.00020113842, z: -0.000048066897, w: 0.944663}
-  m_LocalPosition: {x: 3.1, y: 9.9, z: -8.6}
+  m_LocalPosition: {x: 444.58, y: 11.34, z: -9.05}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

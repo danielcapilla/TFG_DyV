@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,7 +7,7 @@ using UnityEngine;
 public class TeamInfoRestaurante : TeamInfo
 {
     public int idOrder;
-
+    public Action<int> OnIdOrderChange;
     public override TeamInfo Clone()
     {
         return (TeamInfo)ScriptableObject.CreateInstance<TeamInfoRestaurante>();

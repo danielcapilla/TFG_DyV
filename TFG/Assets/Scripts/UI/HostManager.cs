@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
@@ -16,6 +17,8 @@ public class HostManager : NetworkBehaviour
     private TeamMenager teamManager;
     [SerializeField]
     private TextMeshProUGUI scoreText;
+    [SerializeField]
+    private RecipeRandomizer recipeRandomizer;
     public override void OnNetworkSpawn()
     {
 
@@ -26,6 +29,7 @@ public class HostManager : NetworkBehaviour
         }
         cameraSelector.OnCameraChange += ChangeScore;
         //teamManager.teams[0].onPuntuacionChanged += ActualizarScore;
+        //Si se queda focus, no se actualiza la puntuacion ni las comandas
         //TurnOffVisuals();
     }
     public override void OnNetworkDespawn()
@@ -36,12 +40,18 @@ public class HostManager : NetworkBehaviour
     private int prevCamera = 0;
     private void ChangeScore(object sender, CameraSelector.OnCameraChangeEventArgs e)
     {
-        teamManager.teams[prevCamera].onPuntuacionChanged -= ActualizarScore;
-        TeamInfo team = teamManager.teams[e.cameraID];
+        TeamInfoRestaurante teamInfo = (TeamInfoRestaurante)teamManager.teams[prevCamera];
+        teamInfo.onPuntuacionChanged -= ActualizarScore;
+        teamInfo.OnIdOrderChange -= ActualizarComanda;
+        TeamInfoRestaurante team = (TeamInfoRestaurante)teamManager.teams[e.cameraID];
         scoreText.text = team.Puntuacion.ToString();
         team.onPuntuacionChanged += ActualizarScore;
+        recipeRandomizer.NextOrder(team.idOrder);
+        team.OnIdOrderChange += ActualizarComanda;
         prevCamera = e.cameraID;
     }
+
+
 
     public void TurnOffVisuals()
     {
@@ -69,8 +79,12 @@ public class HostManager : NetworkBehaviour
 
     }
 
-    public void ActualizarScore(int valor)
+    private void ActualizarScore(int valor)
     {
         scoreText.text = valor.ToString();
+    }
+    private void ActualizarComanda(int valor)
+    {
+        recipeRandomizer.NextOrder(valor);
     }
 }
