@@ -8,6 +8,7 @@ public class ProfileBehaviour : MonoBehaviour
     [SerializeField] Image image;
 
     ProfileImageList imageList;
+    [SerializeField] DataBaseCommander commander;
 
 
     // Start is called before the first frame update
@@ -27,5 +28,6 @@ public class ProfileBehaviour : MonoBehaviour
     public void CloseProfilePicSelector()
     {
         //Update data in DB
+        commander.UpdateGame();
     }
 }

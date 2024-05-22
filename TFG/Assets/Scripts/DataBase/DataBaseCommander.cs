@@ -13,6 +13,24 @@ public class DataBaseCommander : MonoBehaviour
 
     string contentType = "application/json";
 
+    static string token = "";
+
+    public void DataBaseLogin()
+    {
+        string json = CreateLoginJSON();
+        StartCoroutine(SendTokenRequest(json));
+    }
+
+    string CreateLoginJSON()
+    {
+        string json = $@"{{
+            ""username"":""{Username}"",
+            ""password"":""{Password}""
+        }}";
+
+        return json;
+    }
+
     string CreateSaveJSON()
     {
         //Construye JSON para la petición REST         
@@ -41,6 +59,23 @@ public class DataBaseCommander : MonoBehaviour
             ""table"":""{UserDataTable}"",
             ""filter"": {{
                 ""Username"": ""{username}""
+            }}
+        }}";
+
+        return json;
+    }
+
+    string CreateUpdateJSON()
+    {
+        string json = $@"{{
+            ""username"":""{Username}"",
+            ""token"":""{token}"",
+            ""table"":""{UserDataTable}"",
+            ""data"": {{
+                ""ProfilePicID"": {PlayerData.ProfilePicID}
+            }},
+            ""filter"": {{
+                ""Username"": ""{PlayerData.Name}""
             }}
         }}";
 
@@ -127,39 +162,24 @@ public class DataBaseCommander : MonoBehaviour
     }
 
 
-    public void SaveGame()
+    public void UpdateGame()
     {
-        string json = CreateSaveJSON();
-        string delete = CreateSelectJSON(PlayerData.Name);
-        StartCoroutine(SaveGameDB(delete, json));
+        string json = CreateUpdateJSON();
+        StartCoroutine(UpdateGameDB(json));
     }
 
-    IEnumerator SaveGameDB(string delete, string save)
+    IEnumerator UpdateGameDB(string save)
     {
-        //Delete previous save
-        using (UnityWebRequest www = UnityWebRequest.Post(url + "delete", delete, contentType))
+        Debug.Log("Token mandado: " + token);
+        //Update previous save
+        using (UnityWebRequest www = UnityWebRequest.Post(url + "rest/update", save, contentType))
         {
             yield return www.SendWebRequest();
 
             if (www.result != UnityWebRequest.Result.Success)
             {
                 print("Error: " + www.error);
-            }
-            else
-            {
-                print("Respuesta: " + www.downloadHandler.text);
-            }
-        }
-
-
-        //Upload new save
-        using (UnityWebRequest www = UnityWebRequest.Post(url + "insert", save, contentType))
-        {
-            yield return www.SendWebRequest();
-
-            if (www.result != UnityWebRequest.Result.Success)
-            {
-                print("Error: " + www.error);
+                print("Error details" + www.downloadHandler.text);
             }
             else
             {
@@ -168,11 +188,11 @@ public class DataBaseCommander : MonoBehaviour
         }
     }
 
-    IEnumerator SendPostRequest(string data)
+    IEnumerator SendTokenRequest(string data)
     {
 
 
-        using (UnityWebRequest www = UnityWebRequest.Post(url + "insert", data, contentType))
+        using (UnityWebRequest www = UnityWebRequest.Post(url + "rest/login", data, contentType))
         {
             yield return www.SendWebRequest();
 
@@ -183,6 +203,9 @@ public class DataBaseCommander : MonoBehaviour
             else
             {
                 print("Respuesta: " + www.downloadHandler.text);
+                LoginDBResponse response = JsonUtility.FromJson<LoginDBResponse>(www.downloadHandler.text);
+                token = response.token;
+                print("Token: " + token);
             }
         }
     }
@@ -203,5 +226,13 @@ public class DataBaseCommander : MonoBehaviour
         public string Role;
         public string ClassCode;
         public int ProfilePicID = 0;
+    }
+
+    [System.Serializable]
+    private class LoginDBResponse
+    {
+        public string result;
+        public string token;
+        public string until;
     }
 }

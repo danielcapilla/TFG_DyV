@@ -37,6 +37,7 @@ public class LoginBehaviour : MonoBehaviour
     private void Start()
     {
         ageRegisterText.text = age.ToString();
+        commander.DataBaseLogin();
     }
 
     public void HideErrorTexts()
