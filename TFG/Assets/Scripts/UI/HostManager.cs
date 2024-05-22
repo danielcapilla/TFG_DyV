@@ -25,7 +25,7 @@ public class HostManager : NetworkBehaviour
             return;
         }
         cameraSelector.OnCameraChange += ChangeScore;
-        teamManager.teams[0].onPuntuacionChanged += ActualizarScore;
+        //teamManager.teams[0].onPuntuacionChanged += ActualizarScore;
         //TurnOffVisuals();
     }
     public override void OnNetworkDespawn()

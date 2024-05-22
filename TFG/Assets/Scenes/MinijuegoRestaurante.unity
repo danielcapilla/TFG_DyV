@@ -30595,7 +30595,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60.000004
+  field of view: 77
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -30622,7 +30622,7 @@ Transform:
   m_GameObject: {fileID: 889409465}
   serializedVersion: 2
   m_LocalRotation: {x: 0.32804236, y: 0.00020113842, z: -0.000048066897, w: 0.944663}
-  m_LocalPosition: {x: 444.58, y: 10.72, z: -9.54}
+  m_LocalPosition: {x: 3.1, y: 9.9, z: -8.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -43803,13 +43803,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a98f6e908bb7e3541a085e9caa8fa226, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tiempo: 120
+  tiempo: 240
   regresiveTime: 3
   timeStarted:
     m_InternalValue: 0
   GUI: {fileID: 4846893993274482153}
   preGUI: {fileID: 589315833}
-  max: 120
+  max: 240
   fill: {fileID: 6847456495830495642}
   LocalizedStringTable:
     m_TableReference:
@@ -54597,7 +54597,7 @@ Transform:
   m_GameObject: {fileID: 1529601946}
   serializedVersion: 2
   m_LocalRotation: {x: 0.32804236, y: 0.00020113842, z: -0.000048066897, w: 0.944663}
-  m_LocalPosition: {x: 3.08, y: 10.72, z: -9.54}
+  m_LocalPosition: {x: 3.1, y: 9.9, z: -8.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -54625,7 +54625,7 @@ MonoBehaviour:
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 0}
   m_Lens:
-    FieldOfView: 60.000004
+    FieldOfView: 77
     OrthographicSize: 5
     NearClipPlane: 0.3
     FarClipPlane: 1000
@@ -78193,7 +78193,7 @@ Transform:
   m_GameObject: {fileID: 2117530442}
   serializedVersion: 2
   m_LocalRotation: {x: 0.32804236, y: 0.00020113842, z: -0.000048066897, w: 0.944663}
-  m_LocalPosition: {x: 3.08, y: 10.72, z: -9.54}
+  m_LocalPosition: {x: 3.08, y: 11.34, z: -9.05}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -78221,10 +78221,10 @@ MonoBehaviour:
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 0}
   m_Lens:
-    FieldOfView: 60.000004
+    FieldOfView: 78
     OrthographicSize: 5
     NearClipPlane: 0.3
-    FarClipPlane: 1000
+    FarClipPlane: 50
     Dutch: 0
     ModeOverride: 0
     LensShift: {x: 0, y: 0}

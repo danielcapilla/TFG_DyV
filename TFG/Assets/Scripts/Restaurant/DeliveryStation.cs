@@ -60,7 +60,7 @@ public class DeliveryStation : InteractableObject
             {
                 Debug.Log("Hamburguesa correcta");
                 teamInfo.Puntuacion++;
-                teamInfo.onPuntuacionChanged.Invoke(teamInfo.Puntuacion);
+                teamInfo.onPuntuacionChanged?.Invoke(teamInfo.Puntuacion);
             }
             else
             {
