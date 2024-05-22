@@ -1,9 +1,9 @@
-using UnityEngine;
 using DG.Tweening;
-using Unity.Netcode;
-using System.Linq;
 using System;
+using System.Linq;
 using TMPro;
+using Unity.Netcode;
+using UnityEngine;
 
 public class DeliveryStation : InteractableObject
 {
@@ -20,11 +20,11 @@ public class DeliveryStation : InteractableObject
         base.Interact(player);
         DeliverPlateServerRPC(player.GetNetworkObject());
         //Si lleva un plato
-        
+
     }
 
-    [ServerRpc (RequireOwnership = false)]
-    public void DeliverPlateServerRPC(NetworkObjectReference playerNetworkObjectReference) 
+    [ServerRpc(RequireOwnership = false)]
+    public void DeliverPlateServerRPC(NetworkObjectReference playerNetworkObjectReference)
     {
         playerNetworkObjectReference.TryGet(out NetworkObject playerNetworkObject);
         PlayerCarry playerCarry = playerNetworkObject.GetComponent<PlayerCarry>();
@@ -43,7 +43,7 @@ public class DeliveryStation : InteractableObject
             {
                 for (int i = 0; i < randomizer.currentOrders[teamInfo.idOrder].Count; ++i)
                 {
-                    
+
                     if (randomizer.currentOrders[teamInfo.idOrder][i].ID != plate.Ingredients[i].ingredient.ID)
                     {
                         same = false;
@@ -60,24 +60,25 @@ public class DeliveryStation : InteractableObject
             {
                 Debug.Log("Hamburguesa correcta");
                 teamInfo.Puntuacion++;
+                teamInfo.onPuntuacionChanged.Invoke(teamInfo.Puntuacion);
             }
             else
             {
                 Debug.Log("La has cagado....");
-            }               
+            }
             teamInfo.idOrder++;
             NextOrderClientRpc(teamInfo.idOrder, teamInfo.Puntuacion, new ClientRpcParams
             {
                 Send = new ClientRpcSendParams
                 {
-                    TargetClientIds = teamInfo.integrantes.ToArray() 
+                    TargetClientIds = teamInfo.integrantes.ToArray()
                 }
             });
         }
     }
 
     [ClientRpc]
-    public void NextOrderClientRpc(int order,int teamScore, ClientRpcParams clientRpcParams = default ) 
+    public void NextOrderClientRpc(int order, int teamScore, ClientRpcParams clientRpcParams = default)
     {
         //playerScore.AddScore();
         scoreText.text = teamScore.ToString();
@@ -98,14 +99,15 @@ public class DeliveryStation : InteractableObject
         holdingObject.GetGameObject().transform.parent = this.transform;
     }
     [ClientRpc]
-    public void MovePlateClientRPC(NetworkObjectReference plateNetworkObjectReference) 
+    public void MovePlateClientRPC(NetworkObjectReference plateNetworkObjectReference)
     {
         plateNetworkObjectReference.TryGet(out NetworkObject plateNetworkObject);
         PlateBehaviour plate = plateNetworkObject.GetComponent<PlateBehaviour>();
 
         holdingObject.GetGameObject().transform.localPosition = placePosition.localPosition;
 
-        holdingObject.GetGameObject().transform.DOMove(endPos.position, time).SetEase(Ease.InQuart).OnComplete(()=> {
+        holdingObject.GetGameObject().transform.DOMove(endPos.position, time).SetEase(Ease.InQuart).OnComplete(() =>
+        {
             DOTween.Kill(holdingObject.GetGameObject().transform);
             foreach (ICarryObject objToDestroy in plate.GetGameObject().transform.GetComponentsInChildren<ICarryObject>().Reverse())
             {
@@ -113,4 +115,5 @@ public class DeliveryStation : InteractableObject
             }
         });
     }
+
 }

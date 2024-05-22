@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
@@ -28,15 +25,22 @@ public class HostManager : NetworkBehaviour
             return;
         }
         cameraSelector.OnCameraChange += ChangeScore;
+        teamManager.teams[0].onPuntuacionChanged += ActualizarScore;
         //TurnOffVisuals();
     }
     public override void OnNetworkDespawn()
     {
         cameraSelector.OnCameraChange -= ChangeScore;
     }
+
+    private int prevCamera = 0;
     private void ChangeScore(object sender, CameraSelector.OnCameraChangeEventArgs e)
     {
-        scoreText.text = teamManager.teams[e.cameraID].Puntuacion.ToString();
+        teamManager.teams[prevCamera].onPuntuacionChanged -= ActualizarScore;
+        TeamInfo team = teamManager.teams[e.cameraID];
+        scoreText.text = team.Puntuacion.ToString();
+        team.onPuntuacionChanged += ActualizarScore;
+        prevCamera = e.cameraID;
     }
 
     public void TurnOffVisuals()
@@ -50,7 +54,7 @@ public class HostManager : NetworkBehaviour
             {
                 objeto.enabled = false;
             }
-            orderCanvas.SetActive(false);   
+            orderCanvas.SetActive(false);
         }
         else
         {
@@ -62,6 +66,11 @@ public class HostManager : NetworkBehaviour
             }
             orderCanvas.SetActive(true);
         }
-        
+
+    }
+
+    public void ActualizarScore(int valor)
+    {
+        scoreText.text = valor.ToString();
     }
 }
