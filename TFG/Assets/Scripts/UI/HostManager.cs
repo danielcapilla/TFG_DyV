@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
@@ -28,6 +29,7 @@ public class HostManager : NetworkBehaviour
             return;
         }
         cameraSelector.OnCameraChange += ChangeScore;
+        
         //teamManager.teams[0].onPuntuacionChanged += ActualizarScore;
         //Si se queda focus, no se actualiza la puntuacion ni las comandas
         //TurnOffVisuals();

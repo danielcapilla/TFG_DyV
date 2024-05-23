@@ -13,7 +13,7 @@ public class TeamMenager : NetworkBehaviour
     public int playersPerTeam;
     public TeamInfo teamType;
     public List<TeamInfo> teams;
-
+    private List<TeamInfo> teamsScoreSorted;
     void Start()
     {
         
@@ -26,10 +26,25 @@ public class TeamMenager : NetworkBehaviour
             copia.ID = i;
             teams.Add(copia);
         }
+        teamsScoreSorted = new List<TeamInfo>(teams);
     }
     [ServerRpc (RequireOwnership = false)]
     public void QuitPlayerFromTheTeamServerRPC(ulong id, int groupNumber)
     {
         teams[groupNumber].integrantes.Remove(id);
+    }
+
+    public void SortTeams(TeamInfo teamThatScored)
+    {
+        int idx = teamsScoreSorted.IndexOf(teamThatScored);
+        for (int i = idx; i > 0; i--)
+        {
+            if (teamsScoreSorted[i].Puntuacion < teamThatScored.Puntuacion)
+            {
+                teamsScoreSorted.RemoveAt(idx);
+                teamsScoreSorted.Insert(i, teamThatScored);
+            }
+        }
+        teamsScoreSorted.Sort((a, b) => b.Puntuacion.CompareTo(a.Puntuacion));
     }
 }
