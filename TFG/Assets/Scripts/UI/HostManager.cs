@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class HostManager : NetworkBehaviour
 {
-    public MeshRenderer[] objetosActivos;
+    private MeshRenderer[] objetosActivos;
     public static bool activarEscena = true;
     [SerializeField]
     private GameObject orderCanvas;
@@ -65,6 +65,11 @@ public class HostManager : NetworkBehaviour
                 objeto.enabled = false;
             }
             orderCanvas.SetActive(false);
+            //Controles de cámara
+            hostCanvas.transform.GetChild(1).gameObject.SetActive(false);
+            hostCanvas.transform.GetChild(2).gameObject.SetActive(false);
+            //Activar estadísticas
+            hostCanvas.transform.GetChild(3).gameObject.SetActive(true);
         }
         else
         {
@@ -75,6 +80,12 @@ public class HostManager : NetworkBehaviour
                 objeto.enabled = true;
             }
             orderCanvas.SetActive(true);
+            //Controles de cámara
+            hostCanvas.transform.GetChild(1).gameObject.SetActive(true);
+            hostCanvas.transform.GetChild(2).gameObject.SetActive(true);
+            //Desactivar estadísticas
+            hostCanvas.transform.GetChild(3).gameObject.SetActive(false);
+
         }
 
     }

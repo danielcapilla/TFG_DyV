@@ -23,6 +23,7 @@ public class ChooseGroup : NetworkBehaviour
     private CameraSelector cameraSelector;
     [SerializeField]
     private RestaurantBehaviour[] restaurantBehaviourArray;
+    private bool host = true;
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
@@ -31,9 +32,11 @@ public class ChooseGroup : NetworkBehaviour
         //Array.Sort(restaurantBehaviourArray);
         if (IsServer)
         {
-            this.gameObject.SetActive(false);
+            
             playerReadyDictionary = new Dictionary<ulong, bool>();
             connectedPlayers = NetworkManager.Singleton.ConnectedClientsIds.ToList<ulong>();
+            if(host) return;
+            this.gameObject.SetActive(false);
             connectedPlayers.Remove(OwnerClientId);
             
         }

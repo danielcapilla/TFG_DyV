@@ -20,11 +20,15 @@ public class Countdown : NetworkBehaviour
     [SerializeField]
     private TextMeshProUGUI GUI;
     [SerializeField]
+    private TextMeshProUGUI GUI2;
+    [SerializeField]
     private TextMeshProUGUI preGUI;
     [SerializeField]
     private float max;
     [SerializeField]
     private Image fill;
+    [SerializeField]
+    private Image fill2;
     private bool regresiveTimerFinished = false;
     private Vector3 originalScale;
     private Vector3 scaleTo;

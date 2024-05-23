@@ -13,7 +13,6 @@ public class CommandSpawner : MonoBehaviour
     [SerializeField] 
     public List<Sprite> Codes;
     private GameObject instance;
-    
     //[SerializeField]
     //private UIInventoryItem itemPrefab;
 

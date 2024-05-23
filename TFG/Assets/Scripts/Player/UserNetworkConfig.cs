@@ -10,6 +10,7 @@ public class UserNetworkConfig : NetworkBehaviour
 {
     public NetworkVariable<FixedString64Bytes> usernameNetworkVariable = new(default, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     public NetworkVariable<int> profilePicIDNetworkVariable = new(default, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+    
 
     public override void OnNetworkSpawn()
     {
