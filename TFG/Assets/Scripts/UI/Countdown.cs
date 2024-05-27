@@ -64,8 +64,9 @@ public class Countdown : NetworkBehaviour
         if(!regresiveTimerFinished) { return; }
         tiempo -= Time.fixedDeltaTime;
         GUI.text = ((int)tiempo).ToString();
+        GUI2.text = ((int)tiempo).ToString();
         fill.fillAmount = tiempo / max;
-
+        fill2.fillAmount = tiempo / max;
         if (tiempo <= 0)
         {
             tiempo = 0;

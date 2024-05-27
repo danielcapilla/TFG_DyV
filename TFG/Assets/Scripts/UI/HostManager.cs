@@ -68,10 +68,10 @@ public class HostManager : NetworkBehaviour
             }
             orderCanvas.SetActive(false);
             //Controles de cámara
+            hostCanvas.transform.GetChild(0).gameObject.SetActive(false);
             hostCanvas.transform.GetChild(1).gameObject.SetActive(false);
-            hostCanvas.transform.GetChild(2).gameObject.SetActive(false);
             //Activar estadísticas
-            hostCanvas.transform.GetChild(3).gameObject.SetActive(true);
+            hostCanvas.transform.GetChild(2).gameObject.SetActive(true);
         }
         else
         {
@@ -83,10 +83,10 @@ public class HostManager : NetworkBehaviour
             }
             orderCanvas.SetActive(true);
             //Controles de cámara
+            hostCanvas.transform.GetChild(0).gameObject.SetActive(true);
             hostCanvas.transform.GetChild(1).gameObject.SetActive(true);
-            hostCanvas.transform.GetChild(2).gameObject.SetActive(true);
             //Desactivar estadísticas
-            hostCanvas.transform.GetChild(3).gameObject.SetActive(false);
+            hostCanvas.transform.GetChild(2).gameObject.SetActive(false);
 
         }
 

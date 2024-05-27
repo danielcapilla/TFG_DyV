@@ -67764,8 +67764,8 @@ RectTransform:
   m_Children:
   - {fileID: 353813195}
   - {fileID: 1048086794}
-  - {fileID: 471294225}
   - {fileID: 484440621}
+  - {fileID: 471294225}
   - {fileID: 1760631540}
   - {fileID: 2117013565}
   m_Father: {fileID: 0}
@@ -78872,7 +78872,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  m_IsOn: 1
+  m_IsOn: 0
 --- !u!1 &2117530442
 GameObject:
   m_ObjectHideFlags: 0
