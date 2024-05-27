@@ -34,17 +34,26 @@ public class TeamMenager : NetworkBehaviour
         teams[groupNumber].integrantes.Remove(id);
     }
 
-    public void SortTeams(TeamInfo teamThatScored)
+    public (int,int) GetPositions(TeamInfo teamThatScored)
     {
         int idx = teamsScoreSorted.IndexOf(teamThatScored);
-        for (int i = idx; i > 0; i--)
+        int idxold = idx;
+        for (int i = idx; i >= 0; i--)
         {
             if (teamsScoreSorted[i].Puntuacion < teamThatScored.Puntuacion)
             {
-                teamsScoreSorted.RemoveAt(idx);
-                teamsScoreSorted.Insert(i, teamThatScored);
+                //teamsScoreSorted.RemoveAt(idx);
+                //teamsScoreSorted.Insert(i, teamThatScored);
+                idx = i;
+
             }
         }
-        teamsScoreSorted.Sort((a, b) => b.Puntuacion.CompareTo(a.Puntuacion));
+        
+        Debug.Log(idx+" "+idxold);
+        return (idx, idxold);
+    }
+    public void SortTeams()
+    {
+        teamsScoreSorted.Sort((team1, team2) => team2.Puntuacion.CompareTo(team1.Puntuacion));
     }
 }

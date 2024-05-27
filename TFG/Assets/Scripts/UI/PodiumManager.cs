@@ -19,7 +19,6 @@ public class PodiumManager : NetworkBehaviour
     private GameObject podium;
     [SerializeField]
     private Transform panelVG;
-    [SerializeField]
     private LocalizeStringEvent localizeStringEvent;
     [SerializeField]
     private GameObject lobbyButton;

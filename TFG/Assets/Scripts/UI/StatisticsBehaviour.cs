@@ -2,7 +2,11 @@ using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Localization.Components;
+using UnityEngine.Localization.SmartFormat.PersistentVariables;
+using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 public class StatisticsBehaviour : MonoBehaviour
 {
@@ -12,30 +16,50 @@ public class StatisticsBehaviour : MonoBehaviour
     private Transform child;
 
     private Transform child2;
+    [SerializeField]
+    private GameObject statisticPanel;
+    [SerializeField]
+    private TeamMenager teamManager;
+    private LocalizeStringEvent localizeStringEvent;
+    private void Start()
+    {
+        for (int i = 0; i < teamManager.teams.Count; i++)
+        {
+            Debug.Log("StatisticsBehaviour Start");
+            GameObject instance = Instantiate(statisticPanel);
+            instance.transform.SetParent(levv.transform);
+            StatisticPanelScript statisticPanelScript = instance.GetComponent<StatisticPanelScript>();
+            localizeStringEvent = instance.GetComponentInChildren<LocalizeStringEvent>();
+            var groupIdLocalizationString = localizeStringEvent.StringReference["groupId"] as IntVariable;
+            groupIdLocalizationString.Value = teamManager.teams[i].ID;
+            statisticPanelScript.SetData( $"{teamManager.teams[i].Puntuacion}");
+        }
+    }
 
-
-
-    public void Prueba()
+    public void ChangePosition(int aDondeVoy, int deDondeVengo)
     {
         foreach (LayoutElement le in levv.transform.GetComponentsInChildren<LayoutElement>())
         {
             le.ignoreLayout = true;
         }
         Debug.Log("StatisticsBehaviour Start");
-        child = levv.transform.GetChild(1);
-        child2 = levv.transform.GetChild(0);
+        child = levv.transform.GetChild(deDondeVengo);
+        child2 = levv.transform.GetChild(aDondeVoy);
+        float newPosY = child2.position.y;
         //child.GetComponent<LayoutElement>().ignoreLayout = true;
-        child.DOMoveY(child2.position.y, 2f).SetEase(Ease.InOutSine).OnPlay(() =>
+        child.DOMoveY(newPosY, 2f).SetEase(Ease.InOutSine).OnPlay(() =>
         {
-            child2.DOMoveY(child.position.y, 2f).SetEase(Ease.InOutSine);
+            for (int i = deDondeVengo-1; i >= aDondeVoy; i--)
+            {
+                levv.transform.GetChild(i).DOMoveY(levv.transform.GetChild(i+1).position.y, 2f).SetEase(Ease.InOutSine);
+            }
         }).OnComplete(() => {
-            child.transform.SetSiblingIndex(0);
-            //child2.transform.SetSiblingIndex(1);
-            //child.GetComponent<LayoutElement>().ignoreLayout = false;
+            child.transform.SetSiblingIndex(aDondeVoy);
             foreach (LayoutElement le in levv.transform.GetComponentsInChildren<LayoutElement>())
             {
                 le.ignoreLayout = false;
             }
         });
+        teamManager.SortTeams();
     }
 }

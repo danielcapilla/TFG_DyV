@@ -15,6 +15,8 @@ public class DeliveryStation : InteractableObject
     [SerializeField] TeamMenager teamMenager;
     [SerializeField]
     private TextMeshProUGUI scoreText;
+    [SerializeField]
+    private StatisticsBehaviour statisticsBehaviour;
     public override void Interact(PlayerCarry player)
     {
         base.Interact(player);
@@ -61,10 +63,14 @@ public class DeliveryStation : InteractableObject
                 Debug.Log("Hamburguesa correcta");
                 teamInfo.Puntuacion++;
                 teamInfo.onPuntuacionChanged?.Invoke(teamInfo.Puntuacion);
+                (int,int) posiciones = teamMenager.GetPositions(teamInfo);
+                statisticsBehaviour.ChangePosition(posiciones.Item1,posiciones.Item2);
             }
             else
             {
                 Debug.Log("La has cagado....");
+                (int, int) posiciones = teamMenager.GetPositions(teamInfo);
+                statisticsBehaviour.ChangePosition(posiciones.Item1, posiciones.Item2);
             }
             teamInfo.idOrder++;
             teamInfo.OnIdOrderChange?.Invoke(teamInfo.idOrder);
