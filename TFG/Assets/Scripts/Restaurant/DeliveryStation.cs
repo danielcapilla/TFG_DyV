@@ -1,6 +1,10 @@
 using DG.Tweening;
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Threading;
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
@@ -17,6 +21,9 @@ public class DeliveryStation : InteractableObject
     private TextMeshProUGUI scoreText;
     [SerializeField]
     private StatisticsBehaviour statisticsBehaviour;
+    public Mutex mutex = new Mutex();
+    private readonly object lockObject = new();
+    private bool isExecuting = false;
     public override void Interact(PlayerCarry player)
     {
         base.Interact(player);
@@ -48,28 +55,28 @@ public class DeliveryStation : InteractableObject
 
                     if (randomizer.currentOrders[teamInfo.idOrder][i].ID != plate.Ingredients[i].ingredient.ID)
                     {
-                        same = false;
+                        //same = false;
                     }
                 }
             }
             else
             {
-                same = false;
+                //same = false;
             }
             //Entregar puntuacion
             if (same)
             {
                 Debug.Log("Hamburguesa correcta");
-                teamInfo.Puntuacion++;
+                //List<TeamInfo> tempTeams = new List<TeamInfo>(teamMenager.teams);
+                //TeamInfoRestaurante tempTeamInfo = (TeamInfoRestaurante)tempTeams[playerStats.idGrupo.Value];
+                //teamInfo.Puntuacion++;
                 teamInfo.onPuntuacionChanged?.Invoke(teamInfo.Puntuacion);
-                (int,int) posiciones = teamMenager.GetPositions(teamInfo);
-                statisticsBehaviour.ChangePosition(posiciones.Item1,posiciones.Item2);
+                //teamMenager.SortTeams();
+                StartCoroutine(ChangeStatistics(teamInfo));
             }
             else
             {
                 Debug.Log("La has cagado....");
-                (int, int) posiciones = teamMenager.GetPositions(teamInfo);
-                statisticsBehaviour.ChangePosition(posiciones.Item1, posiciones.Item2);
             }
             teamInfo.idOrder++;
             teamInfo.OnIdOrderChange?.Invoke(teamInfo.idOrder);
@@ -122,4 +129,10 @@ public class DeliveryStation : InteractableObject
         });
     }
 
+    private IEnumerator ChangeStatistics(TeamInfoRestaurante teamInfo)
+    {
+        yield return new WaitUntil(() => statisticsBehaviour.finished);
+        (int, int) posiciones = teamMenager.GetPositions(teamInfo);
+        statisticsBehaviour.ChangePosition(posiciones.Item1, posiciones.Item2,teamMenager.teams.IndexOf(teamInfo));
+    }
 }

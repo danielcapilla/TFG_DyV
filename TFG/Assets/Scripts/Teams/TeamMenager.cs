@@ -13,7 +13,7 @@ public class TeamMenager : NetworkBehaviour
     public int playersPerTeam;
     public TeamInfo teamType;
     public List<TeamInfo> teams;
-    private List<TeamInfo> teamsScoreSorted;
+    public List<TeamInfo> teamsScoreSorted { get; private set; }
     void Start()
     {
         
@@ -49,11 +49,16 @@ public class TeamMenager : NetworkBehaviour
             }
         }
         
-        Debug.Log(idx+" "+idxold);
         return (idx, idxold);
     }
     public void SortTeams()
     {
         teamsScoreSorted.Sort((team1, team2) => team2.Puntuacion.CompareTo(team1.Puntuacion));
+    }
+    public void UpdateIndex(int deDondeVengo, int aDondeVoy)
+    {
+        TeamInfo temp = teamsScoreSorted[deDondeVengo];
+        teamsScoreSorted.Remove(temp);
+        teamsScoreSorted.Insert(aDondeVoy, temp);
     }
 }
