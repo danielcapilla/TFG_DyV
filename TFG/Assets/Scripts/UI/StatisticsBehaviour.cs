@@ -23,7 +23,10 @@ public class StatisticsBehaviour : MonoBehaviour
     private TeamMenager teamManager;
     private LocalizeStringEvent localizeStringEvent;
     public bool finished { get; private set; }
-
+    private void Awake()
+    {
+        finished = true;
+    }
     private void Start()
     {
         for (int i = 0; i < teamManager.teams.Count; i++)
@@ -36,7 +39,6 @@ public class StatisticsBehaviour : MonoBehaviour
             groupIdLocalizationString.Value = teamManager.teams[i].ID;
             statisticPanelScript.SetData( $"{teamManager.teams[i].Puntuacion}");
         }
-        finished = true;
     }
 
     public void ChangePosition(int aDondeVoy, int deDondeVengo, int id)
