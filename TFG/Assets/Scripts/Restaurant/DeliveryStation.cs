@@ -57,7 +57,6 @@ public class DeliveryStation : InteractableObject
                 same = false;
             }
             //Entregar puntuacion
-            Debug.Log("Entrego hamburguesa el equipo: " + teamInfo.ID);
             if (same)
             {
                 Debug.Log("Hamburguesa correcta");

@@ -42,11 +42,10 @@ public class StatisticsBehaviour : MonoBehaviour
         {
             le.ignoreLayout = true;
         }
-        Debug.Log("StatisticsBehaviour Start");
         child = levv.transform.GetChild(deDondeVengo);
+        child.gameObject.GetComponent<StatisticPanelScript>().SetData($"{teamManager.teams[deDondeVengo].Puntuacion}");
         child2 = levv.transform.GetChild(aDondeVoy);
         float newPosY = child2.position.y;
-        //child.GetComponent<LayoutElement>().ignoreLayout = true;
         child.DOMoveY(newPosY, 2f).SetEase(Ease.InOutSine).OnPlay(() =>
         {
             for (int i = deDondeVengo-1; i >= aDondeVoy; i--)

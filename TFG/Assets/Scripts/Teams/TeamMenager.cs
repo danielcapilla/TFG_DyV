@@ -23,7 +23,7 @@ public class TeamMenager : NetworkBehaviour
         for (int i = 0; i < totalTeams; i++) 
         {
             TeamInfo copia = teamType.Clone();
-            copia.ID = i;
+            copia.ID = i+1;
             teams.Add(copia);
         }
         teamsScoreSorted = new List<TeamInfo>(teams);
