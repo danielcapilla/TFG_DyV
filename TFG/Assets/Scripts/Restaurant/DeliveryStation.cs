@@ -21,9 +21,7 @@ public class DeliveryStation : InteractableObject
     private TextMeshProUGUI scoreText;
     [SerializeField]
     private StatisticsBehaviour statisticsBehaviour;
-    public Mutex mutex = new Mutex();
-    private readonly object lockObject = new();
-    private bool isExecuting = false;
+
     public override void Interact(PlayerCarry player)
     {
         base.Interact(player);
@@ -55,23 +53,21 @@ public class DeliveryStation : InteractableObject
 
                     if (randomizer.currentOrders[teamInfo.idOrder][i].ID != plate.Ingredients[i].ingredient.ID)
                     {
-                        //same = false;
+                        same = false;
                     }
                 }
             }
             else
             {
-                //same = false;
+                same = false;
             }
             //Entregar puntuacion
             if (same)
             {
                 Debug.Log("Hamburguesa correcta");
-                //List<TeamInfo> tempTeams = new List<TeamInfo>(teamMenager.teams);
-                //TeamInfoRestaurante tempTeamInfo = (TeamInfoRestaurante)tempTeams[playerStats.idGrupo.Value];
-                //teamInfo.Puntuacion++;
+                teamInfo.Puntuacion ++;
                 teamInfo.onPuntuacionChanged?.Invoke(teamInfo.Puntuacion);
-                //teamMenager.SortTeams();
+                //Mutex Unity
                 StartCoroutine(ChangeStatistics(teamInfo));
             }
             else
@@ -93,7 +89,6 @@ public class DeliveryStation : InteractableObject
     [ClientRpc]
     public void NextOrderClientRpc(int order, int teamScore, ClientRpcParams clientRpcParams = default)
     {
-        //playerScore.AddScore();
         scoreText.text = teamScore.ToString();
         randomizer.NextOrder(order);
     }
@@ -131,6 +126,7 @@ public class DeliveryStation : InteractableObject
 
     private IEnumerator ChangeStatistics(TeamInfoRestaurante teamInfo)
     {
+        //Mutex de unity
         yield return new WaitUntil(() => statisticsBehaviour.finished);
         (int, int) posiciones = teamMenager.GetPositions(teamInfo);
         statisticsBehaviour.ChangePosition(posiciones.Item1, posiciones.Item2,teamMenager.teams.IndexOf(teamInfo));

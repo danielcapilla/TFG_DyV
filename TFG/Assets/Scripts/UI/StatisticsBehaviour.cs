@@ -43,15 +43,12 @@ public class StatisticsBehaviour : MonoBehaviour
     {
         child = levv.transform.GetChild(deDondeVengo);
         child.gameObject.GetComponent<StatisticPanelScript>().SetData($"{teamManager.teams[id].Puntuacion}");
-        Debug.Log(aDondeVoy + " " +deDondeVengo);
         if (aDondeVoy == deDondeVengo) return;
         finished = false;
         foreach (LayoutElement le in levv.transform.GetComponentsInChildren<LayoutElement>())
         {
             le.ignoreLayout = true;
         }
-        
-        
         child2 = levv.transform.GetChild(aDondeVoy);
         float newPosY = child2.position.y;
         child.DOMoveY(newPosY, 2f).SetEase(Ease.InOutSine).OnPlay(() =>
