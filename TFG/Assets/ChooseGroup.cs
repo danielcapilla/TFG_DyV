@@ -24,6 +24,7 @@ public class ChooseGroup : NetworkBehaviour
     [SerializeField]
     private RestaurantBehaviour[] restaurantBehaviourArray;
     private bool host = true;
+    private Button previousButton;
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
@@ -44,7 +45,13 @@ public class ChooseGroup : NetworkBehaviour
     }
     public void Cambio()
     {
+        if(previousButton != null)
+        {
+            previousButton.interactable = true;
+        }
         Button clickedButton = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.GetComponent<Button>();
+        clickedButton.interactable = false;
+        previousButton = clickedButton;
         CambioServerRPC(NetworkManager.Singleton.LocalClientId, (int.Parse(clickedButton.GetComponentInChildren<TextMeshProUGUI>().text))-1);
         readyButton.gameObject.SetActive(true);
     }
@@ -59,6 +66,7 @@ public class ChooseGroup : NetworkBehaviour
     }
     public void ReadyPlayer()
     {
+        readyButton.interactable = false;
         ReadyPlayerServerRPC(NetworkManager.Singleton.LocalClientId);
         
     }
