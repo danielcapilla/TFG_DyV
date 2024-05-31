@@ -22,6 +22,9 @@ public class StatisticsBehaviour : MonoBehaviour
     [SerializeField]
     private TeamMenager teamManager;
     private LocalizeStringEvent localizeStringEvent;
+    [SerializeField]
+    private GameObject hamburger;
+    private bool positionchanged = true;
     public bool finished { get; private set; }
     private void Awake()
     {
@@ -40,7 +43,21 @@ public class StatisticsBehaviour : MonoBehaviour
             statisticPanelScript.SetData( $"{teamManager.teams[i].Puntuacion}");
         }
     }
-
+    public void TurnOffStatistics()
+    {
+        if (positionchanged)
+        {
+            levv.SetActive(false);
+            hamburger.SetActive(true);
+            positionchanged = false;
+        }
+        else
+        {
+            levv.SetActive(true);
+            hamburger.SetActive(false);
+            positionchanged = true;
+        }
+    }
     public void ChangePosition(int aDondeVoy, int deDondeVengo, int id)
     {
         child = levv.transform.GetChild(deDondeVengo);

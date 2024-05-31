@@ -25,10 +25,12 @@ public class ChooseGroup : NetworkBehaviour
     private RestaurantBehaviour[] restaurantBehaviourArray;
     private bool host = true;
     private Button previousButton;
+    private Button[] buttons;
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
         readyButton.gameObject.SetActive(false);
+        buttons = GetComponentsInChildren<Button>();
         //restaurantBehaviourArray = FindObjectsOfType<RestaurantBehaviour>();
         //Array.Sort(restaurantBehaviourArray);
         if (IsServer)
@@ -67,6 +69,10 @@ public class ChooseGroup : NetworkBehaviour
     public void ReadyPlayer()
     {
         readyButton.interactable = false;
+        foreach (Button button in buttons)
+        {
+            button.interactable = false;
+        }
         ReadyPlayerServerRPC(NetworkManager.Singleton.LocalClientId);
         
     }
