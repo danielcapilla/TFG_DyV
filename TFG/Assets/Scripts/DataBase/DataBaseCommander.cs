@@ -9,12 +9,14 @@ public class DataBaseCommander : MonoBehaviour
     string Username = "TFGVCDC";
     string Password = "2024TFGminijuegos";
     string url = "https://tfvj.etsii.urjc.es/";
-    string UserDataTable = "UserData";
 
     string contentType = "application/json";
-
     static string token = "";
 
+
+    #region Login and Register
+
+    string UserDataTable = "UserData";
     public void DataBaseLogin()
     {
         string json = CreateLoginJSON();
@@ -139,10 +141,10 @@ public class DataBaseCommander : MonoBehaviour
             {
                 print("Respuesta: " + www.downloadHandler.text);
 
-                Response response = JsonUtility.FromJson<Response>(www.downloadHandler.text);
+                ProfileResponse response = JsonUtility.FromJson<ProfileResponse>(www.downloadHandler.text);
                 if (response.data.Length > 0)
                 {
-                    ResponseData data = response.data[0];
+                    ProfileResponseData data = response.data[0];
 
                     PlayerData.Name = data.Username;
                     PlayerData.Age = data.Age;
@@ -211,14 +213,14 @@ public class DataBaseCommander : MonoBehaviour
     }
 
     [System.Serializable]
-    private class Response
+    private class ProfileResponse
     {
         public string result;
-        public ResponseData[] data;
+        public ProfileResponseData[] data;
     }
 
     [System.Serializable]
-    private class ResponseData
+    private class ProfileResponseData
     {
         public string Username;
         public int Age;
@@ -235,4 +237,118 @@ public class DataBaseCommander : MonoBehaviour
         public string token;
         public string until;
     }
+    #endregion
+
+    #region Restaurant Games
+
+    string RestaurantGameTable = "";
+
+
+    string CreatePostGameJSON(string classCode, string burguers)
+    {
+        //Construye JSON para la petición REST         
+        string json = $@"{{
+            ""username"":""{Username}"",
+            ""password"":""{Password}"",
+            ""table"":""{RestaurantGameTable}"",
+            ""data"": {{
+                ""DatePlayed"": ""{DateTime.Today}"",
+                ""ClassPlayed"": ""{classCode}"",
+                ""BuerguersDelivered"": ""{burguers}""
+            }}
+        }}";
+
+        return json;
+    }
+
+    string CreateGetGameJSON(string date = "*", string classCode = "*")
+    {
+        string json = $@"{{
+            ""username"":""{Username}"",
+            ""password"":""{Password}"",
+            ""table"":""{RestaurantGameTable}"",
+            ""filter"": {{
+                ""DatePlayed"": ""{date}"",
+                ""ClassPlayed"": ""{classCode}""
+            }}
+        }}";
+
+        return json;
+    }
+
+    public void RegisterGame(string classCode, string burguers)
+    {
+        string json = CreatePostGameJSON(classCode, burguers);
+        StartCoroutine(RegisterGameDB(json));
+    }
+
+    IEnumerator RegisterGameDB(string save)
+    {
+        Debug.Log(save);
+        using (UnityWebRequest www = UnityWebRequest.Post(url + "insert", save, contentType))
+        {
+            yield return www.SendWebRequest();
+
+            if (www.result != UnityWebRequest.Result.Success)
+            {
+                print("Error: " + www.error);
+                Debug.Log("Error info: " + www.result);
+                print("Respuesta: " + www.downloadHandler.text);
+            }
+            else
+            {
+                print("Respuesta: " + www.downloadHandler.text);
+            }
+        }
+    }
+
+    public void GetGame(string date = "*", string classCode = "*")
+    {
+        string json = CreateGetGameJSON(date, classCode);
+        StartCoroutine(GetGameDB(json));
+    }
+
+    IEnumerator GetGameDB(string filter)
+    {
+        using (UnityWebRequest www = UnityWebRequest.Post(url + "get", filter, contentType))
+        {
+            yield return www.SendWebRequest();
+
+            if (www.result != UnityWebRequest.Result.Success)
+            {
+                print("Error: " + www.error);
+            }
+            else
+            {
+                print("Respuesta: " + www.downloadHandler.text);
+
+                GameResponse response = JsonUtility.FromJson<GameResponse>(www.downloadHandler.text);
+                if (response.data.Length > 0)
+                {
+                    for (int i = 0; i < response.data.Length; i++)
+                    {
+                        GameResponseData data = response.data[i];
+                        Debug.Log(data);
+                    }
+                }
+            }
+        }
+    }
+
+    [System.Serializable]
+    class GameResponse
+    {
+        public string result;
+        public GameResponseData[] data;
+    }
+
+    [System.Serializable]
+    class GameResponseData
+    {
+        public string DatePlayed;
+        public string ClassPlayed;
+        public string BurguersDelivered;
+    }
+
+    #endregion
 }
