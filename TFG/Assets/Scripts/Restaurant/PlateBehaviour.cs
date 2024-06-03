@@ -9,7 +9,7 @@ using UnityEngine;
 public class PlateBehaviour : NetworkBehaviour, ICarryObject
 {
     public List<IngredientBehaviour> Ingredients = new List<IngredientBehaviour>();
-    public List<FixedString64Bytes> namesOfPlate = new List<FixedString64Bytes>();
+
     public void AddIngredient(IngredientBehaviour ingredient, FixedString64Bytes playerName) 
     {
         AddIngredientServerRPC(ingredient.GetNetworkObject(), playerName);
@@ -22,8 +22,8 @@ public class PlateBehaviour : NetworkBehaviour, ICarryObject
 
         ingredient.transform.parent = transform;
         RelocateClientRPC(ingredientNetworkObjectReference);
+        ingredient.playerName = playerName;
         Ingredients.Add(ingredient);
-        namesOfPlate.Add(playerName);
 
     }
     [ClientRpc]

@@ -47,7 +47,6 @@ public class DeliveryStation : InteractableObject
             bool same = true;
             TeamInfoRestaurante teamInfo = (TeamInfoRestaurante)teamMenager.teams[playerStats.idGrupo.Value];
             teamInfo.order = plate.Ingredients;
-            teamInfo.namesOfOrder = plate.namesOfPlate;
             if (randomizer.currentOrders[teamInfo.idOrder].Count == plate.Ingredients.Count)
             {
                 for (int i = 0; i < randomizer.currentOrders[teamInfo.idOrder].Count; ++i)

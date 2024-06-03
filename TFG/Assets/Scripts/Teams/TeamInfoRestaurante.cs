@@ -9,7 +9,6 @@ public class TeamInfoRestaurante : TeamInfo
 {
     public int idOrder;
     public List<IngredientBehaviour> order = new List<IngredientBehaviour>();
-    public List<FixedString64Bytes> namesOfOrder = new List<FixedString64Bytes>();
     public Action<int> OnIdOrderChange;
     public override TeamInfo Clone()
     {
