@@ -244,7 +244,7 @@ public class DataBaseCommander : MonoBehaviour
     string RestaurantGameTable = "";
 
 
-    string CreatePostGameJSON(string classCode, string burguers)
+    string CreatePostGameJSON(string classCode, string matchJSON)
     {
         //Construye JSON para la petición REST         
         string json = $@"{{
@@ -254,7 +254,7 @@ public class DataBaseCommander : MonoBehaviour
             ""data"": {{
                 ""DatePlayed"": ""{DateTime.Today}"",
                 ""ClassPlayed"": ""{classCode}"",
-                ""BuerguersDelivered"": ""{burguers}""
+                ""BuerguersDelivered"": ""{matchJSON}""
             }}
         }}";
 
