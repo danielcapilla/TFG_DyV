@@ -38,7 +38,7 @@ public class Table : InteractableObject
             {
                 if (playerCarry.carryingObject.GetGameObject().TryGetComponent<IngredientBehaviour>(out IngredientBehaviour ingredient))
                 {
-                    plate.AddIngredient((IngredientBehaviour)playerCarry.DropObject());
+                    plate.AddIngredient((IngredientBehaviour)playerCarry.DropObject(), playerCarry.GetComponentInParent<UserNetworkConfig>().usernameNetworkVariable.Value);
                 }
             }
         }

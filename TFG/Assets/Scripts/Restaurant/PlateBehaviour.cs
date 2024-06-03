@@ -1,25 +1,29 @@
 using DG.Tweening;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
 
 public class PlateBehaviour : NetworkBehaviour, ICarryObject
 {
     public List<IngredientBehaviour> Ingredients = new List<IngredientBehaviour>();
-
-    public void AddIngredient(IngredientBehaviour ingredient) 
+    public List<FixedString64Bytes> namesOfPlate = new List<FixedString64Bytes>();
+    public void AddIngredient(IngredientBehaviour ingredient, FixedString64Bytes playerName) 
     {
-        AddIngredientServerRPC(ingredient.GetNetworkObject());
+        AddIngredientServerRPC(ingredient.GetNetworkObject(), playerName);
     }
     [ServerRpc (RequireOwnership = false)]
-    private void AddIngredientServerRPC(NetworkObjectReference ingredientNetworkObjectReference)
+    private void AddIngredientServerRPC(NetworkObjectReference ingredientNetworkObjectReference, FixedString64Bytes playerName)
     {
         ingredientNetworkObjectReference.TryGet(out NetworkObject ingredientNetworkObject);
         IngredientBehaviour ingredient = ingredientNetworkObject.GetComponent<IngredientBehaviour>();
 
         ingredient.transform.parent = transform;
         RelocateClientRPC(ingredientNetworkObjectReference);
+        Ingredients.Add(ingredient);
+        namesOfPlate.Add(playerName);
 
     }
     [ClientRpc]
@@ -36,7 +40,6 @@ public class PlateBehaviour : NetworkBehaviour, ICarryObject
         {
             ingredient.transform.localPosition = new Vector3(0, this.transform.localPosition.y + ingredient.transform.localScale.y * 2, 0);
         }
-        Ingredients.Add(ingredient);
     }
     public NetworkObject GetNetworkObject()
     {

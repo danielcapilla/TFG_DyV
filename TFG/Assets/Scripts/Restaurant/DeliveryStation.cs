@@ -46,6 +46,8 @@ public class DeliveryStation : InteractableObject
             //Evaluar plato respecto al pedido
             bool same = true;
             TeamInfoRestaurante teamInfo = (TeamInfoRestaurante)teamMenager.teams[playerStats.idGrupo.Value];
+            teamInfo.order = plate.Ingredients;
+            teamInfo.namesOfOrder = plate.namesOfPlate;
             if (randomizer.currentOrders[teamInfo.idOrder].Count == plate.Ingredients.Count)
             {
                 for (int i = 0; i < randomizer.currentOrders[teamInfo.idOrder].Count; ++i)
@@ -67,6 +69,15 @@ public class DeliveryStation : InteractableObject
                 Debug.Log("Hamburguesa correcta");
                 teamInfo.Puntuacion ++;
                 teamInfo.onPuntuacionChanged?.Invoke(teamInfo.Puntuacion);
+                teamInfo.idOrder++;
+                teamInfo.OnIdOrderChange?.Invoke(teamInfo.idOrder);
+                NextOrderClientRpc(teamInfo.idOrder, teamInfo.Puntuacion, new ClientRpcParams
+                {
+                    Send = new ClientRpcSendParams
+                    {
+                        TargetClientIds = teamInfo.integrantes.ToArray()
+                    }
+                });
                 //Mutex Unity
                 StartCoroutine(ChangeStatistics(teamInfo));
             }
@@ -74,15 +85,7 @@ public class DeliveryStation : InteractableObject
             {
                 Debug.Log("La has cagado....");
             }
-            teamInfo.idOrder++;
-            teamInfo.OnIdOrderChange?.Invoke(teamInfo.idOrder);
-            NextOrderClientRpc(teamInfo.idOrder, teamInfo.Puntuacion, new ClientRpcParams
-            {
-                Send = new ClientRpcSendParams
-                {
-                    TargetClientIds = teamInfo.integrantes.ToArray()
-                }
-            });
+            
         }
     }
 
