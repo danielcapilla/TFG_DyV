@@ -23,7 +23,7 @@ public class PlateBehaviour : NetworkBehaviour, ICarryObject
         ingredient.transform.parent = transform;
         RelocateClientRPC(ingredientNetworkObjectReference);
         ingredient.playerName = playerName;
-        Ingredients.Add(ingredient);
+        
 
     }
     [ClientRpc]
@@ -40,6 +40,7 @@ public class PlateBehaviour : NetworkBehaviour, ICarryObject
         {
             ingredient.transform.localPosition = new Vector3(0, this.transform.localPosition.y + ingredient.transform.localScale.y * 2, 0);
         }
+        Ingredients.Add(ingredient);
     }
     public NetworkObject GetNetworkObject()
     {

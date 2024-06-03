@@ -24,14 +24,15 @@ public class HamburgerOrderScript : MonoBehaviour
         Button clickedButton = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.GetComponent<Button>();
         int groupNumber = (int.Parse(clickedButton.GetComponentInChildren<TextMeshProUGUI>().text)) - 1;
         TeamInfoRestaurante teamInfo = (TeamInfoRestaurante)teamManager.teams[groupNumber];
+        List<IngredientBehaviour> order = teamInfo.order.Last<List<IngredientBehaviour>>();
         clickedButton.interactable = false;
         previousButton = clickedButton;
 
-        foreach (IngredientBehaviour ingredientIB in teamInfo.order)
+        foreach (IngredientBehaviour ingredientIB in order)
         {
             GameObject tarjetita = Instantiate(ingridientTarjetita);
             tarjetita.transform.SetParent(hamburgerOrder.transform);
-            tarjetita.GetComponentInChildren<Image>().sprite = ingredientIB.ingredient.AlternativeSprite && ingredientIB == teamInfo.order.Last<IngredientBehaviour>() ?
+            tarjetita.GetComponentInChildren<Image>().sprite = ingredientIB.ingredient.AlternativeSprite && ingredientIB == order.Last<IngredientBehaviour>() ?
                 ingredientIB.ingredient.AlternativeSprite : ingredientIB.ingredient.Sprite;
             tarjetita.GetComponentInChildren<TextMeshProUGUI>().text = ingredientIB.playerName.ToString();
         }

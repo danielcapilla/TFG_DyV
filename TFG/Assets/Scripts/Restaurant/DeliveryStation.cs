@@ -46,7 +46,7 @@ public class DeliveryStation : InteractableObject
             //Evaluar plato respecto al pedido
             bool same = true;
             TeamInfoRestaurante teamInfo = (TeamInfoRestaurante)teamMenager.teams[playerStats.idGrupo.Value];
-            teamInfo.order = plate.Ingredients;
+            teamInfo.order.Add(plate.Ingredients);
             if (randomizer.currentOrders[teamInfo.idOrder].Count == plate.Ingredients.Count)
             {
                 for (int i = 0; i < randomizer.currentOrders[teamInfo.idOrder].Count; ++i)
