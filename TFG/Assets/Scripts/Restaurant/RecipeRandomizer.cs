@@ -8,7 +8,7 @@ public class RecipeRandomizer : NetworkBehaviour
 {
     public MenuScriptableObject currentMenu;
     [SerializeField] Dictionary<IngredientsScriptableObject, int> pairedIngredients = new Dictionary<IngredientsScriptableObject, int>();
-    [SerializeField] List<List<IngredientsScriptableObject>> recipes = new List<List<IngredientsScriptableObject>>();
+    [SerializeField] public List<List<IngredientsScriptableObject>> recipes = new List<List<IngredientsScriptableObject>>();
     [SerializeField] List<IngredientsScriptableObject> extraIngredients = new List<IngredientsScriptableObject>();
     public List<List<IngredientsScriptableObject>> currentOrders = new List<List<IngredientsScriptableObject>>();
 
