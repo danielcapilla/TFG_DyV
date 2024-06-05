@@ -1,10 +1,5 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
 using Unity.Collections;
 using Unity.Netcode;
-using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -12,11 +7,11 @@ public class UserNetworkConfig : NetworkBehaviour
 {
     public NetworkVariable<FixedString64Bytes> usernameNetworkVariable = new(default, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     public NetworkVariable<int> profilePicIDNetworkVariable = new(default, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
-    private bool conectionFailed = false; 
+    private bool conectionFailed = false;
     public override void OnNetworkSpawn()
     {
 
-        
+
         //NetworkManager.Singleton.OnServerStopped += OnServerDisconnect;
         if (!IsOwner) return;
         NetworkManager.Singleton.OnClientDisconnectCallback += OnServerDisconnect;
@@ -42,7 +37,7 @@ public class UserNetworkConfig : NetworkBehaviour
             SceneManager.LoadScene("MainMenu");
 
         }
-        
+
     }
 
     private void OnServerDisconnect(bool obj)
@@ -60,13 +55,13 @@ public class UserNetworkConfig : NetworkBehaviour
     private void UpdateName(FixedString64Bytes previousValue, FixedString64Bytes newValue)
     {
         usernameNetworkVariable.Value = newValue;
-        Debug.Log("User: "+ usernameNetworkVariable.Value);
+        Debug.Log("User: " + usernameNetworkVariable.Value);
     }
 
     public override void OnNetworkDespawn()
     {
 
-        
+
         if (!IsOwner) return;
         usernameNetworkVariable.OnValueChanged -= UpdateName;
         NetworkManager.Singleton.OnServerStopped -= OnServerDisconnect;
