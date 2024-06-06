@@ -19,7 +19,6 @@ public class RestaurantManager : NetworkBehaviour
     private void UnSceceLoaded(ulong clientId, string sceneName, AsyncOperation asyncOperation)
     {
         if(!IsServer || !IsHost) return;
-     
         Debug.Log(BurguerJSONCreator.CreateMatchJSON(recipe.recipes,recipe.currentOrders, teamMenager.teams));
     }
 }

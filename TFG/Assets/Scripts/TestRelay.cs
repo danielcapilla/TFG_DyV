@@ -49,7 +49,7 @@ public class TestRelay : MonoBehaviour
         {
             //El argumento es el número máximo de jugadores sin contar el host
             //Creamos una "conexión" con un código
-            Allocation allocation = await RelayService.Instance.CreateAllocationAsync(3);
+            Allocation allocation = await RelayService.Instance.CreateAllocationAsync(24);
 
             //Código para iniciar la partida
             string joinCode = await RelayService.Instance.GetJoinCodeAsync(allocation.AllocationId);
