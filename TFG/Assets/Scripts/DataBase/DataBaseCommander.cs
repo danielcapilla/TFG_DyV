@@ -241,20 +241,22 @@ public class DataBaseCommander : MonoBehaviour
 
     #region Restaurant Games
 
-    string RestaurantGameTable = "";
+    string RestaurantGameTable = "Games";
 
 
     string CreatePostGameJSON(string classCode, string matchJSON)
     {
+        DateTime dateTime = DateTime.Today;
+       
         //Construye JSON para la petición REST         
         string json = $@"{{
             ""username"":""{Username}"",
             ""password"":""{Password}"",
             ""table"":""{RestaurantGameTable}"",
             ""data"": {{
-                ""DatePlayed"": ""{DateTime.Today}"",
+                ""DatePlayed"": ""{dateTime.ToString("yyyy-MM-dd")}"",
                 ""ClassPlayed"": ""{classCode}"",
-                ""BuerguersDelivered"": ""{matchJSON}""
+                ""BurguersDelivered"": ""{matchJSON}""
             }}
         }}";
 
@@ -276,8 +278,9 @@ public class DataBaseCommander : MonoBehaviour
         return json;
     }
 
-    public void RegisterGame(string classCode, string burguers)
+    public void RegisterGame(string classCode)
     {
+        string burguers = "{}";
         string json = CreatePostGameJSON(classCode, burguers);
         StartCoroutine(RegisterGameDB(json));
     }
