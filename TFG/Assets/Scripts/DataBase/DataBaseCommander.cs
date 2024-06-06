@@ -13,7 +13,6 @@ public class DataBaseCommander : MonoBehaviour
     string contentType = "application/json";
     static string token = "";
 
-
     #region Login and Register
 
     string UserDataTable = "UserData";
@@ -263,9 +262,37 @@ public class DataBaseCommander : MonoBehaviour
         return json;
     }
 
-    string CreateGetGameJSON(string date = "*", string classCode = "*")
+    string CreateGetGameJSON(string date = "", string classCode = "")
     {
-        string json = $@"{{
+        string json;
+        if(date == "")
+        {
+            Debug.Log("No date");
+            json = $@"{{
+            ""username"":""{Username}"",
+            ""password"":""{Password}"",
+            ""table"":""{RestaurantGameTable}"",
+            ""filter"": {{
+                ""ClassPlayed"": ""{classCode}""
+            }}
+        }}";
+        }
+        else if(classCode == "")
+        {
+            Debug.Log("No class");
+            json = $@"{{
+            ""username"":""{Username}"",
+            ""password"":""{Password}"",
+            ""table"":""{RestaurantGameTable}"",
+            ""filter"": {{
+                ""DatePlayed"": ""{date}""
+            }}
+        }}";
+        }
+        else
+        {
+            Debug.Log("Both");
+            json = $@"{{
             ""username"":""{Username}"",
             ""password"":""{Password}"",
             ""table"":""{RestaurantGameTable}"",
@@ -274,6 +301,7 @@ public class DataBaseCommander : MonoBehaviour
                 ""ClassPlayed"": ""{classCode}""
             }}
         }}";
+        }
 
         return json;
     }
@@ -305,7 +333,7 @@ public class DataBaseCommander : MonoBehaviour
         }
     }
 
-    public void GetGame(string date = "*", string classCode = "*")
+    public void GetGame(string date = "", string classCode = "")
     {
         string json = CreateGetGameJSON(date, classCode);
         StartCoroutine(GetGameDB(json));
