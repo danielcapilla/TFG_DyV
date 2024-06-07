@@ -12,18 +12,20 @@ public class FiltersBehaviour : MonoBehaviour
     private DatePicker datePicker;
     [SerializeField]
     private TextMeshProUGUI codeText;
-
-    public void FilterByDate()
+    public string date;
+    public string code;
+    public void Filter()
     {
-        string date;
+        code = codeText.text.Substring(0, codeText.text.Length - 1);
         try
         {
             date = datePicker.SelectedDate.Date.ToString("yyyy-MM-dd");
+            
         }
         catch (System.Exception)
         {
             date = "";
         }
-        db.GetGame(date,codeText.text.Substring(0,codeText.text.Length-1));
+        db.GetGame(date,code);
     }
 }
