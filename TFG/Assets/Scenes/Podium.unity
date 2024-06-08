@@ -1060,6 +1060,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MinigameSelectorAll
       objectReference: {fileID: 0}
+    - target: {fileID: 5873036290485986683, guid: 44059f80afb918e44b5a9d9a99c17bef, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -9.9999695
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
