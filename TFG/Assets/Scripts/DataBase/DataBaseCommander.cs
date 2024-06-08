@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
@@ -333,13 +334,14 @@ public class DataBaseCommander : MonoBehaviour
         }
     }
 
-    public void GetGame(string date = "", string classCode = "")
+    public void GetGame(Action<GameResponse> callback,string date = "", string classCode = "")
     {
         string json = CreateGetGameJSON(date, classCode);
-        StartCoroutine(GetGameDB(json));
+        StartCoroutine(GetGameDB(json,callback));
+
     }
 
-    IEnumerator GetGameDB(string filter)
+    IEnumerator GetGameDB(string filter, Action<GameResponse> callback)
     {
         using (UnityWebRequest www = UnityWebRequest.Post(url + "get", filter, contentType))
         {
@@ -354,27 +356,29 @@ public class DataBaseCommander : MonoBehaviour
                 print("Respuesta: " + www.downloadHandler.text);
 
                 GameResponse response = JsonUtility.FromJson<GameResponse>(www.downloadHandler.text);
-                if (response.data.Length > 0)
+                if (response.data.Count > 0)
                 {
-                    for (int i = 0; i < response.data.Length; i++)
+                    for (int i = 0; i < response.data.Count; i++)
                     {
                         GameResponseData data = response.data[i];
-                        Debug.Log(data);
+                        //Debug.Log(data);
+                        
                     }
+                    callback(response);
                 }
             }
         }
     }
 
     [System.Serializable]
-    class GameResponse
+    public class GameResponse
     {
         public string result;
-        public GameResponseData[] data;
+        public List<GameResponseData> data;
     }
 
     [System.Serializable]
-    class GameResponseData
+    public class GameResponseData
     {
         public string DatePlayed;
         public string ClassPlayed;
