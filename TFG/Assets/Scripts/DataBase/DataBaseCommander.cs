@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
@@ -12,7 +13,6 @@ public class DataBaseCommander : MonoBehaviour
 
     string contentType = "application/json";
     static string token = "";
-
 
     #region Login and Register
 
@@ -241,29 +241,59 @@ public class DataBaseCommander : MonoBehaviour
 
     #region Restaurant Games
 
-    string RestaurantGameTable = "";
+    string RestaurantGameTable = "Games";
 
 
     string CreatePostGameJSON(string classCode, string matchJSON)
     {
+        DateTime dateTime = DateTime.Today;
+       
         //Construye JSON para la petición REST         
         string json = $@"{{
             ""username"":""{Username}"",
             ""password"":""{Password}"",
             ""table"":""{RestaurantGameTable}"",
             ""data"": {{
-                ""DatePlayed"": ""{DateTime.Today}"",
+                ""DatePlayed"": ""{dateTime.ToString("yyyy-MM-dd")}"",
                 ""ClassPlayed"": ""{classCode}"",
-                ""BuerguersDelivered"": ""{matchJSON}""
+                ""BurguersDelivered"": ""{matchJSON}""
             }}
         }}";
 
         return json;
     }
 
-    string CreateGetGameJSON(string date = "*", string classCode = "*")
+    string CreateGetGameJSON(string date = "", string classCode = "")
     {
-        string json = $@"{{
+        string json;
+        if(date == "")
+        {
+            Debug.Log("No date");
+            json = $@"{{
+            ""username"":""{Username}"",
+            ""password"":""{Password}"",
+            ""table"":""{RestaurantGameTable}"",
+            ""filter"": {{
+                ""ClassPlayed"": ""{classCode}""
+            }}
+        }}";
+        }
+        else if(classCode == "")
+        {
+            Debug.Log("No class");
+            json = $@"{{
+            ""username"":""{Username}"",
+            ""password"":""{Password}"",
+            ""table"":""{RestaurantGameTable}"",
+            ""filter"": {{
+                ""DatePlayed"": ""{date}""
+            }}
+        }}";
+        }
+        else
+        {
+            Debug.Log("Both");
+            json = $@"{{
             ""username"":""{Username}"",
             ""password"":""{Password}"",
             ""table"":""{RestaurantGameTable}"",
@@ -272,12 +302,14 @@ public class DataBaseCommander : MonoBehaviour
                 ""ClassPlayed"": ""{classCode}""
             }}
         }}";
+        }
 
         return json;
     }
 
-    public void RegisterGame(string classCode, string burguers)
+    public void RegisterGame(string classCode)
     {
+        string burguers = "{}";
         string json = CreatePostGameJSON(classCode, burguers);
         StartCoroutine(RegisterGameDB(json));
     }
@@ -302,13 +334,14 @@ public class DataBaseCommander : MonoBehaviour
         }
     }
 
-    public void GetGame(string date = "*", string classCode = "*")
+    public void GetGame(Action<GameResponse> callback,string date = "", string classCode = "")
     {
         string json = CreateGetGameJSON(date, classCode);
-        StartCoroutine(GetGameDB(json));
+        StartCoroutine(GetGameDB(json,callback));
+
     }
 
-    IEnumerator GetGameDB(string filter)
+    IEnumerator GetGameDB(string filter, Action<GameResponse> callback)
     {
         using (UnityWebRequest www = UnityWebRequest.Post(url + "get", filter, contentType))
         {
@@ -323,27 +356,29 @@ public class DataBaseCommander : MonoBehaviour
                 print("Respuesta: " + www.downloadHandler.text);
 
                 GameResponse response = JsonUtility.FromJson<GameResponse>(www.downloadHandler.text);
-                if (response.data.Length > 0)
+                if (response.data.Count > 0)
                 {
-                    for (int i = 0; i < response.data.Length; i++)
+                    for (int i = 0; i < response.data.Count; i++)
                     {
                         GameResponseData data = response.data[i];
-                        Debug.Log(data);
+                        //Debug.Log(data);
+                        
                     }
+                    callback(response);
                 }
             }
         }
     }
 
     [System.Serializable]
-    class GameResponse
+    public class GameResponse
     {
         public string result;
-        public GameResponseData[] data;
+        public List<GameResponseData> data;
     }
 
     [System.Serializable]
-    class GameResponseData
+    public class GameResponseData
     {
         public string DatePlayed;
         public string ClassPlayed;
