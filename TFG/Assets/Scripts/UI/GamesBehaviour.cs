@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GamesBehaviour : MonoBehaviour
 {
@@ -13,6 +14,11 @@ public class GamesBehaviour : MonoBehaviour
     private GameObject gamesGLG;
     [SerializeField]
     private GameObject partidaTarjetita;
+    [SerializeField]
+    private GameObject groupsGO;
+    [SerializeField]
+    private GameObject gamesGO;
+    public int selectedGame;
 
     private void OnEnable()
     {
@@ -51,8 +57,19 @@ public class GamesBehaviour : MonoBehaviour
             GameObject partidaPrefab = Instantiate(partidaTarjetita, gamesGLG.transform);
             partidaPrefab.GetComponentInChildren<TextMeshProUGUI>().text = i.ToString();
             i++;
+            GamePrefabScript gamePrefabScript=  partidaPrefab.GetComponent<GamePrefabScript>();
+            if(gamePrefabScript != null)
+            {
+                gamePrefabScript.SetObjectToActivate(groupsGO);
+                gamePrefabScript.SetObjectToDesactivate(gamesGO);
+            }
         }
 
+    }
+    public int NextGame()
+    {
+        Button clickedButton = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.GetComponent<Button>();
+        return (int.Parse(clickedButton.GetComponentInChildren<TextMeshProUGUI>().text))-1;
     }
 
 }
