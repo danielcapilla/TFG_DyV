@@ -97,6 +97,11 @@ public class RecipeRandomizer : NetworkBehaviour
             }
             pairedIngredients[ingredient] = rand;
         }
+
+        for (int i = 0; i < currentMenu.coreIngredients.Count; i++)
+        {
+            pairedIngredients[currentMenu.coreIngredients[i]] = -1;
+        }
     }
 
     public void GenerateRandomOrder()
