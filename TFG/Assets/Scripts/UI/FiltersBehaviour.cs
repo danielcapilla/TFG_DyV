@@ -31,7 +31,6 @@ public class FiltersBehaviour : MonoBehaviour
     }
     private void OnDisable()
     {
-        Debug.Log("OnDisable");
         codeText.text = "";
 
     }

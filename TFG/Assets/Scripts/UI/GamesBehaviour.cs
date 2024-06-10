@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -18,8 +19,7 @@ public class GamesBehaviour : MonoBehaviour
     private GameObject groupsGO;
     [SerializeField]
     private GameObject gamesGO;
-    public int selectedGame;
-
+    public bool selectedGame = false;
     private void OnEnable()
     {
         if (filters.date == "")
@@ -38,11 +38,13 @@ public class GamesBehaviour : MonoBehaviour
     }
     private void OnDisable()
     {
+        if (groupsGO.activeInHierarchy) return;
         filters.ClearData();
         foreach (Transform child in gamesGLG.transform)
         {
             Destroy(child.gameObject);
         }
+        selectedGame = false;
     }
     IEnumerator GetGames()
     {
@@ -51,6 +53,7 @@ public class GamesBehaviour : MonoBehaviour
     }
     private void ShowGames()
     {
+        if(selectedGame) return;
         int i = 1;
         foreach (var data in filters.gameResponse.data)
         {
@@ -62,10 +65,17 @@ public class GamesBehaviour : MonoBehaviour
             {
                 gamePrefabScript.SetObjectToActivate(groupsGO);
                 gamePrefabScript.SetObjectToDesactivate(gamesGO);
+                gamePrefabScript.onClicked += ChangeBool;
             }
         }
 
     }
+
+    private void ChangeBool(object sender, EventArgs e)
+    {
+        selectedGame = true;
+    }
+
     public int NextGame()
     {
         Button clickedButton = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.GetComponent<Button>();

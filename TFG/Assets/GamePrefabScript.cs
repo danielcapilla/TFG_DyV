@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,7 +8,7 @@ public class GamePrefabScript : MonoBehaviour
 {
     private GameObject objectToActivate;
     private GameObject objectToDesactivate;
-
+    public EventHandler onClicked;
     void Start()
     {
         Button btn = GetComponent<Button>();
@@ -28,11 +29,14 @@ public class GamePrefabScript : MonoBehaviour
 
     void ActivateObject()
     {
-        Debug.Log("Activating object");
         if (objectToActivate != null)
         {
+            onClicked?.Invoke(this, EventArgs.Empty);
             objectToActivate.SetActive(true);
             objectToDesactivate.SetActive(false);
         }
+    }
+    public void ChangeBool(bool gameSelected)
+    {
     }
 }
