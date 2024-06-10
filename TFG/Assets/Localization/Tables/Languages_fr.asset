@@ -20,7 +20,7 @@ MonoBehaviour:
     - rid: 2814509147925774343
   m_TableData:
   - m_Id: 1293239726080
-    m_Localized: "Cr\xE9er une Chambre"
+    m_Localized: "Cr\xE9er une salle"
     m_Metadata:
       m_Items: []
   - m_Id: 742186103746560
@@ -41,6 +41,170 @@ MonoBehaviour:
     m_Metadata:
       m_Items:
       - rid: 2814509147925774343
+  - m_Id: 26437426139541504
+    m_Localized: Se connecter
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707328
+    m_Localized: Registre
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707329
+    m_Localized: Entrez du texte...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707330
+    m_Localized: Dos
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707331
+    m_Localized: Saisissez votre nom d'utilisateur...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707332
+    m_Localized: Entrez le code de la classe...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707333
+    m_Localized: Suivant
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707334
+    m_Localized: "\xC2ge"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707335
+    m_Localized: "R\xF4le"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707336
+    m_Localized: Genre
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707337
+    m_Localized: '#VALUE!'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707338
+    m_Localized: '#VALUE!'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707339
+    m_Localized: '#VALUE!'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707340
+    m_Localized: '#VALUE!'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707341
+    m_Localized: '#VALUE!'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707342
+    m_Localized: '#VALUE!'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707343
+    m_Localized: '#VALUE!'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707344
+    m_Localized: Code
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707345
+    m_Localized: 'Code de salle:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707346
+    m_Localized: Joueurs
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707347
+    m_Localized: Quitter
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707348
+    m_Localized: Restaurant
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707349
+    m_Localized: Jouer
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707350
+    m_Localized: "\xC0 venir..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707351
+    m_Localized: Comment jouer
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707352
+    m_Localized: "S\xE9lectionnez un jeu pour afficher sa description"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707353
+    m_Localized: "S\xE9lectionnez un jeu pour afficher son didacticiel"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707354
+    m_Localized: '#VALUE!'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707355
+    m_Localized: '#VALUE!'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707356
+    m_Localized: "\xC9quipes"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707357
+    m_Localized: Statistiques
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707358
+    m_Localized: Pause
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707359
+    m_Localized: Reprendre
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707360
+    m_Localized: Score
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707361
+    m_Localized: "Pr\xEAt"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707362
+    m_Localized: Classement
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707363
+    m_Localized: Position
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707364
+    m_Localized: Nom
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707365
+    m_Localized: Salle d'attente
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26440611608571904
+    m_Localized: "\xC9tudiant"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26440611608571905
+    m_Localized: Professeur
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:

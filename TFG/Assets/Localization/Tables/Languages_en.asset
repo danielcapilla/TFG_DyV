@@ -41,6 +41,134 @@ MonoBehaviour:
     m_Metadata:
       m_Items:
       - rid: 2814509147925774342
+  - m_Id: 26437426139541504
+    m_Localized: Login
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707328
+    m_Localized: Register
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707329
+    m_Localized: Enter text...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707330
+    m_Localized: Back
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707331
+    m_Localized: Enter username...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707332
+    m_Localized: Enter class code...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707333
+    m_Localized: Next
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707334
+    m_Localized: Age
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707335
+    m_Localized: Role
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707336
+    m_Localized: Gender
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707344
+    m_Localized: Code
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707345
+    m_Localized: 'Room code:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707346
+    m_Localized: Players
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707347
+    m_Localized: Quit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707348
+    m_Localized: Restaurant
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707349
+    m_Localized: Play
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707350
+    m_Localized: Coming soon...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707351
+    m_Localized: How to play
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707352
+    m_Localized: Select a game to show it's description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707353
+    m_Localized: Select a game to show it's tutorial
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707356
+    m_Localized: Teams
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707357
+    m_Localized: Stats
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707358
+    m_Localized: Pause
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707359
+    m_Localized: Resume
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707360
+    m_Localized: Score
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707361
+    m_Localized: Ready
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707362
+    m_Localized: Ranking
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707363
+    m_Localized: Position
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707364
+    m_Localized: Name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707365
+    m_Localized: Lobby
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26440611608571904
+    m_Localized: Student
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26440611608571905
+    m_Localized: Teacher
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:

@@ -41,6 +41,170 @@ MonoBehaviour:
     m_Metadata:
       m_Items:
       - rid: 2814509147925774341
+  - m_Id: 26437426139541504
+    m_Localized: Acceso
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707328
+    m_Localized: Registro
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707329
+    m_Localized: Ingrese texto...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707330
+    m_Localized: "Atr\xE1s"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707331
+    m_Localized: Introduzca su nombre de usuario...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707332
+    m_Localized: "Introduce el c\xF3digo de clase..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707333
+    m_Localized: Siguiente
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707334
+    m_Localized: Edad
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707335
+    m_Localized: Rol
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707336
+    m_Localized: "G\xE9nero"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707337
+    m_Localized: '#VALUE!'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707338
+    m_Localized: '#VALUE!'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707339
+    m_Localized: '#VALUE!'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707340
+    m_Localized: '#VALUE!'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707341
+    m_Localized: '#VALUE!'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707342
+    m_Localized: '#VALUE!'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707343
+    m_Localized: '#VALUE!'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707344
+    m_Localized: "C\xF3digo"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707345
+    m_Localized: "C\xF3digo de sala:"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707346
+    m_Localized: Jugadores
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707347
+    m_Localized: Abandonar
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707348
+    m_Localized: Restaurante
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707349
+    m_Localized: Jugar
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707350
+    m_Localized: Proximamente...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707351
+    m_Localized: "C\xF3mo jugar"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707352
+    m_Localized: "Selecciona un juego para mostrar su descripci\xF3n."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707353
+    m_Localized: Selecciona un juego para mostrar su tutorial.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707354
+    m_Localized: '#VALUE!'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707355
+    m_Localized: '#VALUE!'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707356
+    m_Localized: Equipos
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707357
+    m_Localized: "Estad\xEDsticas"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707358
+    m_Localized: Pausa
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707359
+    m_Localized: Reanudar
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707360
+    m_Localized: Puntos
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707361
+    m_Localized: Listo
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707362
+    m_Localized: "Clasificaci\xF3n"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707363
+    m_Localized: "Posici\xF3n"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707364
+    m_Localized: Nombre
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707365
+    m_Localized: Sala
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26440611608571904
+    m_Localized: Alumno
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26440611608571905
+    m_Localized: Maestro
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:

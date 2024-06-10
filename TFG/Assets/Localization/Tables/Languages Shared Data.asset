@@ -35,6 +35,170 @@ MonoBehaviour:
     m_Key: PreCountdown
     m_Metadata:
       m_Items: []
+  - m_Id: 26437426139541504
+    m_Key: login
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707328
+    m_Key: register
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707329
+    m_Key: enterText
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707330
+    m_Key: back
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707331
+    m_Key: enterName
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707332
+    m_Key: enterClassCode
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707333
+    m_Key: next
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707334
+    m_Key: age
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707335
+    m_Key: role
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707336
+    m_Key: gender
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707337
+    m_Key: roleRegisterErrorText
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707338
+    m_Key: genderRegisterErrorText
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707339
+    m_Key: usernameRegisterErrorText
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707340
+    m_Key: userAlreadyExistErrorText
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707341
+    m_Key: userNotFoundErrorText
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707342
+    m_Key: DBErrorText
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707343
+    m_Key: missingFieldsErrorText
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707344
+    m_Key: code
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707345
+    m_Key: roomCode
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707346
+    m_Key: players
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707347
+    m_Key: quit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707348
+    m_Key: restaurant
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707349
+    m_Key: play
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707350
+    m_Key: comingSoon
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707351
+    m_Key: howToPlay
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707352
+    m_Key: noGameDescription
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707353
+    m_Key: noGameTutorial
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707354
+    m_Key: restaurantDescription
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707355
+    m_Key: restaurantTutorial
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707356
+    m_Key: teams
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707357
+    m_Key: stats
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707358
+    m_Key: pause
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707359
+    m_Key: resume
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707360
+    m_Key: score
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707361
+    m_Key: ready
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707362
+    m_Key: ranking
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707363
+    m_Key: position
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707364
+    m_Key: name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707365
+    m_Key: lobby
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26440611608571904
+    m_Key: student
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26440611608571905
+    m_Key: teacher
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

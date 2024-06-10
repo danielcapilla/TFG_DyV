@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 public class BurguerJSONCreator
 {
@@ -56,7 +57,7 @@ public class BurguerJSONCreator
     static string CreateBurguerJSON(List<IngredientsScriptableObject> ingredientList, int hamburguesaIDX)
     {
         //Construye JSON para la petición REST         
-        string json = $@"{{""Hamburguesa {hamburguesaIDX}"":[";
+        string json = $@"{{""ID"": ""Hamburguesa {hamburguesaIDX}"" ,""Ingredientes"":[";
         foreach (IngredientsScriptableObject ingredient in ingredientList)
         {
             json += $@" {{""Ingrediente"":""{ingredient.IngredientName}""}}";
@@ -72,11 +73,11 @@ public class BurguerJSONCreator
     static string CreateDeliveredBurguerJSON(List<IngredientBehaviour> ingredientList, int hamburguesaIDX)
     {
         //Construye JSON para la petición REST         
-        string json = $@"{{""Hamburguesa {hamburguesaIDX}"":[";
+        string json = $@"{{""ID"": ""Hamburguesa {hamburguesaIDX}"" ,""Ingredientes"":[";
         foreach (IngredientBehaviour ingredient in ingredientList)
         {
             json += $@" {{""Ingrediente"":""{ingredient.ingredient.IngredientName}"",";
-            json += $@" ""Colocado por"":""{ingredient.playerName}""}}";
+            json += $@" ""ColocadoPor"":""{ingredient.playerName}""}}";
             if (!ingredient.Equals(ingredientList.Last()))
             {
                 json += ",";
@@ -86,4 +87,115 @@ public class BurguerJSONCreator
         return json;
     }
 
+
+    public static Match CreateMatchObject(string data)
+    {
+        Match match = new Match();
+        Debug.Log(data);
+        MatchData MatchData = JsonUtility.FromJson<MatchData>(data);
+        //HamburguesasEjemplo
+        for (int i = 0; i < MatchData.HamburguesasEjemplo.Length; i++)
+        {
+            //BurguerData burguerData = CreateBurguerObject(MatchData.HamburguesasEjemplo[i]);
+            List<Ingredientes> burguer = new List<Ingredientes>();
+            burguer.AddRange(MatchData.HamburguesasEjemplo[i].Ingredientes);
+            match.HamburguesasEjemplo.Add(burguer);
+        }
+
+        //HamburguesasCorrectas
+        for (int i = 0; i < MatchData.HamburguesasCorrectas.Length; i++)
+        {
+            //BurguerData burguerData = CreateBurguerObject(MatchData.HamburguesasCorrectas[i]);
+            List<Ingredientes> burguer = new List<Ingredientes>();
+            burguer.AddRange(MatchData.HamburguesasCorrectas[i].Ingredientes);
+            match.HamburguesasCorrectas.Add(burguer);
+        }
+
+        for (int i = 0; i < MatchData.Equipos.Length; i++)
+        {
+            //EquiposJSONData equipo = JsonUtility.FromJson<EquiposJSONData>(MatchData.Equipos[i]);
+            HamburguesasEquipos hamburguesasEquipos = new HamburguesasEquipos();
+            hamburguesasEquipos.ID = i.ToString();
+            for (int j = 0; j < MatchData.Equipos[i].Hamburguesas.Length; j++)
+            {
+                //BurguerDeliveredData burguerDelivered = CreateDeliveredBurguerObject(equipo.HamburguesasEntregadas[j]);
+                List<IngredientesColocados> burguer = new List<IngredientesColocados>();
+                burguer.AddRange(MatchData.Equipos[i].Hamburguesas[j].Ingredientes);
+                hamburguesasEquipos.HamburguesasEntregadas.Add(burguer);
+            }
+            match.Equipos.Add(hamburguesasEquipos);
+        }
+        return match;
+    }
+
+    static BurguerData CreateBurguerObject(string data)
+    {
+        BurguerData burguerData = JsonUtility.FromJson<BurguerData>(data);
+        Debug.Log(data);
+        Debug.Log(burguerData);
+        return burguerData;
+    }
+
+    static BurguerDeliveredData CreateDeliveredBurguerObject(string data)
+    {
+        BurguerDeliveredData burguerDeliveredData = JsonUtility.FromJson<BurguerDeliveredData>(data);
+        return burguerDeliveredData;
+    }
+
+    [System.Serializable]
+    class MatchData
+    {
+        public BurguerData[] HamburguesasEjemplo;
+        public BurguerData[] HamburguesasCorrectas;
+        public EquiposJSONData[] Equipos;
+    }
+
+    [System.Serializable]
+    public class Match
+    {
+        public List<List<Ingredientes>> HamburguesasEjemplo = new();
+        public List<List<Ingredientes>> HamburguesasCorrectas = new();
+        public List<HamburguesasEquipos> Equipos = new();
+    }
+
+    [System.Serializable]
+    class EquiposJSONData
+    {
+        public string Equipo;
+        public BurguerDeliveredData[] Hamburguesas;
+    }
+
+    [System.Serializable]
+    public class HamburguesasEquipos
+    {
+        public string ID;
+        public List<List<IngredientesColocados>> HamburguesasEntregadas = new();
+    }
+
+    [System.Serializable]
+    class BurguerData
+    {
+        public string ID;
+        public Ingredientes[] Ingredientes;
+    }
+
+    [System.Serializable]
+    class BurguerDeliveredData
+    {
+        public string ID;
+        public IngredientesColocados[] Ingredientes;
+    }
+
+    [System.Serializable]
+    public class Ingredientes
+    {
+        public string Ingrediente;
+    }
+
+    [System.Serializable]
+    public class IngredientesColocados
+    {
+        public string Ingrediente;
+        public string ColocadoPor;
+    }
 }
