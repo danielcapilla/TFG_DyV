@@ -20,6 +20,7 @@ public class GamesBehaviour : MonoBehaviour
     [SerializeField]
     private GameObject gamesGO;
     public bool selectedGame = false;
+    public string gameCode;
     private void OnEnable()
     {
         if (filters.date == "")
@@ -71,11 +72,11 @@ public class GamesBehaviour : MonoBehaviour
 
     }
 
-    private void ChangeBool(object sender, EventArgs e)
+    private void ChangeBool(object sender, string e)
     {
         selectedGame = true;
+        gameCode = e;
     }
-
     public int NextGame()
     {
         Button clickedButton = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.GetComponent<Button>();

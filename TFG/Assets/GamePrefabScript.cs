@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,7 +9,7 @@ public class GamePrefabScript : MonoBehaviour
 {
     private GameObject objectToActivate;
     private GameObject objectToDesactivate;
-    public EventHandler onClicked;
+    public EventHandler<string> onClicked;
     void Start()
     {
         Button btn = GetComponent<Button>();
@@ -31,12 +32,9 @@ public class GamePrefabScript : MonoBehaviour
     {
         if (objectToActivate != null)
         {
-            onClicked?.Invoke(this, EventArgs.Empty);
+            onClicked?.Invoke(this, GetComponentInChildren<TextMeshProUGUI>().text);
             objectToActivate.SetActive(true);
             objectToDesactivate.SetActive(false);
         }
-    }
-    public void ChangeBool(bool gameSelected)
-    {
     }
 }
