@@ -60,8 +60,8 @@ public class BurguerJSONCreator
         string json = $@"{{""ID"": ""Hamburguesa {hamburguesaIDX}"" ,""Ingredientes"":[";
         foreach (IngredientsScriptableObject ingredient in ingredientList)
         {
-            json += $@" {{""Ingrediente"":""{ingredient.IngredientName}""}}";
-            json += $@" {{""Codigo"":""{PairedIngredients[ingredient]}""}}";
+            json += $@" {{""Ingrediente"":{ingredient.ID}}}";
+            json += $@" {{""Codigo"":{PairedIngredients[ingredient]}}}";
             if (!ingredient.Equals(ingredientList.Last()))
             {
                 json += ",";
@@ -77,7 +77,7 @@ public class BurguerJSONCreator
         string json = $@"{{""ID"": ""Hamburguesa {hamburguesaIDX}"" ,""Ingredientes"":[";
         foreach (IngredientBehaviour ingredient in ingredientList)
         {
-            json += $@" {{""Ingrediente"":""{ingredient.ingredient.IngredientName}"",";
+            json += $@" {{""Ingrediente"":{ingredient.ingredient.ID},";
             json += $@" ""ColocadoPor"":""{ingredient.playerName}""}}";
             if (!ingredient.Equals(ingredientList.Last()))
             {
@@ -190,14 +190,14 @@ public class BurguerJSONCreator
     [System.Serializable]
     public class Ingredientes
     {
-        public string Ingrediente;
-        public string Codigo;
+        public int Ingrediente;
+        public int Codigo;
     }
 
     [System.Serializable]
     public class IngredientesColocados
     {
-        public string Ingrediente;
+        public int Ingrediente;
         public string ColocadoPor;
     }
 }
