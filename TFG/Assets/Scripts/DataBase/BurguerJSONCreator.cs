@@ -91,7 +91,6 @@ public class BurguerJSONCreator
     public static Match CreateMatchObject(string data)
     {
         Match match = new Match();
-        Debug.Log(data);
         MatchData MatchData = JsonUtility.FromJson<MatchData>(data);
         //HamburguesasEjemplo
         for (int i = 0; i < MatchData.HamburguesasEjemplo.Length; i++)

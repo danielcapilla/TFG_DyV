@@ -19,7 +19,7 @@ public class GamesBehaviour : MonoBehaviour
     private GameObject groupsGO;
     [SerializeField]
     private GameObject gamesGO;
-    public bool selectedGame = false;
+    private bool selectedGame = false;
     public string gameCode;
     private void OnEnable()
     {
