@@ -247,7 +247,7 @@ public class DataBaseCommander : MonoBehaviour
     string CreatePostGameJSON(string classCode, string matchJSON)
     {
         DateTime dateTime = DateTime.Today;
-       
+
         //Construye JSON para la petición REST         
         string json = $@"{{
             ""username"":""{Username}"",
@@ -266,7 +266,7 @@ public class DataBaseCommander : MonoBehaviour
     string CreateGetGameJSON(string date = "", string classCode = "")
     {
         string json;
-        if(date == "")
+        if (date == "")
         {
             Debug.Log("No date");
             json = $@"{{
@@ -278,7 +278,7 @@ public class DataBaseCommander : MonoBehaviour
             }}
         }}";
         }
-        else if(classCode == "")
+        else if (classCode == "")
         {
             Debug.Log("No class");
             json = $@"{{
@@ -307,10 +307,10 @@ public class DataBaseCommander : MonoBehaviour
         return json;
     }
 
-    public void RegisterGame(string classCode)
+    public void RegisterGame(string classCode, List<List<IngredientsScriptableObject>> hamburguesasEjemplo, List<List<IngredientsScriptableObject>> hamburguesasCorrectas, List<TeamInfo> Equipos, Dictionary<IngredientsScriptableObject, int> PairedIngredients)
     {
-        string burguers = "{}";
-        string json = CreatePostGameJSON(classCode, burguers);
+        string matchJSON = BurguerJSONCreator.CreateMatchJSON(hamburguesasEjemplo, hamburguesasCorrectas, Equipos, PairedIngredients);
+        string json = CreatePostGameJSON(classCode, matchJSON);
         StartCoroutine(RegisterGameDB(json));
     }
 
@@ -334,10 +334,10 @@ public class DataBaseCommander : MonoBehaviour
         }
     }
 
-    public void GetGame(Action<GameResponse> callback,string date = "", string classCode = "")
+    public void GetGame(Action<GameResponse> callback, string date = "", string classCode = "")
     {
         string json = CreateGetGameJSON(date, classCode);
-        StartCoroutine(GetGameDB(json,callback));
+        StartCoroutine(GetGameDB(json, callback));
 
     }
 
@@ -362,7 +362,7 @@ public class DataBaseCommander : MonoBehaviour
                     {
                         GameResponseData data = response.data[i];
                         //Debug.Log(data);
-                        
+
                     }
                     callback(response);
                 }
