@@ -33,7 +33,7 @@ public class BurguerJSONCreator
         json += $@"""Equipos"":[";
         for (int i = 0; i < Equipos.Count; i++)
         {
-            json += $@"""Equipo"": ""Equipo {i}"",";
+            json += $@"""Equipo"": ""{i}"",";
             json += $@"""Hamburguesas"": [";
             TeamInfoRestaurante teamInfo = (TeamInfoRestaurante)Equipos[i];
             for (int j = 0; j < teamInfo.order.Count; j++)
