@@ -13,7 +13,8 @@ public class IngredientBox : InteractableObject
         //instance.transform.localPosition = new Vector3(0, 0.5f, 0);
         GameObject lid = Instantiate(Lid, transform);
         lid.transform.localPosition = new Vector3(0, 0.8f, 0);
-        GameObject plane = Instantiate(new GameObject("Plane"), transform);
+        GameObject plane = new GameObject("Plane");
+        plane.transform.parent = transform;
         plane.transform.Rotate(new Vector3(90, 0, 0));
         SpriteRenderer renderer = plane.AddComponent<SpriteRenderer>();
         renderer.sprite = ingredient.Sprite;
