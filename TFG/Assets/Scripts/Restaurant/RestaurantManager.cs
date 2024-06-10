@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -18,7 +15,7 @@ public class RestaurantManager : NetworkBehaviour
 
     private void UnSceceLoaded(ulong clientId, string sceneName, AsyncOperation asyncOperation)
     {
-        if(!IsServer || !IsHost) return;
-        Debug.Log(BurguerJSONCreator.CreateMatchJSON(recipe.recipes,recipe.currentOrders, teamMenager.teams));
+        if (!IsServer || !IsHost) return;
+        Debug.Log(BurguerJSONCreator.CreateMatchJSON(recipe.recipes, recipe.currentOrders, teamMenager.teams, recipe.pairedIngredients));
     }
 }

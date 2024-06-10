@@ -1,13 +1,11 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
 using Unity.Netcode;
+using UnityEngine;
 
 public class RecipeRandomizer : NetworkBehaviour
 {
     public MenuScriptableObject currentMenu;
-    [SerializeField] Dictionary<IngredientsScriptableObject, int> pairedIngredients = new Dictionary<IngredientsScriptableObject, int>();
+    [SerializeField] public Dictionary<IngredientsScriptableObject, int> pairedIngredients = new Dictionary<IngredientsScriptableObject, int>();
     [SerializeField] public List<List<IngredientsScriptableObject>> recipes = new List<List<IngredientsScriptableObject>>();
     [SerializeField] List<IngredientsScriptableObject> extraIngredients = new List<IngredientsScriptableObject>();
     public List<List<IngredientsScriptableObject>> currentOrders = new List<List<IngredientsScriptableObject>>();
@@ -24,7 +22,7 @@ public class RecipeRandomizer : NetworkBehaviour
         countdown = GetComponent<Countdown>();
         countdown.OnRegresiveTimerFinished += SpawnRestaurantUI;
         randomSeed.OnValueChanged += SetRandomSeed;
-        
+
         if (IsServer || IsHost)
         {
             randomSeed.Value = Random.Range(int.MinValue, int.MaxValue);
@@ -59,8 +57,8 @@ public class RecipeRandomizer : NetworkBehaviour
     {
         //Si es host o server
 
-        
-        
+
+
         //TODO shuffle recipe appearing order
 
         //Si es cliente recibe el randomizado hecho por el host o server
@@ -75,7 +73,7 @@ public class RecipeRandomizer : NetworkBehaviour
         //Muestra pedido
     }
 
-    public void RandomizeIngredients() 
+    public void RandomizeIngredients()
     {
         //Asigna imagenes a los ingredientes sin que se repitan
 
@@ -90,10 +88,10 @@ public class RecipeRandomizer : NetworkBehaviour
             pairedIngredients[ingredient] = rand;
         }
         //Para el queso, lechuga... en el caso de la hamburguesa
-        foreach (IngredientsScriptableObject ingredient in currentMenu.extraIngredients) 
+        foreach (IngredientsScriptableObject ingredient in currentMenu.extraIngredients)
         {
-            int rand = Random.Range(0,commandSpawner.Codes.Count);
-            while (pairedIngredients.ContainsValue(rand)) 
+            int rand = Random.Range(0, commandSpawner.Codes.Count);
+            while (pairedIngredients.ContainsValue(rand))
             {
                 rand = Random.Range(0, commandSpawner.Codes.Count);
             }
@@ -101,7 +99,7 @@ public class RecipeRandomizer : NetworkBehaviour
         }
     }
 
-    public void GenerateRandomOrder() 
+    public void GenerateRandomOrder()
     {
         for (int j = 0; j < 3; j++)
         {
@@ -143,17 +141,17 @@ public class RecipeRandomizer : NetworkBehaviour
         commandSpawner.SpawnOrder(pairedIngredients, currentOrders[0]);
     }
 
-    public void GenerateRandomRecipes() 
+    public void GenerateRandomRecipes()
     {
         //HashSet<List<IngredientsScriptableObject>> recipes = new HashSet<List<IngredientsScriptableObject>>();
         extraIngredients.AddRange(currentMenu.extraIngredients);
         List<IngredientsScriptableObject> dupedIngredients = new List<IngredientsScriptableObject>();
         //Add random extra ingredients duplicates
-        int randIng1 = Random.Range(0,currentMenu.extraIngredients.Count);
+        int randIng1 = Random.Range(0, currentMenu.extraIngredients.Count);
         int randIng2 = Random.Range(0, currentMenu.extraIngredients.Count);
         int randIng3 = Random.Range(0, currentMenu.extraIngredients.Count);
         //Avoid same ingredients
-        while (randIng1 == randIng2) 
+        while (randIng1 == randIng2)
         {
             randIng2 = Random.Range(0, currentMenu.extraIngredients.Count);
         }
@@ -173,12 +171,12 @@ public class RecipeRandomizer : NetworkBehaviour
         extraIngredients.Remove(currentMenu.extraIngredients[randIng2]);
         extraIngredients.Remove(currentMenu.extraIngredients[randIng3]);
 
-        for (int i = 0; i < currentMenu.NumberOfExampleRecipes; i++) 
+        for (int i = 0; i < currentMenu.NumberOfExampleRecipes; i++)
         {
-            
+
             List<IngredientsScriptableObject> recipe = new List<IngredientsScriptableObject>();
             //Add core ingredients as base
-            foreach (IngredientsScriptableObject coreIngredient in currentMenu.coreIngredients) 
+            foreach (IngredientsScriptableObject coreIngredient in currentMenu.coreIngredients)
             {
                 recipe.Add(coreIngredient);
             }
@@ -188,13 +186,13 @@ public class RecipeRandomizer : NetworkBehaviour
 
             //Add extra ingredients
             int extraIngredientsToAdd = 1;
-            if (i == 0) 
+            if (i == 0)
             {
                 extraIngredientsToAdd = 0;
                 recipe.Add(dupedIngredients[0]);
                 dupedIngredients.RemoveAt(0);
             }
-            else if (i == 1) 
+            else if (i == 1)
             {
                 extraIngredientsToAdd = 0;
                 recipe.Add(dupedIngredients[2]);
@@ -202,14 +200,14 @@ public class RecipeRandomizer : NetworkBehaviour
                 recipe.Add(dupedIngredients[1]);
                 dupedIngredients.RemoveAt(1);
             }
-            else if (dupedIngredients.Count > 0) 
+            else if (dupedIngredients.Count > 0)
             {
                 recipe.Add(dupedIngredients[0]);
                 dupedIngredients.RemoveAt(0);
             }
 
 
-            for(int j = 0; j < extraIngredientsToAdd; j++) 
+            for (int j = 0; j < extraIngredientsToAdd; j++)
             {
                 int rand = Random.Range(0, extraIngredients.Count);
                 recipe.Add(extraIngredients[rand]);
@@ -219,7 +217,7 @@ public class RecipeRandomizer : NetworkBehaviour
             //Add core ingredients again if needed
             foreach (IngredientsScriptableObject coreIngredient in currentMenu.coreIngredients)
             {
-                if (coreIngredient.MinimumQuantity > 1) 
+                if (coreIngredient.MinimumQuantity > 1)
                 {
                     recipe.Add(coreIngredient);
                 }
@@ -235,7 +233,7 @@ public class RecipeRandomizer : NetworkBehaviour
         recipes.Sort((a, b) => 1 - 2 * Random.Range(0, recipes.Count));
     }
 
-    public void NextOrder(int order) 
+    public void NextOrder(int order)
     {
         commandSpawner.SpawnOrder(pairedIngredients, currentOrders[order]);
     }
