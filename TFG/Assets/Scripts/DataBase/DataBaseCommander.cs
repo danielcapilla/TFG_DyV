@@ -244,7 +244,7 @@ public class DataBaseCommander : MonoBehaviour
     string RestaurantGameTable = "Games";
 
 
-    string CreatePostGameJSON(string classCode, string matchJSON)
+    string CreatePostGameJSON(string teacherCode,string classCode, string matchJSON)
     {
         DateTime dateTime = DateTime.Today;
 
@@ -255,6 +255,7 @@ public class DataBaseCommander : MonoBehaviour
             ""table"":""{RestaurantGameTable}"",
             ""data"": {{
                 ""DatePlayed"": ""{dateTime.ToString("yyyy-MM-dd")}"",
+                ""TeacherCode"": ""{teacherCode}"",
                 ""ClassPlayed"": ""{classCode}"",
                 ""BurguersDelivered"": ""{matchJSON}""
             }}
@@ -263,7 +264,7 @@ public class DataBaseCommander : MonoBehaviour
         return json;
     }
 
-    string CreateGetGameJSON(string date = "", string classCode = "")
+    string CreateGetGameJSON(string teacherCode, string date = "", string classCode = "")
     {
         string json;
         if (date == "")
@@ -274,6 +275,7 @@ public class DataBaseCommander : MonoBehaviour
             ""password"":""{Password}"",
             ""table"":""{RestaurantGameTable}"",
             ""filter"": {{
+                ""TeacherCode"": ""{teacherCode}"",
                 ""ClassPlayed"": ""{classCode}""
             }}
         }}";
@@ -286,6 +288,7 @@ public class DataBaseCommander : MonoBehaviour
             ""password"":""{Password}"",
             ""table"":""{RestaurantGameTable}"",
             ""filter"": {{
+                ""TeacherCode"": ""{teacherCode}"",
                 ""DatePlayed"": ""{date}""
             }}
         }}";
@@ -298,6 +301,7 @@ public class DataBaseCommander : MonoBehaviour
             ""password"":""{Password}"",
             ""table"":""{RestaurantGameTable}"",
             ""filter"": {{
+                ""TeacherCode"": ""{teacherCode}"",
                 ""DatePlayed"": ""{date}"",
                 ""ClassPlayed"": ""{classCode}""
             }}
@@ -307,10 +311,10 @@ public class DataBaseCommander : MonoBehaviour
         return json;
     }
 
-    public void RegisterGame(string classCode, List<List<IngredientsScriptableObject>> hamburguesasEjemplo, List<List<IngredientsScriptableObject>> hamburguesasCorrectas, List<TeamInfo> Equipos, Dictionary<IngredientsScriptableObject, int> PairedIngredients)
+    public void RegisterGame(string teacherCode,string classCode, List<List<IngredientsScriptableObject>> hamburguesasEjemplo, List<List<IngredientsScriptableObject>> hamburguesasCorrectas, List<TeamInfo> Equipos, Dictionary<IngredientsScriptableObject, int> PairedIngredients)
     {
         string matchJSON = BurguerJSONCreator.CreateMatchJSON(hamburguesasEjemplo, hamburguesasCorrectas, Equipos, PairedIngredients);
-        string json = CreatePostGameJSON(classCode, matchJSON);
+        string json = CreatePostGameJSON(teacherCode, classCode, matchJSON);
         StartCoroutine(RegisterGameDB(json));
     }
 
@@ -336,7 +340,7 @@ public class DataBaseCommander : MonoBehaviour
 
     public void GetGame(Action<GameResponse> callback, string date = "", string classCode = "")
     {
-        string json = CreateGetGameJSON(date, classCode);
+        string json = CreateGetGameJSON(PlayerData.ClassCode,date, classCode);
         StartCoroutine(GetGameDB(json, callback));
 
     }

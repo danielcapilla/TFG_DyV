@@ -1,3 +1,4 @@
+using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -7,15 +8,25 @@ public class RestaurantManager : NetworkBehaviour
     private RecipeRandomizer recipe;
     [SerializeField]
     private TeamMenager teamMenager;
-
+    [SerializeField]
+    private DataBaseCommander dataBaseCommander;
+    private string studentClassCode;
     private void Start()
     {
+        if(IsClient && !IsHost)
+        {
+            ClassCodeServerRPC(PlayerData.ClassCode);
+        }
+        if (!IsServer || !IsHost) return;
         NetworkManager.Singleton.SceneManager.OnUnload += UnSceceLoaded;
     }
-
+    [ServerRpc(RequireOwnership = false)]
+    private void ClassCodeServerRPC(FixedString64Bytes classCode)
+    {
+        studentClassCode = classCode.ToString();
+    }
     private void UnSceceLoaded(ulong clientId, string sceneName, AsyncOperation asyncOperation)
     {
-        if (!IsServer || !IsHost) return;
-        Debug.Log(BurguerJSONCreator.CreateMatchJSON(recipe.recipes, recipe.currentOrders, teamMenager.teams, recipe.pairedIngredients));
+        dataBaseCommander.RegisterGame(PlayerData.ClassCode, studentClassCode, recipe.recipes, recipe.currentOrders, teamMenager.teams,recipe.pairedIngredients);
     }
 }
