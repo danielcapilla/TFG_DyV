@@ -40686,6 +40686,7 @@ GameObject:
   - component: {fileID: 1093527941}
   - component: {fileID: 1093527939}
   - component: {fileID: 1093527940}
+  - component: {fileID: 1093527942}
   m_Layer: 0
   m_Name: RestaurantManager
   m_TagString: Untagged
@@ -40728,6 +40729,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   recipe: {fileID: 1196646254}
   teamMenager: {fileID: 1645041031}
+  dataBaseCommander: {fileID: 1093527942}
 --- !u!4 &1093527941
 Transform:
   m_ObjectHideFlags: 0
@@ -40737,12 +40739,24 @@ Transform:
   m_GameObject: {fileID: 1093527938}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 960, y: 600, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1093527942
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1093527938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a57f39a4eb8ded40baa5078aed021b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1101547543
 PrefabInstance:
   m_ObjectHideFlags: 0
