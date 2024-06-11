@@ -257,7 +257,7 @@ public class DataBaseCommander : MonoBehaviour
                 ""DatePlayed"": ""{dateTime.ToString("yyyy-MM-dd")}"",
                 ""TeacherCode"": ""{teacherCode}"",
                 ""ClassPlayed"": ""{classCode}"",
-                ""BurguersDelivered"": ""{matchJSON}""
+                ""BurguersDelivered"": {matchJSON}
             }}
         }}";
 
@@ -335,6 +335,7 @@ public class DataBaseCommander : MonoBehaviour
             {
                 print("Respuesta: " + www.downloadHandler.text);
             }
+            callback(0);
         }
     }
 

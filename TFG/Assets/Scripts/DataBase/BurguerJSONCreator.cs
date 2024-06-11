@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class BurguerJSONCreator
@@ -33,7 +32,7 @@ public class BurguerJSONCreator
         json += $@"""Equipos"":[";
         for (int i = 0; i < Equipos.Count; i++)
         {
-            json += $@"""Equipo"": ""{i}"",";
+            json += $@"{{""Equipo"": ""{i}"",";
             json += $@"""Hamburguesas"": [";
             TeamInfoRestaurante teamInfo = (TeamInfoRestaurante)Equipos[i];
             for (int j = 0; j < teamInfo.order.Count; j++)
@@ -50,7 +49,7 @@ public class BurguerJSONCreator
                 json += ",";
             }
         }
-        json += $@"]}}}}";
+        json += $@"]}}";
         return json;
     }
 
@@ -58,16 +57,18 @@ public class BurguerJSONCreator
     {
         //Construye JSON para la petición REST         
         string json = $@"{{""ID"": ""Hamburguesa {hamburguesaIDX}"" ,""Ingredientes"":[";
+        int i = 0;
         foreach (IngredientsScriptableObject ingredient in ingredientList)
         {
-            json += $@" {{""Ingrediente"":{ingredient.ID}}}";
-            json += $@" {{""Codigo"":{PairedIngredients[ingredient]}}}";
-            if (!ingredient.Equals(ingredientList.Last()))
+            json += $@" {{""I"":{ingredient.ID},";
+            json += $@" ""C"":{PairedIngredients[ingredient]}}}";
+            if (i != ingredientList.Count - 1)
             {
                 json += ",";
             }
-            json += "]";
+            i++;
         }
+        json += "]}";
         return json;
     }
 
@@ -75,16 +76,18 @@ public class BurguerJSONCreator
     {
         //Construye JSON para la petición REST         
         string json = $@"{{""ID"": ""Hamburguesa {hamburguesaIDX}"" ,""Ingredientes"":[";
+        int i = 0;
         foreach (IngredientBehaviour ingredient in ingredientList)
         {
-            json += $@" {{""Ingrediente"":{ingredient.ingredient.ID},";
-            json += $@" ""ColocadoPor"":""{ingredient.playerName}""}}";
-            if (!ingredient.Equals(ingredientList.Last()))
+            json += $@" {{""I"":{ingredient.ingredient.ID},";
+            json += $@" ""Co"":""{ingredient.playerName}""}}";
+            if (i != ingredientList.Count - 1)
             {
                 json += ",";
             }
-            json += "]";
+            i++;
         }
+        json += "]}";
         return json;
     }
 

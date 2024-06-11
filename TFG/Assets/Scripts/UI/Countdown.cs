@@ -72,6 +72,7 @@ public class Countdown : NetworkBehaviour
             tiempo = 0;
             if (IsServer)
             {
+                timeStarted.Value = false;
                 restaurantManager.SaveMatchToDB();
             }
         }
