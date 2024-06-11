@@ -45576,14 +45576,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a98f6e908bb7e3541a085e9caa8fa226, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tiempo: 10
+  tiempo: 160
   regresiveTime: 3
   timeStarted:
     m_InternalValue: 0
   GUI: {fileID: 4846893993274482153}
   GUI2: {fileID: 784302241}
   preGUI: {fileID: 589315833}
-  max: 240
+  max: 160
   fill: {fileID: 6847456495830495642}
   fill2: {fileID: 507981238}
   LocalizedStringTable:
