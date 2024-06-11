@@ -38,7 +38,7 @@ public class BurguerJSONCreator
             for (int j = 0; j < teamInfo.order.Count; j++)
             {
                 json += CreateDeliveredBurguerJSON(teamInfo.order[j], j);
-                if (j != teamInfo.order.Count)
+                if (j != teamInfo.order.Count - 1)
                 {
                     json += ",";
                 }
