@@ -11,7 +11,7 @@ public class RestaurantManager : NetworkBehaviour
     private TeamMenager teamMenager;
     [SerializeField]
     private DataBaseCommander dataBaseCommander;
-    private string studentClassCode = "A";
+    private string studentClassCode = "B";
 
     private void Start()
     {

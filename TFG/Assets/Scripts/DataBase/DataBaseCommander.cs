@@ -257,7 +257,7 @@ public class DataBaseCommander : MonoBehaviour
                 ""DatePlayed"": ""{dateTime.ToString("yyyy-MM-dd")}"",
                 ""TeacherCode"": ""{teacherCode}"",
                 ""ClassPlayed"": ""{classCode}"",
-                ""BurguersDelivered"": {matchJSON}
+                ""BurguersDelivered"": ""{matchJSON}""
             }}
         }}";
 
@@ -314,6 +314,7 @@ public class DataBaseCommander : MonoBehaviour
     public void RegisterGame(string teacherCode, string classCode, List<List<IngredientsScriptableObject>> hamburguesasEjemplo, List<List<IngredientsScriptableObject>> hamburguesasCorrectas, List<TeamInfo> Equipos, Dictionary<IngredientsScriptableObject, int> PairedIngredients, Action<int> callback)
     {
         string matchJSON = BurguerJSONCreator.CreateMatchJSON(hamburguesasEjemplo, hamburguesasCorrectas, Equipos, PairedIngredients);
+        Debug.Log(matchJSON);
         string json = CreatePostGameJSON(teacherCode, classCode, matchJSON);
         StartCoroutine(RegisterGameDB(json, callback));
     }
@@ -341,7 +342,8 @@ public class DataBaseCommander : MonoBehaviour
 
     public void GetGame(Action<GameResponse> callback, string date = "", string classCode = "")
     {
-        string json = CreateGetGameJSON(PlayerData.ClassCode, date, classCode);
+        //string json = CreateGetGameJSON(PlayerData.ClassCode, date, classCode);
+        string json = CreateGetGameJSON("A", date, classCode);
         StartCoroutine(GetGameDB(json, callback));
 
     }
