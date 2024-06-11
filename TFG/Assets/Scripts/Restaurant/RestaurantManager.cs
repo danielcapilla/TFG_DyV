@@ -1,6 +1,7 @@
 using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class RestaurantManager : NetworkBehaviour
 {
@@ -12,7 +13,6 @@ public class RestaurantManager : NetworkBehaviour
     private DataBaseCommander dataBaseCommander;
     private string studentClassCode;
 
-    private AsyncOperation Async;
     private void Start()
     {
         if (IsClient && !IsHost)
@@ -20,23 +20,19 @@ public class RestaurantManager : NetworkBehaviour
             ClassCodeServerRPC(PlayerData.ClassCode);
         }
         if (!IsServer || !IsHost) return;
-        NetworkManager.Singleton.SceneManager.OnUnload += UnSceceLoaded;
     }
     [ServerRpc(RequireOwnership = false)]
     private void ClassCodeServerRPC(FixedString64Bytes classCode)
     {
         studentClassCode = classCode.ToString();
     }
-    private void UnSceceLoaded(ulong clientId, string sceneName, AsyncOperation asyncOperation)
+    public void SaveMatchToDB()
     {
-        asyncOperation.allowSceneActivation = false;
-        Async = asyncOperation;
         dataBaseCommander.RegisterGame(PlayerData.ClassCode, studentClassCode, recipe.recipes, recipe.currentOrders, teamMenager.teams, recipe.pairedIngredients, AllowChangeScene);
-
     }
 
     void AllowChangeScene(int result)
     {
-        Async.allowSceneActivation = true;
+        NetworkManager.Singleton.SceneManager.LoadScene("Podium", LoadSceneMode.Single);
     }
 }
