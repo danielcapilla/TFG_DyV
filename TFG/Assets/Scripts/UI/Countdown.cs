@@ -1,14 +1,11 @@
-using UnityEngine;
+using DG.Tweening;
+using System;
+using System.Collections;
 using TMPro;
 using Unity.Netcode;
-using System;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;
-using DG.Tweening;
-using System.Collections;
-using UnityEngine.Localization.Components;
-using UnityEngine.Localization.SmartFormat.PersistentVariables;
+using UnityEngine;
 using UnityEngine.Localization;
+using UnityEngine.UI;
 
 public class Countdown : NetworkBehaviour
 {
@@ -37,6 +34,8 @@ public class Countdown : NetworkBehaviour
 
     public EventHandler OnRegresiveTimerFinished;
 
+    [SerializeField] RestaurantManager restaurantManager;
+
 
     private void Start()
     {
@@ -60,9 +59,9 @@ public class Countdown : NetworkBehaviour
     }
 
     private void FixedUpdate()
-    {                         
+    {
         if (!timeStarted.Value) { return; }
-        if(!regresiveTimerFinished) { return; }
+        if (!regresiveTimerFinished) { return; }
         tiempo -= Time.fixedDeltaTime;
         GUI.text = ((int)tiempo).ToString();
         GUI2.text = ((int)tiempo).ToString();
@@ -73,7 +72,8 @@ public class Countdown : NetworkBehaviour
             tiempo = 0;
             if (IsServer)
             {
-                NetworkManager.Singleton.SceneManager.LoadScene("Podium", LoadSceneMode.Single);
+                timeStarted.Value = false;
+                restaurantManager.SaveMatchToDB();
             }
         }
     }
@@ -101,7 +101,7 @@ public class Countdown : NetworkBehaviour
     private void OnScale(Transform gui)
     {
         gui.DOScale(scaleTo, 0.5f).SetEase(Ease.InOutSine)
-            .OnComplete(()=>
+            .OnComplete(() =>
             {
                 gui.DOScale(originalScale, 0.5f)
                 .SetEase(Ease.InOutSine);

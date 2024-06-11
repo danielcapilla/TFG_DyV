@@ -244,7 +244,7 @@ public class DataBaseCommander : MonoBehaviour
     string RestaurantGameTable = "Games";
 
 
-    string CreatePostGameJSON(string teacherCode,string classCode, string matchJSON)
+    string CreatePostGameJSON(string teacherCode, string classCode, string matchJSON)
     {
         DateTime dateTime = DateTime.Today;
 
@@ -311,14 +311,15 @@ public class DataBaseCommander : MonoBehaviour
         return json;
     }
 
-    public void RegisterGame(string teacherCode,string classCode, List<List<IngredientsScriptableObject>> hamburguesasEjemplo, List<List<IngredientsScriptableObject>> hamburguesasCorrectas, List<TeamInfo> Equipos, Dictionary<IngredientsScriptableObject, int> PairedIngredients)
+    public void RegisterGame(string teacherCode, string classCode, List<List<IngredientsScriptableObject>> hamburguesasEjemplo, List<List<IngredientsScriptableObject>> hamburguesasCorrectas, List<TeamInfo> Equipos, Dictionary<IngredientsScriptableObject, int> PairedIngredients, Action<int> callback)
     {
         string matchJSON = BurguerJSONCreator.CreateMatchJSON(hamburguesasEjemplo, hamburguesasCorrectas, Equipos, PairedIngredients);
+        Debug.Log(matchJSON);
         string json = CreatePostGameJSON(teacherCode, classCode, matchJSON);
-        StartCoroutine(RegisterGameDB(json));
+        StartCoroutine(RegisterGameDB(json, callback));
     }
 
-    IEnumerator RegisterGameDB(string save)
+    IEnumerator RegisterGameDB(string save, Action<int> callback)
     {
         Debug.Log(save);
         using (UnityWebRequest www = UnityWebRequest.Post(url + "insert", save, contentType))
@@ -335,12 +336,14 @@ public class DataBaseCommander : MonoBehaviour
             {
                 print("Respuesta: " + www.downloadHandler.text);
             }
+            callback(0);
         }
     }
 
     public void GetGame(Action<GameResponse> callback, string date = "", string classCode = "")
     {
-        string json = CreateGetGameJSON(PlayerData.ClassCode,date, classCode);
+        //string json = CreateGetGameJSON(PlayerData.ClassCode, date, classCode);
+        string json = CreateGetGameJSON("A", date, classCode);
         StartCoroutine(GetGameDB(json, callback));
 
     }

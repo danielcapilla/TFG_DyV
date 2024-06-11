@@ -38,7 +38,7 @@ public class FiltersBehaviour : MonoBehaviour
     public void GetGames(DataBaseCommander.GameResponse data)
     {
         gameResponse = data;
-        match = BurguerJSONCreator.CreateMatchObject(gameResponse.data[1].BurguersDelivered);
+        match = BurguerJSONCreator.CreateMatchObject(gameResponse.data[0].BurguersDelivered);
         //Debug.Log("=======================================");
         //ShowMatch();
         //Debug.Log(gameResponse.data.Count);

@@ -1,13 +1,16 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class BurguerJSONCreator
 {
     public static string CreateMatchJSON(List<List<IngredientsScriptableObject>> hamburguesasEjemplo, List<List<IngredientsScriptableObject>> hamburguesasCorrectas, List<TeamInfo> Equipos, Dictionary<IngredientsScriptableObject, int> PairedIngredients)
     {
-        //Construye JSON para la petición REST         
-        string json = $@"{{ ""HamburguesasEjemplo"":[";
+        //Construye JSON para la petición REST
+
+        //string json = $@"{{'HamburguesasEjemplo':[]}}";
+        string json = "";
+
+        json += $@"{{ 'HamburguesasEjemplo':[";
         for (int i = 0; i < hamburguesasEjemplo.Count; i++)
         {
             json += CreateBurguerJSON(hamburguesasEjemplo[i], i, PairedIngredients);
@@ -19,7 +22,7 @@ public class BurguerJSONCreator
         json += "],";
 
 
-        json += $@"""HamburguesasCorrectas"":[";
+        json += $@"'HamburguesasCorrectas':[";
         for (int i = 0; i < hamburguesasCorrectas.Count; i++)
         {
             json += CreateBurguerJSON(hamburguesasCorrectas[i], i, PairedIngredients);
@@ -30,16 +33,18 @@ public class BurguerJSONCreator
         }
         json += "],";
 
-        json += $@"""Equipos"":[";
+
+
+        json += $@"'Equipos':[";
         for (int i = 0; i < Equipos.Count; i++)
         {
-            json += $@"""Equipo"": ""{i}"",";
-            json += $@"""Hamburguesas"": [";
+            json += $@"{{'Equipo': '{i}',";
+            json += $@"'Hamburguesas': [";
             TeamInfoRestaurante teamInfo = (TeamInfoRestaurante)Equipos[i];
             for (int j = 0; j < teamInfo.order.Count; j++)
             {
                 json += CreateDeliveredBurguerJSON(teamInfo.order[j], j);
-                if (j != teamInfo.order.Count)
+                if (j != teamInfo.order.Count - 1)
                 {
                     json += ",";
                 }
@@ -50,41 +55,47 @@ public class BurguerJSONCreator
                 json += ",";
             }
         }
-        json += $@"]}}}}";
+
+        json += $@"]}}";
+
         return json;
     }
 
     static string CreateBurguerJSON(List<IngredientsScriptableObject> ingredientList, int hamburguesaIDX, Dictionary<IngredientsScriptableObject, int> PairedIngredients)
     {
         //Construye JSON para la petición REST         
-        string json = $@"{{""ID"": ""Hamburguesa {hamburguesaIDX}"" ,""Ingredientes"":[";
+        string json = $@"{{'ID': 'Hamburguesa {hamburguesaIDX}' ,'Ingredientes':[";
+        int i = 0;
         foreach (IngredientsScriptableObject ingredient in ingredientList)
         {
-            json += $@" {{""Ingrediente"":{ingredient.ID}}}";
-            json += $@" {{""Codigo"":{PairedIngredients[ingredient]}}}";
-            if (!ingredient.Equals(ingredientList.Last()))
+            json += $@" {{'Ingrediente':{ingredient.ID},";
+            json += $@" 'Codigo':{PairedIngredients[ingredient]}}}";
+            if (i != ingredientList.Count - 1)
             {
                 json += ",";
             }
-            json += "]";
+            i++;
         }
+        json += "]}";
         return json;
     }
 
     static string CreateDeliveredBurguerJSON(List<IngredientBehaviour> ingredientList, int hamburguesaIDX)
     {
         //Construye JSON para la petición REST         
-        string json = $@"{{""ID"": ""Hamburguesa {hamburguesaIDX}"" ,""Ingredientes"":[";
+        string json = $@"{{'ID': 'Hamburguesa {hamburguesaIDX}' ,'Ingredientes':[";
+        int i = 0;
         foreach (IngredientBehaviour ingredient in ingredientList)
         {
-            json += $@" {{""Ingrediente"":{ingredient.ingredient.ID},";
-            json += $@" ""ColocadoPor"":""{ingredient.playerName}""}}";
-            if (!ingredient.Equals(ingredientList.Last()))
+            json += $@" {{'Ingrediente':{ingredient.ingredient.ID},";
+            json += $@" 'ColocadoPor':'{ingredient.playerName}'}}";
+            if (i != ingredientList.Count - 1)
             {
                 json += ",";
             }
-            json += "]";
+            i++;
         }
+        json += "]}";
         return json;
     }
 
@@ -92,7 +103,9 @@ public class BurguerJSONCreator
     public static Match CreateMatchObject(string data)
     {
         Match match = new Match();
-        MatchData MatchData = JsonUtility.FromJson<MatchData>(data);
+        string aux = data.Replace("'", "\"");
+        Debug.Log(aux);
+        MatchData MatchData = JsonUtility.FromJson<MatchData>(aux);
         //HamburguesasEjemplo
         for (int i = 0; i < MatchData.HamburguesasEjemplo.Length; i++)
         {
