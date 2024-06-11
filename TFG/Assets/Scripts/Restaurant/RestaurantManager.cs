@@ -11,9 +11,11 @@ public class RestaurantManager : NetworkBehaviour
     [SerializeField]
     private DataBaseCommander dataBaseCommander;
     private string studentClassCode;
+
+    private AsyncOperation Async;
     private void Start()
     {
-        if(IsClient && !IsHost)
+        if (IsClient && !IsHost)
         {
             ClassCodeServerRPC(PlayerData.ClassCode);
         }
@@ -27,6 +29,14 @@ public class RestaurantManager : NetworkBehaviour
     }
     private void UnSceceLoaded(ulong clientId, string sceneName, AsyncOperation asyncOperation)
     {
-        dataBaseCommander.RegisterGame(PlayerData.ClassCode, studentClassCode, recipe.recipes, recipe.currentOrders, teamMenager.teams,recipe.pairedIngredients);
+        asyncOperation.allowSceneActivation = false;
+        Async = asyncOperation;
+        dataBaseCommander.RegisterGame(PlayerData.ClassCode, studentClassCode, recipe.recipes, recipe.currentOrders, teamMenager.teams, recipe.pairedIngredients, AllowChangeScene);
+
+    }
+
+    void AllowChangeScene(int result)
+    {
+        Async.allowSceneActivation = true;
     }
 }

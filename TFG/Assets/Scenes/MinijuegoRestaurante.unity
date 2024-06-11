@@ -45576,7 +45576,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a98f6e908bb7e3541a085e9caa8fa226, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tiempo: 240
+  tiempo: 120
   regresiveTime: 3
   timeStarted:
     m_InternalValue: 0
