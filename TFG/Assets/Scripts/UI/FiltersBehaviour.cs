@@ -39,11 +39,11 @@ public class FiltersBehaviour : MonoBehaviour
     {
         gameResponse = data;
         match = BurguerJSONCreator.CreateMatchObject(gameResponse.data[0].BurguersDelivered);
-        //Debug.Log("=======================================");
-        //ShowMatch();
-        //Debug.Log(gameResponse.data.Count);
     }
-
+    public void SetGame(int game)
+    {
+        match = BurguerJSONCreator.CreateMatchObject(gameResponse.data[game].BurguersDelivered);
+    }
     public void ClearData()
     {
         gameResponse.data.Clear();

@@ -76,6 +76,7 @@ public class GamesBehaviour : MonoBehaviour
     {
         selectedGame = true;
         gameCode = e;
+        filters.SetGame(int.Parse(e) - 1);
     }
     public int NextGame()
     {

@@ -19,6 +19,7 @@ public class GamePrefabScript : MonoBehaviour
         }
     }
 
+
     public void SetObjectToActivate(GameObject obj)
     {
         objectToActivate = obj;
@@ -35,6 +36,7 @@ public class GamePrefabScript : MonoBehaviour
             onClicked?.Invoke(this, GetComponentInChildren<TextMeshProUGUI>().text);
             objectToActivate.SetActive(true);
             objectToDesactivate.SetActive(false);
+            
         }
     }
 }

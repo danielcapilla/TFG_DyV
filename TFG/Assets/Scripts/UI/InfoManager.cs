@@ -15,14 +15,86 @@ public class InfoManager : MonoBehaviour
     private FiltersBehaviour filtersBehaviour;
     [SerializeField]
     private IngredientsScriptableObject[] currentMenu;
+    [SerializeField]
+    private GameObject hamburguesaCompletada;
+    int i = 0;
 
     private void OnEnable()
     {
+        i = 0;
         SpawnRecipes(filtersBehaviour.match.HamburguesasEjemplo);
+        SpawnOrder(filtersBehaviour.match.HamburguesasCorrectas[i]);
+    }
+    private void OnDisable()
+    {
+        foreach (Transform child in hamburguesasIzq.transform)
+        {
+            Destroy(child.gameObject);
+        }
+        DestroyOrder();
+    }
+    public void NextOrder()
+    {
+        DestroyOrder();
+        i++;
+        SpawnOrder(filtersBehaviour.match.HamburguesasCorrectas[i % filtersBehaviour.match.HamburguesasCorrectas.Count]);
+    }
+    public void PrevOrder()
+    {
+        DestroyOrder();
+        i--;
+        if (i < 0) i = filtersBehaviour.match.HamburguesasCorrectas.Count - 1;
+        SpawnOrder(filtersBehaviour.match.HamburguesasCorrectas[i % filtersBehaviour.match.HamburguesasCorrectas.Count]);
+    }
+    private void DestroyOrder()
+    {
+        foreach (Transform child in hamburguesaCompletada.transform.GetChild(0).GetChild(0).transform)
+        {
+            Destroy(child.gameObject);
+        }
+        foreach (Transform child in hamburguesaCompletada.transform.GetChild(1).GetChild(0).transform)
+        {
+            Destroy(child.gameObject);
+        }
+    }
+    public void SpawnOrder(List<BurguerJSONCreator.Ingredientes> order)
+    {
+        //instance.transform.SetParent(this.transform.GetChild(0), false);
+        //Para mover cosas en canvas usar anchoredPosition!!!!
+
+        int j = 0;
+        foreach (var ingredient in order)
+        {
+            GameObject sprite = new GameObject("sprite");
+            sprite.transform.SetParent(hamburguesaCompletada.transform.GetChild(0).GetChild(0).transform);
+            sprite.AddComponent<LayoutElement>();
+            sprite.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+            foreach (IngredientsScriptableObject ingredientScriptableObject in currentMenu)
+            {
+                if (ingredientScriptableObject.ID == ingredient.Ingrediente)
+                {
+                    sprite.AddComponent<Image>().sprite = ingredientScriptableObject.AlternativeSprite && j == order.Count - 1 ?
+                        ingredientScriptableObject.AlternativeSprite : ingredientScriptableObject.Sprite;
+                    j++;
+                    break;
+                }
+            }
+            if (ingredient.Codigo == -1) { continue; }
+
+            //Give to the script the code object ignoring breads
+            GameObject prefab = new GameObject("code");
+            prefab.transform.SetParent(hamburguesaCompletada.transform.GetChild(1).GetChild(0).transform);
+            //prefab.transform.SetSiblingIndex(Random.Range(0, instanceRectTransform.childCount));
+            prefab.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+            prefab.AddComponent<LayoutElement>();
+
+            Image prefabImage = prefab.AddComponent<Image>();
+            prefabImage.sprite = Codes[ingredient.Codigo];
+
+        }
     }
     public void SpawnRecipes(List<List<BurguerJSONCreator.Ingredientes>> recipes)
     {
-
         for (int i = 0; i < recipes.Count; i++)
         {
             GameObject instance = Instantiate(panel, hamburguesasIzq.transform);
@@ -31,30 +103,24 @@ public class InfoManager : MonoBehaviour
             //Para mover cosas en canvas usar anchoredPosition!!!!
             instanceRectTransform.anchoredPosition = new Vector3(instanceRectTransform.sizeDelta.x * i, 0f, 0f);
 
-            //instance.GetComponentInChildren<TextMeshProUGUI>().text += "[ ";
             int j = 0;
             foreach (var ingredient in recipes[i])
             {
-                Debug.Log(ingredient.Ingrediente);
-                //Get instance script give it the ingredient image to display on top of the previous one
-                //instance.GetComponentInChildren<TextMeshProUGUI>().text += ingredient.name.ToString() + " ";
                 GameObject sprite = new GameObject("sprite");
                 sprite.transform.SetParent(instanceRectTransform.GetChild(0).GetChild(0).transform);
                 sprite.AddComponent<LayoutElement>();
                 sprite.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
                 foreach (IngredientsScriptableObject ingredientScriptableObject in currentMenu)
                 {
-                    Debug.Log("Ingr:" +ingredientScriptableObject.IngredientName);
                     if (ingredientScriptableObject.ID == ingredient.Ingrediente)
                     {
-                        Debug.Log("HOLA");
                         sprite.AddComponent<Image>().sprite = ingredientScriptableObject.AlternativeSprite && j == recipes[i].Count - 1 ?
                             ingredientScriptableObject.AlternativeSprite : ingredientScriptableObject.Sprite;
                         j++;
                         break;
                     }
                 }               
-                //if (ingredient.Rarity == IngredientRarity.core) { continue; }
+                if (ingredient.Codigo == -1) { continue; }
 
                 //Give to the script the code object ignoring breads
                 GameObject prefab = new GameObject("code");
@@ -64,11 +130,9 @@ public class InfoManager : MonoBehaviour
                 prefab.AddComponent<LayoutElement>();
 
                 Image prefabImage = prefab.AddComponent<Image>();
-                //refabImage.sprite = Codes[codes[ingredient]];
-
-
+                Debug.Log(ingredient.Codigo);
+                prefabImage.sprite = Codes[ingredient.Codigo];
             }
-            //instance.GetComponentInChildren<TextMeshProUGUI>().text += "] ";
         }
 
     }
