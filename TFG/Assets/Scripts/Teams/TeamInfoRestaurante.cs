@@ -8,7 +8,7 @@ using UnityEngine;
 public class TeamInfoRestaurante : TeamInfo
 {
     public int idOrder;
-    public List<List<IngredientBehaviour>> order = new();
+    public Dictionary<int,List<IngredientBehaviour>> order = new();
     public Action<int> OnIdOrderChange;
     public override TeamInfo Clone()
     {

@@ -30,8 +30,8 @@ public class HamburgerOrderScript : MonoBehaviour
         }
         clickedButton.interactable = false;
         previousButton = clickedButton;
-        if (teamInfo.order.LastOrDefault<List<IngredientBehaviour>>() == null) return;
-        List<IngredientBehaviour> order = teamInfo.order.LastOrDefault<List<IngredientBehaviour>>();
+        if (teamInfo.order.LastOrDefault().Value == null) return;
+        List<IngredientBehaviour> order = teamInfo.order.LastOrDefault().Value;
         foreach (IngredientBehaviour ingredientIB in order)
         {
             GameObject tarjetita = Instantiate(ingridientTarjetita);
