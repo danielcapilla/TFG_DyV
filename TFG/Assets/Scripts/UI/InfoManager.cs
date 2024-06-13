@@ -27,12 +27,16 @@ public class InfoManager : MonoBehaviour
     private GameObject ingridientTarjetita;
     [SerializeField]
     private GroupsBehaviour groups;
+    private int idGrupo = 0;
+    [SerializeField]
+    private GameObject errorText;
     private void OnEnable()
     {
         i = 0;
+        idGrupo = int.Parse(groups.groupSelectedID);
         SpawnRecipes(filtersBehaviour.match.HamburguesasEjemplo);
         SpawnOrder(filtersBehaviour.match.HamburguesasCorrectas[i]);
-        ShowHamburgerInfo(filtersBehaviour.match.Equipos[int.Parse(groups.groupSelectedID)].HamburguesasEntregadas[0]);
+        ShowHamburgerInfo(filtersBehaviour.match.Equipos[idGrupo].HamburguesasEntregadas.FirstOrDefault());
     }
     private void OnDisable()
     {
@@ -46,16 +50,35 @@ public class InfoManager : MonoBehaviour
     public void NextOrder()
     {
         DestroyOrder();
+        DestroyHamburger();
         i++;
         SpawnOrder(filtersBehaviour.match.HamburguesasCorrectas[i % filtersBehaviour.match.HamburguesasCorrectas.Count]);
+        Debug.Log(i % filtersBehaviour.match.HamburguesasCorrectas.Count);
+        try
+        {
+            ShowHamburgerInfo(filtersBehaviour.match.Equipos[idGrupo].HamburguesasEntregadas[i % filtersBehaviour.match.HamburguesasCorrectas.Count]);
+        }
+        catch (System.Exception e)
+        {
+            errorText.SetActive(true);
+        }
+        
     }
     public void PrevOrder()
     {
-        Debug.Log("PrevOrder");
         DestroyOrder();
+        DestroyHamburger();
         i--;
         if (i < 0) i = filtersBehaviour.match.HamburguesasCorrectas.Count - 1;
         SpawnOrder(filtersBehaviour.match.HamburguesasCorrectas[i % filtersBehaviour.match.HamburguesasCorrectas.Count]);
+        try
+        {
+            ShowHamburgerInfo(filtersBehaviour.match.Equipos[idGrupo].HamburguesasEntregadas[i % filtersBehaviour.match.HamburguesasCorrectas.Count]);
+        }
+        catch (System.Exception e)
+        {
+            errorText.SetActive(true);
+        }
     }
     private void DestroyOrder()
     {
@@ -157,6 +180,7 @@ public class InfoManager : MonoBehaviour
 
     public void ShowHamburgerInfo(List<IngredientesColocados> hamburgerInfo)
     {
+        if(hamburgerInfo == null) return;
         int j = 0;
         foreach (IngredientesColocados ingredient in hamburgerInfo)
         {
