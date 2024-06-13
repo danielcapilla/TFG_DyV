@@ -1,10 +1,7 @@
 using DG.Tweening;
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using System.Threading;
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
@@ -46,7 +43,10 @@ public class DeliveryStation : InteractableObject
             //Evaluar plato respecto al pedido
             bool same = true;
             TeamInfoRestaurante teamInfo = (TeamInfoRestaurante)teamMenager.teams[playerStats.idGrupo.Value];
-            teamInfo.order.Add(teamInfo.idOrder,plate.Ingredients);
+            DeliveredBurguerInfo deliveredBurguer = new();
+            deliveredBurguer.burguer = plate.Ingredients;
+            deliveredBurguer.idOrder = teamInfo.idOrder;
+            teamInfo.Burguers.Add(deliveredBurguer);
             if (randomizer.currentOrders[teamInfo.idOrder].Count == plate.Ingredients.Count)
             {
                 for (int i = 0; i < randomizer.currentOrders[teamInfo.idOrder].Count; ++i)
@@ -66,7 +66,7 @@ public class DeliveryStation : InteractableObject
             if (same)
             {
                 Debug.Log("Hamburguesa correcta");
-                teamInfo.Puntuacion ++;
+                teamInfo.Puntuacion++;
                 teamInfo.onPuntuacionChanged?.Invoke(teamInfo.Puntuacion);
                 teamInfo.idOrder++;
                 teamInfo.OnIdOrderChange?.Invoke(teamInfo.idOrder);
@@ -84,7 +84,7 @@ public class DeliveryStation : InteractableObject
             {
                 Debug.Log("La has cagado....");
             }
-            
+
         }
     }
 
@@ -131,6 +131,6 @@ public class DeliveryStation : InteractableObject
         //Mutex de unity
         yield return new WaitUntil(() => statisticsBehaviour.finished);
         (int, int) posiciones = teamMenager.GetPositions(teamInfo);
-        statisticsBehaviour.ChangePosition(posiciones.Item1, posiciones.Item2,teamMenager.teams.IndexOf(teamInfo));
+        statisticsBehaviour.ChangePosition(posiciones.Item1, posiciones.Item2, teamMenager.teams.IndexOf(teamInfo));
     }
 }

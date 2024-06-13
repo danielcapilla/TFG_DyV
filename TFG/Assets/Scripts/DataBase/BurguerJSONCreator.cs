@@ -41,10 +41,10 @@ public class BurguerJSONCreator
             json += $@"{{'Equipo': '{i}',";
             json += $@"'Hamburguesas': [";
             TeamInfoRestaurante teamInfo = (TeamInfoRestaurante)Equipos[i];
-            for (int j = 0; j < teamInfo.order.Count; j++)
+            for (int j = 0; j < teamInfo.Burguers.Count; j++)
             {
-                json += CreateDeliveredBurguerJSON(teamInfo.order[j], j);
-                if (j != teamInfo.order.Count - 1)
+                json += CreateDeliveredBurguerJSON(teamInfo.Burguers[j].burguer, j, teamInfo.Burguers[j].idOrder);
+                if (j != teamInfo.Burguers.Count - 1)
                 {
                     json += ",";
                 }
@@ -80,10 +80,10 @@ public class BurguerJSONCreator
         return json;
     }
 
-    static string CreateDeliveredBurguerJSON(List<IngredientBehaviour> ingredientList, int hamburguesaIDX)
+    static string CreateDeliveredBurguerJSON(List<IngredientBehaviour> ingredientList, int hamburguesaIDX, int IDPedido)
     {
         //Construye JSON para la petición REST         
-        string json = $@"{{'ID': 'Hamburguesa {hamburguesaIDX}' ,'Ingredientes':[";
+        string json = $@"{{'ID': 'Hamburguesa {hamburguesaIDX}', 'IDPedido' : {IDPedido} ,'Ingredientes':[";
         int i = 0;
         foreach (IngredientBehaviour ingredient in ingredientList)
         {
@@ -196,6 +196,7 @@ public class BurguerJSONCreator
     class BurguerDeliveredData
     {
         public string ID;
+        public int IDPedido;
         public IngredientesColocados[] Ingredientes;
     }
 

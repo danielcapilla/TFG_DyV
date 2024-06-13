@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
@@ -7,7 +6,7 @@ using UnityEngine.UI;
 
 public class HamburgerOrderScript : MonoBehaviour
 {
-    [SerializeField] 
+    [SerializeField]
     private TeamMenager teamManager;
     private Button previousButton;
     [SerializeField]
@@ -30,8 +29,8 @@ public class HamburgerOrderScript : MonoBehaviour
         }
         clickedButton.interactable = false;
         previousButton = clickedButton;
-        if (teamInfo.order.LastOrDefault().Value == null) return;
-        List<IngredientBehaviour> order = teamInfo.order.LastOrDefault().Value;
+        if (teamInfo.Burguers.LastOrDefault().burguer == null) return;
+        List<IngredientBehaviour> order = teamInfo.Burguers.LastOrDefault().burguer;
         foreach (IngredientBehaviour ingredientIB in order)
         {
             GameObject tarjetita = Instantiate(ingridientTarjetita);
