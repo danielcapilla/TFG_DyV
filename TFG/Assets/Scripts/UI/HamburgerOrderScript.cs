@@ -29,7 +29,7 @@ public class HamburgerOrderScript : MonoBehaviour
         }
         clickedButton.interactable = false;
         previousButton = clickedButton;
-        if (teamInfo.Burguers.LastOrDefault().burguer == null) return;
+        if (teamInfo.Burguers.Last().burguer.LastOrDefault() == null) return;
         List<IngredientBehaviour> order = teamInfo.Burguers.LastOrDefault().burguer;
         foreach (IngredientBehaviour ingredientIB in order)
         {
