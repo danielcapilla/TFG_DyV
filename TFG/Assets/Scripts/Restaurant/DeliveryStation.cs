@@ -19,6 +19,8 @@ public class DeliveryStation : InteractableObject
     [SerializeField]
     private StatisticsBehaviour statisticsBehaviour;
 
+    [SerializeField] AudioSource ScoreSound;
+
     public override void Interact(PlayerCarry player)
     {
         base.Interact(player);
@@ -44,7 +46,7 @@ public class DeliveryStation : InteractableObject
             bool same = true;
             TeamInfoRestaurante teamInfo = (TeamInfoRestaurante)teamMenager.teams[playerStats.idGrupo.Value];
             DeliveredBurguerInfo deliveredBurguer = new();
-            deliveredBurguer.burguer =plate.Ingredients;
+            deliveredBurguer.burguer = plate.Ingredients;
             deliveredBurguer.idOrder = teamInfo.idOrder;
             teamInfo.Burguers.Add(deliveredBurguer);
             if (randomizer.currentOrders[teamInfo.idOrder].Count == plate.Ingredients.Count)
@@ -92,6 +94,7 @@ public class DeliveryStation : InteractableObject
     public void NextOrderClientRpc(int order, int teamScore, ClientRpcParams clientRpcParams = default)
     {
         scoreText.text = teamScore.ToString();
+        ScoreSound.Play();
         randomizer.NextOrder(order);
     }
 
