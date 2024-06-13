@@ -21,6 +21,7 @@ public class GroupsBehaviour : MonoBehaviour
     [SerializeField]
     private GameObject infoGO;
     private bool groupSelected = false;
+    public string groupSelectedID;
 
     private void OnEnable()
     {
@@ -56,5 +57,6 @@ public class GroupsBehaviour : MonoBehaviour
     private void ChangeBool(object sender, string e)
     {
         groupSelected = true;
+        groupSelectedID = e;
     }
 }

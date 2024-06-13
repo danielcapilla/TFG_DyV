@@ -1,7 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static BurguerJSONCreator;
 
 public class InfoManager : MonoBehaviour
 {
@@ -18,12 +21,18 @@ public class InfoManager : MonoBehaviour
     [SerializeField]
     private GameObject hamburguesaCompletada;
     int i = 0;
-
+    [SerializeField]
+    private GameObject hamburgerEntregada;
+    [SerializeField]
+    private GameObject ingridientTarjetita;
+    [SerializeField]
+    private GroupsBehaviour groups;
     private void OnEnable()
     {
         i = 0;
         SpawnRecipes(filtersBehaviour.match.HamburguesasEjemplo);
         SpawnOrder(filtersBehaviour.match.HamburguesasCorrectas[i]);
+        ShowHamburgerInfo(filtersBehaviour.match.Equipos[int.Parse(groups.groupSelectedID)].HamburguesasEntregadas[0]);
     }
     private void OnDisable()
     {
@@ -32,6 +41,7 @@ public class InfoManager : MonoBehaviour
             Destroy(child.gameObject);
         }
         DestroyOrder();
+        DestroyHamburger();
     }
     public void NextOrder()
     {
@@ -41,6 +51,7 @@ public class InfoManager : MonoBehaviour
     }
     public void PrevOrder()
     {
+        Debug.Log("PrevOrder");
         DestroyOrder();
         i--;
         if (i < 0) i = filtersBehaviour.match.HamburguesasCorrectas.Count - 1;
@@ -53,6 +64,13 @@ public class InfoManager : MonoBehaviour
             Destroy(child.gameObject);
         }
         foreach (Transform child in hamburguesaCompletada.transform.GetChild(1).GetChild(0).transform)
+        {
+            Destroy(child.gameObject);
+        }
+    }
+    private void DestroyHamburger()
+    {
+        foreach (Transform child in hamburgerEntregada.transform)
         {
             Destroy(child.gameObject);
         }
@@ -125,15 +143,37 @@ public class InfoManager : MonoBehaviour
                 //Give to the script the code object ignoring breads
                 GameObject prefab = new GameObject("code");
                 prefab.transform.SetParent(instanceRectTransform.GetChild(1).GetChild(0).transform);
-                prefab.transform.SetSiblingIndex(Random.Range(0, instanceRectTransform.childCount));
+                //prefab.transform.SetSiblingIndex(Random.Range(0, instanceRectTransform.childCount));
                 prefab.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
                 prefab.AddComponent<LayoutElement>();
 
                 Image prefabImage = prefab.AddComponent<Image>();
-                Debug.Log(ingredient.Codigo);
                 prefabImage.sprite = Codes[ingredient.Codigo];
             }
         }
 
+    }
+
+
+    public void ShowHamburgerInfo(List<IngredientesColocados> hamburgerInfo)
+    {
+        int j = 0;
+        foreach (IngredientesColocados ingredient in hamburgerInfo)
+        {
+            GameObject tarjetita = Instantiate(ingridientTarjetita);
+            tarjetita.transform.SetParent(hamburgerEntregada.transform);
+            foreach (IngredientsScriptableObject ingredientScriptableObject in currentMenu)
+            {
+                if (ingredientScriptableObject.ID == ingredient.Ingrediente)
+                {
+                    tarjetita.GetComponentInChildren<Image>().sprite = ingredientScriptableObject.AlternativeSprite && j == hamburgerInfo.Count - 1 ?
+                        ingredientScriptableObject.AlternativeSprite : ingredientScriptableObject.Sprite;
+                    tarjetita.GetComponentInChildren<TextMeshProUGUI>().text = ingredient.ColocadoPor;
+                    j++;
+                    break;
+                }
+            }
+
+        }
     }
 }
