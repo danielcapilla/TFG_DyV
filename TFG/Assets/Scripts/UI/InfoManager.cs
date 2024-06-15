@@ -48,8 +48,13 @@ public class InfoManager : MonoBehaviour
             errorText.SetActive(true);
             return;
         }
-        CheckHamburguer();
+        CheckHamburguerNext();
         ShowHamburgerInfo(filtersBehaviour.match.Equipos[idGrupo].HamburguesasEntregadas.FirstOrDefault().Hamburguesa);
+    }
+    private void Update()
+    {
+        Debug.Log("J "+j);
+        Debug.Log("I "+i);
     }
     private void OnDisable()
     {
@@ -61,7 +66,7 @@ public class InfoManager : MonoBehaviour
         DestroyHamburger();
         errorText.SetActive(false);
     }
-    private void CheckHamburguer()
+    private void CheckHamburguerNext()
     {
         if(i != filtersBehaviour.match.Equipos[idGrupo].HamburguesasEntregadas[j+1].IDOrder)
         {
@@ -70,6 +75,17 @@ public class InfoManager : MonoBehaviour
         else
         {
             entregadaNext.interactable = true;
+        }
+    }
+    private void CheckHamburguerPrev()
+    {
+        if (i != filtersBehaviour.match.Equipos[idGrupo].HamburguesasEntregadas[j -1].IDOrder)
+        {
+            entregadaPrev.interactable = false;
+        }
+        else
+        {
+            entregadaPrev.interactable = true;
         }
     }
     public void NextOrder()
@@ -84,9 +100,9 @@ public class InfoManager : MonoBehaviour
             {
                 if (i == filtersBehaviour.match.Equipos[idGrupo].HamburguesasEntregadas[x].IDOrder)
                 {
-                    CheckHamburguer();
                     ShowHamburgerInfo(filtersBehaviour.match.Equipos[idGrupo].HamburguesasEntregadas[x % filtersBehaviour.match.Equipos[idGrupo].HamburguesasEntregadas.Count].Hamburguesa);
                     j = x;
+                    CheckHamburguerNext();
                     //Solo queremos la primera
                     break;
                 }
@@ -95,24 +111,36 @@ public class InfoManager : MonoBehaviour
         catch (System.Exception)
         { 
         }
-        
+        entregadaPrev.interactable = false;
     }
     public void NextHamburger()
     {
-        DestroyHamburger(); 
-        j++;
-        if (i == filtersBehaviour.match.Equipos[idGrupo].HamburguesasEntregadas[j].IDOrder)
+        if(!entregadaPrev.interactable) 
         {
-            try
+            entregadaPrev.interactable = true;
+        }
+        DestroyHamburger();
+        j++;
+        try
+        {
+            if (i == filtersBehaviour.match.Equipos[idGrupo].HamburguesasEntregadas[j].IDOrder)
             {
                 ShowHamburgerInfo(filtersBehaviour.match.Equipos[idGrupo].HamburguesasEntregadas[j % filtersBehaviour.match.Equipos[idGrupo].HamburguesasEntregadas.Count].Hamburguesa);
             }
-            catch (System.Exception)
+            if(i != filtersBehaviour.match.Equipos[idGrupo].HamburguesasEntregadas[j+1 % filtersBehaviour.match.Equipos[idGrupo].HamburguesasEntregadas.Count].IDOrder)
             {
                 entregadaPrev.interactable = true;
                 entregadaNext.interactable = false;
             }
-        }  
+           
+        }
+        catch (System.Exception)
+        {
+            entregadaPrev.interactable = true;
+            entregadaNext.interactable = false;
+        }
+        
+         
     }
     public void PrevOrder()
     {
@@ -129,6 +157,7 @@ public class InfoManager : MonoBehaviour
                 {
                     ShowHamburgerInfo(filtersBehaviour.match.Equipos[idGrupo].HamburguesasEntregadas[x % filtersBehaviour.match.Equipos[idGrupo].HamburguesasEntregadas.Count].Hamburguesa);
                     j = x;
+                    CheckHamburguerPrev();
                     //Solo queremos la primera
                     break;
                 }
@@ -137,9 +166,14 @@ public class InfoManager : MonoBehaviour
         catch (System.Exception)
         {
         }
+        entregadaPrev.interactable = false;
     }
     public void PrevHamburgesa()
     {
+        if(!entregadaNext)
+        {
+            entregadaNext.interactable = true;
+        }
         DestroyHamburger();
         j--;
         if(j < 0) j = filtersBehaviour.match.Equipos[idGrupo].HamburguesasEntregadas.Count - 1;
@@ -148,6 +182,11 @@ public class InfoManager : MonoBehaviour
             try
             {
                 ShowHamburgerInfo(filtersBehaviour.match.Equipos[idGrupo].HamburguesasEntregadas[j % filtersBehaviour.match.Equipos[idGrupo].HamburguesasEntregadas.Count].Hamburguesa);
+                if(i != filtersBehaviour.match.Equipos[idGrupo].HamburguesasEntregadas[j - 1 % filtersBehaviour.match.Equipos[idGrupo].HamburguesasEntregadas.Count].IDOrder)
+                {
+                    entregadaNext.interactable = true;
+                    entregadaPrev.interactable = false;
+                }
             }
             catch (System.Exception)
             {
