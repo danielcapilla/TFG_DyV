@@ -20,6 +20,7 @@ public class DeliveryStation : InteractableObject
     private StatisticsBehaviour statisticsBehaviour;
 
     [SerializeField] AudioSource ScoreSound;
+    [SerializeField] AudioSource FailSound;
 
     public override void Interact(PlayerCarry player)
     {
@@ -85,6 +86,13 @@ public class DeliveryStation : InteractableObject
             else
             {
                 Debug.Log("La has cagado....");
+                FailOrderClientRpc(new ClientRpcParams
+                {
+                    Send = new ClientRpcSendParams
+                    {
+                        TargetClientIds = teamInfo.integrantes.ToArray()
+                    }
+                });
             }
 
         }
@@ -96,6 +104,12 @@ public class DeliveryStation : InteractableObject
         scoreText.text = teamScore.ToString();
         ScoreSound.Play();
         randomizer.NextOrder(order);
+    }
+
+    [ClientRpc]
+    public void FailOrderClientRpc(ClientRpcParams clientRpcParams = default)
+    {
+        FailSound.Play();
     }
 
     [ClientRpc]
