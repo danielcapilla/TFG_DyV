@@ -21,6 +21,7 @@ public class InfoManager : MonoBehaviour
     [SerializeField]
     private GameObject hamburguesaCompletada;
     int i = 0;
+    int j = 0;
     [SerializeField]
     private GameObject hamburgerEntregada;
     [SerializeField]
@@ -30,13 +31,25 @@ public class InfoManager : MonoBehaviour
     private int idGrupo = 0;
     [SerializeField]
     private GameObject errorText;
+    [SerializeField]
+    private Button entregadaPrev;
+    [SerializeField]
+    private Button entregadaNext;
     private void OnEnable()
     {
         i = 0;
+        j = 0;
+        entregadaPrev.interactable = false;
         idGrupo = int.Parse(groups.groupSelectedID);
         SpawnRecipes(filtersBehaviour.match.HamburguesasEjemplo);
         SpawnOrder(filtersBehaviour.match.HamburguesasCorrectas[i]);
-        ShowHamburgerInfo(filtersBehaviour.match.Equipos[idGrupo].HamburguesasEntregadas.FirstOrDefault());
+        if (filtersBehaviour.match.Equipos[idGrupo].HamburguesasEntregadas.FirstOrDefault() == null)
+        {
+            errorText.SetActive(true);
+            return;
+        }
+        CheckHamburguer();
+        ShowHamburgerInfo(filtersBehaviour.match.Equipos[idGrupo].HamburguesasEntregadas.FirstOrDefault().Hamburguesa);
     }
     private void OnDisable()
     {
@@ -46,6 +59,18 @@ public class InfoManager : MonoBehaviour
         }
         DestroyOrder();
         DestroyHamburger();
+        errorText.SetActive(false);
+    }
+    private void CheckHamburguer()
+    {
+        if(i != filtersBehaviour.match.Equipos[idGrupo].HamburguesasEntregadas[j+1].IDOrder)
+        {
+            entregadaNext.interactable = false;
+        }
+        else
+        {
+            entregadaNext.interactable = true;
+        }
     }
     public void NextOrder()
     {
@@ -53,16 +78,41 @@ public class InfoManager : MonoBehaviour
         DestroyHamburger();
         i++;
         SpawnOrder(filtersBehaviour.match.HamburguesasCorrectas[i % filtersBehaviour.match.HamburguesasCorrectas.Count]);
-        Debug.Log(i % filtersBehaviour.match.HamburguesasCorrectas.Count);
         try
         {
-            ShowHamburgerInfo(filtersBehaviour.match.Equipos[idGrupo].HamburguesasEntregadas[i % filtersBehaviour.match.HamburguesasCorrectas.Count]);
+            for(int x = 0; x < filtersBehaviour.match.Equipos[idGrupo].HamburguesasEntregadas.Count;x++)
+            {
+                if (i == filtersBehaviour.match.Equipos[idGrupo].HamburguesasEntregadas[x].IDOrder)
+                {
+                    CheckHamburguer();
+                    ShowHamburgerInfo(filtersBehaviour.match.Equipos[idGrupo].HamburguesasEntregadas[x % filtersBehaviour.match.Equipos[idGrupo].HamburguesasEntregadas.Count].Hamburguesa);
+                    j = x;
+                    //Solo queremos la primera
+                    break;
+                }
+            }
         }
-        catch (System.Exception e)
-        {
-            errorText.SetActive(true);
+        catch (System.Exception)
+        { 
         }
         
+    }
+    public void NextHamburger()
+    {
+        DestroyHamburger(); 
+        j++;
+        if (i == filtersBehaviour.match.Equipos[idGrupo].HamburguesasEntregadas[j].IDOrder)
+        {
+            try
+            {
+                ShowHamburgerInfo(filtersBehaviour.match.Equipos[idGrupo].HamburguesasEntregadas[j % filtersBehaviour.match.Equipos[idGrupo].HamburguesasEntregadas.Count].Hamburguesa);
+            }
+            catch (System.Exception)
+            {
+                entregadaPrev.interactable = true;
+                entregadaNext.interactable = false;
+            }
+        }  
     }
     public void PrevOrder()
     {
@@ -73,11 +123,38 @@ public class InfoManager : MonoBehaviour
         SpawnOrder(filtersBehaviour.match.HamburguesasCorrectas[i % filtersBehaviour.match.HamburguesasCorrectas.Count]);
         try
         {
-            ShowHamburgerInfo(filtersBehaviour.match.Equipos[idGrupo].HamburguesasEntregadas[i % filtersBehaviour.match.HamburguesasCorrectas.Count]);
+            for (int x = 0; x < filtersBehaviour.match.Equipos[idGrupo].HamburguesasEntregadas.Count; x++)
+            {
+                if (i == filtersBehaviour.match.Equipos[idGrupo].HamburguesasEntregadas[x].IDOrder)
+                {
+                    ShowHamburgerInfo(filtersBehaviour.match.Equipos[idGrupo].HamburguesasEntregadas[x % filtersBehaviour.match.Equipos[idGrupo].HamburguesasEntregadas.Count].Hamburguesa);
+                    j = x;
+                    //Solo queremos la primera
+                    break;
+                }
+            }
         }
-        catch (System.Exception e)
+        catch (System.Exception)
         {
-            errorText.SetActive(true);
+        }
+    }
+    public void PrevHamburgesa()
+    {
+        DestroyHamburger();
+        j--;
+        if(j < 0) j = filtersBehaviour.match.Equipos[idGrupo].HamburguesasEntregadas.Count - 1;
+        if (i == filtersBehaviour.match.Equipos[idGrupo].HamburguesasEntregadas[j].IDOrder)
+        {
+            try
+            {
+                ShowHamburgerInfo(filtersBehaviour.match.Equipos[idGrupo].HamburguesasEntregadas[j % filtersBehaviour.match.Equipos[idGrupo].HamburguesasEntregadas.Count].Hamburguesa);
+            }
+            catch (System.Exception)
+            {
+                entregadaNext.interactable = true;
+                entregadaPrev.interactable = false;
+            }
+            
         }
     }
     private void DestroyOrder()
@@ -180,7 +257,7 @@ public class InfoManager : MonoBehaviour
 
     public void ShowHamburgerInfo(List<IngredientesColocados> hamburgerInfo)
     {
-        if(hamburgerInfo == null) return;
+        if (hamburgerInfo == null) return;
         int j = 0;
         foreach (IngredientesColocados ingredient in hamburgerInfo)
         {

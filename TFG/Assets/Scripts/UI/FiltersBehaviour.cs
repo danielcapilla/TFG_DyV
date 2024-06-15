@@ -72,10 +72,10 @@ public class FiltersBehaviour : MonoBehaviour
         foreach (BurguerJSONCreator.HamburguesasEquipos equipo in match.Equipos)
         {
             Debug.Log("Equipo: " + equipo.ID);
-            foreach (List<BurguerJSONCreator.IngredientesColocados> burguer in equipo.HamburguesasEntregadas)
+            foreach (BurguerJSONCreator.HamburguesaEntregada burguer in equipo.HamburguesasEntregadas)
             {
                 Debug.Log("Hamburguesa Ejemplo: " + equipo.HamburguesasEntregadas.IndexOf(burguer));
-                foreach (BurguerJSONCreator.IngredientesColocados ingrediente in burguer)
+                foreach (BurguerJSONCreator.IngredientesColocados ingrediente in burguer.Hamburguesa)
                 {
                     Debug.Log("Ingrediente: " + ingrediente.Ingrediente + " Colocado Por: " + ingrediente.ColocadoPor);
                 }
