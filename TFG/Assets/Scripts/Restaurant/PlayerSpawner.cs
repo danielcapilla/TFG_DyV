@@ -53,8 +53,8 @@ public class PlayerSpawner : NetworkBehaviour
             LateJoinsBehaviour.aprovedConection = false;
             foreach (ulong id in clientsCompleted)
             {
-                if(id != OwnerClientId)
-                {
+                //if(id != OwnerClientId)
+                //{
                     //Pongos los fighters como hijos del player
                     //arrayPlayers[id].GetComponent<PlayerNetworkConfig>().InstantiateCharacterServerRpc(id);
                     GameObject playerGameObject = Instantiate(playerPrefab);
@@ -64,7 +64,7 @@ public class PlayerSpawner : NetworkBehaviour
                     //NetworkManager.Singleton.ConnectedClients[id].PlayerObject;
                     //PlayerNetworkConfig.Instance.InstantiateCharacterServerRpc(id);
                     //player.transform.SetParent(transform, false);
-                }
+                //}
 
             }
         }

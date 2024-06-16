@@ -17,7 +17,7 @@ public class CommandSpawner : MonoBehaviour
 
     public void SpawnRecipes(List<List<IngredientsScriptableObject>> recipes, Dictionary<IngredientsScriptableObject, int> codes)
     {
-
+        Debug.Log("Spawning recipes");
         for (int i = 0; i < recipes.Count; i++)
         {
             GameObject instance = Instantiate(panel);
