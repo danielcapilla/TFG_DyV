@@ -1,12 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor.SearchService;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MainMenuManager : MonoBehaviour
 {
     [SerializeField]
     private TextMeshProUGUI errorText;
+    [SerializeField]
+    private GameObject ClassInfoGO;
 
     public static bool IsError = false;
 
@@ -17,12 +21,21 @@ public class MainMenuManager : MonoBehaviour
             StartCoroutine(ShowErrorText(3));
 
         }
+        if(PlayerData.Role != "Teacher")
+        {
+            ClassInfoGO.SetActive(false);
+        }
     }
     private IEnumerator ShowErrorText(int seconds)
     {
-        errorText.text = "El servidor se ha desconectado.";
+        errorText.text = "Se ha desconectado de la sala.";
         yield return new WaitForSeconds(seconds);
         IsError = false;
         errorText.text = ""; 
+    }
+
+    public void GetClassInfoScene()
+    {
+        SceneManager.LoadScene("ClassInfo");
     }
 }

@@ -43,13 +43,9 @@ public class InfoManager : MonoBehaviour
         idGrupo = int.Parse(groups.groupSelectedID);
         SpawnRecipes(filtersBehaviour.match.HamburguesasEjemplo);
         SpawnOrder(filtersBehaviour.match.HamburguesasCorrectas[i]);
-        if (filtersBehaviour.match.Equipos[idGrupo].HamburguesasEntregadas.FirstOrDefault() == null)
-        {
-            errorText.SetActive(true);
-            return;
-        }
+        
         CheckHamburguerPrev();
-        ShowHamburgerInfo(filtersBehaviour.match.Equipos[idGrupo].HamburguesasEntregadas.FirstOrDefault().Hamburguesa);
+        
     }
     private void OnDisable()
     {
@@ -75,13 +71,23 @@ public class InfoManager : MonoBehaviour
     }
     private void CheckHamburguerPrev()
     {
-        if (i != filtersBehaviour.match.Equipos[idGrupo].HamburguesasEntregadas[j + 1].IDOrder)
+        if (filtersBehaviour.match.Equipos[idGrupo].HamburguesasEntregadas.FirstOrDefault() == null)
         {
+            errorText.SetActive(true);
             entregadaNext.interactable = false;
+            entregadaPrev.interactable = false;
         }
         else
         {
-            entregadaNext.interactable = true;
+            if (i != filtersBehaviour.match.Equipos[idGrupo].HamburguesasEntregadas[j + 1].IDOrder)
+            {
+                entregadaNext.interactable = false;
+            }
+            else
+            {
+                entregadaNext.interactable = true;
+            }
+            ShowHamburgerInfo(filtersBehaviour.match.Equipos[idGrupo].HamburguesasEntregadas.FirstOrDefault().Hamburguesa);
         }
     }
     public void NextOrder()

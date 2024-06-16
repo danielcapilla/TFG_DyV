@@ -31,10 +31,11 @@ public class GroupsBehaviour : MonoBehaviour
     private void ShowGroups()
     {
         if(groupSelected) return;
+        int i = 1;  
         foreach (var data in filtersBehaviour.match.Equipos)
         {
             GameObject partidaPrefab = Instantiate(grupoTarjetita, groupsGLG.transform);
-            partidaPrefab.GetComponentInChildren<TextMeshProUGUI>().text = data.ID;
+            partidaPrefab.GetComponentInChildren<TextMeshProUGUI>().text = i.ToString();
             GamePrefabScript gamePrefabScript = partidaPrefab.GetComponent<GamePrefabScript>();
             if (gamePrefabScript != null)
             {
@@ -42,6 +43,7 @@ public class GroupsBehaviour : MonoBehaviour
                 gamePrefabScript.SetObjectToDesactivate(groupsGO);
                 gamePrefabScript.onClicked += ChangeBool;
             }
+            i++;
         }
     }
     private void OnDisable()
@@ -57,6 +59,6 @@ public class GroupsBehaviour : MonoBehaviour
     private void ChangeBool(object sender, string e)
     {
         groupSelected = true;
-        groupSelectedID = e;
+        groupSelectedID = (int.Parse(e) - 1).ToString();
     }
 }
