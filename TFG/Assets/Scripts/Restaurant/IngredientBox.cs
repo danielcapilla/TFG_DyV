@@ -7,7 +7,7 @@ public class IngredientBox : InteractableObject
     [SerializeField] GameObject Lid;
 
 
-    private void Start()
+    private void Awake()
     {
         //GameObject instance = Instantiate(ingredient.Model, transform);
         //instance.transform.localPosition = new Vector3(0, 0.5f, 0);

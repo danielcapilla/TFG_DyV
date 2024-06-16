@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
@@ -6,19 +5,22 @@ using UnityEngine;
 public abstract class InteractableObject : NetworkBehaviour
 {
     //we assign all the renderers here through the inspector
-    Renderer renderers;
+    Renderer[] renderers;
     [SerializeField]
-    private Color color = new Color(68,68,68,255);
+    private Color color = new Color(68, 68, 68, 255);
 
     //helper list to cache all the materials ofd this object
     private List<Material> materials;
 
     //Gets all the materials from each renderer
-    private void Awake()
+    private void Start()
     {
         materials = new List<Material>();
-        renderers = GetComponent<Renderer>();
-        materials.AddRange(renderers.materials);
+        renderers = GetComponentsInChildren<Renderer>();
+        foreach (Renderer renderer in renderers)
+        {
+            materials.AddRange(renderer.materials);
+        }
     }
 
     public void toggleHighlight(bool val)
@@ -44,8 +46,8 @@ public abstract class InteractableObject : NetworkBehaviour
         }
     }
 
-    public virtual void Interact(PlayerCarry player) 
+    public virtual void Interact(PlayerCarry player)
     {
-        
+
     }
 }
