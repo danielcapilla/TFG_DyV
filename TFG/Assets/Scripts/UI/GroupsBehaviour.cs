@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Localization.Components;
+using UnityEngine.Localization.SmartFormat.PersistentVariables;
 
 public class GroupsBehaviour : MonoBehaviour
 {
@@ -22,10 +24,13 @@ public class GroupsBehaviour : MonoBehaviour
     private GameObject infoGO;
     private bool groupSelected = false;
     public string groupSelectedID;
+    private LocalizeStringEvent localizeStringEvent;
 
     private void OnEnable()
     {
-        textMP.text = "Partida: " + gamesBehaviour.gameCode;
+        localizeStringEvent = textMP.GetComponent<LocalizeStringEvent>();
+        var gameVar = localizeStringEvent.StringReference["gameVariable"] as IntVariable;
+        gameVar.Value = int.Parse(gamesBehaviour.gameCode);
         ShowGroups();
     }
     private void ShowGroups()

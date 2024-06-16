@@ -134,7 +134,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 26437426164707350
-    m_Localized: Proximamente...
+    m_Localized: "Pr\xF3ximamente..."
     m_Metadata:
       m_Items: []
   - m_Id: 26437426164707351
@@ -228,10 +228,48 @@ MonoBehaviour:
     m_Localized: Audio
     m_Metadata:
       m_Items: []
+  - m_Id: 29751105270853632
+    m_Localized: Mini juegos
+    m_Metadata:
+      m_Items: []
+  - m_Id: 29751105312796672
+    m_Localized: Filtrar
+    m_Metadata:
+      m_Items: []
+  - m_Id: 29751105312796673
+    m_Localized: Fecha
+    m_Metadata:
+      m_Items: []
+  - m_Id: 29751105312796674
+    m_Localized: Buscar
+    m_Metadata:
+      m_Items: []
+  - m_Id: 29751105312796675
+    m_Localized: Partidas
+    m_Metadata:
+      m_Items: []
+  - m_Id: 29751105312796676
+    m_Localized: No hay hamburguesas...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 29754814444875776
+    m_Localized: "Fecha: {fechaVariable} C\xF3digo: {codVariable} "
+    m_Metadata:
+      m_Items:
+      - rid: 2814509147925774341
+  - m_Id: 29757728181727232
+    m_Localized: Grupos
+    m_Metadata:
+      m_Items: []
+  - m_Id: 29759331483791360
+    m_Localized: 'Partidas: {gameVariable}'
+    m_Metadata:
+      m_Items:
+      - rid: 2814509147925774341
   references:
     version: 2
     RefIds:
     - rid: 2814509147925774341
       type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
       data:
-        m_Entries: 0030d878401a3600003058c726d44600
+        m_Entries: 0030d878401a3600003058c726d4460000305899d8b569000030d84df4b96900

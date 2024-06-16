@@ -227,10 +227,48 @@ MonoBehaviour:
     m_Localized: Audio
     m_Metadata:
       m_Items: []
+  - m_Id: 29751105270853632
+    m_Localized: Minigames
+    m_Metadata:
+      m_Items: []
+  - m_Id: 29751105312796672
+    m_Localized: Sort
+    m_Metadata:
+      m_Items: []
+  - m_Id: 29751105312796673
+    m_Localized: Date
+    m_Metadata:
+      m_Items: []
+  - m_Id: 29751105312796674
+    m_Localized: Search
+    m_Metadata:
+      m_Items: []
+  - m_Id: 29751105312796675
+    m_Localized: Games
+    m_Metadata:
+      m_Items: []
+  - m_Id: 29751105312796676
+    m_Localized: There are no hamburgers...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 29754814444875776
+    m_Localized: 'Date: {fechaVariable} Code: {codVariable} '
+    m_Metadata:
+      m_Items:
+      - rid: 2814509147925774342
+  - m_Id: 29757728181727232
+    m_Localized: Groups
+    m_Metadata:
+      m_Items: []
+  - m_Id: 29759331483791360
+    m_Localized: 'Game: {gameVariable}'
+    m_Metadata:
+      m_Items:
+      - rid: 2814509147925774342
   references:
     version: 2
     RefIds:
     - rid: 2814509147925774342
       type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
       data:
-        m_Entries: 0030d878401a3600003058c726d44600
+        m_Entries: 0030d878401a3600003058c726d4460000305899d8b569000030d84df4b96900

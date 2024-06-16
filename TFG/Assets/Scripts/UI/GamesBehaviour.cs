@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Localization.Components;
+using UnityEngine.Localization.SmartFormat.PersistentVariables;
 using UnityEngine.UI;
 
 public class GamesBehaviour : MonoBehaviour
@@ -21,20 +23,15 @@ public class GamesBehaviour : MonoBehaviour
     private GameObject gamesGO;
     private bool selectedGame = false;
     public string gameCode;
+    private LocalizeStringEvent localizeStringEvent;
     private void OnEnable()
     {
-        if (filters.date == "")
-        {
-            texto.text = "Código: " + filters.code;
-        }
-        else if (filters.code == "")
-        {
-            texto.text = "Fecha: " + filters.date;
-        }
-        else
-        {
-            texto.text = "Fecha: " + filters.date + "   Código: " + filters.code;
-        }
+        localizeStringEvent = texto.GetComponent<LocalizeStringEvent>();
+        var fechaVar = localizeStringEvent.StringReference["fechaVariable"] as StringVariable;
+        fechaVar.Value = filters.date;
+        var codeVar = localizeStringEvent.StringReference["codVariable"] as StringVariable;
+        codeVar.Value = filters.code;
+        
         StartCoroutine(GetGames());
     }
     private void OnDisable()
