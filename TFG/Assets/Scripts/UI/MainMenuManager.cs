@@ -19,7 +19,6 @@ public class MainMenuManager : MonoBehaviour
         if (IsError)
         {
             StartCoroutine(ShowErrorText(3));
-
         }
         if(PlayerData.Role != "Teacher")
         {
