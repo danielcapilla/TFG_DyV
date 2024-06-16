@@ -7,6 +7,7 @@ public class HideScreenControls : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if(PlayerData.Role == "Teacher") return;
         if (SystemInfo.deviceType == DeviceType.Handheld || Application.isMobilePlatform)
         {
             stick.SetActive(true);

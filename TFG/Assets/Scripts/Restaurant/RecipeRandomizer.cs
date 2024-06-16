@@ -106,7 +106,7 @@ public class RecipeRandomizer : NetworkBehaviour
 
     public void GenerateRandomOrder()
     {
-        for (int j = 0; j < 3; j++)
+        for (int j = 0; j < 6; j++)
         {
 
             List<IngredientsScriptableObject> currentOrder = new List<IngredientsScriptableObject>();

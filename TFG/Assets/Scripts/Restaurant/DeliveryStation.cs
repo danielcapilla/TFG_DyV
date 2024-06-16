@@ -103,7 +103,11 @@ public class DeliveryStation : InteractableObject
     {
         scoreText.text = teamScore.ToString();
         ScoreSound.Play();
-        randomizer.NextOrder(order);
+        if(order < randomizer.currentOrders.Count)
+        {
+            randomizer.NextOrder(order);
+        }
+        
     }
 
     [ClientRpc]

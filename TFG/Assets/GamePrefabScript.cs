@@ -10,9 +10,11 @@ public class GamePrefabScript : MonoBehaviour
     private GameObject objectToActivate;
     private GameObject objectToDesactivate;
     public EventHandler<string> onClicked;
+    private AudioSource audioSource;
     void Start()
     {
         Button btn = GetComponent<Button>();
+        audioSource = FindAnyObjectByType<AudioSource>();
         if (btn != null)
         {
             btn.onClick.AddListener(ActivateObject);
@@ -37,6 +39,10 @@ public class GamePrefabScript : MonoBehaviour
             objectToActivate.SetActive(true);
             objectToDesactivate.SetActive(false);
             
+        }
+        if (audioSource != null)
+        {
+            audioSource.Play();
         }
     }
 }
