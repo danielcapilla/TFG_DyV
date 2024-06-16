@@ -21,7 +21,7 @@ public class ChooseGroup : NetworkBehaviour
     private CameraSelector cameraSelector;
     [SerializeField]
     private RestaurantBehaviour[] restaurantBehaviourArray;
-    private bool host = false;
+    private bool host = true;
     private Button previousButton;
     private Button[] buttons;
 
