@@ -169,6 +169,64 @@ MonoBehaviour:
     m_Localized: Teacher
     m_Metadata:
       m_Items: []
+  - m_Id: 26437426164707337
+    m_Localized: Please select a role
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707338
+    m_Localized: Please select a gender
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707339
+    m_Localized: Please fill both fields
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707340
+    m_Localized: This username is already in use
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707341
+    m_Localized: This username does not exists
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707342
+    m_Localized: Connection error check your internet connection
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707343
+    m_Localized: Please fill all the fields
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707354
+    m_Localized: Use abstract thinking to crack the ingredients codes and work with
+      your team to complete as many orders as you can
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26437426164707355
+    m_Localized: Look at the example burguers to decode the ingredients, then complete
+      and deliver as many burguers to the service window
+    m_Metadata:
+      m_Items: []
+  - m_Id: 29633785583808512
+    m_Localized: Languages
+    m_Metadata:
+      m_Items: []
+  - m_Id: 29633785613168640
+    m_Localized: Main volume
+    m_Metadata:
+      m_Items: []
+  - m_Id: 29633785613168641
+    m_Localized: Music volume
+    m_Metadata:
+      m_Items: []
+  - m_Id: 29633785613168642
+    m_Localized: SFX volume
+    m_Metadata:
+      m_Items: []
+  - m_Id: 29660703238565888
+    m_Localized: Audio
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:
