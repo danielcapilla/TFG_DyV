@@ -20,6 +20,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Podium.unity
     guid: 45a0024fbfb32154da4ac8f1b3749256
+  - enabled: 1
+    path: Assets/Scenes/ClassInfo.unity
+    guid: 256b2a621d841f641a98dc151ccf6d2c
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: 026a1b4705c18db48b2a93dc0df394a8, type: 2}
     com.unity.input.settings: {fileID: 11400000, guid: e491ef2ec73f78849ad9e6a3a8d3b17f, type: 2}
