@@ -82,31 +82,31 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 26437426164707337
-    m_Localized: '#VALUE!'
+    m_Localized: Por favor seleccione un rol
     m_Metadata:
       m_Items: []
   - m_Id: 26437426164707338
-    m_Localized: '#VALUE!'
+    m_Localized: "Por favor seleccione un g\xE9nero"
     m_Metadata:
       m_Items: []
   - m_Id: 26437426164707339
-    m_Localized: '#VALUE!'
+    m_Localized: Por favor complete ambos campos
     m_Metadata:
       m_Items: []
   - m_Id: 26437426164707340
-    m_Localized: '#VALUE!'
+    m_Localized: "Este nombre de usuario ya est\xE1 en uso"
     m_Metadata:
       m_Items: []
   - m_Id: 26437426164707341
-    m_Localized: '#VALUE!'
+    m_Localized: Este nombre de usuario no existe
     m_Metadata:
       m_Items: []
   - m_Id: 26437426164707342
-    m_Localized: '#VALUE!'
+    m_Localized: "Error de conexi\xF3n comprueba tu conexi\xF3n a Internet"
     m_Metadata:
       m_Items: []
   - m_Id: 26437426164707343
-    m_Localized: '#VALUE!'
+    m_Localized: Por favor llene todos los campos
     m_Metadata:
       m_Items: []
   - m_Id: 26437426164707344
@@ -150,11 +150,14 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 26437426164707354
-    m_Localized: '#VALUE!'
+    m_Localized: "Utiliza el pensamiento abstracto para descifrar los c\xF3digos
+      de los ingredientes y trabaja con tu equipo para completar tantos pedidos como
+      podais."
     m_Metadata:
       m_Items: []
   - m_Id: 26437426164707355
-    m_Localized: '#VALUE!'
+    m_Localized: Mire las hamburguesas de ejemplo para decodificar los ingredientes,
+      luego complete y entregue tantas hamburguesas en la ventanilla de servicio.
     m_Metadata:
       m_Items: []
   - m_Id: 26437426164707356
@@ -203,6 +206,26 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 26440611608571905
     m_Localized: Maestro
+    m_Metadata:
+      m_Items: []
+  - m_Id: 29633785583808512
+    m_Localized: Idiomas
+    m_Metadata:
+      m_Items: []
+  - m_Id: 29633785613168640
+    m_Localized: Volumen principal
+    m_Metadata:
+      m_Items: []
+  - m_Id: 29633785613168641
+    m_Localized: "Volumen de la m\xFAsica"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 29633785613168642
+    m_Localized: Volumen de efectos especiales
+    m_Metadata:
+      m_Items: []
+  - m_Id: 29660703238565888
+    m_Localized: Audio
     m_Metadata:
       m_Items: []
   references:

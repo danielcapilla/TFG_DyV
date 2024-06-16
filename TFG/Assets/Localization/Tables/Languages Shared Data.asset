@@ -199,6 +199,26 @@ MonoBehaviour:
     m_Key: teacher
     m_Metadata:
       m_Items: []
+  - m_Id: 29633785583808512
+    m_Key: language
+    m_Metadata:
+      m_Items: []
+  - m_Id: 29633785613168640
+    m_Key: masterVolume
+    m_Metadata:
+      m_Items: []
+  - m_Id: 29633785613168641
+    m_Key: musicVolume
+    m_Metadata:
+      m_Items: []
+  - m_Id: 29633785613168642
+    m_Key: SFXVolume
+    m_Metadata:
+      m_Items: []
+  - m_Id: 29660703238565888
+    m_Key: audio
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

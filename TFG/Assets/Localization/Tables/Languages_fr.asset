@@ -82,31 +82,31 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 26437426164707337
-    m_Localized: '#VALUE!'
+    m_Localized: "Veuillez s\xE9lectionner un r\xF4le"
     m_Metadata:
       m_Items: []
   - m_Id: 26437426164707338
-    m_Localized: '#VALUE!'
+    m_Localized: "Veuillez s\xE9lectionner un sexe"
     m_Metadata:
       m_Items: []
   - m_Id: 26437426164707339
-    m_Localized: '#VALUE!'
+    m_Localized: Veuillez remplir les deux champs
     m_Metadata:
       m_Items: []
   - m_Id: 26437426164707340
-    m_Localized: '#VALUE!'
+    m_Localized: "Ce nom d'utilisateur est d\xE9j\xE0 utilis\xE9"
     m_Metadata:
       m_Items: []
   - m_Id: 26437426164707341
-    m_Localized: '#VALUE!'
+    m_Localized: Ce nom d'utilisateur n'existe pas
     m_Metadata:
       m_Items: []
   - m_Id: 26437426164707342
-    m_Localized: '#VALUE!'
+    m_Localized: "Erreur de connexion, v\xE9rifiez votre connexion Internet"
     m_Metadata:
       m_Items: []
   - m_Id: 26437426164707343
-    m_Localized: '#VALUE!'
+    m_Localized: Veuillez remplir tous les champs
     m_Metadata:
       m_Items: []
   - m_Id: 26437426164707344
@@ -150,11 +150,14 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 26437426164707354
-    m_Localized: '#VALUE!'
+    m_Localized: "Utilisez la pens\xE9e abstraite pour d\xE9chiffrer les codes des
+      ingr\xE9dients et travaillez avec votre \xE9quipe pour terminer autant de commandes
+      que possible."
     m_Metadata:
       m_Items: []
   - m_Id: 26437426164707355
-    m_Localized: '#VALUE!'
+    m_Localized: "Regardez les exemples de hamburgers pour d\xE9coder les ingr\xE9dients,
+      puis compl\xE9tez et livrez autant de hamburgers au guichet de service."
     m_Metadata:
       m_Items: []
   - m_Id: 26437426164707356
@@ -203,6 +206,26 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 26440611608571905
     m_Localized: Professeur
+    m_Metadata:
+      m_Items: []
+  - m_Id: 29633785583808512
+    m_Localized: Langues
+    m_Metadata:
+      m_Items: []
+  - m_Id: 29633785613168640
+    m_Localized: Volume principal
+    m_Metadata:
+      m_Items: []
+  - m_Id: 29633785613168641
+    m_Localized: Volume de la musique
+    m_Metadata:
+      m_Items: []
+  - m_Id: 29633785613168642
+    m_Localized: Volume des effets sonores
+    m_Metadata:
+      m_Items: []
+  - m_Id: 29660703238565888
+    m_Localized: l'audio
     m_Metadata:
       m_Items: []
   references:
