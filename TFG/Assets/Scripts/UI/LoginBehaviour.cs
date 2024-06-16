@@ -36,6 +36,7 @@ public class LoginBehaviour : MonoBehaviour
 
     private void Start()
     {
+        Screen.sleepTimeout = SleepTimeout.NeverSleep;
         ageRegisterText.text = age.ToString();
         commander.DataBaseLogin();
     }

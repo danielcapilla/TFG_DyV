@@ -18,6 +18,8 @@ public class Pause : NetworkBehaviour
     private GameObject pauseMenuCanvas;
     [SerializeField]
     private TeamMenager teamMenager;
+    [SerializeField]
+    private GameObject pausePanel;
 
     public void PauseGame()
     {
@@ -29,6 +31,7 @@ public class Pause : NetworkBehaviour
     private void PauseGameClientRPC()
     {
         Time.timeScale = 0;
+        pausePanel.SetActive(true);
     }
     public void ResumeGame()
     {
@@ -40,6 +43,7 @@ public class Pause : NetworkBehaviour
     private void ResumeGameClientRPC()
     {
         Time.timeScale = 1;
+        pausePanel.SetActive(false);
     }
     public void ExitGame()
     {
@@ -52,6 +56,7 @@ public class Pause : NetworkBehaviour
     private void ExitGameClientRPC()
     {
         Time.timeScale = 1;
+        pausePanel.SetActive(true);
         DOTween.Clear(true);
     }
 
