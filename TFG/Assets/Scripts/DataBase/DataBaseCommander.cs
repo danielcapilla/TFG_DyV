@@ -343,7 +343,7 @@ public class DataBaseCommander : MonoBehaviour
     public void GetGame(Action<GameResponse> callback, string date = "", string classCode = "")
     {
         //string json = CreateGetGameJSON(PlayerData.ClassCode, date, classCode);
-        string json = CreateGetGameJSON("89", date, classCode);
+        string json = CreateGetGameJSON(PlayerData.ClassCode, date, classCode);
         StartCoroutine(GetGameDB(json, callback));
 
     }
