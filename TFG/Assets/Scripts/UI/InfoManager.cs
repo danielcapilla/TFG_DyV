@@ -79,14 +79,22 @@ public class InfoManager : MonoBehaviour
         }
         else
         {
-            if (i != filtersBehaviour.match.Equipos[idGrupo].HamburguesasEntregadas[j + 1].IDOrder)
+            if(filtersBehaviour.match.Equipos[idGrupo].HamburguesasEntregadas.Count == 1)
             {
                 entregadaNext.interactable = false;
             }
             else
             {
-                entregadaNext.interactable = true;
+                if (i != filtersBehaviour.match.Equipos[idGrupo].HamburguesasEntregadas[j + 1].IDOrder)
+                {
+                    entregadaNext.interactable = false;
+                }
+                else
+                {
+                    entregadaNext.interactable = true;
+                }
             }
+           
             ShowHamburgerInfo(filtersBehaviour.match.Equipos[idGrupo].HamburguesasEntregadas.FirstOrDefault().Hamburguesa);
         }
     }
