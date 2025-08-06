@@ -4,6 +4,7 @@ using Unity.Netcode;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using UnityEngine.Localization.Components;
 
 public class MinigameSelectorBehaviour : NetworkBehaviour
 {
@@ -12,12 +13,14 @@ public class MinigameSelectorBehaviour : NetworkBehaviour
     [SerializeField] Vector3 startPos;
 
     [SerializeField] Image gameImage;
-    [SerializeField] List<Sprite> minigameImages;
 
     [SerializeField] string selectedGame;
     [SerializeField] GameObject PlayButton;
     [SerializeField] GameObject transparentPanel;
     Button selectedButton;
+
+    [SerializeField] LocalizeStringEvent DescriptionText;
+    [SerializeField] LocalizeStringEvent TutorialText;
 
     // Start is called before the first frame update
     void Start()
@@ -27,12 +30,6 @@ public class MinigameSelectorBehaviour : NetworkBehaviour
         {
             PlayButton.SetActive(false);
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     public void OpenPanel()
@@ -47,13 +44,9 @@ public class MinigameSelectorBehaviour : NetworkBehaviour
         transparentPanel.SetActive(false);
     }
 
-    public void SelectGame(string value) 
-    {
-        selectedGame = value;
-    }
-
     public void IrAJuego()
     {
+        //TODO If Host start game if client cast vote to poll
         if (selectedGame.Length > 0)
         {
             NetworkManager.Singleton.SceneManager.LoadScene(selectedGame, LoadSceneMode.Single);
@@ -70,8 +63,13 @@ public class MinigameSelectorBehaviour : NetworkBehaviour
         selectedButton.interactable = false;
     }
 
-    public void ChangeImage(int id) 
+    public void SelectGame(MinigameInfoSO info) 
     {
-        gameImage.sprite = minigameImages[id];
+        gameImage.sprite = info.icon;
+        DescriptionText.StringReference.SetReference(info.description.TableReference, info.description.TableEntryReference);
+        TutorialText.StringReference.SetReference(info.tutorialText.TableReference, info.tutorialText.TableEntryReference);
+        DescriptionText.RefreshString();
+        TutorialText.RefreshString();
+        selectedGame = info.sceneName;
     }
 }
