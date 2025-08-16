@@ -13,25 +13,26 @@ public class PlayerSpawner : NetworkBehaviour
 
     private LateJoinsBehaviour lateJoinsBehaviour;
 
-
     [SerializeField]
     private Transform playerBucketTransform;
+
+
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
         
         if (IsServer)
         {
-            NetworkManager.Singleton.SceneManager.OnLoadEventCompleted += SceneLoaded;
-            NetworkManager.Singleton.SceneManager.OnUnload += UnSceceLoaded;
+            NetworkManager.Singleton.SceneManager.OnLoadEventCompleted += SceneLoadedCallback;
+            NetworkManager.Singleton.SceneManager.OnUnload += SceneUnloadedCallback;
             lateJoinsBehaviour = FindObjectOfType<LateJoinsBehaviour>();
         }
 
     }
 
-    private void UnSceceLoaded(ulong clientId, string sceneName, AsyncOperation asyncOperation)
+    private void SceneUnloadedCallback(ulong clientId, string sceneName, AsyncOperation asyncOperation)
     {
-        if (IsServer && sceneName == "MinijuegoRestaurante")
+        if (IsServer)
         {
             //lateJoinsBehaviour.aprovedConection = true;
             foreach (ulong id in NetworkManager.ConnectedClientsIds)
@@ -46,9 +47,9 @@ public class PlayerSpawner : NetworkBehaviour
         }
     }
 
-    private void SceneLoaded(string sceneName, LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
+    private void SceneLoadedCallback(string sceneName, LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
     {
-        if (IsServer && sceneName == "MinijuegoRestaurante")
+        if (IsServer)
         {
             LateJoinsBehaviour.aprovedConection = false;
             foreach (ulong id in clientsCompleted)
@@ -81,8 +82,8 @@ public class PlayerSpawner : NetworkBehaviour
     {
         base.OnNetworkDespawn();
         if (!IsServer) return;
-        NetworkManager.Singleton.SceneManager.OnLoadEventCompleted -= SceneLoaded;
-        NetworkManager.Singleton.SceneManager.OnUnload -= UnSceceLoaded;
+        NetworkManager.Singleton.SceneManager.OnLoadEventCompleted -= SceneLoadedCallback;
+        NetworkManager.Singleton.SceneManager.OnUnload -= SceneUnloadedCallback;
 
     }
 }

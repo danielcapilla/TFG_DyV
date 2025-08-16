@@ -10,8 +10,6 @@ public class UserNetworkConfig : NetworkBehaviour
     private bool conectionFailed = false;
     public override void OnNetworkSpawn()
     {
-
-
         //NetworkManager.Singleton.OnServerStopped += OnServerDisconnect;
         if (!IsOwner) return;
         NetworkManager.Singleton.OnClientDisconnectCallback += OnServerDisconnect;
@@ -20,8 +18,6 @@ public class UserNetworkConfig : NetworkBehaviour
         usernameNetworkVariable.Value = PlayerData.Name;
         profilePicIDNetworkVariable.OnValueChanged += UpdateProfilePic;
         profilePicIDNetworkVariable.Value = PlayerData.ProfilePicID;
-
-
     }
 
     private void OnServerDisconnect(ulong obj)
