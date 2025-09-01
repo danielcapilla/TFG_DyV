@@ -7,13 +7,10 @@ public class GridLevelGenerator : MonoBehaviour
     [Min(2)] public int width = 16;
     [Min(2)] public int height = 12;
 
-    [Header("Reglas")]
-    [Tooltip("Longitud mínima del camino Start->Goal (en celdas).")]
-    [Min(1)] public int minPathLength = 10;
+    [Header("Opciones")]
+    [Min(10)] public int minPathLength = 20;
     [Range(0f, 0.9f)] public float obstacleDensity = 0.25f;
-    [Tooltip("Posición fija del inicio (coordenadas de celda).")]
     public Vector2Int start = new Vector2Int(0, 0);
-    [Tooltip("Intentos máximos para encontrar una meta válida.")]
     [Min(1)] public int maxGoalTries = 200;
 
     [Header("Prefabs")]
@@ -22,21 +19,18 @@ public class GridLevelGenerator : MonoBehaviour
     public GameObject startPrefab;
     public GameObject goalPrefab;
 
-    [Header("Opciones")]
-    [Tooltip("Tamaño en unidades de cada celda (X/Z).")]
+    [Header("Celdas")]
     public float cellSize = 1f;
-    [Tooltip("Semilla aleatoria. -1 para aleatoria por tiempo.")]
     public int seed = -1;
     [Tooltip("Regenerar al pulsar R (modo Play).")]
     public bool allowRuntimeRegenerate = true;
 
-    // Representación del grid
+    // Estados del grid
     // 0 = libre, 1 = obstáculo, 2 = inicio, 3 = meta
     private int[,] grid;
     private Vector2Int goal;
-    private readonly Vector2Int[] dirs = { Vector2Int.up, Vector2Int.down, Vector2Int.left, Vector2Int.right };
-    Quaternion floorRot = Quaternion.Euler(90f, 0f, 0f); // para quad como suelo
-    Quaternion markerRot = Quaternion.Euler(90f, 0f, 0f); // para start/goal si son quads o planos
+    private Vector2Int[] dirs = { Vector2Int.up, Vector2Int.down, Vector2Int.left, Vector2Int.right };
+    Quaternion markerRot = Quaternion.Euler(90f, 0f, 0f); 
 
 
     // Para limpiar instancias anteriores
@@ -44,11 +38,14 @@ public class GridLevelGenerator : MonoBehaviour
 
     void Start()
     {
+        // Solo si es servidor
         Generate();
+        // Se envia la grid a los clientes
     }
 
     void Update()
     {
+        // Construir nuevos obstaculos
         if (allowRuntimeRegenerate && Application.isPlaying && Input.GetKeyDown(KeyCode.R))
         {
             Generate();
@@ -57,13 +54,14 @@ public class GridLevelGenerator : MonoBehaviour
 
     public void Generate()
     {
-        // Semilla
+        // Semilla, se usa la hora del sistema para que sea distinta a cada ejecucion
         if (seed == -1) Random.InitState(System.Environment.TickCount);
         else Random.InitState(seed);
 
-        // Validaciones
+        // Validaciones del mapa
         width = Mathf.Max(2, width);
         height = Mathf.Max(2, height);
+        // Salida dentro del espacio
         start.x = Mathf.Clamp(start.x, 0, width - 1);
         start.y = Mathf.Clamp(start.y, 0, height - 1);
 
@@ -72,71 +70,115 @@ public class GridLevelGenerator : MonoBehaviour
 
         grid = new int[width, height];
 
-        // 1) Seleccionar una meta variable con distancia mínima
-        if (!TryPickGoal(out goal))
+        // Creacion del mapa siguiendo las reglas
+
+        // 1) Elegir goal y hacer una BSF
+        Dictionary<Vector2Int, Vector2Int> bfsCameFrom;
+        if (!TryPickGoal(out goal, out bfsCameFrom))
         {
-            Debug.LogWarning("[GridLevelGenerator] No se pudo encontrar una meta que cumpla la distancia mínima. Disminuye minPathLength o aumenta el mapa.");
-            // fallback: usar la posición más lejana por Manhattan
-            goal = FarthestByManhattan(start);
+            Debug.Log("No se pudo encontrar una meta que cumpla minPathLength. Se usó fallback.");
         }
 
-        // 2) Generar un camino garantizado (BFS con orden aleatorio de vecinos)
-        var path = GeneratePathBFS(start, goal, width, height, shuffleNeighbors: true);
-        if (path == null || path.Count == 0)
+        // 2) Reconstruir camino garantizado (esta vez se guarda)
+        List<Vector2Int> path = new List<Vector2Int>();
+        Vector2Int t = goal;
+        while (t != start)
         {
-            Debug.LogWarning("[GridLevelGenerator] No se encontró camino usando BFS (esto no debería ocurrir en grid vacío). Reintentando con meta fallback.");
-            goal = FarthestByManhattan(start);
-            path = GeneratePathBFS(start, goal, width, height, shuffleNeighbors: true);
+            path.Add(t);
+            t = bfsCameFrom[t];
         }
+        path.Add(start);
+        path.Reverse();
 
-        // 3) Marcar inicio y meta
+        // 3) Marcar inicio y meta en la grid
         grid[start.x, start.y] = 2;
         grid[goal.x, goal.y] = 3;
 
-        // 4) Colocar obstáculos aleatorios SIN tocar el camino garantizado
-        var pathSet = new HashSet<Vector2Int>(path);
+        // 4) Colocar obstaculos aleatorios sin bloquear el camino garantizado
+        // Usar un HashSet para acceso O(1)
+        HashSet<Vector2Int> pathSet = new HashSet<Vector2Int>(path);
         for (int x = 0; x < width; x++)
         {
             for (int y = 0; y < height; y++)
             {
-                var p = new Vector2Int(x, y);
-                if (p == start || p == goal) continue;
-                if (pathSet.Contains(p)) continue; // no bloquear el camino garantizado
+                Vector2Int cell = new Vector2Int(x, y);
+                // No poner obstaculo en inicio, meta o camino garantizado
+                if (cell == start || cell == goal) continue;
+                if (pathSet.Contains(cell)) continue; // proteger camino
+                // Decidir aleatoriamente si poner obstaculo
                 if (Random.value < obstacleDensity)
-                {
                     grid[x, y] = 1;
-                }
             }
         }
 
-        // 5) Construir visualmente en escena
+        // 5) Construir escena con prefabs
         BuildSceneFromGrid();
     }
 
-    private bool TryPickGoal(out Vector2Int picked)
+    private bool TryPickGoal(out Vector2Int picked, out Dictionary<Vector2Int, Vector2Int> cameFrom)
     {
-        // Filtro rápido por Manhattan para respetar longitud mínima
-        // Luego confirmamos con una BFS de longitud (en grid vacío)
-        for (int i = 0; i < maxGoalTries; i++)
+        picked = Vector2Int.zero;
+        cameFrom = new Dictionary<Vector2Int, Vector2Int>();
+
+        // cola para BFS (FIFO)
+        Queue<Vector2Int> queue = new Queue<Vector2Int>();
+        queue.Enqueue(start);
+        // Record del camino de las celdas visitadas
+        cameFrom[start] = start;
+        // Barajar el orden de exploracion para dar variedad
+        Vector2Int[] localDirs = (Vector2Int[])dirs.Clone();
+        Shuffle(localDirs);
+
+        while (queue.Count > 0)
         {
-            var candidate = new Vector2Int(Random.Range(0, width), Random.Range(0, height));
-            if (candidate == start) continue;
-
-            int manhattan = Mathf.Abs(candidate.x - start.x) + Mathf.Abs(candidate.y - start.y);
-            if (manhattan < minPathLength) continue;
-
-            // En un grid vacío, la BFS más corta == Manhattan (con 4 direcciones).
-            // No obstante, calculamos por robustez (y por si luego cambias dirs).
-            var path = GeneratePathBFS(start, candidate, width, height, shuffleNeighbors: true);
-            if (path != null && path.Count - 1 >= minPathLength)
+            // Sacar la antigua
+            Vector2Int cur = queue.Dequeue();
+            foreach (var dir in dirs)
             {
-                picked = candidate;
-                return true;
+                // Nueva celda
+                Vector2Int next = cur + dir;
+                // Validar dentro de limites y no visitada
+                if (next.x < 0 || next.y < 0 || next.x >= width || next.y >= height) continue;
+                if (cameFrom.ContainsKey(next)) continue;
+                // Añadir a visitadas y cola
+                cameFrom[next] = cur;
+                queue.Enqueue(next);
             }
         }
 
-        picked = Vector2Int.zero;
-        return false;
+        // Recoger posibles candidatos que cumplan al menos minPathLength
+        List<Vector2Int> candidates = new List<Vector2Int>();
+        foreach (var c in cameFrom)
+        {
+            Vector2Int cell = c.Key;
+            // Ignorar el start
+            if (cell == start) continue;
+
+            // Contar longitud real de pasos desde start
+            int length = 0;
+            Vector2Int t = cell;
+            // Volver atras hasta el inicio
+            while (t != start)
+            {
+                length++;
+                t = cameFrom[t];
+            }
+            // Si cumple, añadir a candidatos
+            if (length >= minPathLength)
+                candidates.Add(cell);
+        }
+
+        // Fallback si no hay candidatos válidos
+        if (candidates.Count == 0)
+        {
+            // Elegir el punto más alejado por Manhattan
+            picked = FarthestByManhattan(start);
+            return false;
+        }
+
+        // Elegir aleatoriamente una meta válida
+        picked = candidates[Random.Range(0, candidates.Count)];
+        return true;
     }
 
     private Vector2Int FarthestByManhattan(Vector2Int from)
@@ -162,36 +204,43 @@ public class GridLevelGenerator : MonoBehaviour
 
     private List<Vector2Int> GeneratePathBFS(Vector2Int s, Vector2Int g, int w, int h, bool shuffleNeighbors)
     {
+        // cola para BFS (FIFO)
         Queue<Vector2Int> q = new Queue<Vector2Int>();
         q.Enqueue(s);
-
+        // Record del camino de las celdas visitadas
         Dictionary<Vector2Int, Vector2Int> cameFrom = new Dictionary<Vector2Int, Vector2Int>();
         cameFrom[s] = s;
 
-        // Opcional: barajar el orden de exploración para variedad
+        // Barajar el orden de exploracion para dar variedad
         Vector2Int[] localDirs = (Vector2Int[])dirs.Clone();
         if (shuffleNeighbors) Shuffle(localDirs);
 
         while (q.Count > 0)
         {
+            // Sacar la antigua
             var cur = q.Dequeue();
+            // Si es la meta, terminar
             if (cur == g) break;
-
+            // Explorar vecinos
             foreach (var d in localDirs)
             {
+                // Nueva celda
                 var nxt = cur + d;
+                // Validar dentro de limites y no visitada
                 if (nxt.x < 0 || nxt.y < 0 || nxt.x >= w || nxt.y >= h) continue;
                 if (cameFrom.ContainsKey(nxt)) continue;
+                // Añadir a visitadas y cola
                 cameFrom[nxt] = cur;
                 q.Enqueue(nxt);
             }
         }
-
+        // Si no hemos llegado a la meta, no hay camino
         if (!cameFrom.ContainsKey(g)) return null;
 
-        // Reconstrucción
+        // Reconstruccion
         List<Vector2Int> path = new List<Vector2Int>();
         var t = g;
+        // Volver atras hasta el inicio
         while (t != s)
         {
             path.Add(t);
@@ -204,7 +253,7 @@ public class GridLevelGenerator : MonoBehaviour
 
     private void BuildSceneFromGrid()
     {
-        // Crear un padre para agrupar
+        // Crear un padre para agrupar los elementos del nivel
         var root = new GameObject("GridLevel");
         root.transform.SetParent(transform, false);
         spawned.Add(root);
@@ -218,7 +267,7 @@ public class GridLevelGenerator : MonoBehaviour
             {
                 Vector3 worldPos = origin + new Vector3(x * cellSize, 0f, y * cellSize);
 
-                // Piso (opcional)
+                // Instanciar suelo si no es obstáculo, inicio o meta
                 if (floorPrefab != null && grid[x, y] != 2 && grid[x, y] != 3)
                 {
                     Quaternion floorRot = Quaternion.Euler(90f, 0f, 0f);
@@ -238,14 +287,15 @@ public class GridLevelGenerator : MonoBehaviour
                         break;
                     case 2:
                         toSpawn = startPrefab;
-                        rot = markerRot; // si es un quad/plane
+                        rot = markerRot; // rotar para que quede plano
                         break;
                     case 3:
                         toSpawn = goalPrefab;
-                        rot = markerRot; // idem
+                        rot = markerRot; // rotar para que quede plano
                         break;
                 }
 
+                // Instanciar si hay prefab asignado
                 if (toSpawn != null)
                 {
                     var go = Instantiate(toSpawn, worldPos, rot, root.transform);
@@ -257,10 +307,12 @@ public class GridLevelGenerator : MonoBehaviour
 
     private void ClearSpawned()
     {
+        // Eliminar instancias previas
         foreach (var go in spawned)
         {
             if (go != null)
             {
+                // Diferenciar entre modo editor y play para destruir correctamente
 #if UNITY_EDITOR
                 if (!Application.isPlaying) DestroyImmediate(go);
                 else Destroy(go);
@@ -271,7 +323,7 @@ public class GridLevelGenerator : MonoBehaviour
         }
         spawned.Clear();
 
-        // También eliminar hijo previo "GridLevel" si quedó en jerarquía
+        // Tambien eliminar hijo previo "GridLevel" si quedo en jerarquia
         var child = transform.Find("GridLevel");
         if (child != null)
         {
@@ -283,7 +335,7 @@ public class GridLevelGenerator : MonoBehaviour
 #endif
         }
     }
-
+    // Algoritmo de Fisher-Yates para barajar un array
     private void Shuffle(Vector2Int[] array)
     {
         for (int i = 0; i < array.Length; i++)
@@ -293,7 +345,7 @@ public class GridLevelGenerator : MonoBehaviour
         }
     }
 
-    // Gizmos para vista en editor (opcional, si no tienes prefabs)
+    // Gizmos para vista en editor 
 #if UNITY_EDITOR
     private void OnDrawGizmosSelected()
     {
