@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.Unity.VisualStudio.Editor;
+using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
-public class GridLevelGenerator : MonoBehaviour
+public class GridLevelGenerator : NetworkBehaviour
 {
     [Header("Tamaño del mapa")]
     [Min(2)] public int width = 16;
@@ -39,10 +41,41 @@ public class GridLevelGenerator : MonoBehaviour
     void Start()
     {
         // Solo si es servidor
-        Generate();
+        //Generate();
         // Se envia la grid a los clientes
     }
+   
 
+    // Debug para pruebas iniciales de conexion
+    private void SendGridToLateJoiner(ulong clientId)
+    {
+        int[] flatGrid = FlattenGrid(grid, width, height);
+
+        ClientRpcParams rpcParams = new ClientRpcParams
+        {
+            Send = new ClientRpcSendParams
+            {
+                TargetClientIds = new ulong[] { clientId }
+            }
+        };
+
+        ReceiveLevelClientRpc(flatGrid, width, height, start, goal, rpcParams);
+    }
+    public override void OnNetworkSpawn()
+    {
+        base.OnNetworkSpawn();
+
+        if(!IsServer) return;
+        NetworkManager.Singleton.OnClientConnectedCallback += SendGridToLateJoiner;
+        Generate();
+        SendGridToClients();
+    }
+    public override void OnNetworkDespawn()
+    {
+        base.OnNetworkDespawn();
+        if (IsServer)
+            NetworkManager.Singleton.OnClientConnectedCallback -= SendGridToLateJoiner;
+    }
     void Update()
     {
         // Construir nuevos obstaculos
@@ -250,7 +283,23 @@ public class GridLevelGenerator : MonoBehaviour
         path.Reverse();
         return path;
     }
-
+    // Pasar a un array 1D  para enviar por red
+    int[] FlattenGrid(int[,] grid, int width, int height)
+    {
+        int[] flat = new int[width * height];
+        for (int x = 0; x < width; x++)
+            for (int y = 0; y < height; y++)
+                flat[y * width + x] = grid[x, y]; // fila mayor
+        return flat;
+    }
+    // Reconstruir grid 2D desde array 1D
+    void LoadGrid(int[] flat, int width, int height)
+    {
+        grid = new int[width, height];
+        for (int x = 0; x < width; x++)
+            for (int y = 0; y < height; y++)
+                grid[x, y] = flat[y * width + x];
+    }
     private void BuildSceneFromGrid()
     {
         // Crear un padre para agrupar los elementos del nivel
@@ -304,7 +353,24 @@ public class GridLevelGenerator : MonoBehaviour
             }
         }
     }
+    void SendGridToClients()
+    {
+        int[] flatGrid = FlattenGrid(grid, width, height);
+        ReceiveLevelClientRpc(flatGrid, width, height, start, goal);
+    }
+    //[Rpc(SendTo.Everyone)]
+    [ClientRpc]
+    void ReceiveLevelClientRpc(int[] flatGrid, int width, int height, Vector2Int start, Vector2Int goal, ClientRpcParams rpcParams = default)
+    {
+        Debug.Log("Recibiendo nivel en cliente");
 
+        this.width = width;
+        this.height = height;
+        LoadGrid(flatGrid, width, height);
+        this.start = start;
+        this.goal = goal;
+        BuildSceneFromGrid();
+    }
     private void ClearSpawned()
     {
         // Eliminar instancias previas
