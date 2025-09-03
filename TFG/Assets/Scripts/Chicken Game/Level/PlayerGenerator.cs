@@ -1,36 +1,30 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
 using Unity.Netcode;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerGenerator : NetworkBehaviour
 {
+    [Header("Player")]
     [SerializeField] private GameObject playerPrefab;
 
     private GridLevelGenerator levelGenerator;
 
+    private ChooseGroupChicken chooseGroupChicken;
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
-
-        // Solo el servidor spawnea
-        if (!IsServer) return;
-
         levelGenerator = FindFirstObjectByType<GridLevelGenerator>();
+        chooseGroupChicken = FindFirstObjectByType<ChooseGroupChicken>();
+        chooseGroupChicken.OnPlayerReady += SpawnPlayerForClientRPC;
 
-        foreach (var clientId in NetworkManager.Singleton.ConnectedClientsIds)
-        {
-            if (clientId == NetworkManager.Singleton.LocalClientId) continue; 
-            SpawnPlayerForClient(clientId);
-        }
-
-        // Escuchar nuevas conexiones (para late join)
-        NetworkManager.Singleton.OnClientConnectedCallback += SpawnPlayerForClient;
     }
-
-    private void SpawnPlayerForClient(ulong clientId)
+    [Rpc(SendTo.Server)]
+    private void SpawnPlayerForClientRPC(ulong clientId)
     {
         Vector2Int startCell = levelGenerator.start;
 
-        // Calcular posición en mundo según tu grid
+        // Calcular posicion en mundo segun la  grid
         Vector3 origin = levelGenerator.transform.position
                          - new Vector3((levelGenerator.width - 1) * 0.5f * levelGenerator.cellSize,
                                        0f,
@@ -41,14 +35,22 @@ public class PlayerGenerator : NetworkBehaviour
         // Instanciar player como NetworkObject
         Debug.Log($"Spawning player for client {clientId} at {spawnPosition}");
         GameObject player = Instantiate(playerPrefab, spawnPosition, Quaternion.identity);
-        player.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientId, true);
+        player.GetComponent<NetworkObject>().SpawnWithOwnership(clientId, true); // CUIDADO EL TRUE
+        player.transform.SetParent(NetworkManager.Singleton.ConnectedClients[clientId].PlayerObject.transform, false);
+        DesactivateMovementClientRPC(player.GetComponent<NetworkObject>());
     }
+    [Rpc(SendTo.Everyone)]
+    private void DesactivateMovementClientRPC(NetworkObjectReference playerNetworkObjectReference)
+    {
+        playerNetworkObjectReference.TryGet(out NetworkObject playerNetworkObject);
+        PlayerInputController playerController = playerNetworkObject.GetComponent<PlayerInputController>();
 
+        playerController.enabled = false;
+    }
     public override void OnNetworkDespawn()
     {
         base.OnNetworkDespawn();
+        chooseGroupChicken.OnPlayerReady -= SpawnPlayerForClientRPC;
 
-        if (!IsServer) return;
-        NetworkManager.Singleton.OnClientConnectedCallback -= SpawnPlayerForClient;
     }
 }
