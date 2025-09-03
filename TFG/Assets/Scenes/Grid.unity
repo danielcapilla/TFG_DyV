@@ -1028,7 +1028,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 6104723489875006281, guid: fb31e815019ab9a4aa773115ecbebc69, type: 3}
-  playerBucketTransform: {fileID: 0}
 --- !u!4 &426153641
 Transform:
   m_ObjectHideFlags: 0
@@ -1081,7 +1080,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   teamManager: {fileID: 1250604520}
   readyButton: {fileID: 2027876233}
-  groupCanvas: {fileID: 879709472}
+  groupCanvas: {fileID: 795390958}
 --- !u!1 &516726479
 GameObject:
   m_ObjectHideFlags: 0

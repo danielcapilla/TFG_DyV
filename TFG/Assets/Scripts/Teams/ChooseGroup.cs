@@ -11,16 +11,15 @@ public class ChooseGroup : NetworkBehaviour
     PlayerStats player;
     [SerializeField] TeamMenager teamManager;
     [SerializeField] Button readyButton;
-    [SerializeField]
-    private Countdown countdown;
+    [SerializeField] private GameObject groupCanvas;
+    [SerializeField] private Countdown countdown;
     private Dictionary<ulong, bool> playerReadyDictionary;
     public static List<ulong> connectedPlayers;
     [SerializeField]
     private PlayerSpawner playerSpawner;
     [SerializeField]
     private CameraSelector cameraSelector;
-    [SerializeField]
-    private RestaurantBehaviour[] restaurantBehaviourArray;
+
     private bool host = false;
     private Button previousButton;
     private Button[] buttons;
@@ -34,16 +33,14 @@ public class ChooseGroup : NetworkBehaviour
         base.OnNetworkSpawn();
         readyButton.gameObject.SetActive(false);
         buttons = GetComponentsInChildren<Button>();
-        // Reemplaza la línea obsoleta en el método OnNetworkSpawn
-        //restaurantBehaviourArray = FindObjectsByType<RestaurantBehaviour>(FindObjectsSortMode.None);
-        //Array.Sort(restaurantBehaviourArray);
+
         if (IsServer)
         {
 
             playerReadyDictionary = new Dictionary<ulong, bool>();
             connectedPlayers = NetworkManager.Singleton.ConnectedClientsIds.ToList<ulong>();
             if (host) return;
-            this.gameObject.SetActive(false);
+            groupCanvas.gameObject.SetActive(false);
             connectedPlayers.Remove(OwnerClientId);
 
         }
@@ -65,9 +62,7 @@ public class ChooseGroup : NetworkBehaviour
     private void ChangeGroupRPC(ulong id, int groupNumber)
     {
         player = NetworkManager.Singleton.ConnectedClients[id].PlayerObject.gameObject.GetComponent<PlayerStats>();
-        //SetPlayerPositionPart1ClientRPC(player.NetworkObject);
         player.idGrupo.Value = groupNumber;
-        //SetPlayerPositionPart2ClientRPC(groupNumber, player.NetworkObject);
 
     }
     public void ReadyPlayer()
@@ -116,23 +111,7 @@ public class ChooseGroup : NetworkBehaviour
             }
         }
     }
-    //[ClientRpc]
-    //private void SetPlayerPositionPart1ClientRPC(NetworkObjectReference playerStatsNetworkObjectReference)
-    //{
-    //    playerStatsNetworkObjectReference.TryGet(out NetworkObject playerStatsNetworkObject);
-    //    PlayerStats player = playerStatsNetworkObject.GetComponent<PlayerStats>();
-    //    if (player.idGrupo.Value != -1)
-    //    {
-    //        restaurantBehaviourArray[player.idGrupo.Value].RemovePosition(player.transform, player.OwnerClientId);
-    //    }
-    //}
-    //[ClientRpc]
-    //private void SetPlayerPositionPart2ClientRPC(int groupNumber, NetworkObjectReference playerStatsNetworkObjectReference)
-    //{
-    //    playerStatsNetworkObjectReference.TryGet(out NetworkObject playerStatsNetworkObject);
-    //    PlayerStats player = playerStatsNetworkObject.GetComponent<PlayerStats>();
-    //    restaurantBehaviourArray[groupNumber].AddPosition(player.transform, player.OwnerClientId);
-    //}
+
     [Rpc(SendTo.Everyone)]
     private void ActivatePlayerInputRPC(NetworkObjectReference playerInputNetworkObjectReference)
     {
@@ -143,7 +122,7 @@ public class ChooseGroup : NetworkBehaviour
     [Rpc(SendTo.Everyone)]
     public void DesactivateGroupCanvasRPC()
     {
-        this.gameObject.SetActive(false);
+        groupCanvas.gameObject.SetActive(false);
         restaurantMusic.Play();
     }
     [Rpc(SendTo.Everyone)]

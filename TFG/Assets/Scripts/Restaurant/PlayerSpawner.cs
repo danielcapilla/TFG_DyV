@@ -21,13 +21,15 @@ public class PlayerSpawner : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
-        if (IsServer) return;
-        chooseGroup = FindFirstObjectByType<ChooseGroup>();
-        chooseGroup.OnPlayerReady += SpawnPlayerForClientRPC;
-        if (IsServer)
+        if (!IsServer)
         {
-            //NetworkManager.Singleton.SceneManager.OnLoadEventCompleted += SceneLoadedCallback;
-            //NetworkManager.Singleton.SceneManager.OnUnload += SceneUnloadedCallback;
+            chooseGroup = FindFirstObjectByType<ChooseGroup>();
+            chooseGroup.OnPlayerReady += SpawnPlayerForClientRPC;
+        }
+        else
+        {
+            NetworkManager.Singleton.SceneManager.OnLoadEventCompleted += SceneLoadedCallback;
+            NetworkManager.Singleton.SceneManager.OnUnload += SceneUnloadedCallback;
             //lateJoinsBehaviour = FindObjectOfType<LateJoinsBehaviour>();
         }
 
@@ -93,26 +95,9 @@ public class PlayerSpawner : NetworkBehaviour
 
     private void SceneLoadedCallback(string sceneName, LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
     {
-        if (IsServer)
-        {
-            LateJoinsBehaviour.aprovedConection = false;
-            foreach (ulong id in clientsCompleted)
-            {
-                if(id != OwnerClientId)
-                {
-                    //Pongos los fighters como hijos del player
-                    //arrayPlayers[id].GetComponent<PlayerNetworkConfig>().InstantiateCharacterServerRpc(id);
-                    GameObject playerGameObject = Instantiate(playerPrefab);
-                    playerGameObject.GetComponent<NetworkObject>().SpawnWithOwnership(id);
-                    playerGameObject.transform.SetParent(NetworkManager.Singleton.ConnectedClients[id].PlayerObject.transform, false);
-                    DesactivateMovementClientRPC(playerGameObject.GetComponent<NetworkObject>());
-                    //NetworkManager.Singleton.ConnectedClients[id].PlayerObject;
-                    //PlayerNetworkConfig.Instance.InstantiateCharacterServerRpc(id);
-                    //player.transform.SetParent(transform, false);
-                }
 
-            }
-        }
+        LateJoinsBehaviour.aprovedConection = false;           
+
     }
     [Rpc(SendTo.Everyone)]
     private void DesactivateMovementClientRPC(NetworkObjectReference playerNetworkObjectReference)

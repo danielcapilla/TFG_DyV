@@ -7753,23 +7753,17 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 252704713}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 47cb4b2ba62721645adaaf7c3b927cd7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   teamManager: {fileID: 1645041031}
   readyButton: {fileID: 1732089051}
+  groupCanvas: {fileID: 0}
   countdown: {fileID: 1196646259}
   playerSpawner: {fileID: 1560538629}
   cameraSelector: {fileID: 1822124153}
-  restaurantBehaviourArray:
-  - {fileID: 1055239971}
-  - {fileID: 1387852761}
-  - {fileID: 729742722}
-  - {fileID: 1785433038}
-  - {fileID: 474230620}
-  - {fileID: 1562777222}
   restaurantMusic: {fileID: 973842459}
 --- !u!1001 &257132583
 PrefabInstance:
@@ -32210,7 +32204,7 @@ Transform:
   m_GameObject: {fileID: 889409465}
   serializedVersion: 2
   m_LocalRotation: {x: 0.32804236, y: 0.00020113842, z: -0.000048066897, w: 0.944663}
-  m_LocalPosition: {x: 224.70001, y: 10.5, z: -8.1}
+  m_LocalPosition: {x: 444.6, y: 10.5, z: -8.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -59539,6 +59533,7 @@ GameObject:
   - component: {fileID: 1560538630}
   - component: {fileID: 1560538631}
   - component: {fileID: 1560538629}
+  - component: {fileID: 1560538632}
   m_Layer: 0
   m_Name: PlayerSpawner
   m_TagString: Untagged
@@ -59605,6 +59600,25 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
+--- !u!114 &1560538632
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1560538628}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47cb4b2ba62721645adaaf7c3b927cd7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  teamManager: {fileID: 1645041031}
+  readyButton: {fileID: 1732089051}
+  groupCanvas: {fileID: 252704713}
+  countdown: {fileID: 1196646259}
+  playerSpawner: {fileID: 1560538629}
+  cameraSelector: {fileID: 1822124153}
+  restaurantMusic: {fileID: 973842459}
 --- !u!1 &1562777220
 GameObject:
   m_ObjectHideFlags: 0
