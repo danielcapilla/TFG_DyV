@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using Unity.Netcode;
@@ -25,13 +25,17 @@ public class ChooseGroup : NetworkBehaviour
     private Button previousButton;
     private Button[] buttons;
 
+    public delegate void PlayerReady(ulong id);
+    public event PlayerReady OnPlayerReady;
+
     [SerializeField] AudioSource restaurantMusic;
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
         readyButton.gameObject.SetActive(false);
         buttons = GetComponentsInChildren<Button>();
-        //restaurantBehaviourArray = FindObjectsOfType<RestaurantBehaviour>();
+        // Reemplaza la línea obsoleta en el método OnNetworkSpawn
+        //restaurantBehaviourArray = FindObjectsByType<RestaurantBehaviour>(FindObjectsSortMode.None);
         //Array.Sort(restaurantBehaviourArray);
         if (IsServer)
         {
@@ -45,7 +49,7 @@ public class ChooseGroup : NetworkBehaviour
         }
 
     }
-    public void Cambio()
+    public void ChangeGroup()
     {
         if (previousButton != null)
         {
@@ -54,16 +58,16 @@ public class ChooseGroup : NetworkBehaviour
         Button clickedButton = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.GetComponent<Button>();
         clickedButton.interactable = false;
         previousButton = clickedButton;
-        CambioServerRPC(NetworkManager.Singleton.LocalClientId, (int.Parse(clickedButton.GetComponentInChildren<TextMeshProUGUI>().text)) - 1);
+        ChangeGroupRPC(NetworkManager.Singleton.LocalClientId, (int.Parse(clickedButton.GetComponentInChildren<TextMeshProUGUI>().text)) - 1);
         readyButton.gameObject.SetActive(true);
     }
-    [ServerRpc(RequireOwnership = false)]
-    private void CambioServerRPC(ulong id, int groupNumber)
+    [Rpc(SendTo.Server)]
+    private void ChangeGroupRPC(ulong id, int groupNumber)
     {
-        player = NetworkManager.Singleton.ConnectedClients[id].PlayerObject.gameObject.GetComponentInChildren<PlayerStats>();
-        SetPlayerPositionPart1ClientRPC(player.NetworkObject);
+        player = NetworkManager.Singleton.ConnectedClients[id].PlayerObject.gameObject.GetComponent<PlayerStats>();
+        //SetPlayerPositionPart1ClientRPC(player.NetworkObject);
         player.idGrupo.Value = groupNumber;
-        SetPlayerPositionPart2ClientRPC(groupNumber, player.NetworkObject);
+        //SetPlayerPositionPart2ClientRPC(groupNumber, player.NetworkObject);
 
     }
     public void ReadyPlayer()
@@ -73,13 +77,14 @@ public class ChooseGroup : NetworkBehaviour
         {
             button.interactable = false;
         }
-        ReadyPlayerServerRPC(NetworkManager.Singleton.LocalClientId);
+        OnPlayerReady?.Invoke(NetworkManager.Singleton.LocalClientId);
+        ReadyPlayerRPC(NetworkManager.Singleton.LocalClientId);
 
     }
-    [ServerRpc(RequireOwnership = false)]
-    public void ReadyPlayerServerRPC(ulong id)
+    [Rpc(SendTo.Server)]
+    public void ReadyPlayerRPC(ulong id)
     {
-        player = NetworkManager.Singleton.ConnectedClients[id].PlayerObject.gameObject.GetComponentInChildren<PlayerStats>();
+        player = NetworkManager.Singleton.ConnectedClients[id].PlayerObject.gameObject.GetComponent<PlayerStats>();
         TeamInfoRestaurante teamInfo = (TeamInfoRestaurante)teamManager.teams[player.idGrupo.Value];
         teamInfo.integrantes.Add(id);
         SetPlayerReady(id);
@@ -100,49 +105,49 @@ public class ChooseGroup : NetworkBehaviour
         if (allClientsReady)
         {
             //playerSpawner.InstantiatePlayer();
-            DesactivateGroupCanvasClientRPC();
+            DesactivateGroupCanvasRPC();
             countdown.CambiarVariable();
             foreach (ulong playerId in connectedPlayers)
             {
                 //cameraSelector.ActivateCamera(NetworkManager.ConnectedClients[playerId].PlayerObject.GetComponentInChildren<PlayerStats>().idGrupo.Value);
-                SetCameraClientRPC(NetworkManager.ConnectedClients[playerId].PlayerObject.GetComponentInChildren<PlayerStats>().idGrupo.Value, playerId);
+                SetCameraRPC(NetworkManager.ConnectedClients[playerId].PlayerObject.GetComponentInParent<PlayerStats>().idGrupo.Value, playerId);
                 PlayerInput playerInput = NetworkManager.ConnectedClients[playerId].PlayerObject.GetComponentInChildren<PlayerInput>();
-                ActivatePlayerInputClientRPC(playerInput.GetComponent<NetworkObject>());
+                ActivatePlayerInputRPC(playerInput.GetComponent<NetworkObject>());
             }
         }
     }
-    [ClientRpc]
-    private void SetPlayerPositionPart1ClientRPC(NetworkObjectReference playerStatsNetworkObjectReference)
-    {
-        playerStatsNetworkObjectReference.TryGet(out NetworkObject playerStatsNetworkObject);
-        PlayerStats player = playerStatsNetworkObject.GetComponent<PlayerStats>();
-        if (player.idGrupo.Value != -1)
-        {
-            restaurantBehaviourArray[player.idGrupo.Value].RemovePosition(player.transform, player.OwnerClientId);
-        }
-    }
-    [ClientRpc]
-    private void SetPlayerPositionPart2ClientRPC(int groupNumber, NetworkObjectReference playerStatsNetworkObjectReference)
-    {
-        playerStatsNetworkObjectReference.TryGet(out NetworkObject playerStatsNetworkObject);
-        PlayerStats player = playerStatsNetworkObject.GetComponent<PlayerStats>();
-        restaurantBehaviourArray[groupNumber].AddPosition(player.transform, player.OwnerClientId);
-    }
-    [ClientRpc]
-    private void ActivatePlayerInputClientRPC(NetworkObjectReference playerInputNetworkObjectReference)
+    //[ClientRpc]
+    //private void SetPlayerPositionPart1ClientRPC(NetworkObjectReference playerStatsNetworkObjectReference)
+    //{
+    //    playerStatsNetworkObjectReference.TryGet(out NetworkObject playerStatsNetworkObject);
+    //    PlayerStats player = playerStatsNetworkObject.GetComponent<PlayerStats>();
+    //    if (player.idGrupo.Value != -1)
+    //    {
+    //        restaurantBehaviourArray[player.idGrupo.Value].RemovePosition(player.transform, player.OwnerClientId);
+    //    }
+    //}
+    //[ClientRpc]
+    //private void SetPlayerPositionPart2ClientRPC(int groupNumber, NetworkObjectReference playerStatsNetworkObjectReference)
+    //{
+    //    playerStatsNetworkObjectReference.TryGet(out NetworkObject playerStatsNetworkObject);
+    //    PlayerStats player = playerStatsNetworkObject.GetComponent<PlayerStats>();
+    //    restaurantBehaviourArray[groupNumber].AddPosition(player.transform, player.OwnerClientId);
+    //}
+    [Rpc(SendTo.Everyone)]
+    private void ActivatePlayerInputRPC(NetworkObjectReference playerInputNetworkObjectReference)
     {
         playerInputNetworkObjectReference.TryGet(out NetworkObject playerInputNetworkObject);
         PlayerController playerController = playerInputNetworkObject.GetComponent<PlayerController>();
         playerController.enabled = true;
     }
-    [ClientRpc]
-    public void DesactivateGroupCanvasClientRPC()
+    [Rpc(SendTo.Everyone)]
+    public void DesactivateGroupCanvasRPC()
     {
         this.gameObject.SetActive(false);
         restaurantMusic.Play();
     }
-    [ClientRpc]
-    private void SetCameraClientRPC(int groupID, ulong id)
+    [Rpc(SendTo.Everyone)]
+    private void SetCameraRPC(int groupID, ulong id)
     {
         if (id != NetworkManager.Singleton.LocalClientId) return;
         cameraSelector.ActivateCamera(groupID);

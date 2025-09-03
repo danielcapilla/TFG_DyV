@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
@@ -11,25 +11,69 @@ public class PlayerSpawner : NetworkBehaviour
     [SerializeField]
     private GameObject playerPrefab;
 
-    private LateJoinsBehaviour lateJoinsBehaviour;
+    //private LateJoinsBehaviour lateJoinsBehaviour;
 
     [SerializeField]
     private Transform playerBucketTransform;
 
-
+    private ChooseGroup chooseGroup;
+     [SerializeField] private RestaurantBehaviour[] restaurantBehaviourArray;
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
-        
+        if (IsServer) return;
+        chooseGroup = FindFirstObjectByType<ChooseGroup>();
+        chooseGroup.OnPlayerReady += SpawnPlayerForClientRPC;
         if (IsServer)
         {
-            NetworkManager.Singleton.SceneManager.OnLoadEventCompleted += SceneLoadedCallback;
-            NetworkManager.Singleton.SceneManager.OnUnload += SceneUnloadedCallback;
-            lateJoinsBehaviour = FindObjectOfType<LateJoinsBehaviour>();
+            //NetworkManager.Singleton.SceneManager.OnLoadEventCompleted += SceneLoadedCallback;
+            //NetworkManager.Singleton.SceneManager.OnUnload += SceneUnloadedCallback;
+            //lateJoinsBehaviour = FindObjectOfType<LateJoinsBehaviour>();
         }
 
     }
+    [Rpc(SendTo.Server)]
+    private void SpawnPlayerForClientRPC(ulong clientId)
+    {
 
+        GameObject player = Instantiate(playerPrefab);
+        var netObj = player.GetComponent<NetworkObject>();
+        netObj.SpawnWithOwnership(clientId);
+        player.transform.SetParent(NetworkManager.Singleton.ConnectedClients[clientId].PlayerObject.transform, false);
+
+
+        PlayerStats playerStats = player.GetComponentInParent<PlayerStats>();
+        int groupNumber = playerStats.idGrupo.Value;
+
+
+        if (groupNumber >= 0 && groupNumber < restaurantBehaviourArray.Length)
+        {
+            SetPlayerPositionRPC(groupNumber, playerStats.NetworkObject);
+        }
+        else
+        {
+            Debug.LogError($"SpawnPlayerForClientRPC: grupo inválido ({groupNumber}) para client {clientId}");
+        }
+
+        DesactivateMovementClientRPC(netObj);
+    }
+    [Rpc(SendTo.Everyone)]
+    private void RemovePlayerPositionRPC(NetworkObjectReference playerStatsNetworkObjectReference)
+    {
+        playerStatsNetworkObjectReference.TryGet(out NetworkObject playerStatsNetworkObject);
+        PlayerStats player = playerStatsNetworkObject.GetComponent<PlayerStats>();
+        if (player.idGrupo.Value != -1)
+        {
+            restaurantBehaviourArray[player.idGrupo.Value].RemovePosition(player.transform, player.OwnerClientId);
+        }
+    }
+    [Rpc(SendTo.Everyone)]
+    private void SetPlayerPositionRPC(int groupNumber, NetworkObjectReference playerStatsNetworkObjectReference)
+    {
+        playerStatsNetworkObjectReference.TryGet(out NetworkObject playerStatsNetworkObject);
+        PlayerStats player = playerStatsNetworkObject.GetComponent<PlayerStats>();
+        restaurantBehaviourArray[groupNumber].AddPosition(player.transform, player.OwnerClientId);
+    }
     private void SceneUnloadedCallback(ulong clientId, string sceneName, AsyncOperation asyncOperation)
     {
         if (IsServer)
@@ -70,7 +114,7 @@ public class PlayerSpawner : NetworkBehaviour
             }
         }
     }
-    [ClientRpc]
+    [Rpc(SendTo.Everyone)]
     private void DesactivateMovementClientRPC(NetworkObjectReference playerNetworkObjectReference)
     {
         playerNetworkObjectReference.TryGet(out NetworkObject playerNetworkObject);
