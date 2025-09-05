@@ -67,7 +67,7 @@ public class PlayerSpawner : NetworkBehaviour
     {
         playerStatsNetworkObjectReference.TryGet(out NetworkObject playerStatsNetworkObject);
         PlayerStats player = playerStatsNetworkObject.GetComponent<PlayerStats>();
-        restaurantBehaviourArray[groupNumber].AddPosition(player.transform, player.OwnerClientId);
+        restaurantBehaviourArray[groupNumber].AddPosition(player.transform.GetChild(0), player.OwnerClientId);
     }
     private void SceneUnloadedCallback(ulong clientId, string sceneName, AsyncOperation asyncOperation)
     {
