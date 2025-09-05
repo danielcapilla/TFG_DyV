@@ -35,7 +35,7 @@ public class DeliveryStation : InteractableObject
     {
         playerNetworkObjectReference.TryGet(out NetworkObject playerNetworkObject);
         PlayerCarry playerCarry = playerNetworkObject.GetComponent<PlayerCarry>();
-        PlayerStats playerStats = playerNetworkObject.GetComponent<PlayerStats>();
+        PlayerStats playerStats = playerNetworkObject.GetComponentInParent<PlayerStats>();
 
         if (playerCarry.carryingObject.GetGameObject().TryGetComponent<PlateBehaviour>(out PlateBehaviour plate))
         {

@@ -7760,7 +7760,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   teamManager: {fileID: 1645041031}
   readyButton: {fileID: 1732089051}
-  groupCanvas: {fileID: 0}
+  groupCanvas: {fileID: 252704713}
   countdown: {fileID: 1196646259}
   playerSpawner: {fileID: 1560538629}
   cameraSelector: {fileID: 1822124153}
@@ -46587,7 +46587,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a98f6e908bb7e3541a085e9caa8fa226, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tiempo: 240
+  tiempo: 10
   regresiveTime: 3
   timeStarted:
     m_InternalValue: 0
@@ -59614,7 +59614,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   teamManager: {fileID: 1645041031}
   readyButton: {fileID: 1732089051}
-  groupCanvas: {fileID: 252704713}
+  groupCanvas: {fileID: 1272749904}
   countdown: {fileID: 1196646259}
   playerSpawner: {fileID: 1560538629}
   cameraSelector: {fileID: 1822124153}

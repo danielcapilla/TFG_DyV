@@ -66,7 +66,7 @@ public class PlayerCarry : NetworkBehaviour
                 objToDestroy.GetNetworkObject().Despawn();
             }
         }
-        teamManager.QuitPlayerFromTheTeamServerRPC(OwnerClientId, gameObject.GetComponent<PlayerStats>().idGrupo.Value);        
+        teamManager.QuitPlayerFromTheTeamServerRPC(OwnerClientId, gameObject.GetComponentInParent<PlayerStats>().idGrupo.Value);        
     }
     public NetworkObject GetNetworkObject()
     {
