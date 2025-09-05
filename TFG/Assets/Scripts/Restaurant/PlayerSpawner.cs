@@ -8,16 +8,10 @@ using UnityEngine.InputSystem;
 
 public class PlayerSpawner : NetworkBehaviour
 {
-    [SerializeField]
-    private GameObject playerPrefab;
-
-    //private LateJoinsBehaviour lateJoinsBehaviour;
-
-    [SerializeField]
-    private Transform playerBucketTransform;
-
+    [Header("Prefabs")]
+    [SerializeField] private GameObject playerPrefab;
+    [SerializeField] private RestaurantBehaviour[] restaurantBehaviourArray;
     private ChooseGroup chooseGroup;
-     [SerializeField] private RestaurantBehaviour[] restaurantBehaviourArray;
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
@@ -30,7 +24,6 @@ public class PlayerSpawner : NetworkBehaviour
         {
             NetworkManager.Singleton.SceneManager.OnLoadEventCompleted += SceneLoadedCallback;
             NetworkManager.Singleton.SceneManager.OnUnload += SceneUnloadedCallback;
-            //lateJoinsBehaviour = FindObjectOfType<LateJoinsBehaviour>();
         }
 
     }
@@ -46,7 +39,7 @@ public class PlayerSpawner : NetworkBehaviour
 
         PlayerStats playerStats = player.GetComponentInParent<PlayerStats>();
         int groupNumber = playerStats.idGrupo.Value;
-
+        Debug.Log($"SpawnPlayerForClientRPC: grupo {groupNumber} para client {clientId}");
 
         if (groupNumber >= 0 && groupNumber < restaurantBehaviourArray.Length)
         {
@@ -110,9 +103,14 @@ public class PlayerSpawner : NetworkBehaviour
     public override void OnNetworkDespawn()
     {
         base.OnNetworkDespawn();
-        if (!IsServer) return;
-        NetworkManager.Singleton.SceneManager.OnLoadEventCompleted -= SceneLoadedCallback;
-        NetworkManager.Singleton.SceneManager.OnUnload -= SceneUnloadedCallback;
+        if(!IsServer)
+            chooseGroup.OnPlayerReady -= SpawnPlayerForClientRPC;
+        else
+        {
+            NetworkManager.Singleton.SceneManager.OnLoadEventCompleted -= SceneLoadedCallback;
+            NetworkManager.Singleton.SceneManager.OnUnload -= SceneUnloadedCallback;
+        }
+
 
     }
 }

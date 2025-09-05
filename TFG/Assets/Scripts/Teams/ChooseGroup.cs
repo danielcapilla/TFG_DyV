@@ -105,7 +105,7 @@ public class ChooseGroup : NetworkBehaviour
             foreach (ulong playerId in connectedPlayers)
             {
                 //cameraSelector.ActivateCamera(NetworkManager.ConnectedClients[playerId].PlayerObject.GetComponentInChildren<PlayerStats>().idGrupo.Value);
-                SetCameraRPC(NetworkManager.ConnectedClients[playerId].PlayerObject.GetComponentInParent<PlayerStats>().idGrupo.Value, playerId);
+                SetCameraRPC(NetworkManager.ConnectedClients[playerId].PlayerObject.GetComponent<PlayerStats>().idGrupo.Value, playerId);
                 PlayerInput playerInput = NetworkManager.ConnectedClients[playerId].PlayerObject.GetComponentInChildren<PlayerInput>();
                 ActivatePlayerInputRPC(playerInput.GetComponent<NetworkObject>());
             }

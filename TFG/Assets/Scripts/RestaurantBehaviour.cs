@@ -25,6 +25,7 @@ public class RestaurantBehaviour : MonoBehaviour
     {
         if(id == NetworkManager.Singleton.LocalClientId)
         {
+            Debug.Log("Spawned in restaurant " + restaurant.name + " at position " + (occupiedPositions % spawnPositions.Length));
             transform.position = spawnPositions[occupiedPositions % spawnPositions.Length].position;
         }
         occupiedPositions++;
@@ -34,7 +35,7 @@ public class RestaurantBehaviour : MonoBehaviour
         if(id == NetworkManager.Singleton.LocalClientId)
         {
             //Si pones bucketPosition da error en una cocina
-            //No sabemos el porquÈ
+            //No sabemos el porquÅE
             transform.position = new Vector3(0f,50f,100f);
         }
         occupiedPositions--;
