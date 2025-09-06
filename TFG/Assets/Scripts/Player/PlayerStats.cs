@@ -11,6 +11,7 @@ public class PlayerStats : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
+        if (!IsServer) return;
         idGrupo.OnValueChanged += NewIdGrupo;
         idGrupo.Value = -1;
     }
@@ -20,6 +21,7 @@ public class PlayerStats : NetworkBehaviour
     }
     private void NewIdGrupo(int previousValue, int newValue)
     {
+        if (!IsServer) return;
         idGrupo.Value = newValue;
     }
 }

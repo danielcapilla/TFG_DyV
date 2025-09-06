@@ -13,7 +13,7 @@ public class Countdown : NetworkBehaviour
     private float tiempo;
     [SerializeField]
     private float regresiveTime;
-    public NetworkVariable<bool> timeStarted = new(default, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    public NetworkVariable<bool> timeStarted = new(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     [SerializeField]
     private TextMeshProUGUI GUI;
     [SerializeField]
@@ -40,18 +40,18 @@ public class Countdown : NetworkBehaviour
     private void Start()
     {
         //tiempo = 3.0f;
-        timeStarted.Value = false;
+        //timeStarted.Value = false;
         originalScale = GUI.transform.localScale;
         scaleTo = originalScale * 1.5f;
     }
 
     public override void OnNetworkSpawn()
     {
-        timeStarted.OnValueChanged += ComprobarTimeStarted;
+        //timeStarted.OnValueChanged += ComprobarTimeStarted;
     }
     public override void OnNetworkDespawn()
     {
-        timeStarted.OnValueChanged -= ComprobarTimeStarted;
+        //timeStarted.OnValueChanged -= ComprobarTimeStarted;
     }
     private void ComprobarTimeStarted(bool previousValue, bool newValue)
     {
