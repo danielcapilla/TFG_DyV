@@ -14,7 +14,7 @@ public class ChooseGroupChicken : NetworkBehaviour
     [SerializeField] private GameObject groupCanvas;
     //[SerializeField] private Countdown countdown;
 
-    private Button[] buttons;
+    [SerializeField] private Button[] buttons;
     private Button previousButton;
     private PlayerStats player;
     private Dictionary<ulong, bool> playerReadyDictionary;
@@ -29,7 +29,7 @@ public class ChooseGroupChicken : NetworkBehaviour
     {
         base.OnNetworkSpawn();
         readyButton.gameObject.SetActive(false);
-        buttons = GetComponentsInChildren<Button>();
+        //buttons = GetComponentsInChildren<Button>();
 
         if (IsServer)
         {

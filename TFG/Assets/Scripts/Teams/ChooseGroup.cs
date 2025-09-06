@@ -22,7 +22,7 @@ public class ChooseGroup : NetworkBehaviour
 
     private bool host = false;
     private Button previousButton;
-    private Button[] buttons;
+    [SerializeField] private Button[] buttons;
 
     public delegate void PlayerReady(ulong id);
     public event PlayerReady OnPlayerReady;
@@ -32,7 +32,7 @@ public class ChooseGroup : NetworkBehaviour
     {
         base.OnNetworkSpawn();
         readyButton.gameObject.SetActive(false);
-        buttons = GetComponentsInChildren<Button>();
+        //buttons = GetComponentsInChildren<Button>();
 
         if (IsServer)
         {

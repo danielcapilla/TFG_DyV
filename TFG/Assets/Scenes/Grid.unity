@@ -1081,6 +1081,14 @@ MonoBehaviour:
   teamManager: {fileID: 1250604520}
   readyButton: {fileID: 2027876233}
   groupCanvas: {fileID: 795390958}
+  buttons:
+  - {fileID: 1109694172}
+  - {fileID: 1041663575}
+  - {fileID: 1117227792}
+  - {fileID: 641488278}
+  - {fileID: 1195980597}
+  - {fileID: 516726481}
+  - {fileID: 2027876233}
 --- !u!1 &516726479
 GameObject:
   m_ObjectHideFlags: 0
