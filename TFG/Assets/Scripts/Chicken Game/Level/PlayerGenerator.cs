@@ -11,6 +11,9 @@ public class PlayerGenerator : NetworkBehaviour
     private GridLevelGenerator levelGenerator;
 
     private ChooseGroupChicken chooseGroupChicken;
+    // Evento para notificar que un player fue spawneado
+    public delegate void PlayerSpawned(GameObject player);
+    public event PlayerSpawned OnPlayerSpawned;
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
@@ -22,6 +25,11 @@ public class PlayerGenerator : NetworkBehaviour
     [Rpc(SendTo.Server)]
     private void SpawnPlayerForClientRPC(ulong clientId)
     {
+        int idGrupo = NetworkManager.Singleton.ConnectedClients[clientId].PlayerObject.GetComponent<PlayerStats>().idGrupo.Value;
+        TeamInfoChicken teamInfo = (TeamInfoChicken)chooseGroupChicken.teamManager.teams[idGrupo];
+        // Si el player ya fue spawneado, no hacer nada (solo 1 por cada grupo)
+        if (teamInfo.spawnedPlayer) return;
+
         Vector2Int startCell = levelGenerator.start;
 
         // Calcular posicion en mundo segun la  grid
@@ -33,11 +41,15 @@ public class PlayerGenerator : NetworkBehaviour
         Vector3 spawnPosition = origin + new Vector3(startCell.x * levelGenerator.cellSize, 0.5f, startCell.y * levelGenerator.cellSize);
 
         // Instanciar player como NetworkObject
-        Debug.Log($"Spawning player for client {clientId} at {spawnPosition}");
         GameObject player = Instantiate(playerPrefab, spawnPosition, Quaternion.identity);
         player.GetComponent<NetworkObject>().SpawnWithOwnership(clientId, true); // CUIDADO EL TRUE
         player.transform.SetParent(NetworkManager.Singleton.ConnectedClients[clientId].PlayerObject.transform, false);
-        DesactivateMovementClientRPC(player.GetComponent<NetworkObject>());
+        //DesactivateMovementClientRPC(player.GetComponent<NetworkObject>());
+
+        // Marcar que el player ya fue spawneado
+        teamInfo.spawnedPlayer = true;
+        // Notificar que el player fue spawneado
+        OnPlayerSpawned?.Invoke(player);
     }
     [Rpc(SendTo.Everyone)]
     private void DesactivateMovementClientRPC(NetworkObjectReference playerNetworkObjectReference)

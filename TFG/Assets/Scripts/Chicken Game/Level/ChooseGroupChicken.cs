@@ -9,7 +9,7 @@ public class ChooseGroupChicken : NetworkBehaviour
 {
 
     [Header("Referencias")]
-    [SerializeField] private TeamMenager teamManager;
+    [SerializeField] public TeamMenager teamManager;
     [SerializeField] private Button readyButton;
     [SerializeField] private GameObject groupCanvas;
     //[SerializeField] private Countdown countdown;
@@ -111,8 +111,8 @@ public class ChooseGroupChicken : NetworkBehaviour
                 ///////////////////////////////////////////////////////////////////////////////////////////
                 //SetCameraClientRPC(NetworkManager.ConnectedClients[playerId].PlayerObject.GetComponentInChildren<PlayerStats>().idGrupo.Value, playerId);
                 //////////////////////////////////////////////////////////////////////////////////////////
-                PlayerInput playerInput = NetworkManager.ConnectedClients[playerId].PlayerObject.GetComponentInChildren<PlayerInput>();
-                ActivatePlayerInputRPC(playerInput.GetComponent<NetworkObject>());
+                //PlayerInput playerInput = NetworkManager.ConnectedClients[playerId].PlayerObject.GetComponentInChildren<PlayerInput>();
+                //ActivatePlayerInputRPC(playerInput.GetComponent<NetworkObject>());
             }
         }
     }
