@@ -8,25 +8,27 @@ using UnityEngine.UI;
 
 public class ChooseGroup : NetworkBehaviour
 {
+    // Grupo
     PlayerStats player;
     [SerializeField] TeamMenager teamManager;
     [SerializeField] Button readyButton;
     [SerializeField] private GameObject groupCanvas;
+    private Button previousButton;
+    [SerializeField] private Button[] buttons;
+    // Separar
     [SerializeField] private Countdown countdown;
     private Dictionary<ulong, bool> playerReadyDictionary;
     public static List<ulong> connectedPlayers;
-    [SerializeField]
-    private PlayerSpawner playerSpawner;
+    // Separar
     [SerializeField]
     private CameraSelector cameraSelector;
 
     private bool host = false;
-    private Button previousButton;
-    [SerializeField] private Button[] buttons;
 
+    // Eventos
     public delegate void PlayerReady(ulong id);
     public event PlayerReady OnPlayerReady;
-
+    // Ir fuera de este script y hacerlo en un GameManager
     [SerializeField] AudioSource restaurantMusic;
     public override void OnNetworkSpawn()
     {
@@ -80,7 +82,7 @@ public class ChooseGroup : NetworkBehaviour
     public void ReadyPlayerRPC(ulong id)
     {
         player = NetworkManager.Singleton.ConnectedClients[id].PlayerObject.gameObject.GetComponent<PlayerStats>();
-        TeamInfoRestaurante teamInfo = (TeamInfoRestaurante)teamManager.teams[player.idGrupo.Value];
+        TeamInfo teamInfo = teamManager.teams[player.idGrupo.Value];
         teamInfo.integrantes.Add(id);
         SetPlayerReady(id);
     }
@@ -101,12 +103,14 @@ public class ChooseGroup : NetworkBehaviour
         {
             //playerSpawner.InstantiatePlayer();
             DesactivateGroupCanvasRPC();
-            countdown.CambiarVariable();
+            // O Hcer Evento y dos coutdowns
+            countdown.CambiarVariable(); // Hacer 2 coutdowns (uno de 321 y otro de el tiempo de la partida)
             foreach (ulong playerId in connectedPlayers)
             {
-                //cameraSelector.ActivateCamera(NetworkManager.ConnectedClients[playerId].PlayerObject.GetComponentInChildren<PlayerStats>().idGrupo.Value);
+                // Ir fuera de este script y hacerlo en un GameManager
                 SetCameraRPC(NetworkManager.ConnectedClients[playerId].PlayerObject.GetComponent<PlayerStats>().idGrupo.Value, playerId);
                 PlayerInput playerInput = NetworkManager.ConnectedClients[playerId].PlayerObject.GetComponentInChildren<PlayerInput>();
+                // Ir fuera de este script y hacerlo en un GameManager
                 ActivatePlayerInputRPC(playerInput.GetComponent<NetworkObject>());
             }
         }
@@ -123,6 +127,7 @@ public class ChooseGroup : NetworkBehaviour
     public void DesactivateGroupCanvasRPC()
     {
         groupCanvas.gameObject.SetActive(false);
+        // Separar
         restaurantMusic.Play();
     }
     [Rpc(SendTo.Everyone)]

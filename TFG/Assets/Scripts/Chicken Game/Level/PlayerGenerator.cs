@@ -11,9 +11,7 @@ public class PlayerGenerator : NetworkBehaviour
     private GridLevelGenerator levelGenerator;
 
     private ChooseGroupChicken chooseGroupChicken;
-    // Evento para notificar que un player fue spawneado
-    public delegate void PlayerSpawned(GameObject player);
-    public event PlayerSpawned OnPlayerSpawned;
+
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
@@ -48,8 +46,6 @@ public class PlayerGenerator : NetworkBehaviour
 
         // Marcar que el player ya fue spawneado
         teamInfo.spawnedPlayer = true;
-        // Notificar que el player fue spawneado
-        OnPlayerSpawned?.Invoke(player);
     }
     [Rpc(SendTo.Everyone)]
     private void DesactivateMovementClientRPC(NetworkObjectReference playerNetworkObjectReference)

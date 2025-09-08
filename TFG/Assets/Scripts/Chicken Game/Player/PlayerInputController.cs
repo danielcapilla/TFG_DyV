@@ -68,4 +68,8 @@ public class PlayerInputController : NetworkBehaviour
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
         }
     }
+    public NetworkObject GetNetworkObject()
+    {
+        return NetworkObject;
+    }
 }

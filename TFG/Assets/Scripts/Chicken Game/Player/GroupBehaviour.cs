@@ -8,25 +8,71 @@ public class GroupBehaviour : NetworkBehaviour
 {
     private Queue<ICommand> commandQueue = new Queue<ICommand>();
     private PlayerInputController player;
-
-    private PlayerGenerator playerGenerator;
+    [SerializeField] TeamMenager teamMenager;
+    private ChooseGroupChicken chooseGroupChicken;
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
-        playerGenerator = FindFirstObjectByType<PlayerGenerator>();
-        playerGenerator.OnPlayerSpawned += ObtainPlayerForGroup;
+        if(!IsServer) return;
+        chooseGroupChicken = FindFirstObjectByType<ChooseGroupChicken>();
+        chooseGroupChicken.OnPlayerSpawned += HandlePlayerSpawned;
 
     }
+
+    private void HandlePlayerSpawned(NetworkObjectReference playerNOR, int idGroup)
+    {
+        Debug.Log("Handling player spawned for group: " + idGroup);
+        TeamInfoChicken teamInfo = (TeamInfoChicken)teamMenager.teams[idGroup];
+        // Obtener todos los clientes del grupo especifico
+        ulong[] targetClients = teamInfo.integrantes.ToArray();
+        if(targetClients.Length == 0) return; // Si no hay clientes en el grupo, salir
+        playerNOR.TryGet(out NetworkObject playerNetworkObject);
+        PlayerInputController playerController = playerNetworkObject.GetComponentInChildren<PlayerInputController>();
+        if (!playerController)
+        {
+            return;
+        }
+        ObtainPlayerForGroupClientRPC(playerNOR, new ClientRpcParams
+        {
+            Send = new ClientRpcSendParams
+            {
+                TargetClientIds = targetClients
+            }
+        });
+    }
+
     public override void OnNetworkDespawn()
     {
         base.OnNetworkDespawn();
-        playerGenerator.OnPlayerSpawned -= ObtainPlayerForGroup;
+        if (!IsServer) return;
+        chooseGroupChicken.OnPlayerSpawned -= HandlePlayerSpawned;
     }
-    private void ObtainPlayerForGroup(GameObject player)
+    [ClientRpc]
+    private void ObtainPlayerForGroupClientRPC(NetworkObjectReference playerNetworkObjectReference,
+        ClientRpcParams clientRpcParams = default)
     {
-        this.player = player.GetComponent<PlayerInputController>();
-    }
+        playerNetworkObjectReference.TryGet(out NetworkObject playerNetworkObject);
+        PlayerInputController playerController = playerNetworkObject.GetComponentInChildren<PlayerInputController>();
 
+        player = playerController;
+        Debug.Log("Player obtained for group: " + player.name);
+    }
+    private ulong[] GetClientsInGroup(int targetGroupId)
+    {
+        List<ulong> clientIds = new List<ulong>();
+
+        foreach (var client in NetworkManager.Singleton.ConnectedClientsList)
+        {
+            // Obtener el idGrupo de cada jugador como mencionaste
+            PlayerStats playerStats = client.PlayerObject.GetComponent<PlayerStats>();
+            if (playerStats != null && playerStats.idGrupo.Value == targetGroupId)
+            {
+                clientIds.Add(client.ClientId);
+            }
+        }
+
+        return clientIds.ToArray();
+    }
     public void AddCommand(ICommand command)
     {
         commandQueue.Enqueue(command);

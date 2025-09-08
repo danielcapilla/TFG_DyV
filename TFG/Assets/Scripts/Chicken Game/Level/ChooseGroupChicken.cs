@@ -25,6 +25,9 @@ public class ChooseGroupChicken : NetworkBehaviour
 
     public delegate void PlayerReady(ulong id);
     public event PlayerReady OnPlayerReady;
+    // Evento para notificar que un player fue spawneado
+    public delegate void PlayerSpawned(NetworkObjectReference playerNOR, int idGroup);
+    public event PlayerSpawned OnPlayerSpawned;
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
@@ -73,6 +76,7 @@ public class ChooseGroupChicken : NetworkBehaviour
         {
             button.interactable = false;
         }
+        // Avisa que le ha dado a listo 
         OnPlayerReady?.Invoke(NetworkManager.Singleton.LocalClientId);
         ReadyPlayerRPC(NetworkManager.Singleton.LocalClientId);
 
@@ -83,7 +87,7 @@ public class ChooseGroupChicken : NetworkBehaviour
         player = NetworkManager.Singleton.ConnectedClients[id].PlayerObject.gameObject.GetComponent<PlayerStats>();
         ////////////////////////////////////////////////////////////////////
         Debug.Log("Player " + id + " joined group " + player.idGrupo.Value);
-        TeamInfoChicken teamInfo = (TeamInfoChicken)teamManager.teams[player.idGrupo.Value];
+        TeamInfo teamInfo = teamManager.teams[player.idGrupo.Value];
         /////////////////////////////////////////////////////////////////////
         teamInfo.integrantes.Add(id);
         SetPlayerReady(id);
@@ -102,11 +106,14 @@ public class ChooseGroupChicken : NetworkBehaviour
         }
         if (allClientsReady)
         {
-            //playerSpawner.InstantiatePlayer();
             DesactivateGroupCanvasRPC();
             //countdown.CambiarVariable();
+            // EVENTO ONGAMESTART
             foreach (ulong playerId in connectedPlayers)
             {
+                // GameManger recibe ONGAMESTART y lanza evento OnPlayerSpawned, imput, camera, coutdown...
+                player = NetworkManager.Singleton.ConnectedClients[playerId].PlayerObject.GetComponent<PlayerStats>();
+                OnPlayerSpawned?.Invoke(player.GetComponent<NetworkObject>(), player.idGrupo.Value);
                 //cameraSelector.ActivateCamera(NetworkManager.ConnectedClients[playerId].PlayerObject.GetComponentInChildren<PlayerStats>().idGrupo.Value);
                 ///////////////////////////////////////////////////////////////////////////////////////////
                 //SetCameraClientRPC(NetworkManager.ConnectedClients[playerId].PlayerObject.GetComponentInChildren<PlayerStats>().idGrupo.Value, playerId);

@@ -23,7 +23,11 @@ public class MovementController : MonoBehaviour
     {
         group.AddCommand(new MoveDownCommand());
     }
-
+    
+    public void OnWaitButtonClick()
+    {
+        group.AddCommand(new WaitCommand());
+    }
     public void OnEndTurnButtonClick()
     {
         group.ExecuteTurn();

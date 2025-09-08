@@ -32,3 +32,11 @@ public class MoveDownCommand : ICommand
         player.MoveDown();
     }
 }
+
+public class WaitCommand : ICommand
+{
+    public void Execute(PlayerInputController player)
+    {
+        player.StopMovement();
+    }
+}
