@@ -10,21 +10,21 @@ public class PlayerGenerator : NetworkBehaviour
 
     private GridLevelGenerator levelGenerator;
 
-    private ChooseGroupChicken chooseGroupChicken;
+    private ChooseGroup chooseGroup;
 
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
         levelGenerator = FindFirstObjectByType<GridLevelGenerator>();
-        chooseGroupChicken = FindFirstObjectByType<ChooseGroupChicken>();
-        chooseGroupChicken.OnPlayerReady += SpawnPlayerForClientRPC;
+        chooseGroup = FindFirstObjectByType<ChooseGroup>();
+        chooseGroup.OnPlayerReady += SpawnPlayerForClientRPC;
 
     }
     [Rpc(SendTo.Server)]
     private void SpawnPlayerForClientRPC(ulong clientId)
     {
         int idGrupo = NetworkManager.Singleton.ConnectedClients[clientId].PlayerObject.GetComponent<PlayerStats>().idGrupo.Value;
-        TeamInfoChicken teamInfo = (TeamInfoChicken)chooseGroupChicken.teamManager.teams[idGrupo];
+        TeamInfoChicken teamInfo = (TeamInfoChicken)chooseGroup.teamManager.teams[idGrupo];
         // Si el player ya fue spawneado, no hacer nada (solo 1 por cada grupo)
         if (teamInfo.spawnedPlayer) return;
 
@@ -58,7 +58,7 @@ public class PlayerGenerator : NetworkBehaviour
     public override void OnNetworkDespawn()
     {
         base.OnNetworkDespawn();
-        chooseGroupChicken.OnPlayerReady -= SpawnPlayerForClientRPC;
+        chooseGroup.OnPlayerReady -= SpawnPlayerForClientRPC;
 
     }
 }

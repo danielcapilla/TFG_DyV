@@ -10,32 +10,28 @@ public class ChooseGroup : NetworkBehaviour
 {
     // Grupo
     PlayerStats player;
-    [SerializeField] TeamMenager teamManager;
-    [SerializeField] Button readyButton;
+    [SerializeField] public TeamMenager teamManager;
+    [SerializeField] private Button readyButton;
     [SerializeField] private GameObject groupCanvas;
     private Button previousButton;
     [SerializeField] private Button[] buttons;
-    // Separar
-    [SerializeField] private Countdown countdown;
+
     private Dictionary<ulong, bool> playerReadyDictionary;
     public static List<ulong> connectedPlayers;
-    // Separar
-    [SerializeField]
-    private CameraSelector cameraSelector;
 
-    private bool host = false;
+
+    private bool host = true;
 
     // Eventos
     public delegate void PlayerReady(ulong id);
     public event PlayerReady OnPlayerReady;
-    // Ir fuera de este script y hacerlo en un GameManager
-    [SerializeField] AudioSource restaurantMusic;
+    public delegate void OnGameStart();
+    public event OnGameStart OnGameStartEvent;
+
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
         readyButton.gameObject.SetActive(false);
-        //buttons = GetComponentsInChildren<Button>();
-
         if (IsServer)
         {
 
@@ -101,39 +97,16 @@ public class ChooseGroup : NetworkBehaviour
         }
         if (allClientsReady)
         {
-            //playerSpawner.InstantiatePlayer();
             DesactivateGroupCanvasRPC();
-            // O Hcer Evento y dos coutdowns
-            countdown.CambiarVariable(); // Hacer 2 coutdowns (uno de 321 y otro de el tiempo de la partida)
-            foreach (ulong playerId in connectedPlayers)
-            {
-                // Ir fuera de este script y hacerlo en un GameManager
-                SetCameraRPC(NetworkManager.ConnectedClients[playerId].PlayerObject.GetComponent<PlayerStats>().idGrupo.Value, playerId);
-                PlayerInput playerInput = NetworkManager.ConnectedClients[playerId].PlayerObject.GetComponentInChildren<PlayerInput>();
-                // Ir fuera de este script y hacerlo en un GameManager
-                ActivatePlayerInputRPC(playerInput.GetComponent<NetworkObject>());
-            }
+            OnGameStartEvent?.Invoke();
+            
         }
     }
 
     [Rpc(SendTo.Everyone)]
-    private void ActivatePlayerInputRPC(NetworkObjectReference playerInputNetworkObjectReference)
-    {
-        playerInputNetworkObjectReference.TryGet(out NetworkObject playerInputNetworkObject);
-        PlayerController playerController = playerInputNetworkObject.GetComponent<PlayerController>();
-        playerController.enabled = true;
-    }
-    [Rpc(SendTo.Everyone)]
     public void DesactivateGroupCanvasRPC()
     {
         groupCanvas.gameObject.SetActive(false);
-        // Separar
-        restaurantMusic.Play();
     }
-    [Rpc(SendTo.Everyone)]
-    private void SetCameraRPC(int groupID, ulong id)
-    {
-        if (id != NetworkManager.Singleton.LocalClientId) return;
-        cameraSelector.ActivateCamera(groupID);
-    }
+
 }

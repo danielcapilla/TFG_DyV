@@ -1007,8 +1007,8 @@ GameObject:
   - component: {fileID: 426153641}
   - component: {fileID: 426153643}
   - component: {fileID: 426153640}
-  - component: {fileID: 426153644}
   - component: {fileID: 426153645}
+  - component: {fileID: 426153646}
   m_Layer: 0
   m_Name: Level Manager
   m_TagString: Untagged
@@ -1067,29 +1067,6 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
---- !u!114 &426153644
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 426153639}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e1f8027da2651b946b0e27d62970d39b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  teamManager: {fileID: 1250604520}
-  readyButton: {fileID: 2027876233}
-  groupCanvas: {fileID: 795390958}
-  buttons:
-  - {fileID: 1109694172}
-  - {fileID: 1041663575}
-  - {fileID: 1117227792}
-  - {fileID: 641488278}
-  - {fileID: 1195980597}
-  - {fileID: 516726481}
-  - {fileID: 2027876233}
 --- !u!114 &426153645
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1103,6 +1080,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   teamMenager: {fileID: 1250604520}
+--- !u!114 &426153646
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 426153639}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47cb4b2ba62721645adaaf7c3b927cd7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  teamManager: {fileID: 1250604520}
+  readyButton: {fileID: 2027876233}
+  groupCanvas: {fileID: 795390958}
+  buttons:
+  - {fileID: 1109694172}
+  - {fileID: 1041663575}
+  - {fileID: 1117227792}
+  - {fileID: 641488278}
+  - {fileID: 1195980597}
+  - {fileID: 516726481}
+  - {fileID: 2027876233}
 --- !u!1 &510993057
 GameObject:
   m_ObjectHideFlags: 0
@@ -1322,8 +1322,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 426153644}
-        m_TargetAssemblyTypeName: ChooseGroupChicken, Assembly-CSharp
+      - m_Target: {fileID: 426153646}
+        m_TargetAssemblyTypeName: ChooseGroup, Assembly-CSharp
         m_MethodName: ChangeGroup
         m_Mode: 1
         m_Arguments:
@@ -1542,8 +1542,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 426153644}
-        m_TargetAssemblyTypeName: ChooseGroupChicken, Assembly-CSharp
+      - m_Target: {fileID: 426153646}
+        m_TargetAssemblyTypeName: ChooseGroup, Assembly-CSharp
         m_MethodName: ChangeGroup
         m_Mode: 1
         m_Arguments:
@@ -2395,8 +2395,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 426153644}
-        m_TargetAssemblyTypeName: ChooseGroupChicken, Assembly-CSharp
+      - m_Target: {fileID: 426153646}
+        m_TargetAssemblyTypeName: ChooseGroup, Assembly-CSharp
         m_MethodName: ChangeGroup
         m_Mode: 1
         m_Arguments:
@@ -2540,8 +2540,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 426153644}
-        m_TargetAssemblyTypeName: ChooseGroupChicken, Assembly-CSharp
+      - m_Target: {fileID: 426153646}
+        m_TargetAssemblyTypeName: ChooseGroup, Assembly-CSharp
         m_MethodName: ChangeGroup
         m_Mode: 1
         m_Arguments:
@@ -2685,8 +2685,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 426153644}
-        m_TargetAssemblyTypeName: ChooseGroupChicken, Assembly-CSharp
+      - m_Target: {fileID: 426153646}
+        m_TargetAssemblyTypeName: ChooseGroup, Assembly-CSharp
         m_MethodName: ChangeGroup
         m_Mode: 1
         m_Arguments:
@@ -2894,6 +2894,75 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ControlPath: <Keyboard>/s
+--- !u!1 &1175153889
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1175153890}
+  - component: {fileID: 1175153891}
+  - component: {fileID: 1175153892}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1175153890
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1175153889}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1632, y: 319, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1175153891
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1175153889}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 2212539505
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
+--- !u!114 &1175153892
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1175153889}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 304e707f3ad203340a3abcb4fa7a80e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  chooseGroup: {fileID: 426153646}
 --- !u!1 &1195980595
 GameObject:
   m_ObjectHideFlags: 0
@@ -2977,8 +3046,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 426153644}
-        m_TargetAssemblyTypeName: ChooseGroupChicken, Assembly-CSharp
+      - m_Target: {fileID: 426153646}
+        m_TargetAssemblyTypeName: ChooseGroup, Assembly-CSharp
         m_MethodName: ChangeGroup
         m_Mode: 1
         m_Arguments:
@@ -4594,8 +4663,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 426153644}
-        m_TargetAssemblyTypeName: ChooseGroupChicken, Assembly-CSharp
+      - m_Target: {fileID: 426153646}
+        m_TargetAssemblyTypeName: ChooseGroup, Assembly-CSharp
         m_MethodName: ReadyPlayer
         m_Mode: 1
         m_Arguments:
@@ -4902,3 +4971,4 @@ SceneRoots:
   - {fileID: 426153641}
   - {fileID: 2080988731}
   - {fileID: 1250604522}
+  - {fileID: 1175153890}

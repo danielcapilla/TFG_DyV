@@ -7067,7 +7067,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 252704717}
+      - m_Target: {fileID: 1560538632}
         m_TargetAssemblyTypeName: ChooseGroup, Assembly-CSharp
         m_MethodName: ChangeGroup
         m_Mode: 1
@@ -7673,7 +7673,6 @@ GameObject:
   - component: {fileID: 252704714}
   - component: {fileID: 252704716}
   - component: {fileID: 252704715}
-  - component: {fileID: 252704717}
   m_Layer: 5
   m_Name: PanelEquipos
   m_TagString: Untagged
@@ -7746,26 +7745,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 252704713}
   m_CullTransparentMesh: 1
---- !u!114 &252704717
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 252704713}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47cb4b2ba62721645adaaf7c3b927cd7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  teamManager: {fileID: 1645041031}
-  readyButton: {fileID: 1732089051}
-  groupCanvas: {fileID: 252704713}
-  countdown: {fileID: 1196646259}
-  playerSpawner: {fileID: 1560538629}
-  cameraSelector: {fileID: 1822124153}
-  buttons: []
-  restaurantMusic: {fileID: 973842459}
 --- !u!1001 &257132583
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8322,7 +8301,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 252704717}
+      - m_Target: {fileID: 1560538632}
         m_TargetAssemblyTypeName: ChooseGroup, Assembly-CSharp
         m_MethodName: ChangeGroup
         m_Mode: 1
@@ -12525,6 +12504,78 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1387852760}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &411668467
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 411668469}
+  - component: {fileID: 411668470}
+  - component: {fileID: 411668468}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &411668468
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 411668467}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cd608e4f39015f42a2626e94111b4af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  chooseGroup: {fileID: 1560538632}
+  countdown: {fileID: 1196646259}
+  cameraSelector: {fileID: 1822124153}
+  restaurantMusic: {fileID: 973842459}
+--- !u!4 &411668469
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 411668467}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1632, y: 319, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &411668470
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 411668467}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 4014239839
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!1001 &411902458
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13438,7 +13489,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 252704717}
+      - m_Target: {fileID: 1560538632}
         m_TargetAssemblyTypeName: ChooseGroup, Assembly-CSharp
         m_MethodName: ChangeGroup
         m_Mode: 1
@@ -17066,7 +17117,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 252704717}
+      - m_Target: {fileID: 1560538632}
         m_TargetAssemblyTypeName: ChooseGroup, Assembly-CSharp
         m_MethodName: ChangeGroup
         m_Mode: 1
@@ -17745,7 +17796,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 252704717}
+      - m_Target: {fileID: 1560538632}
         m_TargetAssemblyTypeName: ChooseGroup, Assembly-CSharp
         m_MethodName: ChangeGroup
         m_Mode: 1
@@ -32205,7 +32256,7 @@ Transform:
   m_GameObject: {fileID: 889409465}
   serializedVersion: 2
   m_LocalRotation: {x: 0.32804236, y: 0.00020113842, z: -0.000048066897, w: 0.944663}
-  m_LocalPosition: {x: 224.70001, y: 10.5, z: -8.1}
+  m_LocalPosition: {x: 444.6, y: 10.5, z: -8.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -59615,9 +59666,6 @@ MonoBehaviour:
   teamManager: {fileID: 1645041031}
   readyButton: {fileID: 1732089051}
   groupCanvas: {fileID: 1272749904}
-  countdown: {fileID: 1196646259}
-  playerSpawner: {fileID: 1560538629}
-  cameraSelector: {fileID: 1822124153}
   buttons:
   - {fileID: 521056327}
   - {fileID: 268071342}
@@ -59626,7 +59674,6 @@ MonoBehaviour:
   - {fileID: 2113845729}
   - {fileID: 507585745}
   - {fileID: 1732089051}
-  restaurantMusic: {fileID: 973842459}
 --- !u!1 &1562777220
 GameObject:
   m_ObjectHideFlags: 0
@@ -66352,7 +66399,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 252704717}
+      - m_Target: {fileID: 1560538632}
         m_TargetAssemblyTypeName: ChooseGroup, Assembly-CSharp
         m_MethodName: ReadyPlayer
         m_Mode: 1
@@ -82946,7 +82993,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 252704717}
+      - m_Target: {fileID: 1560538632}
         m_TargetAssemblyTypeName: ChooseGroup, Assembly-CSharp
         m_MethodName: ChangeGroup
         m_Mode: 1
@@ -84349,3 +84396,4 @@ SceneRoots:
   - {fileID: 86955012}
   - {fileID: 1093527941}
   - {fileID: 1735484300}
+  - {fileID: 411668469}

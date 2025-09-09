@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using Unity.Netcode;
-using UnityEditor.Localization.Platform.Android;
 using UnityEngine;
 
 public class GroupBehaviour : NetworkBehaviour
@@ -9,13 +8,13 @@ public class GroupBehaviour : NetworkBehaviour
     private Queue<ICommand> commandQueue = new Queue<ICommand>();
     private PlayerInputController player;
     [SerializeField] TeamMenager teamMenager;
-    private ChooseGroupChicken chooseGroupChicken;
+    private GameManagerChicken gameManager;
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
         if(!IsServer) return;
-        chooseGroupChicken = FindFirstObjectByType<ChooseGroupChicken>();
-        chooseGroupChicken.OnPlayerSpawned += HandlePlayerSpawned;
+        gameManager = FindFirstObjectByType<GameManagerChicken>();
+        gameManager.OnPlayerSpawned += HandlePlayerSpawned;
 
     }
 
@@ -45,7 +44,7 @@ public class GroupBehaviour : NetworkBehaviour
     {
         base.OnNetworkDespawn();
         if (!IsServer) return;
-        chooseGroupChicken.OnPlayerSpawned -= HandlePlayerSpawned;
+        gameManager.OnPlayerSpawned -= HandlePlayerSpawned;
     }
     [ClientRpc]
     private void ObtainPlayerForGroupClientRPC(NetworkObjectReference playerNetworkObjectReference,
