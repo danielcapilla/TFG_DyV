@@ -9,6 +9,9 @@ public class GroupBehaviour : NetworkBehaviour
     private PlayerInputController player;
     [SerializeField] TeamMenager teamMenager;
     private GameManagerChicken gameManager;
+    // Eventos
+    public event Action<ulong> OnCommandAdded;
+    public event Action<ulong> OnExecutedTurn;
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
@@ -20,17 +23,10 @@ public class GroupBehaviour : NetworkBehaviour
 
     private void HandlePlayerSpawned(NetworkObjectReference playerNOR, int idGroup)
     {
-        Debug.Log("Handling player spawned for group: " + idGroup);
         TeamInfoChicken teamInfo = (TeamInfoChicken)teamMenager.teams[idGroup];
         // Obtener todos los clientes del grupo especifico
         ulong[] targetClients = teamInfo.integrantes.ToArray();
         if(targetClients.Length == 0) return; // Si no hay clientes en el grupo, salir
-        playerNOR.TryGet(out NetworkObject playerNetworkObject);
-        PlayerInputController playerController = playerNetworkObject.GetComponentInChildren<PlayerInputController>();
-        if (!playerController)
-        {
-            return;
-        }
         ObtainPlayerForGroupClientRPC(playerNOR, new ClientRpcParams
         {
             Send = new ClientRpcSendParams
@@ -54,27 +50,11 @@ public class GroupBehaviour : NetworkBehaviour
         PlayerInputController playerController = playerNetworkObject.GetComponentInChildren<PlayerInputController>();
 
         player = playerController;
-        Debug.Log("Player obtained for group: " + player.name);
-    }
-    private ulong[] GetClientsInGroup(int targetGroupId)
-    {
-        List<ulong> clientIds = new List<ulong>();
-
-        foreach (var client in NetworkManager.Singleton.ConnectedClientsList)
-        {
-            // Obtener el idGrupo de cada jugador como mencionaste
-            PlayerStats playerStats = client.PlayerObject.GetComponent<PlayerStats>();
-            if (playerStats != null && playerStats.idGrupo.Value == targetGroupId)
-            {
-                clientIds.Add(client.ClientId);
-            }
-        }
-
-        return clientIds.ToArray();
     }
     public void AddCommand(ICommand command)
     {
         commandQueue.Enqueue(command);
+        OnCommandAdded?.Invoke(NetworkManager.Singleton.LocalClientId);
     }
 
     public void ExecuteTurn()
@@ -83,6 +63,7 @@ public class GroupBehaviour : NetworkBehaviour
         {
             ICommand command = commandQueue.Dequeue();
             command.Execute(player);
+            OnExecutedTurn?.Invoke(NetworkManager.Singleton.LocalClientId);
         }
     }
 }

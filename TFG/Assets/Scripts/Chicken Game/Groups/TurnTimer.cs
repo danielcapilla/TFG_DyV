@@ -1,100 +1,181 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections;
 using Unity.Netcode;
+using UnityEngine;
+using UnityEngine.PlayerLoop;
 public class TurnTimer : NetworkBehaviour
 {
-    [Header("Tiempo de turno")]
-    [SerializeField] private float turnDuration = 10f; 
-    
-    public NetworkVariable<float> timeRemaining = new NetworkVariable<float>(10f,
+    [Header("Configuración")]
+    public float duration = 10f;
+    public float updateInterval = 0.2f; // Actualizar cada 200ms
+
+    // Eventos (usando los action para hacerlos de otra manera)
+    public event Action OnTimerStarted;
+    public event Action OnTimerEnded;
+    public event Action<float> OnTimeUpdated; // tiempo restante
+
+    public NetworkVariable<float> timeRemaining = new NetworkVariable<float>(0f,
         NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
 
-    public NetworkVariable<bool> isTimerRunning = new NetworkVariable<bool>(
-        false,NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    public NetworkVariable<bool> isRunning = new NetworkVariable<bool>(false,
+        NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
 
-    // Para reducir trafico de red, actualizamos cada 0.5 segundos
+    // Para controlar la corrutina de actualización
+    private Coroutine updateCoroutine;
     private float lastUpdateTime;
-    private const float UPDATE_FREQUENCY = 0.5f;
+
     public override void OnNetworkSpawn()
     {
-        base.OnNetworkSpawn();
-        // Solo el servidor controla el tiempo
-        if (IsServer)
-        {
-            //ResetTimer();
-        }
+        timeRemaining.OnValueChanged += HandleTimeChanged;
+        isRunning.OnValueChanged += HandleRunningStateChanged;
 
-        // Todos los clientes se suscriben a los cambios
-        timeRemaining.OnValueChanged += OnTimeChanged;
-        isTimerRunning.OnValueChanged += OnTimerStateChanged;
+        // Inicializar con los valores actuales
+        if (isRunning.Value)
+        {
+            OnTimerStarted?.Invoke();
+        }
+        OnTimeUpdated?.Invoke(timeRemaining.Value);
     }
-    private void OnTimeChanged(float oldValue, float newValue)
+    public float GetProgress() => 1f - (timeRemaining.Value / duration);
+    private void HandleTimeChanged(float oldValue, float newValue)
     {
-        //UpdateTimerUI(newValue); // Solo UI
-    }  
-    private void OnTimerStateChanged(bool oldValue, bool newValue)
+        OnTimeUpdated?.Invoke(newValue);
+
+        // Verificar si el tiempo llego a cero
+        if (newValue <= 0f && oldValue > 0f)
+        {
+            HandleTimerEnd();
+        }
+    }
+
+    private void HandleRunningStateChanged(bool oldValue, bool newValue)
     {
         if (newValue)
         {
-            Debug.Log("Timer iniciado");
+            OnTimerStarted?.Invoke();
+            if (IsServer) StartUpdateCoroutine();
         }
         else
         {
-            Debug.Log("Timer detenido");
+            if (IsServer && updateCoroutine != null)
+            {
+                StopCoroutine(updateCoroutine);
+                updateCoroutine = null;
+            }
         }
     }
-    void Update()
+
+    private void HandleTimerEnd()
     {
-        // Solo el servidor actualiza el tiempo y si esta corriendo
-        if (!IsServer || !isTimerRunning.Value) return;
+        isRunning.Value = false;
+        OnTimerEnded?.Invoke();
+    }
 
-
-        timeRemaining.Value -= Time.deltaTime;
-
-        // Actualizar clientes cada cierto tiempo
-        if (Time.time - lastUpdateTime > UPDATE_FREQUENCY)
+    // Corrutina que se ejecuta solo en el servidor para actualizar el tiempo
+    private IEnumerator UpdateTimerCoroutine()
+    {
+        while (isRunning.Value && timeRemaining.Value > 0f)
         {
-            lastUpdateTime = Time.time;
-            UpdateTimerClientRpc(timeRemaining.Value);
+            // Esperar el intervalo deseado
+            yield return new WaitForSeconds(updateInterval);
+
+            // Actualizar el tiempo restante
+            timeRemaining.Value -= updateInterval;
+
+            // Asegurarse de que no sea negativo
+            if (timeRemaining.Value < 0f)
+            {
+                timeRemaining.Value = 0f;
+            }
         }
+
+        // Si salimos del bucle, el tiempo termino
         if (timeRemaining.Value <= 0f)
         {
-            //TimeExpired();
+            HandleTimerEnd();
+        }
+
+        updateCoroutine = null;
+    }
+
+    private void StartUpdateCoroutine()
+    {
+        if (updateCoroutine != null)
+        {
+            StopCoroutine(updateCoroutine);
+        }
+        updateCoroutine = StartCoroutine(UpdateTimerCoroutine());
+    }
+
+    public void StartTimer()
+    {
+        if (IsServer)
+        {
+            timeRemaining.Value = duration;
+            isRunning.Value = true;
+        }
+        else
+        {
+            StartTimerServerRpc();
         }
     }
 
-    [ServerRpc(RequireOwnership = false)]
-    public void StartTimerServerRpc()
+    public void StopTimer()
     {
-        //ResetTimer();
-        isTimerRunning.Value = true;
-        StartTimerClientRpc();
+        if (IsServer)
+        {
+            isRunning.Value = false;
+        }
+        else
+        {
+            StopTimerServerRpc();
+        }
     }
 
-    [ClientRpc]
-    private void StartTimerClientRpc()
+    public void ResetTimer()
     {
-        // Efectos visuales/sonoros de inicio de timer
-        Debug.Log("Timer iniciado en cliente");
+        if (IsServer)
+        {
+            timeRemaining.Value = duration;
+        }
+        else
+        {
+            ResetTimerServerRpc();
+        }
     }
 
-    [ServerRpc(RequireOwnership = false)]
-    public void StopTimerServerRpc()
+    // RPCs para control desde clientes
+    [Rpc(SendTo.Server)]
+    private void StartTimerServerRpc()
     {
-        isTimerRunning.Value = false;
-        StopTimerClientRpc();
+        StartTimer();
     }
 
-    [ClientRpc]
-    private void StopTimerClientRpc()
+    [Rpc(SendTo.Server)]
+    private void StopTimerServerRpc()
     {
-        // Efectos visuales/sonoros de fin de timer
-        Debug.Log("Timer detenido en cliente");
+        StopTimer();
     }
 
-    [ClientRpc]
-    private void UpdateTimerClientRpc(float currentTime)
+    [Rpc(SendTo.Server)]
+    private void ResetTimerServerRpc()
     {
-        // Sincronización periódica para mantener precisión
-        timeRemaining.Value = currentTime;
+        ResetTimer();
+    }
+
+    
+
+    public override void OnNetworkDespawn()
+    {
+        // Limpiar suscripciones
+        timeRemaining.OnValueChanged -= HandleTimeChanged;
+        isRunning.OnValueChanged -= HandleRunningStateChanged;
+
+        // Detener corrutinas
+        if (updateCoroutine != null)
+        {
+            StopCoroutine(updateCoroutine);
+            updateCoroutine = null;
+        }
     }
 }

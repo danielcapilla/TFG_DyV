@@ -38,7 +38,11 @@ public class GameManagerChicken : NetworkBehaviour
         foreach (ulong playerId in ChooseGroup.connectedPlayers)
         {
             NetworkObject player = NetworkManager.Singleton.ConnectedClients[playerId].PlayerObject;
-            OnPlayerSpawned?.Invoke(player, player.GetComponent<PlayerStats>().idGrupo.Value);
+            PlayerInputController inputController = player.GetComponentInChildren<PlayerInputController>();
+            if (inputController != null)
+            {
+                OnPlayerSpawned?.Invoke(player, player.GetComponent<PlayerStats>().idGrupo.Value);
+            }
         }
     }
 }
