@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
 using Unity.Netcode;
+using UnityEditor.PackageManager;
 using UnityEngine;
 
 public class GroupBehaviour : NetworkBehaviour
 {
-    private Queue<ICommand> commandQueue = new Queue<ICommand>();
+    //private Queue<ICommand> commandQueue = new Queue<ICommand>();
     private PlayerInputController player;
     [SerializeField] TeamMenager teamMenager;
     private GameManagerChicken gameManager;
@@ -26,7 +27,10 @@ public class GroupBehaviour : NetworkBehaviour
         TeamInfoChicken teamInfo = (TeamInfoChicken)teamMenager.teams[idGroup];
         // Obtener todos los clientes del grupo especifico
         ulong[] targetClients = teamInfo.integrantes.ToArray();
-        if(targetClients.Length == 0) return; // Si no hay clientes en el grupo, salir
+        playerNOR.TryGet(out NetworkObject playerNetworkObject);
+        PlayerInputController playerController = playerNetworkObject.GetComponentInChildren<PlayerInputController>();
+        teamInfo.playerPrefab = playerController;
+        if (targetClients.Length == 0) return; // Si no hay clientes en el grupo, salir
         ObtainPlayerForGroupClientRPC(playerNOR, new ClientRpcParams
         {
             Send = new ClientRpcSendParams
@@ -51,18 +55,50 @@ public class GroupBehaviour : NetworkBehaviour
 
         player = playerController;
     }
-    public void AddCommand(ICommand command)
+
+    public void AddCommand(CommandType commandType)
     {
-        commandQueue.Enqueue(command);
-        OnCommandAdded?.Invoke(NetworkManager.Singleton.LocalClientId);
+        ulong clientId = NetworkManager.Singleton.LocalClientId;
+        AddCommandRPC(clientId, commandType);
+        OnCommandAdded?.Invoke(clientId);
     }
 
-    public void ExecuteTurn()
+    [Rpc(SendTo.Server)]
+    private void AddCommandRPC(ulong clientId, CommandType commandType)
     {
-        while (commandQueue.Count > 0)
+
+        int groupId = NetworkManager.Singleton.ConnectedClients[clientId].PlayerObject.GetComponent<PlayerStats>().idGrupo.Value;
+        TeamInfoChicken teamInfo = (TeamInfoChicken)teamMenager.teams[groupId];
+        // Los enum si se pueden pasar por RPC
+        // Crear el comando basado en el tipo recibido
+        ICommand command = CreateCommandFromType(commandType);
+        teamInfo.commandQueue.Enqueue(command);
+
+        Debug.Log($"Command {commandType} added for group {groupId} by player {clientId}");
+        
+    }
+
+    private ICommand CreateCommandFromType(CommandType type)
+    {
+        switch (type)
         {
-            ICommand command = commandQueue.Dequeue();
-            command.Execute(player);
+            case CommandType.MoveLeft: return new MoveLeftCommand();
+            case CommandType.MoveRight: return new MoveRightCommand();
+            case CommandType.MoveUp: return new MoveUpCommand();
+            case CommandType.MoveDown: return new MoveDownCommand();
+            case CommandType.Wait: return new WaitCommand();
+            default: return new WaitCommand();
+        }
+    }
+
+    public void ExecuteTurn(int groupId)
+    {
+        TeamInfoChicken teamInfo = (TeamInfoChicken)teamMenager.teams[groupId];
+        while (teamInfo.commandQueue.Count > 0)
+        {
+           Debug.Log($"Executing command for player {groupId}");
+            ICommand command = teamInfo.commandQueue.Dequeue();
+            command.Execute(teamInfo.playerPrefab.GetComponent<PlayerInputController>());
             OnExecutedTurn?.Invoke(NetworkManager.Singleton.LocalClientId);
         }
     }

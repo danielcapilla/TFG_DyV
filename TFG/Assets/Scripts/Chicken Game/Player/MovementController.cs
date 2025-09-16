@@ -2,34 +2,31 @@ using UnityEngine;
 
 public class MovementController : MonoBehaviour
 {
-    public GroupBehaviour group; 
+    public GroupBehaviour group;
 
     public void OnLeftButtonClick()
     {
-        group.AddCommand(new MoveLeftCommand());
+        group.AddCommand(CommandType.MoveLeft);
     }
 
     public void OnRightButtonClick()
     {
-        group.AddCommand(new MoveRightCommand());
+        group.AddCommand(CommandType.MoveRight);
     }
 
     public void OnUpButtonClick()
     {
-        group.AddCommand(new MoveUpCommand());
+        group.AddCommand(CommandType.MoveUp);
     }
 
     public void OnDownButtonClick()
     {
-        group.AddCommand(new MoveDownCommand());
+        group.AddCommand(CommandType.MoveDown);
     }
-    
+
     public void OnWaitButtonClick()
     {
-        group.AddCommand(new WaitCommand());
+        group.AddCommand(CommandType.Wait);
     }
-    public void OnEndTurnButtonClick()
-    {
-        group.ExecuteTurn();
-    }
+
 }

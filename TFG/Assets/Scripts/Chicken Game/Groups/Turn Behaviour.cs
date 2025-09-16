@@ -76,6 +76,7 @@ public class TurnBehaviour : NetworkBehaviour
         if (teamInfo.turn >= teamInfo.integrantes.Count)
         {
             teamInfo.turn = 0;
+            groupBehaviour.ExecuteTurn(idGroup);
         }
 
         // Si no es el ultimo, solo activar los paneles del siguiente

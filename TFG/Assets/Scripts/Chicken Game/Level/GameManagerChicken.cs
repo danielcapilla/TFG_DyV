@@ -42,7 +42,15 @@ public class GameManagerChicken : NetworkBehaviour
             if (inputController != null)
             {
                 OnPlayerSpawned?.Invoke(player, player.GetComponent<PlayerStats>().idGrupo.Value);
+                ActivatePlayerInputRPC(player);
             }
         }
+    }
+    [Rpc(SendTo.Everyone)]
+    private void ActivatePlayerInputRPC(NetworkObjectReference playerInputNetworkObjectReference)
+    {
+        playerInputNetworkObjectReference.TryGet(out NetworkObject playerInputNetworkObject);
+        PlayerInput playerInput = playerInputNetworkObject.GetComponentInChildren<PlayerInput>();
+        playerInput.enabled = true;
     }
 }

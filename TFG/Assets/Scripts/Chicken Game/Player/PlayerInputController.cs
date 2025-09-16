@@ -1,75 +1,89 @@
-﻿using System.Globalization;
-using Unity.Netcode;
+﻿using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class PlayerInputController : NetworkBehaviour
 {
     [Header("Variables de movimiento")]
-    public float force = 10f;
+    public float moveDistance = 1f; // Distancia por movimiento
+    public float moveDuration = 0.5f; // Duración del movimiento
     public float rotationSpeed = 10f;
-    [SerializeField] private float moveSpeed = 5f;
-    private Vector2 movement;
-    Rigidbody rb;
-    Vector2 input;
-    PlayerInput playerInput;
+
+    private bool isMoving = false;
+    private Rigidbody rb;
+    private NetworkVariable<Vector3> targetPosition = new NetworkVariable<Vector3>( Vector3.zero,
+        NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
 
     public override void OnNetworkSpawn()
     {
-        if (!IsOwner) return;
         rb = GetComponent<Rigidbody>();
-        playerInput = GetComponent<PlayerInput>();
-        playerInput.enabled = true;
+        targetPosition.OnValueChanged += OnTargetPositionChanged;
+
+        if (IsServer)
+        {
+            targetPosition.Value = transform.position;
+        }
     }
 
+    private void OnTargetPositionChanged(Vector3 oldValue, Vector3 newValue)
+    {
+        // Iniciar movimiento suave hacia la nueva posicion
+        if (!isMoving)
+        {
+            StartCoroutine(MoveToPosition(newValue));
+        }
+    }
+
+    // Movimiento por pasos (solo servidor puede llamar)
     public void MoveLeft()
     {
-        movement = Vector2.left;
+        if (!IsServer || isMoving) return;
+        targetPosition.Value += Vector3.left * moveDistance;
     }
 
     public void MoveRight()
     {
-        movement = Vector2.right;
+        if (!IsServer || isMoving) return;
+        targetPosition.Value += Vector3.right * moveDistance;
     }
 
     public void MoveUp()
     {
-        movement = Vector2.up;
+        if (!IsServer || isMoving) return;
+        targetPosition.Value += Vector3.forward * moveDistance;
     }
 
     public void MoveDown()
     {
-        movement = Vector2.down;
+        if (!IsServer || isMoving) return;
+        targetPosition.Value += Vector3.back * moveDistance;
     }
 
     public void StopMovement()
     {
-        movement = Vector2.zero;
-        rb.linearVelocity = Vector3.zero;
+        if (!IsServer) return;
+        targetPosition.Value = transform.position;
     }
 
-    void Update()
+    // Corrutina para movimiento suave
+    private System.Collections.IEnumerator MoveToPosition(Vector3 targetPos)
     {
-        if (!IsOwner) return;
-        //input = playerInput.actions["Movement"].ReadValue<Vector2>();
-    }
+        isMoving = true;
+        Vector3 startPos = transform.position;
+        float elapsedTime = 0f;
 
-    private void FixedUpdate()
-    {
-        if (!IsOwner) return;
-
-        if (movement != Vector2.zero)
+        while (elapsedTime < moveDuration)
         {
-            Vector3 desiredMovement = new Vector3(movement.x, 0f, movement.y).normalized;
-            rb.AddForce(desiredMovement * force, ForceMode.Force);
-
-            // Rotar hacia la direccion de movimiento
-            Quaternion targetRotation = Quaternion.LookRotation(desiredMovement, Vector3.up);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+            transform.position = Vector3.Lerp(startPos, targetPos, elapsedTime / moveDuration);
+            elapsedTime += Time.deltaTime;
+            yield return null;
         }
+
+        transform.position = targetPos; // Asegurar posicion exacta
+        isMoving = false;
     }
-    public NetworkObject GetNetworkObject()
+
+    public override void OnNetworkDespawn()
     {
-        return NetworkObject;
+        targetPosition.OnValueChanged -= OnTargetPositionChanged;
     }
 }

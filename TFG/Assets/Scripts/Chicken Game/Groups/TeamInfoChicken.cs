@@ -11,7 +11,8 @@ public class TeamInfoChicken : TeamInfo
     //public Action<int> OnIdOrderChange;
     public bool spawnedPlayer = false;
     public int turn = 0;
-
+    public Queue<ICommand> commandQueue = new Queue<ICommand>();
+    public PlayerInputController playerPrefab;
     public override TeamInfo Clone()
     {
         return (TeamInfo)ScriptableObject.CreateInstance<TeamInfoChicken>();
