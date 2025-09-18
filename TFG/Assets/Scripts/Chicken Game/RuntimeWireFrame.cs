@@ -4,34 +4,20 @@ using System.Collections.Generic;
 [RequireComponent(typeof(MeshFilter))]
 public class RuntimeWireframe : MonoBehaviour
 {
+    [Header("Opciones Wireframe")]
     public Color lineColor = Color.black;
 
     private Mesh mesh;
     private Material lineMaterial;
-
-    struct Edge
-    {
-        public int v1, v2;
-        public Edge(int a, int b)
-        {
-            if (a < b) { v1 = a; v2 = b; } else { v1 = b; v2 = a; } // ordenar para evitar duplicados
-        }
-        public override int GetHashCode() => v1 * 73856093 ^ v2 * 19349663;
-        public override bool Equals(object obj)
-        {
-            if (!(obj is Edge)) return false;
-            Edge e = (Edge)obj;
-            return v1 == e.v1 && v2 == e.v2;
-        }
-    }
-
-    private List<Edge> edges = new List<Edge>();
+    // Busqueda O(1) para aristas unicas
+    private HashSet<(int, int)> edges = new HashSet<(int, int)>();
 
     void Awake()
     {
         mesh = GetComponent<MeshFilter>().sharedMesh;
+        if (mesh == null) return;
 
-        // Material para las lineas
+        // Material para lineas
         Shader shader = Shader.Find("Hidden/Internal-Colored");
         lineMaterial = new Material(shader);
         lineMaterial.hideFlags = HideFlags.HideAndDontSave;
@@ -47,31 +33,25 @@ public class RuntimeWireframe : MonoBehaviour
     {
         edges.Clear();
         int[] triangles = mesh.triangles;
-        Dictionary<Edge, int> edgeCount = new Dictionary<Edge, int>();
-
-        for (int i = 0; i < triangles.Length; i += 3)
+        // Recorrer todos los triangulos (3 indices)
+        foreach (int i in System.Linq.Enumerable.Range(0, triangles.Length / 3))
         {
-            int i0 = triangles[i];
-            int i1 = triangles[i + 1];
-            int i2 = triangles[i + 2];
-
-            Edge[] triEdges = {
-                new Edge(i0, i1),
-                new Edge(i1, i2),
-                new Edge(i2, i0)
+            // Sus 3 indices
+            int i0 = triangles[i * 3];
+            int i1 = triangles[i * 3 + 1];
+            int i2 = triangles[i * 3 + 2];
+            // Crear aristas (ordenadas para evitar duplicados)
+            var triEdges = new (int, int)[]
+            {
+                i0 < i1 ? (i0,i1) : (i1,i0),
+                i1 < i2 ? (i1,i2) : (i2,i1),
+                i2 < i0 ? (i2,i0) : (i0,i2)
             };
-
+            // Guardar solo aristas externas
             foreach (var e in triEdges)
             {
-                if (edgeCount.ContainsKey(e)) edgeCount[e]++;
-                else edgeCount[e] = 1;
+                if (!edges.Add(e)) edges.Remove(e); // Si ya estaba, eliminar
             }
-        }
-
-        // Guardar solo los bordes externos 
-        foreach (var kvp in edgeCount)
-        {
-            if (kvp.Value == 1) edges.Add(kvp.Key);
         }
     }
 
@@ -89,8 +69,8 @@ public class RuntimeWireframe : MonoBehaviour
         Vector3[] vertices = mesh.vertices;
         foreach (var e in edges)
         {
-            GL.Vertex(vertices[e.v1]);
-            GL.Vertex(vertices[e.v2]);
+            GL.Vertex(vertices[e.Item1]);
+            GL.Vertex(vertices[e.Item2]);
         }
 
         GL.End();
