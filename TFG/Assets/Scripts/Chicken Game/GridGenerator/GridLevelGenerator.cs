@@ -24,8 +24,6 @@ public class GridLevelGenerator : NetworkBehaviour
     [Header("Celdas")]
     public float cellSize = 1f;
     public int seed = -1;
-    [Tooltip("Regenerar al pulsar R (modo Play).")]
-    public bool allowRuntimeRegenerate = true;
 
     // Estados del grid
     // 0 = libre, 1 = obstáculo, 2 = inicio, 3 = meta
@@ -38,52 +36,20 @@ public class GridLevelGenerator : NetworkBehaviour
     // Para limpiar instancias anteriores
     private readonly List<GameObject> spawned = new List<GameObject>();
 
-    void Start()
-    {
-        // Solo si es servidor
-        //Generate();
-        // Se envia la grid a los clientes
-    }
-   
 
-    // Debug para pruebas iniciales de conexion
-    private void SendGridToLateJoiner(ulong clientId)
-    {
-        int[] flatGrid = FlattenGrid(grid, width, height);
-
-        ClientRpcParams rpcParams = new ClientRpcParams
-        {
-            Send = new ClientRpcSendParams
-            {
-                TargetClientIds = new ulong[] { clientId }
-            }
-        };
-
-        ReceiveLevelClientRpc(flatGrid, width, height, start, goal, rpcParams);
-    }
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
 
         if(!IsServer) return;
-        NetworkManager.Singleton.OnClientConnectedCallback += SendGridToLateJoiner;
         Generate();
         SendGridToClients();
     }
     public override void OnNetworkDespawn()
     {
         base.OnNetworkDespawn();
-        if (IsServer)
-            NetworkManager.Singleton.OnClientConnectedCallback -= SendGridToLateJoiner;
     }
-    void Update()
-    {
-        // Construir nuevos obstaculos
-        if (allowRuntimeRegenerate && Application.isPlaying && Input.GetKeyDown(KeyCode.R))
-        {
-            Generate();
-        }
-    }
+
 
     public void Generate()
     {
@@ -358,9 +324,8 @@ public class GridLevelGenerator : NetworkBehaviour
         int[] flatGrid = FlattenGrid(grid, width, height);
         ReceiveLevelClientRpc(flatGrid, width, height, start, goal);
     }
-    //[Rpc(SendTo.Everyone)]
-    [ClientRpc]
-    void ReceiveLevelClientRpc(int[] flatGrid, int width, int height, Vector2Int start, Vector2Int goal, ClientRpcParams rpcParams = default)
+    [Rpc(SendTo.Everyone)]
+    void ReceiveLevelClientRpc(int[] flatGrid, int width, int height, Vector2Int start, Vector2Int goal)
     {
         Debug.Log("Recibiendo nivel en cliente");
 
@@ -413,18 +378,18 @@ public class GridLevelGenerator : NetworkBehaviour
 
     // Gizmos para vista en editor 
 #if UNITY_EDITOR
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = new Color(0f, 0f, 0f, 0.15f);
-        Vector3 origin = transform.position - new Vector3((width - 1) * 0.5f * cellSize, 0f, (height - 1) * 0.5f * cellSize);
-        for (int x = 0; x < width; x++)
-        {
-            for (int y = 0; y < height; y++)
-            {
-                Vector3 p = origin + new Vector3(x * cellSize, 0f, y * cellSize);
-                Gizmos.DrawWireCube(p + Vector3.up * 0.01f, new Vector3(cellSize * 0.95f, 0f, cellSize * 0.95f));
-            }
-        }
-    }
+    //private void OnDrawGizmosSelected()
+    //{
+    //    Gizmos.color = new Color(0f, 0f, 0f, 0.15f);
+    //    Vector3 origin = transform.position - new Vector3((width - 1) * 0.5f * cellSize, 0f, (height - 1) * 0.5f * cellSize);
+    //    for (int x = 0; x < width; x++)
+    //    {
+    //        for (int y = 0; y < height; y++)
+    //        {
+    //            Vector3 p = origin + new Vector3(x * cellSize, 0f, y * cellSize);
+    //            Gizmos.DrawWireCube(p + Vector3.up * 0.01f, new Vector3(cellSize * 0.95f, 0f, cellSize * 0.95f));
+    //        }
+    //    }
+    //}
 #endif
 }
