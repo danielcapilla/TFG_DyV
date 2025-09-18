@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 3321336004178767292}
   m_Layer: 0
   m_Name: Obstacle Prefab
-  m_TagString: Untagged
+  m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -122,4 +122,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lineColor: {r: 0.5188679, g: 0.5188679, b: 0.5188679, a: 1}
-  drawInGame: 1

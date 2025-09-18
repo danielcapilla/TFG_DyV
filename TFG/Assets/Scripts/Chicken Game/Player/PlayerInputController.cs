@@ -36,17 +36,31 @@ public class PlayerInputController : NetworkBehaviour
     private IEnumerator MoveToPositionCoroutine(Vector3 targetPos)
     {
         IsMoving = true;
-        Vector3 startPos = transform.position;
+        Rigidbody rb = GetComponent<Rigidbody>();
+        Vector3 startPos = rb.position;
         float elapsedTime = 0f;
+
+        // Comprobar si hay obstaculo
+        Vector3 direction = (targetPos - startPos).normalized;
+        float distance = Vector3.Distance(startPos, targetPos);
+        if (Physics.Raycast(startPos, direction, distance))
+        {
+            Debug.Log($"Movimiento bloqueado");
+            targetPosition.Value = transform.position; // reset
+            IsMoving = false;
+            currentMovementCoroutine = null;
+            yield break;
+        }
 
         while (elapsedTime < moveDuration)
         {
-            transform.position = Vector3.Lerp(startPos, targetPos, elapsedTime / moveDuration);
+            Vector3 newPos = Vector3.Lerp(startPos, targetPos, elapsedTime / moveDuration);
+            rb.MovePosition(newPos);
             elapsedTime += Time.deltaTime;
             yield return null;
         }
 
-        transform.position = targetPos;
+        rb.MovePosition(targetPos);
         IsMoving = false;
         currentMovementCoroutine = null;
     }
