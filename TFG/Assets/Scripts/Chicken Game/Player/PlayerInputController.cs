@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using Unity.Netcode;
+using UnityEditor.Localization.Plugins.XLIFF.V12;
 using UnityEngine;
 
 public class PlayerInputController : NetworkBehaviour
@@ -35,6 +36,14 @@ public class PlayerInputController : NetworkBehaviour
 
     private IEnumerator MoveToPositionCoroutine(Vector3 targetPos)
     {
+        Vector3 playerWorldPos = transform.position;
+        Vector2Int playerGridPos = GridLevelGenerator.Instance.WorldToGrid(playerWorldPos);
+
+        int dist = GridLevelGenerator.Instance.GetDistanceToGoal(playerGridPos);
+        float progress = GridLevelGenerator.Instance.GetProgress(playerGridPos);
+
+        Debug.Log($"Jugador está en {playerGridPos}, faltan {dist} pasos, progreso {progress * 100f}%");
+
         IsMoving = true;
         Rigidbody rb = GetComponent<Rigidbody>();
         Vector3 startPos = rb.position;

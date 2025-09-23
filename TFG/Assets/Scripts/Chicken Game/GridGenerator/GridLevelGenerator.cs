@@ -36,6 +36,19 @@ public class GridLevelGenerator : NetworkBehaviour
     // Para limpiar instancias anteriores
     private readonly List<GameObject> spawned = new List<GameObject>();
 
+    private int[,] distanceMap; // guarda la distancia desde cada celda hasta la meta
+
+    public static GridLevelGenerator Instance { get; private set; }
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+    }
 
     public override void OnNetworkSpawn()
     {
@@ -109,7 +122,7 @@ public class GridLevelGenerator : NetworkBehaviour
                     grid[x, y] = 1;
             }
         }
-
+        ComputeDistanceMap();
         // 5) Construir escena con prefabs
         BuildSceneFromGrid();
     }
@@ -201,6 +214,62 @@ public class GridLevelGenerator : NetworkBehaviour
         return best;
     }
 
+
+    private void ComputeDistanceMap()
+    {
+        distanceMap = new int[width, height];
+        for (int x = 0; x < width; x++)
+            for (int y = 0; y < height; y++)
+                distanceMap[x, y] = -1; // -1 = inaccesible
+
+        Queue<Vector2Int> q = new Queue<Vector2Int>();
+        q.Enqueue(goal);
+        distanceMap[goal.x, goal.y] = 0;
+
+        while (q.Count > 0)
+        {
+            var cur = q.Dequeue();
+            foreach (var d in dirs)
+            {
+                var nxt = cur + d;
+                if (nxt.x < 0 || nxt.y < 0 || nxt.x >= width || nxt.y >= height) continue;
+                if (grid[nxt.x, nxt.y] == 1) continue; // obstáculo
+                if (distanceMap[nxt.x, nxt.y] != -1) continue; // ya visitado
+
+                distanceMap[nxt.x, nxt.y] = distanceMap[cur.x, cur.y] + 1;
+                q.Enqueue(nxt);
+            }
+        }
+    }
+    public int GetDistanceToGoal(Vector2Int pos)
+    {
+        if (pos.x < 0 || pos.y < 0 || pos.x >= width || pos.y >= height)
+            return -1;
+        return distanceMap[pos.x, pos.y];
+    }
+    public float GetProgress(Vector2Int pos)
+    {
+        int distStart = distanceMap[start.x, start.y];
+        int distPlayer = GetDistanceToGoal(pos);
+
+        if (distStart <= 0 || distPlayer < 0) return 0f;
+        return 1f - (distPlayer / (float)distStart);
+    }
+    public Vector2Int WorldToGrid(Vector3 worldPos)
+    {
+        // mismo cálculo que en BuildSceneFromGrid para origin
+        Vector3 origin = transform.position - new Vector3((width - 1) * 0.5f * cellSize, 0f, (height - 1) * 0.5f * cellSize);
+
+        // pasar de coordenada mundo a coordenada grid
+        int x = Mathf.RoundToInt((worldPos.x - origin.x) / cellSize);
+        int y = Mathf.RoundToInt((worldPos.z - origin.z) / cellSize); // OJO: z → y en tu grid
+
+        // Clamp para no salirte
+        x = Mathf.Clamp(x, 0, width - 1);
+        y = Mathf.Clamp(y, 0, height - 1);
+
+        return new Vector2Int(x, y);
+    }
     private List<Vector2Int> GeneratePathBFS(Vector2Int s, Vector2Int g, int w, int h, bool shuffleNeighbors)
     {
         // cola para BFS (FIFO)
@@ -343,27 +412,15 @@ public class GridLevelGenerator : NetworkBehaviour
         {
             if (go != null)
             {
-                // Diferenciar entre modo editor y play para destruir correctamente
-#if UNITY_EDITOR
-                if (!Application.isPlaying) DestroyImmediate(go);
-                else Destroy(go);
-#else
                 Destroy(go);
-#endif
             }
         }
         spawned.Clear();
 
-        // Tambien eliminar hijo previo "GridLevel" si quedo en jerarquia
         var child = transform.Find("GridLevel");
         if (child != null)
         {
-#if UNITY_EDITOR
-            if (!Application.isPlaying) DestroyImmediate(child.gameObject);
-            else Destroy(child.gameObject);
-#else
             Destroy(child.gameObject);
-#endif
         }
     }
     // Algoritmo de Fisher-Yates para barajar un array
@@ -375,21 +432,4 @@ public class GridLevelGenerator : NetworkBehaviour
             (array[i], array[j]) = (array[j], array[i]);
         }
     }
-
-    // Gizmos para vista en editor 
-#if UNITY_EDITOR
-    //private void OnDrawGizmosSelected()
-    //{
-    //    Gizmos.color = new Color(0f, 0f, 0f, 0.15f);
-    //    Vector3 origin = transform.position - new Vector3((width - 1) * 0.5f * cellSize, 0f, (height - 1) * 0.5f * cellSize);
-    //    for (int x = 0; x < width; x++)
-    //    {
-    //        for (int y = 0; y < height; y++)
-    //        {
-    //            Vector3 p = origin + new Vector3(x * cellSize, 0f, y * cellSize);
-    //            Gizmos.DrawWireCube(p + Vector3.up * 0.01f, new Vector3(cellSize * 0.95f, 0f, cellSize * 0.95f));
-    //        }
-    //    }
-    //}
-#endif
 }
