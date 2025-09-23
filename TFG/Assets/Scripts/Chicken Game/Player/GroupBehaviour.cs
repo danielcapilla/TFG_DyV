@@ -13,7 +13,7 @@ public class GroupBehaviour : NetworkBehaviour
     private ChooseGroup chooseGroup;
     // Eventos
     public event Action<ulong> OnCommandAdded;
-    public event Action<ulong> OnExecutedTurn;
+    public event Action<PlayerInputController,int> OnExecutedTurn;
 
     private Dictionary<int, bool> groupIsExecuting = new Dictionary<int, bool>();
     public override void OnNetworkSpawn()
@@ -120,7 +120,7 @@ public class GroupBehaviour : NetworkBehaviour
             Debug.LogError($"No player controller found for group {groupId}");
             yield break;
         }
-
+        OnExecutedTurn?.Invoke(playerController, groupId);
         Debug.Log($"Executing {teamInfo.commandQueue.Count} commands for group {groupId}");
 
         while (teamInfo.commandQueue.Count > 0)
@@ -136,7 +136,7 @@ public class GroupBehaviour : NetworkBehaviour
         }
 
         Debug.Log($"Finished executing commands for group {groupId}");
-        OnExecutedTurn?.Invoke(NetworkManager.Singleton.LocalClientId);
+        
     }
 
     private IEnumerator WaitForMovementToComplete(PlayerInputController playerController)

@@ -1,4 +1,5 @@
-﻿using Unity.Netcode;
+﻿using System;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -6,12 +7,15 @@ public class GameManagerChicken : NetworkBehaviour
 {
     [Header("Evento")]
     [SerializeField] private ChooseGroup chooseGroup;
+    [SerializeField] private GroupBehaviour groupBehaviour;
     //[Header("Tiempo")]
     //[SerializeField] private Countdown countdown;
     //[Header("Cámara")]
     //[SerializeField] private CameraSelector cameraSelector;
     //[Header("Música")]
     //[SerializeField] private AudioSource restaurantMusic;
+    [Header("Equipos")]
+    [SerializeField] private TeamMenager teamMenager;
     // Eventos
     public delegate void PlayerSpawned(NetworkObjectReference playerNOR, int idGroup);
     public event PlayerSpawned OnPlayerSpawned;
@@ -22,7 +26,20 @@ public class GameManagerChicken : NetworkBehaviour
         if (IsServer)
         {
             chooseGroup.OnGameStartEvent += StartGame;
+            groupBehaviour.OnExecutedTurn += CalculatePunctuation;
         }
+    }
+
+    private void CalculatePunctuation(PlayerInputController playerInput, int groupId)
+    {
+        Vector3 playerWorldPos = playerInput.transform.position;
+        Vector2Int playerGridPos = GridLevelGenerator.Instance.WorldToGrid(playerWorldPos);
+
+        int dist = GridLevelGenerator.Instance.GetDistanceToGoal(playerGridPos);
+        float progress = GridLevelGenerator.Instance.GetProgress(playerGridPos);
+
+        teamMenager.teams[groupId].Puntuacion += dist;
+        Debug.Log($"Jugador está en {playerGridPos}, faltan {dist} pasos, progreso {progress * 100f}%");
     }
 
     public override void OnNetworkDespawn()
@@ -31,6 +48,7 @@ public class GameManagerChicken : NetworkBehaviour
         if (IsServer)
         {
             chooseGroup.OnGameStartEvent -= StartGame;
+            groupBehaviour.OnExecutedTurn -= CalculatePunctuation;
         }
     }
     private void StartGame()
