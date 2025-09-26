@@ -4176,6 +4176,7 @@ GameObject:
   - component: {fileID: 1488909049}
   - component: {fileID: 1488909047}
   - component: {fileID: 1488909048}
+  - component: {fileID: 1488909050}
   m_Layer: 0
   m_Name: GroupManager
   m_TagString: Untagged
@@ -4239,6 +4240,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1488909050
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1488909046}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47ee6ef90c6f1dd499b094587594da3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timerDuration: 10
+  timerText: {fileID: 510993059}
+  teamMenager: {fileID: 1250604520}
+  gameManagerChicken: {fileID: 1175153892}
 --- !u!1 &1551663666
 GameObject:
   m_ObjectHideFlags: 0

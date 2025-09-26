@@ -13,6 +13,7 @@ public class TeamInfoChicken : TeamInfo
     public int turn = 0;
     public Queue<ICommand> commandQueue = new Queue<ICommand>();
     public PlayerInputController playerPrefab;
+    public float time;
     public override TeamInfo Clone()
     {
         return (TeamInfo)ScriptableObject.CreateInstance<TeamInfoChicken>();
