@@ -10,6 +10,7 @@ public class PlayerInputController : NetworkBehaviour
     public float moveDuration = 0.5f; // Duracion del movimiento
     public float rotationSpeed = 10f;
     public bool IsMoving { get; private set; }
+    [SerializeField] private LayerMask obstacleMask;
 
     private NetworkVariable<Vector3> targetPosition = new NetworkVariable<Vector3>( Vector3.zero,
         NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
@@ -45,7 +46,7 @@ public class PlayerInputController : NetworkBehaviour
         // Comprobar si hay obstaculo
         Vector3 direction = (targetPos - startPos).normalized;
         float distance = Vector3.Distance(startPos, targetPos);
-        if (Physics.Raycast(startPos, direction, distance))
+        if (Physics.Raycast(startPos, direction, distance, obstacleMask))
         {
             Debug.Log($"Movimiento bloqueado");
             targetPosition.Value = transform.position; // reset

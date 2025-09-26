@@ -3189,6 +3189,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   chooseGroup: {fileID: 426153646}
+  groupBehaviour: {fileID: 426153645}
+  teamMenager: {fileID: 1250604520}
 --- !u!1 &1184440416
 GameObject:
   m_ObjectHideFlags: 0

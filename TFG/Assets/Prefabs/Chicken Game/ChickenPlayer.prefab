@@ -19,7 +19,7 @@ GameObject:
   - component: {fileID: 4977480297572336852}
   - component: {fileID: -5228178061834001428}
   - component: {fileID: 6824927305955673117}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: ChickenPlayer
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -213,6 +213,9 @@ MonoBehaviour:
   moveDistance: 1
   moveDuration: 0.5
   rotationSpeed: 10
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!114 &4977480297572336852
 MonoBehaviour:
   m_ObjectHideFlags: 0
