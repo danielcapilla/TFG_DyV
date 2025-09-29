@@ -12,6 +12,7 @@ public class TurnBehaviour : NetworkBehaviour
     [SerializeField] private GroupBehaviour groupBehaviour;
     [SerializeField] private ChooseGroup chooseGroup;
     [SerializeField] private GameManagerChicken gameManager;
+    [SerializeField] private TurnTimer turnTimer;
     [Header("Grupo")]
     [SerializeField] private TeamMenager teamMenager;
 
@@ -22,7 +23,8 @@ public class TurnBehaviour : NetworkBehaviour
         base.OnNetworkSpawn();
         groupBehaviour.OnCommandAdded += NextTurn;
         //groupBehaviour.OnExecutedTurn += NextTurn;
-        
+        turnTimer.OnTimerEnd += ResetTurn;
+
         //chooseGroup.OnGameStartEvent += ActivatePanelsRPC(NetworkManager.Singleton.LocalClientId);
         if (!IsServer) return;
         gameManager.OnPlayerSpawned += HandlePlayerSpawned;
@@ -53,9 +55,9 @@ public class TurnBehaviour : NetworkBehaviour
     }
 
 
-    private void NextTurn(ulong id)
+    public void NextTurn(ulong id)
     {
-        if(movementPanel.activeSelf)
+        if (movementPanel.activeSelf)
         {
             movementPanel.SetActive(false);
             waitingPanel.SetActive(true);
@@ -89,6 +91,28 @@ public class TurnBehaviour : NetworkBehaviour
             }
         });
         return;
+    }
+    public void ResetTurn(ulong id)
+    {
+        movementPanel.SetActive(false);
+        waitingPanel.SetActive(true);
+        int idGroup = NetworkManager.LocalClient.PlayerObject.GetComponent<PlayerStats>().idGrupo.Value;
+        ResetTurnRPC(idGroup);
+    }
+    [Rpc(SendTo.Server)]
+    private void ResetTurnRPC(int idGroup)
+    {
+        TeamInfoChicken teamInfo = (TeamInfoChicken)teamMenager.teams[idGroup];
+        teamInfo.turn = 0;
+        groupBehaviour.ExecuteTurn(idGroup);
+        ulong nextClientId = teamInfo.integrantes[teamInfo.turn % teamInfo.integrantes.Count];
+        ActivatePanelsClientRPC(new ClientRpcParams
+        {
+            Send = new ClientRpcSendParams
+            {
+                TargetClientIds = new[] { nextClientId }
+            }
+        });
     }
     public override void OnNetworkDespawn()
     {

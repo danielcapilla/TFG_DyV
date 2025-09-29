@@ -4224,6 +4224,7 @@ MonoBehaviour:
   groupBehaviour: {fileID: 426153645}
   chooseGroup: {fileID: 426153646}
   gameManager: {fileID: 1175153892}
+  turnTimer: {fileID: 1488909050}
   teamMenager: {fileID: 1250604520}
 --- !u!4 &1488909049
 Transform:
@@ -4253,9 +4254,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timerDuration: 10
+  delayAfterZero: 1.5
   timerText: {fileID: 510993059}
   teamMenager: {fileID: 1250604520}
   gameManagerChicken: {fileID: 1175153892}
+  groupBehaviour: {fileID: 426153645}
+  turnBehaviour: {fileID: 1488909048}
 --- !u!1 &1551663666
 GameObject:
   m_ObjectHideFlags: 0
