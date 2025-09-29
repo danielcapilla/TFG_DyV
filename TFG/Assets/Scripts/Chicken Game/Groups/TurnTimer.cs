@@ -4,6 +4,7 @@ using TMPro;
 using System.Collections;
 using System;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class TurnTimer : NetworkBehaviour
 {
@@ -12,7 +13,8 @@ public class TurnTimer : NetworkBehaviour
     [SerializeField] private float delayAfterZero = 1.5f;
 
     [Header("Referencias")]
-    [SerializeField] private TextMeshProUGUI timerText;
+    //[SerializeField] private TextMeshProUGUI timerText;
+    [SerializeField] private Slider timerSlider;
     [SerializeField] private TeamMenager teamMenager;
     [SerializeField] private GameManagerChicken gameManagerChicken;
     [SerializeField] private GroupBehaviour groupBehaviour;
@@ -118,7 +120,7 @@ public class TurnTimer : NetworkBehaviour
     private IEnumerator DelayAndStartTimer(float time)
     {
         isDelayRunning = true;
-        UpdateTimerDisplay(0f);
+        UpdateTimerDisplay(timerDuration);
         yield return new WaitForSeconds(delayAfterZero);
 
         currentTime = time;
@@ -130,7 +132,7 @@ public class TurnTimer : NetworkBehaviour
     private IEnumerator DelayAndNextTurn()
     {
         isDelayRunning = true;
-        UpdateTimerDisplay(0f);
+        UpdateTimerDisplay(timerDuration);
         //Debug.Log($"Timer terminado, ejecutando siguiente turno. {NetworkManager.LocalClientId}");
         
         OnTimerEnd?.Invoke(NetworkManager.LocalClientId);
@@ -144,7 +146,9 @@ public class TurnTimer : NetworkBehaviour
     }
     private void UpdateTimerDisplay(float time)
     {
-        int seconds = Mathf.FloorToInt(time % 60f);
-        timerText.text = $"{seconds:00}";
+        //int seconds = Mathf.FloorToInt(time % 60f);
+        //timerText.text = $"{seconds:00}";
+        timerSlider.maxValue = timerDuration;
+        timerSlider.value = Mathf.Clamp(time, 0f, timerDuration);
     }
 }
