@@ -12,7 +12,7 @@ public class GroupBehaviour : NetworkBehaviour
     private GameManagerChicken gameManager;
     private ChooseGroup chooseGroup;
     // Eventos
-    public event Action<ulong> OnCommandAdded;
+    public event Action<ulong, CommandType> OnCommandAdded;
     public event Action<PlayerInputController,int> OnExecutedTurn;
 
     private Dictionary<int, bool> groupIsExecuting = new Dictionary<int, bool>();
@@ -72,7 +72,7 @@ public class GroupBehaviour : NetworkBehaviour
     {
         ulong clientId = NetworkManager.Singleton.LocalClientId;
         AddCommandRPC(clientId, commandType);
-        OnCommandAdded?.Invoke(clientId);
+        OnCommandAdded?.Invoke(clientId,commandType);
     }
 
     [Rpc(SendTo.Server)]

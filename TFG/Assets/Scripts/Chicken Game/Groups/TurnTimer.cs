@@ -18,7 +18,6 @@ public class TurnTimer : NetworkBehaviour
     [SerializeField] private TeamMenager teamMenager;
     [SerializeField] private GameManagerChicken gameManagerChicken;
     [SerializeField] private GroupBehaviour groupBehaviour;
-    [SerializeField] private TurnBehaviour turnBehaviour;
 
     private float currentTime;
     private bool isTimerRunning = false;

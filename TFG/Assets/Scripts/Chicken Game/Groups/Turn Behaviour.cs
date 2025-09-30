@@ -55,7 +55,7 @@ public class TurnBehaviour : NetworkBehaviour
     }
 
 
-    public void NextTurn(ulong id)
+    public void NextTurn(ulong id, CommandType commandType)
     {
         if (movementPanel.activeSelf)
         {
