@@ -117,7 +117,10 @@ public class TurnBehaviour : NetworkBehaviour
     public override void OnNetworkDespawn()
     {
         base.OnNetworkDespawn();
-        if (!IsServer) return;
         groupBehaviour.OnCommandAdded -= NextTurn;
+        //groupBehaviour.OnExecutedTurn -= NextTurn;
+        turnTimer.OnTimerEnd -= ResetTurn;
+        if (!IsServer) return;
+        gameManager.OnPlayerSpawned -= HandlePlayerSpawned;
     }
 }

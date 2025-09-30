@@ -1,9 +1,12 @@
 using System;
+using System.Collections;
 using System.Data;
 using Unity.Netcode;
 using UnityEngine;
 public class MovementsBehaviour : NetworkBehaviour
 {
+    [Header("Variables")]
+    [SerializeField] private float delayAfterZero = 1.5f;
     [Header("Referencias")]
     [SerializeField] private GameObject Movement;
     [SerializeField] private GameObject HorizontalLayout;
@@ -16,7 +19,7 @@ public class MovementsBehaviour : NetworkBehaviour
         groupBehaviour.OnCommandAdded += HandleCommandAdded;
         if (IsServer)
         {
-            
+            groupBehaviour.OnExecutedTurn += HandleExecutedTurn;
         }
     }
     override public void OnNetworkDespawn()
@@ -25,8 +28,19 @@ public class MovementsBehaviour : NetworkBehaviour
         groupBehaviour.OnCommandAdded -= HandleCommandAdded;
         if (IsServer)
         {
-            
+            groupBehaviour.OnExecutedTurn -= HandleExecutedTurn;
         }
+    }
+    private void HandleExecutedTurn(PlayerInputController controller, int idGroup)
+    {
+        TeamInfoChicken teamInfo = (TeamInfoChicken)teamMenager.teams[idGroup];
+        RemoveMovesForClientsClientRPC(new ClientRpcParams
+        {
+            Send = new ClientRpcSendParams
+            {
+                TargetClientIds = teamInfo.integrantes.ToArray()
+            }
+        });
     }
     [Rpc(SendTo.Server)]
     private void HandleSpawnRPC(int idGroup, CommandType commandType)
@@ -44,6 +58,20 @@ public class MovementsBehaviour : NetworkBehaviour
     {
         int idGrupo = NetworkManager.Singleton.LocalClient.PlayerObject.GetComponent<PlayerStats>().idGrupo.Value;
         HandleSpawnRPC(idGrupo, commandType);          
+    }
+    [ClientRpc]
+    private void RemoveMovesForClientsClientRPC(ClientRpcParams clientRpcParams = default)
+    {
+        StartCoroutine(RemoveMovesWithDelay());
+    }
+    private IEnumerator RemoveMovesWithDelay()
+    {
+        yield return new WaitForSeconds(delayAfterZero);
+
+        foreach (Transform child in HorizontalLayout.transform)
+        {
+            Destroy(child.gameObject);
+        }
     }
     [ClientRpc]
     private void SpawnMoveForClientsClientRPC(CommandType commandType, ClientRpcParams clientRpcParams = default)
