@@ -1,5 +1,6 @@
 ﻿using Microsoft.Unity.VisualStudio.Editor;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -17,9 +18,13 @@ public class GridLevelGenerator : NetworkBehaviour
 
     [Header("Prefabs")]
     public GameObject floorPrefab;
-    public GameObject obstaclePrefab;
+    public GameObject[] obstaclePrefabs;
     public GameObject startPrefab;
     public GameObject goalPrefab;
+    public GameObject[] wallPrefabs;
+
+    [Header("Ajustes de paredes")]
+    public float wallOffset;
 
     [Header("Celdas")]
     public float cellSize = 1f;
@@ -124,7 +129,7 @@ public class GridLevelGenerator : NetworkBehaviour
         }
         ComputeDistanceMap();
         // 5) Construir escena con prefabs
-        BuildSceneFromGrid();
+        //BuildSceneFromGrid();
     }
 
     private bool TryPickGoal(out Vector2Int picked, out Dictionary<Vector2Int, Vector2Int> cameFrom)
@@ -366,8 +371,9 @@ public class GridLevelGenerator : NetworkBehaviour
                 switch (val)
                 {
                     case 1:
-                        toSpawn = obstaclePrefab;
-                        rot = Quaternion.identity; // cubo no necesita rotación
+                        int idx = GetRandomObstacleIndex();
+                        toSpawn = obstaclePrefabs[idx];
+                        rot = toSpawn.transform.rotation;
                         break;
                     case 2:
                         toSpawn = startPrefab;
@@ -385,6 +391,57 @@ public class GridLevelGenerator : NetworkBehaviour
                     var go = Instantiate(toSpawn, worldPos, rot, root.transform);
                     spawned.Add(go);
                 }
+            }
+        }
+        if (wallPrefabs != null && wallPrefabs.Length >= 4)
+        {
+            // Rotaciones para las esquinas
+            Quaternion rotInfIzq = Quaternion.Euler(0, 0, 0);
+            Quaternion rotInfDer = Quaternion.Euler(0, -90, 0);
+            Quaternion rotSupDer = Quaternion.Euler(0, 180, 0);
+            Quaternion rotSupIzq = Quaternion.Euler(0, 90, 0);
+
+            // Esquinas 
+            spawned.Add(Instantiate(wallPrefabs[0], origin + new Vector3(-1 * cellSize, 0f, -1 * cellSize), rotInfIzq, root.transform));
+            spawned.Add(Instantiate(wallPrefabs[0], origin + new Vector3(width * cellSize, 0f, -1 * cellSize), rotInfDer, root.transform));
+            spawned.Add(Instantiate(wallPrefabs[0], origin + new Vector3(width * cellSize, 0f, height * cellSize), rotSupDer, root.transform));
+            spawned.Add(Instantiate(wallPrefabs[0], origin + new Vector3(-1 * cellSize, 0f, height * cellSize), rotSupIzq, root.transform));
+
+            // Puerta
+            spawned.Add(Instantiate(wallPrefabs[3], origin + new Vector3(0, 0f, -1 * cellSize), wallPrefabs[3].transform.rotation, root.transform));
+
+            // Muros horizontales inferiores
+            for (int x = 1; x < width; x++)
+            {
+                Vector3 posInf = origin + new Vector3(x * cellSize, 0f, -1 * cellSize);
+                GameObject prefab = (x == width - 1) ? wallPrefabs[1] : (Random.value < 0.7f ? wallPrefabs[1] : wallPrefabs[2]);
+                spawned.Add(Instantiate(prefab, posInf, wallPrefabs[1].transform.rotation, root.transform));
+            }
+            // Muros horizontales superiores
+            for (int x = 0; x < width; x++)
+            {
+                Vector3 posSup = origin + new Vector3(x * cellSize, 0f, height * cellSize);
+                GameObject prefab = (x == 0 || x == width - 1) ? wallPrefabs[1] : (Random.value < 0.7f ? wallPrefabs[1] : wallPrefabs[2]);
+                spawned.Add(Instantiate(prefab, posSup, wallPrefabs[1].transform.rotation * Quaternion.Euler(0, 180, 0), root.transform));
+            }
+
+            // Muros verticales izquierdos 
+            Quaternion verticalRot = wallPrefabs[1].transform.rotation * Quaternion.Euler(0f, 90f, 0f);
+            for (int y = 0; y < height; y++)
+            {
+                Vector3 posIzq = origin + new Vector3(-1 * cellSize, 0f, y * cellSize);
+                //GameObject prefab = (y == 0 || y == height - 1) ? wallPrefabs[1] : (Random.value < 0.8f ? wallPrefabs[1] : wallPrefabs[2]);
+                GameObject prefab = wallPrefabs[1];
+                spawned.Add(Instantiate(prefab, posIzq, verticalRot, root.transform));
+            }
+            // Muros verticales derechos 
+            Quaternion verticalRotDer = wallPrefabs[1].transform.rotation * Quaternion.Euler(0f, 270f, 0f);
+            for (int y = 0; y < height; y++)
+            {
+                Vector3 posDer = origin + new Vector3(width * cellSize, 0f, y * cellSize);
+                //GameObject prefab = (y == 0 || y == height - 1) ? wallPrefabs[1] : (Random.value < 0.8f ? wallPrefabs[1] : wallPrefabs[2]);
+                GameObject prefab = wallPrefabs[1];
+                spawned.Add(Instantiate(prefab, posDer, verticalRotDer, root.transform));
             }
         }
     }
@@ -412,7 +469,7 @@ public class GridLevelGenerator : NetworkBehaviour
         {
             if (go != null)
             {
-                Destroy(go);
+                DestroyImmediate(go);
             }
         }
         spawned.Clear();
@@ -420,7 +477,7 @@ public class GridLevelGenerator : NetworkBehaviour
         var child = transform.Find("GridLevel");
         if (child != null)
         {
-            Destroy(child.gameObject);
+            DestroyImmediate(child.gameObject);
         }
     }
     // Algoritmo de Fisher-Yates para barajar un array
@@ -431,5 +488,18 @@ public class GridLevelGenerator : NetworkBehaviour
             int j = Random.Range(i, array.Length);
             (array[i], array[j]) = (array[j], array[i]);
         }
+    }
+    private int GetRandomObstacleIndex()
+    {
+        float[] chances = { 0.4f, 0.4f, 0.2f };
+        float r = Random.value;
+        float acc = 0f;
+        for (int i = 0; i < chances.Length; i++)
+        {
+            acc += chances[i];
+            if (r < acc)
+                return i;
+        }
+        return chances.Length - 1; // fallback
     }
 }

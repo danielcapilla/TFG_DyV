@@ -69,30 +69,29 @@ public class PlayerInputController : NetworkBehaviour
     }
 
     // Metodos llamados por los comandos (solo en servidor)
-    public void MoveLeft()
-    {
-        if (!IsServer || IsMoving) return;
-        targetPosition.Value += Vector3.back * moveDistance;
-    }
-
-    public void MoveRight()
+    public void MoveUp()
     {
         if (!IsServer || IsMoving) return;
         targetPosition.Value += Vector3.forward * moveDistance;
     }
 
-    public void MoveUp()
+    public void MoveDown()
+    {
+        if (!IsServer || IsMoving) return;
+        targetPosition.Value += Vector3.back * moveDistance;
+    }
+
+    public void MoveLeft()
     {
         if (!IsServer || IsMoving) return;
         targetPosition.Value += Vector3.left * moveDistance;
     }
 
-    public void MoveDown()
+    public void MoveRight()
     {
         if (!IsServer || IsMoving) return;
         targetPosition.Value += Vector3.right * moveDistance;
     }
-
     public void StopMovement()
     {
         if (!IsServer) return;
