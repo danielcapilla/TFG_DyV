@@ -1,10 +1,13 @@
 using DG.Tweening.Core.Easing;
 using System;
+using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
 
 public class TurnBehaviour : NetworkBehaviour
 {
+    [Header("Variables")]
+    [SerializeField] private float delayAfterZero = 1.5f;
     [Header("Paneles")]
     [SerializeField] private GameObject movementPanel;
     [SerializeField] private GameObject waitingPanel;
@@ -13,7 +16,6 @@ public class TurnBehaviour : NetworkBehaviour
     [SerializeField] private ChooseGroup chooseGroup;
     [SerializeField] private GameManagerChicken gameManager;
     [SerializeField] private TurnTimer turnTimer;
-    [Header("Grupo")]
     [SerializeField] private TeamMenager teamMenager;
 
     //public NetworkVariable<int> turn = new NetworkVariable<int>(0,
@@ -36,7 +38,7 @@ public class TurnBehaviour : NetworkBehaviour
     {
         TeamInfoChicken teamInfo = (TeamInfoChicken)teamMenager.teams[idGroup];
         ulong targetClientId = teamInfo.integrantes[0];
-        ActivatePanelsClientRPC(new ClientRpcParams
+        ActivatePanelsClientRPC(false,new ClientRpcParams
         {
             Send = new ClientRpcSendParams
             {
@@ -47,14 +49,23 @@ public class TurnBehaviour : NetworkBehaviour
     }
 
     [ClientRpc]
-    private void ActivatePanelsClientRPC(ClientRpcParams clientRpcParams = default)
+    private void ActivatePanelsClientRPC(bool withDelay = false, ClientRpcParams clientRpcParams = default)
     {
-        Debug.Log($"Activando paneles para el cliente: {NetworkManager.Singleton.LocalClientId}");
+        if (withDelay)
+            StartCoroutine(ActivePanelsWithDelay());
+        else
+            SetPanelsActive();
+    }
+    private IEnumerator ActivePanelsWithDelay()
+    {
+        yield return new WaitForSeconds(delayAfterZero);
+        SetPanelsActive();
+    }
+    private void SetPanelsActive()
+    {
         movementPanel.SetActive(true);
         waitingPanel.SetActive(false);
     }
-
-
     public void NextTurn(ulong id, CommandType commandType)
     {
         if (movementPanel.activeSelf)
@@ -75,15 +86,17 @@ public class TurnBehaviour : NetworkBehaviour
         int idGroup = NetworkManager.Singleton.ConnectedClients[id].PlayerObject.GetComponent<PlayerStats>().idGrupo.Value;
         TeamInfoChicken teamInfo = (TeamInfoChicken)teamMenager.teams[idGroup];
         teamInfo.turn++;
+        bool delay = false;
         if (teamInfo.turn >= teamInfo.integrantes.Count)
         {
             teamInfo.turn = 0;
+            delay = true;
             groupBehaviour.ExecuteTurn(idGroup);
         }
 
         // Si no es el ultimo, solo activar los paneles del siguiente
         ulong nextClientId = teamInfo.integrantes[teamInfo.turn % teamInfo.integrantes.Count];
-        ActivatePanelsClientRPC(new ClientRpcParams
+        ActivatePanelsClientRPC(delay, new ClientRpcParams
         {
             Send = new ClientRpcSendParams
             {
@@ -106,7 +119,7 @@ public class TurnBehaviour : NetworkBehaviour
         teamInfo.turn = 0;
         groupBehaviour.ExecuteTurn(idGroup);
         ulong nextClientId = teamInfo.integrantes[teamInfo.turn % teamInfo.integrantes.Count];
-        ActivatePanelsClientRPC(new ClientRpcParams
+        ActivatePanelsClientRPC(true, new ClientRpcParams
         {
             Send = new ClientRpcSendParams
             {
