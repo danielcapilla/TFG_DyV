@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
-using UnityEditor.PackageManager;
 using UnityEngine;
 
 public class GroupBehaviour : NetworkBehaviour
@@ -14,6 +13,7 @@ public class GroupBehaviour : NetworkBehaviour
     // Eventos
     public event Action<ulong, CommandType> OnCommandAdded;
     public event Action<PlayerInputController,int> OnExecutedTurn;
+    public event Action<int> OnExecuteTurn; 
 
     private Dictionary<int, bool> groupIsExecuting = new Dictionary<int, bool>();
     public override void OnNetworkSpawn()
@@ -120,7 +120,8 @@ public class GroupBehaviour : NetworkBehaviour
             Debug.LogError($"No player controller found for group {groupId}");
             yield break;
         }
-        OnExecutedTurn?.Invoke(playerController, groupId);
+        //OnExecutedTurn?.Invoke(playerController, groupId);
+        OnExecuteTurn?.Invoke(groupId);
         Debug.Log($"Executing {teamInfo.commandQueue.Count} commands for group {groupId}");
 
         while (teamInfo.commandQueue.Count > 0)
@@ -134,7 +135,7 @@ public class GroupBehaviour : NetworkBehaviour
             // Pequeña pausa adicional para asegurar sincronizacion de red
             yield return new WaitForSeconds(0.1f);
         }
-
+        OnExecutedTurn?.Invoke(playerController, groupId);
         Debug.Log($"Finished executing commands for group {groupId}");
         
     }

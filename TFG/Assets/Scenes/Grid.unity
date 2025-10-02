@@ -5635,7 +5635,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   width: 16
   height: 12
-  minPathLength: 19
+  minPathLength: 10
   obstacleDensity: 0.25
   start: {x: 0, y: 0}
   maxGoalTries: 200
@@ -5651,7 +5651,6 @@ MonoBehaviour:
   - {fileID: 3029874229859316044, guid: a35cb20f161610b43bae08c426755e17, type: 3}
   - {fileID: 131121443960469590, guid: 30e9008b0a265b14781a9c47145dcc5d, type: 3}
   - {fileID: 4699099500590732949, guid: 90510bd9912edda42a6348aca7ba4b6e, type: 3}
-  wallOffset: 0.2
   cellSize: 1
   seed: -1
 --- !u!4 &2014524305

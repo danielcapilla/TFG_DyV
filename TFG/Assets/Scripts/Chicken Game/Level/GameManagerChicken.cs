@@ -32,14 +32,14 @@ public class GameManagerChicken : NetworkBehaviour
 
     private void CalculatePunctuation(PlayerInputController playerInput, int groupId)
     {
-        Vector3 playerWorldPos = playerInput.transform.position;
+        Vector3 playerWorldPos = playerInput.targetPosition.Value;
         Vector2Int playerGridPos = GridLevelGenerator.Instance.WorldToGrid(playerWorldPos);
 
         int dist = GridLevelGenerator.Instance.GetDistanceToGoal(playerGridPos);
         float progress = GridLevelGenerator.Instance.GetProgress(playerGridPos);
-
-        teamMenager.teams[groupId].Puntuacion += dist;
         Debug.Log($"Jugador está en {playerGridPos}, faltan {dist} pasos, progreso {progress * 100f}%");
+        teamMenager.teams[groupId].Puntuacion = (int)(progress*100f);
+        
     }
 
     public override void OnNetworkDespawn()

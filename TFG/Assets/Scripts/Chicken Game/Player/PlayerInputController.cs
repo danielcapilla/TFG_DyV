@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using Unity.Netcode;
-using UnityEditor.Localization.Plugins.XLIFF.V12;
 using UnityEngine;
 
 public class PlayerInputController : NetworkBehaviour
@@ -12,7 +11,7 @@ public class PlayerInputController : NetworkBehaviour
     public bool IsMoving { get; private set; }
     [SerializeField] private LayerMask obstacleMask;
 
-    private NetworkVariable<Vector3> targetPosition = new NetworkVariable<Vector3>( Vector3.zero,
+    public NetworkVariable<Vector3> targetPosition = new NetworkVariable<Vector3>( Vector3.zero,
         NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     private Coroutine currentMovementCoroutine;
 

@@ -62,7 +62,11 @@ public class MovementsBehaviour : NetworkBehaviour
     [ClientRpc]
     private void RemoveMovesForClientsClientRPC(ClientRpcParams clientRpcParams = default)
     {
-        StartCoroutine(RemoveMovesWithDelay());
+        //StartCoroutine(RemoveMovesWithDelay());
+        foreach (Transform child in HorizontalLayout.transform)
+        {
+            Destroy(child.gameObject);
+        }
     }
     private IEnumerator RemoveMovesWithDelay()
     {

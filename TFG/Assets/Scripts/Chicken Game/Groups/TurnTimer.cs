@@ -29,7 +29,8 @@ public class TurnTimer : NetworkBehaviour
         if (IsServer)
         {
             gameManagerChicken.OnPlayerSpawned += StartTimers;
-            groupBehaviour.OnExecutedTurn += (playerInput, groupId) => StartTimers(playerInput.NetworkObject, groupId);
+            groupBehaviour.OnExecutedTurn += OnExecutedTurn;
+            groupBehaviour.OnExecuteTurn += WaitForMovementCompleted;
         }
     }
 
@@ -38,10 +39,28 @@ public class TurnTimer : NetworkBehaviour
         if (IsServer)
         {
             gameManagerChicken.OnPlayerSpawned -= StartTimers;
-            groupBehaviour.OnExecutedTurn -= (playerInput, groupId) => StartTimers(playerInput.NetworkObject, groupId);
+            groupBehaviour.OnExecutedTurn -= OnExecutedTurn;
+            groupBehaviour.OnExecuteTurn -= WaitForMovementCompleted;
         }
     }
 
+    private void OnExecutedTurn(PlayerInputController playerInput, int groupId)
+    {
+        StartTimers(playerInput.NetworkObject, groupId);
+    }
+    private void WaitForMovementCompleted(int idGroup)
+    {
+        TeamInfoChicken teamInfo = (TeamInfoChicken)teamMenager.teams[idGroup];
+        ulong[] targetClients = teamInfo.integrantes.ToArray();
+        if (targetClients.Length == 0) return;
+        SetTimerRunningClientRPC(new ClientRpcParams
+        {
+            Send = new ClientRpcSendParams
+            {
+                TargetClientIds = targetClients
+            }
+        });
+    }
     private void StartTimers(NetworkObjectReference playerNOR, int idGroup)
     {
         TeamInfoChicken teamInfo = (TeamInfoChicken)teamMenager.teams[idGroup];
@@ -61,12 +80,17 @@ public class TurnTimer : NetworkBehaviour
     private void ObtainTimeForGroupClientRPC(float time, ClientRpcParams clientRpcParams)
     {
         // Cuando el servidor resetea el timer, espera el delay antes de arrancar el nuevo turno
-        StartCoroutine(DelayAndStartTimer(time));
+        //StartCoroutine(DelayAndStartTimer(time));
+        ResetTimer();
     }
-
+    [ClientRpc]
+    private void SetTimerRunningClientRPC(ClientRpcParams clientRpcParams)
+    {
+        isTimerRunning = false;
+    }
     void Update()
     {
-        if (!isTimerRunning || isDelayRunning) return;
+        if (!isTimerRunning) return;
 
         currentTime -= Time.deltaTime;
         UpdateTimerDisplay(currentTime);
@@ -75,45 +99,51 @@ public class TurnTimer : NetworkBehaviour
         {
             currentTime = 0f;
             isTimerRunning = false;
-            CheckTurnRPC(NetworkManager.LocalClient.PlayerObject.GetComponent<PlayerStats>().idGrupo.Value);
+            CheckTurnRPC(NetworkManager.LocalClient.PlayerObject.GetComponent<PlayerStats>().idGrupo.Value, NetworkManager.LocalClientId);
             //StartCoroutine(DelayAndNextTurn());
         }
     }
     [Rpc(SendTo.Server)]
-    private void CheckTurnRPC(int idGroup)
+    private void CheckTurnRPC(int idGroup, ulong id)
     {
         TeamInfoChicken teamInfo = (TeamInfoChicken)teamMenager.teams[idGroup];
 
         int turnIndex = teamInfo.turn;  
         ulong turnClientId = teamInfo.integrantes[turnIndex];
-
-        List<ulong> otherClients = new List<ulong>(teamInfo.integrantes);
-        otherClients.Remove(turnClientId);
-        // El cliente que tiene el turno, reinicia el timer y ejecuta el siguiente turno
-        ResetAndNextTurnClientRPC(new ClientRpcParams
+        if( turnClientId != id) return;
+        //List<ulong> otherClients = new List<ulong>(teamInfo.integrantes);
+        //otherClients.Remove(turnClientId);
+        //// El cliente que tiene el turno, reinicia el timer y ejecuta el siguiente turno
+        //ResetAndNextTurnClientRPC(new ClientRpcParams
+        //{
+        //    Send = new ClientRpcSendParams { TargetClientIds = new[] { turnClientId } }
+        //});
+        InvokeTimerEndClientRPC(new ClientRpcParams
         {
             Send = new ClientRpcSendParams { TargetClientIds = new[] { turnClientId } }
         });
 
-        // Los demas solo reinician el timer
-        if (otherClients.Count > 0)
-        {
-            ResetTimerClientRPC(new ClientRpcParams
-            {
-                Send = new ClientRpcSendParams { TargetClientIds = otherClients.ToArray() }
-            });
-        }
+        //// Los demas solo reinician el timer
+        //if (otherClients.Count > 0)
+        //{
+        //    ResetTimerClientRPC(new ClientRpcParams
+        //    {
+        //        Send = new ClientRpcSendParams { TargetClientIds = otherClients.ToArray() }
+        //    });
+        //}
     }
     [ClientRpc]
     private void ResetTimerClientRPC(ClientRpcParams clientRpcParams)
     {
-        StartCoroutine(DelayAndStartTimer(timerDuration));
+        //StartCoroutine(DelayAndStartTimer(timerDuration));
+        ResetTimer();   
     }
 
     [ClientRpc]
     private void ResetAndNextTurnClientRPC(ClientRpcParams clientRpcParams)
     {      
-        StartCoroutine(DelayAndNextTurn());
+        //StartCoroutine(DelayAndNextTurn());
+        ResetTimerAndNextTurn();
     }
 
     private IEnumerator DelayAndStartTimer(float time)
@@ -127,7 +157,26 @@ public class TurnTimer : NetworkBehaviour
         isDelayRunning = false;
         UpdateTimerDisplay(currentTime);
     }
+    private void ResetTimer()
+    {
+        currentTime = timerDuration;
+        UpdateTimerDisplay(currentTime);
+        isTimerRunning = true;
 
+    }
+    private void ResetTimerAndNextTurn()
+    {
+        currentTime = timerDuration;
+        UpdateTimerDisplay(currentTime);
+        isTimerRunning = true;
+        OnTimerEnd?.Invoke(NetworkManager.LocalClientId);
+
+    }
+    [ClientRpc]
+    private void InvokeTimerEndClientRPC(ClientRpcParams clientRpcParams)
+    {
+        OnTimerEnd?.Invoke(NetworkManager.LocalClientId);
+    }
     private IEnumerator DelayAndNextTurn()
     {
         isDelayRunning = true;

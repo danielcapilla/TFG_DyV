@@ -23,8 +23,6 @@ public class GridLevelGenerator : NetworkBehaviour
     public GameObject goalPrefab;
     public GameObject[] wallPrefabs;
 
-    [Header("Ajustes de paredes")]
-    public float wallOffset;
 
     [Header("Celdas")]
     public float cellSize = 1f;
@@ -491,7 +489,7 @@ public class GridLevelGenerator : NetworkBehaviour
     }
     private int GetRandomObstacleIndex()
     {
-        float[] chances = { 0.4f, 0.4f, 0.2f };
+        float[] chances = { 0.45f, 0.45f, 0.1f };
         float r = Random.value;
         float acc = 0f;
         for (int i = 0; i < chances.Length; i++)

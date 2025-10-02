@@ -6,8 +6,6 @@ using UnityEngine;
 
 public class TurnBehaviour : NetworkBehaviour
 {
-    [Header("Variables")]
-    [SerializeField] private float delayAfterZero = 1.5f;
     [Header("Paneles")]
     [SerializeField] private GameObject movementPanel;
     [SerializeField] private GameObject waitingPanel;
@@ -30,15 +28,30 @@ public class TurnBehaviour : NetworkBehaviour
         //chooseGroup.OnGameStartEvent += ActivatePanelsRPC(NetworkManager.Singleton.LocalClientId);
         if (!IsServer) return;
         gameManager.OnPlayerSpawned += HandlePlayerSpawned;
+        groupBehaviour.OnExecutedTurn += HandleOnExecutedTurn;
         //turn.OnValueChanged += TurnChange;
 
     }
 
+    public override void OnNetworkDespawn()
+    {
+        base.OnNetworkDespawn();
+        groupBehaviour.OnCommandAdded -= NextTurn;
+        //groupBehaviour.OnExecutedTurn -= NextTurn;
+        turnTimer.OnTimerEnd -= ResetTurn;
+        if (!IsServer) return;
+        gameManager.OnPlayerSpawned -= HandlePlayerSpawned;
+        groupBehaviour.OnExecutedTurn -= HandleOnExecutedTurn;
+    }
+    private void HandleOnExecutedTurn(PlayerInputController controller, int arg2)
+    {
+        HandlePlayerSpawned(controller.NetworkObject, arg2);
+    }
     private void HandlePlayerSpawned(NetworkObjectReference playerNOR, int idGroup)
     {
         TeamInfoChicken teamInfo = (TeamInfoChicken)teamMenager.teams[idGroup];
         ulong targetClientId = teamInfo.integrantes[0];
-        ActivatePanelsClientRPC(false,new ClientRpcParams
+        ActivatePanelsClientRPC(new ClientRpcParams
         {
             Send = new ClientRpcSendParams
             {
@@ -49,18 +62,11 @@ public class TurnBehaviour : NetworkBehaviour
     }
 
     [ClientRpc]
-    private void ActivatePanelsClientRPC(bool withDelay = false, ClientRpcParams clientRpcParams = default)
+    private void ActivatePanelsClientRPC( ClientRpcParams clientRpcParams = default)
     {
-        if (withDelay)
-            StartCoroutine(ActivePanelsWithDelay());
-        else
             SetPanelsActive();
     }
-    private IEnumerator ActivePanelsWithDelay()
-    {
-        yield return new WaitForSeconds(delayAfterZero);
-        SetPanelsActive();
-    }
+
     private void SetPanelsActive()
     {
         movementPanel.SetActive(true);
@@ -93,16 +99,19 @@ public class TurnBehaviour : NetworkBehaviour
             delay = true;
             groupBehaviour.ExecuteTurn(idGroup);
         }
-
-        // Si no es el ultimo, solo activar los paneles del siguiente
-        ulong nextClientId = teamInfo.integrantes[teamInfo.turn % teamInfo.integrantes.Count];
-        ActivatePanelsClientRPC(delay, new ClientRpcParams
+        else
         {
-            Send = new ClientRpcSendParams
+            // Si no es el ultimo, solo activar los paneles del siguiente
+            ulong nextClientId = teamInfo.integrantes[teamInfo.turn % teamInfo.integrantes.Count];
+            ActivatePanelsClientRPC(new ClientRpcParams
             {
-                TargetClientIds = new[] { nextClientId }
-            }
-        });
+                Send = new ClientRpcSendParams
+                {
+                    TargetClientIds = new[] { nextClientId }
+                }
+            });
+        }
+
         return;
     }
     public void ResetTurn(ulong id)
@@ -119,7 +128,7 @@ public class TurnBehaviour : NetworkBehaviour
         teamInfo.turn = 0;
         groupBehaviour.ExecuteTurn(idGroup);
         ulong nextClientId = teamInfo.integrantes[teamInfo.turn % teamInfo.integrantes.Count];
-        ActivatePanelsClientRPC(true, new ClientRpcParams
+        ActivatePanelsClientRPC(new ClientRpcParams
         {
             Send = new ClientRpcSendParams
             {
@@ -127,13 +136,5 @@ public class TurnBehaviour : NetworkBehaviour
             }
         });
     }
-    public override void OnNetworkDespawn()
-    {
-        base.OnNetworkDespawn();
-        groupBehaviour.OnCommandAdded -= NextTurn;
-        //groupBehaviour.OnExecutedTurn -= NextTurn;
-        turnTimer.OnTimerEnd -= ResetTurn;
-        if (!IsServer) return;
-        gameManager.OnPlayerSpawned -= HandlePlayerSpawned;
-    }
+
 }
