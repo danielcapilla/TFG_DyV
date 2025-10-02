@@ -4714,7 +4714,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26fbfb250fa19d0439543f49ec0f460c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  delayAfterZero: 1.5
   movementPanel: {fileID: 1184440416}
   waitingPanel: {fileID: 581868371}
   groupBehaviour: {fileID: 426153645}

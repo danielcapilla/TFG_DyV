@@ -2,6 +2,7 @@
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class GameManagerChicken : NetworkBehaviour
 {
@@ -37,9 +38,11 @@ public class GameManagerChicken : NetworkBehaviour
 
         int dist = GridLevelGenerator.Instance.GetDistanceToGoal(playerGridPos);
         float progress = GridLevelGenerator.Instance.GetProgress(playerGridPos);
-        Debug.Log($"Jugador está en {playerGridPos}, faltan {dist} pasos, progreso {progress * 100f}%");
         teamMenager.teams[groupId].Puntuacion = (int)(progress*100f);
-        
+        if (teamMenager.teams[groupId].Puntuacion == 100)
+        {
+            NetworkManager.Singleton.SceneManager.LoadScene("Podium", LoadSceneMode.Single);
+        }
     }
 
     public override void OnNetworkDespawn()
