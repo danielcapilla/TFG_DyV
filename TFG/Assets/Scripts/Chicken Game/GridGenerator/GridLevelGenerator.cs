@@ -379,7 +379,7 @@ public class GridLevelGenerator : NetworkBehaviour
                         break;
                     case 3:
                         toSpawn = goalPrefab;
-                        rot = markerRot; // rotar para que quede plano
+                        //rot = markerRot; // rotar para que quede plano
                         break;
                 }
 

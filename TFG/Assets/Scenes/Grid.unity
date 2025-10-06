@@ -5644,7 +5644,7 @@ MonoBehaviour:
   - {fileID: 4749698865737297682, guid: 17ecdc07d0953b5499a9ab6e43804f7f, type: 3}
   - {fileID: 7853568823726693770, guid: ceb64eee91ce00842b004efc3c9ebc3d, type: 3}
   startPrefab: {fileID: 3631199118349803562, guid: e62edce9dd753e64badf1399eceb3e74, type: 3}
-  goalPrefab: {fileID: 5173975485942800400, guid: f903a67b060feb8489f99e7a843cf404, type: 3}
+  goalPrefab: {fileID: 2812564961457434026, guid: 13382da9ce64767448f5f537d0a38b6f, type: 3}
   wallPrefabs:
   - {fileID: 3534538271701834040, guid: c894aa01a30cc1d4ca21073fffa1ec85, type: 3}
   - {fileID: 3029874229859316044, guid: a35cb20f161610b43bae08c426755e17, type: 3}
