@@ -14,6 +14,7 @@ public class TeamMenager : NetworkBehaviour
     public TeamInfo teamType;
     public List<TeamInfo> teams;
     public List<TeamInfo> teamsScoreSorted { get; private set; }
+    public static TeamMenager Instance { get; private set; }
     void Start()
     {
         
@@ -27,6 +28,17 @@ public class TeamMenager : NetworkBehaviour
             teams.Add(copia);
         }
         teamsScoreSorted = new List<TeamInfo>(teams);
+    }
+    void Awake()
+    {
+        //if (!IsServer) return;
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this.gameObject);
+            return;
+        }
+        Instance = this;
+       // DontDestroyOnLoad(this.gameObject);
     }
     [ServerRpc (RequireOwnership = false)]
     public void QuitPlayerFromTheTeamServerRPC(ulong id, int groupNumber)
