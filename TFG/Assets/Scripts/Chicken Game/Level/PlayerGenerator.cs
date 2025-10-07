@@ -31,9 +31,10 @@ public class PlayerGenerator : NetworkBehaviour
             //lateJoinsBehaviour.aprovedConection = true;
             foreach (ulong id in NetworkManager.ConnectedClientsIds)
             {
-                if (id != OwnerClientId)
+                Transform clientTransform = NetworkManager.Singleton.ConnectedClients[id].PlayerObject.transform;
+                if (id != OwnerClientId && clientTransform.childCount >0)
                 {
-                    NetworkObject playerNetworkObject = NetworkManager.Singleton.ConnectedClients[id].PlayerObject.transform.GetChild(0).GetComponent<NetworkObject>();
+                    NetworkObject playerNetworkObject = clientTransform.GetChild(0).GetComponent<NetworkObject>();
                     playerNetworkObject.Despawn(true);
                 }
 
@@ -68,7 +69,7 @@ public class PlayerGenerator : NetworkBehaviour
 
         // Instanciar player como NetworkObject
         GameObject player = Instantiate(playerPrefab, spawnPosition, Quaternion.identity);
-        player.GetComponent<NetworkObject>().SpawnWithOwnership(clientId, true); // CUIDADO EL TRUE
+        player.GetComponent<NetworkObject>().SpawnWithOwnership(clientId, false); // CUIDADO EL TRUE
         player.transform.SetParent(NetworkManager.Singleton.ConnectedClients[clientId].PlayerObject.transform, true);
         //DesactivateMovementClientRPC(player.GetComponent<NetworkObject>());
 

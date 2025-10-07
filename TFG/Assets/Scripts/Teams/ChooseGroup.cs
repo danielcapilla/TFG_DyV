@@ -20,7 +20,7 @@ public class ChooseGroup : NetworkBehaviour
     public static List<ulong> connectedPlayers;
 
 
-    private bool host = true;
+    private bool host = false;
 
     // Eventos
     public delegate void PlayerReady(ulong id);

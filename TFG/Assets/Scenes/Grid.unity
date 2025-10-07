@@ -1821,6 +1821,7 @@ GameObject:
   - component: {fileID: 581868374}
   - component: {fileID: 581868373}
   - component: {fileID: 581868375}
+  - component: {fileID: 581868376}
   m_Layer: 5
   m_Name: Waiting
   m_TagString: Untagged
@@ -1901,6 +1902,18 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 0.48235294}
   m_EffectDistance: {x: 4, y: -4}
   m_UseGraphicAlpha: 1
+--- !u!225 &581868376
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 581868371}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &625392760
 GameObject:
   m_ObjectHideFlags: 0
@@ -3640,6 +3653,8 @@ GameObject:
   - component: {fileID: 1184440417}
   - component: {fileID: 1184440419}
   - component: {fileID: 1184440418}
+  - component: {fileID: 1184440421}
+  - component: {fileID: 1184440420}
   m_Layer: 5
   m_Name: Movement
   m_TagString: Untagged
@@ -3668,8 +3683,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.21374512, y: -155.62}
-  m_SizeDelta: {x: -48.0693, y: -341.25}
+  m_AnchoredPosition: {x: -0.21374512, y: -133.79999}
+  m_SizeDelta: {x: -48.0693, y: -297.61}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1184440418
 MonoBehaviour:
@@ -3684,15 +3699,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.79339623, g: 0.7877358, b: 1, a: 0.9372549}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.5176471}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 741c7181572c7d3428a9e4532995018f, type: 3}
-  m_Type: 0
+  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -3709,6 +3724,33 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1184440416}
   m_CullTransparentMesh: 1
+--- !u!114 &1184440420
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1184440416}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.48235294}
+  m_EffectDistance: {x: 4, y: -4}
+  m_UseGraphicAlpha: 1
+--- !u!225 &1184440421
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1184440416}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &1195980595
 GameObject:
   m_ObjectHideFlags: 0
@@ -4578,6 +4620,8 @@ MonoBehaviour:
   panelTransform: {fileID: 1334008282}
   canvasGroup: {fileID: 1334008289}
   shadowBG: {fileID: 0}
+  waitingPanel: {fileID: 0}
+  movesPanel: {fileID: 0}
 --- !u!114 &1334008288
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4795,8 +4839,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26fbfb250fa19d0439543f49ec0f460c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementPanel: {fileID: 1184440416}
-  waitingPanel: {fileID: 581868371}
+  movementPanel: {fileID: 1184440421}
+  waitingPanel: {fileID: 581868376}
   groupBehaviour: {fileID: 426153645}
   chooseGroup: {fileID: 426153646}
   gameManager: {fileID: 1175153892}

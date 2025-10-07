@@ -1,9 +1,10 @@
-﻿using Unity.Netcode;
-using UnityEngine;
-using TMPro;
+﻿using System;
 using System.Collections;
-using System;
 using System.Collections.Generic;
+using TMPro;
+using Unity.Netcode;
+using UnityEngine;
+using UnityEngine.InputSystem.XR;
 using UnityEngine.UI;
 
 public class TurnTimer : NetworkBehaviour
@@ -46,6 +47,12 @@ public class TurnTimer : NetworkBehaviour
 
     private void OnExecutedTurn(PlayerInputController playerInput, int groupId)
     {
+        if (NetworkManager.Singleton == null || !NetworkManager.Singleton.IsListening)
+            return;
+
+        var netObj = playerInput.GetComponent<NetworkObject>();
+        if (netObj == null || !netObj.IsSpawned)
+            return;
         StartTimers(playerInput.NetworkObject, groupId);
     }
     private void WaitForMovementCompleted(int idGroup)
