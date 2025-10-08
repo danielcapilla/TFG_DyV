@@ -238,6 +238,8 @@ GameObject:
   - component: {fileID: 7101968089313435394}
   - component: {fileID: 5236543969477772424}
   - component: {fileID: 8604917321140689046}
+  - component: {fileID: 1227685975742942203}
+  - component: {fileID: 8688993783549379572}
   m_Layer: 5
   m_Name: MovementTarjetita
   m_TagString: Untagged
@@ -350,6 +352,37 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
+--- !u!114 &1227685975742942203
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6135802538312618490}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
+  m_EffectDistance: {x: 2, y: -2}
+  m_UseGraphicAlpha: 1
+--- !u!114 &8688993783549379572
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6135802538312618490}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29a488aaa16f707479c065ca1ca3c37d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_color1: {r: 0.3529412, g: 0.7607844, b: 0.8941177, a: 1}
+  m_color2: {r: 1, g: 1, b: 1, a: 1}
+  m_angle: -10
+  m_ignoreRatio: 1
 --- !u!1 &7315578636813006129
 GameObject:
   m_ObjectHideFlags: 0

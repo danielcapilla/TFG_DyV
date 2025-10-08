@@ -1,4 +1,4 @@
-using DG.Tweening;
+﻿using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,19 +6,17 @@ using UnityEngine.UI;
 public class MovementPanelBehaviour : MonoBehaviour
 {
     [Header("Referencias")]
-    public UIGradient gradient;
-
-    public TextMeshProUGUI waitingText;
-    public RectTransform panelTransform;
-
-    public CanvasGroup canvasGroup; 
-    public Image shadowBG;
-
-    public CanvasGroup waitingPanel;
-    public CanvasGroup movesPanel;
+    [SerializeField] private UIGradient gradient;
+    [SerializeField] private TextMeshProUGUI waitingText;
+    [SerializeField] private RectTransform panelTransform;
+    [SerializeField] private CanvasGroup canvasGroup;
+    [SerializeField] private Image shadowBG;
+    [SerializeField] private Image timefill;
+    [SerializeField] private Image timefillGlow;
 
     private Graphic graphic;
     private bool isVisible = true;
+    private bool hasShaken = false;
 
     private void Awake()
     {
@@ -27,7 +25,7 @@ public class MovementPanelBehaviour : MonoBehaviour
 
     void Start()
     {
-        // Panel gradiente
+        // Gradiente que respira
         DOTween.To(() => gradient.m_color1,
                    x => { gradient.m_color1 = x; if (graphic != null) graphic.SetAllDirty(); },
                    Color.cyan, 2f)
@@ -35,29 +33,22 @@ public class MovementPanelBehaviour : MonoBehaviour
 
         // Texto "Waiting..."
         waitingText.transform.localScale = Vector3.one;
-        // Tween infinito con rebote suave
         waitingText.transform
             .DOScale(1.1f, 0.8f)
             .SetLoops(-1, LoopType.Yoyo)
             .SetEase(Ease.InOutSine);
-        // Alternativa: Tween de fade
-        //waitingText.DOFade(0.3f, 1.0f)
-        //    .SetLoops(-1, LoopType.Yoyo)
-        //    .SetEase(Ease.InOutSine);
 
+        // Animación de entrada
         panelTransform.localScale = Vector3.zero;
         panelTransform.DOScale(1f, 0.5f).SetEase(Ease.OutBack);
     }
+
     public void TogglePanel()
     {
         if (isVisible)
-        {
             HidePanel();
-        }
         else
-        {
             ShowPanel();
-        }
 
         isVisible = !isVisible;
     }
@@ -66,7 +57,6 @@ public class MovementPanelBehaviour : MonoBehaviour
     {
         gameObject.SetActive(true);
 
-        // Escala y fade in
         panelTransform.localScale = Vector3.zero;
         canvasGroup.alpha = 0;
 
@@ -74,7 +64,6 @@ public class MovementPanelBehaviour : MonoBehaviour
         seq.Append(canvasGroup.DOFade(1f, 0.3f));
         seq.Join(panelTransform.DOScale(1f, 0.4f).SetEase(Ease.OutBack));
 
-        // Fondo oscuro (profundidad)
         if (shadowBG != null)
             shadowBG.DOColor(new Color(0, 0, 0, 0.5f), 0.3f);
     }
@@ -86,47 +75,68 @@ public class MovementPanelBehaviour : MonoBehaviour
         seq.Join(panelTransform.DOScale(0.9f, 0.25f).SetEase(Ease.InBack));
         seq.OnComplete(() => gameObject.SetActive(false));
 
-        // Fondo oscuro
         if (shadowBG != null)
             shadowBG.DOColor(new Color(0, 0, 0, 0), 0.25f);
     }
-    public void ShowMoves()
+
+    public void UpdateTimerUI(float currentTime, float totalTime)
     {
-        waitingPanel.DOFade(0, 0.3f);
-        waitingPanel.transform.DOScale(0.95f, 0.3f).SetEase(Ease.InOutSine);
-        waitingPanel.interactable = false;
-        waitingPanel.blocksRaycasts = false;
+        if (timefill == null) return;
 
-        movesPanel.gameObject.SetActive(true);
-        movesPanel.alpha = 0;
-        movesPanel.transform.localScale = Vector3.one * 1.05f;
+        float t = Mathf.Clamp01(currentTime / totalTime);
+        Color color = Color.Lerp(Color.red, Color.green, t);
+        timefill.color = color;
 
-        DOVirtual.DelayedCall(0.3f, () =>
+        // 🌟 Glow dinámico (con pulso suave)
+        if (timefillGlow != null)
         {
-            movesPanel.DOFade(1, 0.3f);
-            movesPanel.transform.DOScale(1f, 0.3f).SetEase(Ease.OutBack);
-            movesPanel.interactable = true;
-            movesPanel.blocksRaycasts = true;
-        });
-    }
+            // sincroniza el color base del glow con el fill
+            Color glowColor = Color.Lerp(color, Color.white, 0.4f);
+            timefillGlow.color = glowColor;
 
-    public void ShowWaiting()
-    {
-        movesPanel.DOFade(0, 0.3f);
-        movesPanel.transform.DOScale(0.95f, 0.3f).SetEase(Ease.InOutSine);
-        movesPanel.interactable = false;
-        movesPanel.blocksRaycasts = false;
+            // activa el pulso si no existe ya
+            if (!DOTween.IsTweening(timefillGlow))
+            {
+                timefillGlow
+                    .DOFade(0.6f, 1.2f)
+                    .SetLoops(-1, LoopType.Yoyo)
+                    .SetEase(Ease.InOutSine);
+            }
 
-        waitingPanel.gameObject.SetActive(true);
-        waitingPanel.alpha = 0;
-        waitingPanel.transform.localScale = Vector3.one * 1.05f;
+            // opcional: que respire ligeramente en escala también
+            if (!DOTween.IsTweening(timefillGlow.transform))
+            {
+                timefillGlow.transform
+                    .DOScale(1.08f, 1.5f)
+                    .SetLoops(-1, LoopType.Yoyo)
+                    .SetEase(Ease.InOutSine);
+            }
+        }
 
-        DOVirtual.DelayedCall(0.3f, () =>
+
+        // 🔔 Pulso del fill cuando queda poco tiempo
+        if (currentTime < 3f && !DOTween.IsTweening(timefill.transform))
         {
-            waitingPanel.DOFade(1, 0.3f);
-            waitingPanel.transform.DOScale(1f, 0.3f).SetEase(Ease.OutBack);
-            waitingPanel.interactable = true;
-            waitingPanel.blocksRaycasts = true;
-        });
+            timefill.transform
+                .DOScale(1.05f, 0.4f)
+                .SetLoops(-1, LoopType.Yoyo)
+                .SetEase(Ease.InOutSine);
+        }
+        else if (currentTime >= 3f && DOTween.IsTweening(timefill.transform))
+        {
+            timefill.transform.DOKill();
+            timefill.transform.localScale = Vector3.one;
+        }
+
+        // 💥 Shake al terminar el tiempo
+        if (currentTime <= 0f && !hasShaken)
+        {
+            hasShaken = true;
+            panelTransform.DOShakeAnchorPos(0.6f, 25f, 10, 90f, false, true);
+        }
+        else if (currentTime > 0f)
+        {
+            hasShaken = false;
+        }
     }
 }

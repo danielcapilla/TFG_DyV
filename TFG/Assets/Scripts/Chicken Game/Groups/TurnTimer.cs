@@ -19,11 +19,13 @@ public class TurnTimer : NetworkBehaviour
     [SerializeField] private TeamMenager teamMenager;
     [SerializeField] private GameManagerChicken gameManagerChicken;
     [SerializeField] private GroupBehaviour groupBehaviour;
+    [SerializeField] private MovementPanelBehaviour panelBehaviour;
 
     private float currentTime;
     private bool isTimerRunning = false;
     private bool isDelayRunning = false;
     public Action<ulong> OnTimerEnd;
+    public static event Action<float> OnTimerUpdated;
 
     public override void OnNetworkSpawn()
     {
@@ -205,5 +207,9 @@ public class TurnTimer : NetworkBehaviour
         //timerText.text = $"{seconds:00}";
         timerSlider.maxValue = timerDuration;
         timerSlider.value = Mathf.Clamp(time, 0f, timerDuration);
+
+        panelBehaviour?.UpdateTimerUI(time, timerDuration);
+
+        //OnTimerUpdated?.Invoke(time / timerDuration);
     }
 }
