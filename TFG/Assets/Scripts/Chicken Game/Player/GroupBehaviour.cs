@@ -7,29 +7,36 @@ using UnityEngine;
 public class GroupBehaviour : NetworkBehaviour
 {
     private PlayerInputController player;
-    [SerializeField] TeamMenager teamMenager;
-    private GameManagerChicken gameManager;
-    private ChooseGroup chooseGroup;
+    [Header("Referencias")]
+    [SerializeField] private TeamMenager teamMenager;
+    [SerializeField] private GameManagerChicken gameManager;
+    [SerializeField] private ChooseGroup chooseGroup;
+
     // Eventos
     public event Action<ulong, CommandType> OnCommandAdded;
-    public event Action<PlayerInputController,int> OnExecutedTurn;
-    public event Action<int> OnExecuteTurn; 
+    public event Action<PlayerInputController, int> OnExecutedTurn;
+    public event Action<int> OnExecuteTurn;
 
-    private Dictionary<int, bool> groupIsExecuting = new Dictionary<int, bool>();
+    // Estado por grupo
+    private readonly Dictionary<int, bool> groupIsExecuting = new Dictionary<int, bool>();
+    private readonly Dictionary<int, Coroutine> groupCoroutines = new Dictionary<int, Coroutine>();
+
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
         if (!IsServer) return;
 
-        gameManager = FindFirstObjectByType<GameManagerChicken>();
         gameManager.OnPlayerSpawned += HandlePlayerSpawned;
-        chooseGroup = FindFirstObjectByType<ChooseGroup>();
+
         chooseGroup.OnGameStartEvent += () =>
         {
-            // Inicializar estado para todos los grupos al iniciar el juego
             for (int i = 0; i < teamMenager.teams.Count; i++)
             {
                 groupIsExecuting[i] = false;
+                if (groupCoroutines.ContainsKey(i))
+                    groupCoroutines[i] = null;
+                else
+                    groupCoroutines.Add(i, null);
             }
         };
     }
@@ -37,12 +44,16 @@ public class GroupBehaviour : NetworkBehaviour
     private void HandlePlayerSpawned(NetworkObjectReference playerNOR, int idGroup)
     {
         TeamInfoChicken teamInfo = (TeamInfoChicken)teamMenager.teams[idGroup];
-        // Obtener todos los clientes del grupo especifico
         ulong[] targetClients = teamInfo.integrantes.ToArray();
-        playerNOR.TryGet(out NetworkObject playerNetworkObject);
+
+        if (!playerNOR.TryGet(out NetworkObject playerNetworkObject))
+            return;
+
         PlayerInputController playerController = playerNetworkObject.GetComponentInChildren<PlayerInputController>();
         teamInfo.playerPrefab = playerController;
-        if (targetClients.Length == 0) return; // Si no hay clientes en el grupo, salir
+
+        if (targetClients.Length == 0) return;
+
         ObtainPlayerForGroupClientRPC(playerNOR, new ClientRpcParams
         {
             Send = new ClientRpcSendParams
@@ -56,38 +67,41 @@ public class GroupBehaviour : NetworkBehaviour
     {
         base.OnNetworkDespawn();
         if (!IsServer) return;
-        gameManager.OnPlayerSpawned -= HandlePlayerSpawned;
+        if (gameManager != null)
+            gameManager.OnPlayerSpawned -= HandlePlayerSpawned;
     }
+
     [ClientRpc]
     private void ObtainPlayerForGroupClientRPC(NetworkObjectReference playerNetworkObjectReference,
         ClientRpcParams clientRpcParams = default)
     {
-        playerNetworkObjectReference.TryGet(out NetworkObject playerNetworkObject);
-        PlayerInputController playerController = playerNetworkObject.GetComponentInChildren<PlayerInputController>();
-
-        this.player = playerController;
+        if (playerNetworkObjectReference.TryGet(out NetworkObject playerNetworkObject))
+        {
+            PlayerInputController playerController = playerNetworkObject.GetComponentInChildren<PlayerInputController>();
+            this.player = playerController;
+        }
     }
 
     public void AddCommand(CommandType commandType)
     {
         ulong clientId = NetworkManager.Singleton.LocalClientId;
         AddCommandRPC(clientId, commandType);
-        OnCommandAdded?.Invoke(clientId,commandType);
+        OnCommandAdded?.Invoke(clientId, commandType);
     }
 
     [Rpc(SendTo.Server)]
     private void AddCommandRPC(ulong clientId, CommandType commandType)
     {
+        if (!NetworkManager.Singleton.ConnectedClients.TryGetValue(clientId, out var client))
+            return;
 
-        int groupId = NetworkManager.Singleton.ConnectedClients[clientId].PlayerObject.GetComponent<PlayerStats>().idGrupo.Value;
+        int groupId = client.PlayerObject.GetComponent<PlayerStats>().idGrupo.Value;
         TeamInfoChicken teamInfo = (TeamInfoChicken)teamMenager.teams[groupId];
-        // Los enum si se pueden pasar por RPC
-        // Crear el comando basado en el tipo recibido
+
         ICommand command = CreateCommandFromType(commandType);
         teamInfo.commandQueue.Enqueue(command);
 
-        Debug.Log($"Command {commandType} added for group {groupId} by player {clientId}");
-        
+        Debug.Log($"[GroupBehaviour] Command {commandType} added for group {groupId} by player {clientId}");
     }
 
     private ICommand CreateCommandFromType(CommandType type)
@@ -105,50 +119,72 @@ public class GroupBehaviour : NetworkBehaviour
 
     public void ExecuteTurn(int groupId)
     {
-        if (!IsServer || groupIsExecuting[groupId]) return;
+        if (!IsServer) return;
 
-        StartCoroutine(ExecuteTurnCoroutine(groupId));
+        if (!groupIsExecuting.ContainsKey(groupId))
+            groupIsExecuting[groupId] = false;
+
+        if (groupIsExecuting[groupId])
+        {
+            Debug.Log($"[GroupBehaviour] Turn already executing for group {groupId}, ignored.");
+            return;
+        }
+
+        if (groupCoroutines[groupId] != null)
+        {
+            StopCoroutine(groupCoroutines[groupId]);
+            groupCoroutines[groupId] = null;
+        }
+
+        groupCoroutines[groupId] = StartCoroutine(ExecuteTurnCoroutine(groupId));
     }
 
     private IEnumerator ExecuteTurnCoroutine(int groupId)
     {
+        groupIsExecuting[groupId] = true;
+
         TeamInfoChicken teamInfo = (TeamInfoChicken)teamMenager.teams[groupId];
         PlayerInputController playerController = teamInfo.playerPrefab;
 
         if (playerController == null)
         {
-            Debug.LogError($"No player controller found for group {groupId}");
+            groupIsExecuting[groupId] = false;
             yield break;
         }
-        //OnExecutedTurn?.Invoke(playerController, groupId);
-        OnExecuteTurn?.Invoke(groupId);
-        Debug.Log($"Executing {teamInfo.commandQueue.Count} commands for group {groupId}");
 
-        while (teamInfo.commandQueue.Count > 0)
+        // Snapshot de comandos para este turno (proteccion)
+        var turnCommands = new List<ICommand>(teamInfo.commandQueue);
+        teamInfo.commandQueue.Clear();
+
+        OnExecuteTurn?.Invoke(groupId);
+        Debug.Log($"[GroupBehaviour] Executing {turnCommands.Count} commands for group {groupId}");
+
+        foreach (var command in turnCommands)
         {
-            ICommand command = teamInfo.commandQueue.Dequeue();
             command.Execute(playerController);
 
-            // Esperar a que el movimiento termine antes de continuar
-            yield return WaitForMovementToComplete(playerController);
+            // Esperar a que el movimiento arranque (si produce movimiento)
+            yield return new WaitForSeconds(0f); // asegura un frame
+            if (playerController.IsMoving)
+            {
+                // Esperar a que termine
+                while (playerController.IsMoving)
+                    yield return null;
+            }
+            if (playerController.LastMoveBlocked)
+            {
+                Debug.Log($"[GroupBehaviour] Movimiento bloqueado. Cancelando resto de comandos del turno del grupo {groupId}");
+                break; // turnCommands restante se descarta
+            }
 
-            // Pequeña pausa adicional para asegurar sincronizacion de red
-            yield return new WaitForSeconds(0.1f);
+            // Pequeño margen de red
+            yield return new WaitForSeconds(0.05f);
         }
+
         OnExecutedTurn?.Invoke(playerController, groupId);
-        Debug.Log($"Finished executing commands for group {groupId}");
-        
-    }
+        Debug.Log($"[GroupBehaviour] Finished executing turn for group {groupId}");
 
-    private IEnumerator WaitForMovementToComplete(PlayerInputController playerController)
-    {
-        // Esperar hasta que el jugador deje de moverse
-        while (playerController.IsMoving)
-        {
-            yield return null;
-        }
-
-        // Esperar un frame adicional para asegurar sincronización
-        yield return null;
+        groupIsExecuting[groupId] = false;
+        groupCoroutines[groupId] = null;
     }
 }

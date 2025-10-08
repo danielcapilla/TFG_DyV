@@ -12,6 +12,7 @@ public class PlayerInputController : NetworkBehaviour
     public float moveDuration = 0.5f; // Duracion del movimiento
     public float rotationSpeed = 10f;
     public bool IsMoving { get; private set; }
+    public bool LastMoveBlocked { get; private set; }
     [SerializeField] private LayerMask obstacleMask;
     [Header("Partículas")]
     private ParticleSystem dust;
@@ -22,6 +23,7 @@ public class PlayerInputController : NetworkBehaviour
     public NetworkVariable<Vector3> targetPosition = new NetworkVariable<Vector3>( Vector3.zero,
         NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     private Coroutine currentMovementCoroutine;
+    
 
     private void Start()
     {
@@ -81,21 +83,20 @@ public class PlayerInputController : NetworkBehaviour
         Vector3 startPos = rb.position;
         float elapsedTime = 0f;
 
-
-
-        // Comprobar si hay obstaculo
         Vector3 direction = (targetPos - startPos).normalized;
         float distance = Vector3.Distance(startPos, targetPos);
+
+        LastMoveBlocked = false;
+        // Comprobar colisiones con raycast
         if (Physics.Raycast(startPos, direction, distance, obstacleMask))
         {
-            Debug.Log($"Movimiento bloqueado");
-            targetPosition.Value = transform.position; // reset
+            LastMoveBlocked = true;                          
+            targetPosition.Value = transform.position;
             IsMoving = false;
             currentMovementCoroutine = null;
             yield break;
         }
-
-        // Calcular la rotacion objetivo solo si hay movimiento
+        // Rotacion
         if (direction != Vector3.zero)
         {
             float targetY = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
@@ -111,7 +112,7 @@ public class PlayerInputController : NetworkBehaviour
             }
             transform.rotation = targetRotation;
         }
-
+        // Movimiento progresivo
         while (elapsedTime < moveDuration)
         {
             Vector3 newPos = Vector3.Lerp(startPos, targetPos, elapsedTime / moveDuration);
@@ -119,36 +120,35 @@ public class PlayerInputController : NetworkBehaviour
             elapsedTime += Time.deltaTime;
             yield return null;
         }
-
+        // Asegurar posicion final
         rb.MovePosition(targetPos);
         IsMoving = false;
         currentMovementCoroutine = null;
-
-     
     }
 
     // Metodos llamados por los comandos (solo en servidor)
     public void MoveUp()
     {
         if (!IsServer || IsMoving) return;
+        LastMoveBlocked = false;               
         targetPosition.Value += Vector3.forward * moveDistance;
     }
-
     public void MoveDown()
     {
         if (!IsServer || IsMoving) return;
+        LastMoveBlocked = false;
         targetPosition.Value += Vector3.back * moveDistance;
     }
-
     public void MoveLeft()
     {
         if (!IsServer || IsMoving) return;
+        LastMoveBlocked = false;
         targetPosition.Value += Vector3.left * moveDistance;
     }
-
     public void MoveRight()
     {
         if (!IsServer || IsMoving) return;
+        LastMoveBlocked = false;
         targetPosition.Value += Vector3.right * moveDistance;
     }
     public void StopMovement()
