@@ -17,6 +17,7 @@ public class TurnBehaviour : NetworkBehaviour
     [SerializeField] private TeamMenager teamMenager;
 
     private bool isInitializingTurn = false;
+    private Tween activateDelayTween;
 
     public override void OnNetworkSpawn()
     {
@@ -38,9 +39,25 @@ public class TurnBehaviour : NetworkBehaviour
         gameManager.OnPlayerSpawned -= HandlePlayerSpawned;
         groupBehaviour.OnExecutedTurn -= HandleOnExecutedTurn;
     }
-
+    private void KillTweens()
+    {
+        DOTween.Kill(waitingPanel);
+        if (waitingPanel != null) DOTween.Kill(waitingPanel.transform);
+        DOTween.Kill(movementPanel);
+        if (movementPanel != null) DOTween.Kill(movementPanel.transform);
+        activateDelayTween?.Kill();
+    }
+    private void OnDestroy()
+    {
+        KillTweens();
+    }
+    private void OnDisable()
+    {
+        KillTweens();
+    }
     private void HandleOnExecutedTurn(PlayerInputController controller, int arg2)
     {
+        // Por si a la hora de pasar al podio entra a ejecutar turno (lo mismo en TurnTimer)
         if (NetworkManager.Singleton == null || !NetworkManager.Singleton.IsListening)
             return;
 
@@ -82,8 +99,9 @@ public class TurnBehaviour : NetworkBehaviour
         movementPanel.blocksRaycasts = false;
         movementPanel.transform.localScale = Vector3.one * 1.05f;
 
-        
-        DOVirtual.DelayedCall(0.03f, ShowMoves);
+
+        activateDelayTween?.Kill();
+        activateDelayTween = DOVirtual.DelayedCall(0.03f, ShowMoves);
     }
 
     public void NextTurn(ulong id, CommandType commandType)

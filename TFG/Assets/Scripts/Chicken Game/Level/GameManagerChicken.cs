@@ -17,6 +17,9 @@ public class GameManagerChicken : NetworkBehaviour
     //[SerializeField] private AudioSource restaurantMusic;
     [Header("Equipos")]
     [SerializeField] private TeamMenager teamMenager;
+    [Header("UI")]
+    [SerializeField] private GameObject movementPanel;
+
     // Eventos
     public delegate void PlayerSpawned(NetworkObjectReference playerNOR, int idGroup);
     public event PlayerSpawned OnPlayerSpawned;
@@ -66,7 +69,15 @@ public class GameManagerChicken : NetworkBehaviour
                 ActivatePlayerInputRPC(player);
             }
         }
+        ShowMovementPanelRPC();
     }
+    [Rpc(SendTo.NotMe)]
+    private void ShowMovementPanelRPC()
+    {
+        if (movementPanel != null)
+            movementPanel.SetActive(true);
+    }
+
     [Rpc(SendTo.Everyone)]
     private void ActivatePlayerInputRPC(NetworkObjectReference playerInputNetworkObjectReference)
     {
