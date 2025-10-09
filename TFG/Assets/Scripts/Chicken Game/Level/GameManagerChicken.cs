@@ -19,6 +19,7 @@ public class GameManagerChicken : NetworkBehaviour
     [SerializeField] private TeamMenager teamMenager;
     [Header("UI")]
     [SerializeField] private GameObject movementPanel;
+    [SerializeField] private GameObject hostCanvas;
 
     // Eventos
     public delegate void PlayerSpawned(NetworkObjectReference playerNOR, int idGroup);
@@ -31,7 +32,10 @@ public class GameManagerChicken : NetworkBehaviour
         {
             chooseGroup.OnGameStartEvent += StartGame;
             groupBehaviour.OnExecutedTurn += CalculatePunctuation;
+            
         }
+        else
+            hostCanvas.SetActive(false);
     }
 
     private void CalculatePunctuation(PlayerInputController playerInput, int groupId)

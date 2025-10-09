@@ -28,7 +28,8 @@ public class TeamMenager : NetworkBehaviour
         }
         Instance = this;
         DontDestroyOnLoad(gameObject);
-        int totalTeams = maxPlayers / maxplayersPerTeam;
+        //int totalTeams = maxPlayers / maxplayersPerTeam;
+        int totalTeams = 6;
         for (int i = 0; i < totalTeams; i++) 
         {
             TeamInfo copia = teamType.Clone();
