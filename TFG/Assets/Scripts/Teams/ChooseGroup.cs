@@ -70,7 +70,6 @@ public class ChooseGroup : NetworkBehaviour
         {
             button.interactable = false;
         }
-        OnPlayerReady?.Invoke(NetworkManager.Singleton.LocalClientId);
         ReadyPlayerRPC(NetworkManager.Singleton.LocalClientId);
 
     }
@@ -79,8 +78,20 @@ public class ChooseGroup : NetworkBehaviour
     {
         player = NetworkManager.Singleton.ConnectedClients[id].PlayerObject.gameObject.GetComponent<PlayerStats>();
         TeamInfo teamInfo = teamManager.teams[player.idGrupo.Value];
-        teamInfo.integrantes.Add(id);
-        SetPlayerReady(id);
+        // Validar max por equipo
+        if (teamInfo.integrantes.Count >= teamManager.maxplayersPerTeam)
+        {
+            // Notificar solo al cliente y reactivar su UI
+            ShowWarningClientRPC($"Este grupo está lleno (máximo {teamManager.maxplayersPerTeam} jugadores).",
+                new ClientRpcParams { Send = new ClientRpcSendParams { TargetClientIds = new[] { id } } });
+            ReenableReadyUIClientRPC(new ClientRpcParams { Send = new ClientRpcSendParams { TargetClientIds = new[] { id } } });
+        }
+        else
+        {
+            teamInfo.integrantes.Add(id);
+            
+            SetPlayerReady(id);
+        }
     }
 
     public void SetPlayerReady(ulong id)
@@ -97,12 +108,57 @@ public class ChooseGroup : NetworkBehaviour
         }
         if (allClientsReady)
         {
-            DesactivateGroupCanvasRPC();
-            OnGameStartEvent?.Invoke();
-            
+            if(!AreTeamsValid())
+            {
+                playerReadyDictionary.Clear();
+                foreach (var team in teamManager.teams)
+                {
+                    team.integrantes.Clear();
+                }
+                ShowWarningClientRPC($"Cada grupo debe tener entre {teamManager.minPlayersPerTeam} y {teamManager.maxplayersPerTeam} jugadores.");
+                ReenableReadyUIClientRPC();
+            }
+            else
+            {
+                foreach (ulong clientId in connectedPlayers)
+                {
+                    OnPlayerReady?.Invoke(clientId);
+                }
+                DesactivateGroupCanvasRPC();
+                OnGameStartEvent?.Invoke();
+            }  
         }
     }
+    // Notificacion Warning 
+    [ClientRpc]
+    private void ShowWarningClientRPC(string message, ClientRpcParams clientRpcParams = default)
+    {
+        NotificationManager.Instance.ShowWarningNotification(message);
+    }
 
+    // Reactivar UI 
+    [ClientRpc]
+    private void ReenableReadyUIClientRPC(ClientRpcParams clientRpcParams = default)
+    {
+        if (readyButton != null)
+            readyButton.interactable = true;
+        if (buttons != null)
+        {
+            foreach (Button button in buttons)
+                if (button != null) button.interactable = true;
+        }
+    }
+    private bool AreTeamsValid()
+    {
+        foreach (var team in teamManager.teams)
+        {
+            int count = team.integrantes.Count;
+            if (count == 0) continue; // equipos vacios no importan
+            if (count < teamManager.minPlayersPerTeam || count > teamManager.maxplayersPerTeam)
+                return false;
+        }
+        return true;
+    }
     [Rpc(SendTo.Everyone)]
     public void DesactivateGroupCanvasRPC()
     {

@@ -10,7 +10,8 @@ using System.Linq;
 public class TeamMenager : NetworkBehaviour
 {
     public int maxPlayers;
-    public int playersPerTeam;
+    public int maxplayersPerTeam;
+    public int minPlayersPerTeam;
     public TeamInfo teamType;
     public List<TeamInfo> teams;
     public List<TeamInfo> teamsScoreSorted { get; private set; }
@@ -19,8 +20,15 @@ public class TeamMenager : NetworkBehaviour
     {
         
         if (!IsServer) return;
+        // Singleton
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this.gameObject);
+            return;
+        }
+        Instance = this;
         DontDestroyOnLoad(gameObject);
-        int totalTeams = maxPlayers / playersPerTeam;
+        int totalTeams = maxPlayers / maxplayersPerTeam;
         for (int i = 0; i < totalTeams; i++) 
         {
             TeamInfo copia = teamType.Clone();
@@ -29,17 +37,18 @@ public class TeamMenager : NetworkBehaviour
         }
         teamsScoreSorted = new List<TeamInfo>(teams);
     }
-    void Awake()
-    {
-        //if (!IsServer) return;
-        if (Instance != null && Instance != this)
-        {
-            Destroy(this.gameObject);
-            return;
-        }
-        Instance = this;
-       // DontDestroyOnLoad(this.gameObject);
-    }
+    // Singleton
+    //void Awake()
+    //{
+    //    //if (!IsServer) return;
+    //    if (Instance != null && Instance != this)
+    //    {
+    //        Destroy(this.gameObject);
+    //        return;
+    //    }
+    //    Instance = this;
+    //   // DontDestroyOnLoad(this.gameObject);
+    //}
     [ServerRpc (RequireOwnership = false)]
     public void QuitPlayerFromTheTeamServerRPC(ulong id, int groupNumber)
     {
