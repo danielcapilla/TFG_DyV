@@ -37,7 +37,7 @@ public class GameManagerRestaurant : NetworkBehaviour
     private void StartGame()
     {
         countdown.CambiarVariable();
-        ActivateRestaurantMusic();
+        
         
         foreach (ulong playerId in ChooseGroup.connectedPlayers)
         {
@@ -54,6 +54,7 @@ public class GameManagerRestaurant : NetworkBehaviour
         playerInputNetworkObjectReference.TryGet(out NetworkObject playerInputNetworkObject);
         PlayerController playerController = playerInputNetworkObject.GetComponent<PlayerController>();
         playerController.enabled = true;
+        ActivateRestaurantMusic();
     }
     private void ActivateRestaurantMusic()
     {

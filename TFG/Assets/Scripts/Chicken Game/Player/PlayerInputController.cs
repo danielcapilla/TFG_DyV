@@ -24,6 +24,7 @@ public class PlayerInputController : NetworkBehaviour
         NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     private Coroutine currentMovementCoroutine;
     
+    public Action<int> OnObstaculeCollided;
 
     private void Start()
     {
@@ -94,6 +95,7 @@ public class PlayerInputController : NetworkBehaviour
             targetPosition.Value = transform.position;
             IsMoving = false;
             currentMovementCoroutine = null;
+            gameManagerChicken.PlayCollisionSoundForGroup(GetComponentInParent<PlayerStats>().idGrupo.Value);
             yield break;
         }
         // Rotacion

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -13,13 +14,17 @@ public class GameManagerChicken : NetworkBehaviour
     //[SerializeField] private Countdown countdown;
     //[Header("Cámara")]
     //[SerializeField] private CameraSelector cameraSelector;
-    //[Header("Música")]
-    //[SerializeField] private AudioSource restaurantMusic;
+    [Header("Música")]
+    [SerializeField] private AudioSource chickenMusic;
+    [SerializeField] private AudioSource winMusic;
+    [SerializeField] private AudioSource collisionSound;
+
     [Header("Equipos")]
     [SerializeField] private TeamMenager teamMenager;
     [Header("UI")]
     [SerializeField] private GameObject movementPanel;
     [SerializeField] private GameObject hostCanvas;
+
 
     // Eventos
     public delegate void PlayerSpawned(NetworkObjectReference playerNOR, int idGroup);
@@ -48,7 +53,8 @@ public class GameManagerChicken : NetworkBehaviour
         teamMenager.teams[groupId].Puntuacion = (int)(progress*100f);
         if (teamMenager.teams[groupId].Puntuacion == 100)
         {
-            NetworkManager.Singleton.SceneManager.LoadScene("Podium", LoadSceneMode.Single);
+            ShowMovementPanelRPC(false);
+            StartCoroutine(PlayWinMusicAndLoadScene());
         }
     }
 
@@ -70,16 +76,17 @@ public class GameManagerChicken : NetworkBehaviour
             if (inputController != null)
             {
                 OnPlayerSpawned?.Invoke(player, player.GetComponent<PlayerStats>().idGrupo.Value);
+                //inputController.OnObstaculeCollided += PlayCollisionSoundForGroup; Falta desuscribirse
                 ActivatePlayerInputRPC(player);
             }
         }
-        ShowMovementPanelRPC();
+        ShowMovementPanelRPC(true);
     }
     [Rpc(SendTo.NotMe)]
-    private void ShowMovementPanelRPC()
+    private void ShowMovementPanelRPC(bool b)
     {
         if (movementPanel != null)
-            movementPanel.SetActive(true);
+            movementPanel.SetActive(b);
     }
 
     [Rpc(SendTo.Everyone)]
@@ -88,5 +95,53 @@ public class GameManagerChicken : NetworkBehaviour
         playerInputNetworkObjectReference.TryGet(out NetworkObject playerInputNetworkObject);
         PlayerInput playerInput = playerInputNetworkObject.GetComponentInChildren<PlayerInput>();
         playerInput.enabled = true;
+        if (movementPanel != null)
+            movementPanel.SetActive(true);
+        ActivateChickenMusic();
+    }
+    [Rpc(SendTo.Everyone)]
+    private void DesactivatePlayerInputRPC(NetworkObjectReference playerInputNetworkObjectReference)
+    {
+        playerInputNetworkObjectReference.TryGet(out NetworkObject playerInputNetworkObject);
+        PlayerInput playerInput = playerInputNetworkObject.GetComponentInChildren<PlayerInput>();
+        playerInput.enabled = false;
+        ActivateChickenMusic();
+    }
+    private IEnumerator PlayWinMusicAndLoadScene()
+    {
+        ActivateWinMusicRPC();
+        if (winMusic != null && winMusic.clip != null)
+        {
+            yield return new WaitForSeconds(winMusic.clip.length);
+        }
+        NetworkManager.Singleton.SceneManager.LoadScene("Podium", LoadSceneMode.Single);
+    }
+    [Rpc(SendTo.Everyone)]
+    private void ActivateWinMusicRPC()
+    {
+        winMusic.Play();
+    }
+    private void ActivateChickenMusic()
+    {
+        chickenMusic.Play();
+    }
+    public void PlayCollisionSoundForGroup(int groupId)
+    {
+        TeamInfo teamInfo = teamMenager.teams[groupId];
+        ulong[] targetClients = teamInfo.integrantes.ToArray();
+        PlayCollisionSoundClientRPC(new ClientRpcParams
+        {
+            Send = new ClientRpcSendParams
+            {
+                TargetClientIds = targetClients
+            }
+        });
+    }
+
+    [ClientRpc]
+    private void PlayCollisionSoundClientRPC(ClientRpcParams clientRpcParams)
+    {
+        if (collisionSound != null)
+            collisionSound.Play();
     }
 }
