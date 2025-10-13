@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -29,6 +30,7 @@ public class GameManagerChicken : NetworkBehaviour
     [Header("Base de Datos")]
     [SerializeField] private DataBaseCommander dataBaseCommander;
     private bool dbSent = false;
+    private string studentClassCode = "A";
 
     // Eventos
     public delegate void PlayerSpawned(NetworkObjectReference playerNOR, int idGroup);
@@ -37,6 +39,10 @@ public class GameManagerChicken : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
+        if (IsClient && !IsHost)
+        {
+            ClassCodeRPC(PlayerData.ClassCode);
+        }
         if (IsServer)
         {
             chooseGroup.OnGameStartEvent += StartGame;
@@ -119,7 +125,7 @@ public class GameManagerChicken : NetworkBehaviour
             yield return new WaitForSeconds(winMusic.clip.length);
         }
         // Envio de datos a la base de datos
-        dataBaseCommander.RegisterChickenGridCurrent(PlayerData.ClassCode, PlayerData.ClassCode, _ =>
+        dataBaseCommander.RegisterChickenGridCurrent(PlayerData.ClassCode, studentClassCode, _ =>
         {
             NetworkManager.Singleton.SceneManager.LoadScene("Podium", LoadSceneMode.Single);
         });
@@ -146,16 +152,11 @@ public class GameManagerChicken : NetworkBehaviour
             }
         });
     }
-    public void SaveMatchToDB()
+    [Rpc(SendTo.Server)]
+    private void ClassCodeRPC(FixedString64Bytes classCode)
     {
-        if (dataBaseCommander == null)
-            dataBaseCommander = GameObject.FindFirstObjectByType<DataBaseCommander>();
-
-        // Usa los códigos que corresponda (ajusta si tienes studentClassCode)
-        dataBaseCommander.RegisterChickenGridCurrent(PlayerData.ClassCode, PlayerData.ClassCode, _ =>
-        {
-            NetworkManager.Singleton.SceneManager.LoadScene("Podium", LoadSceneMode.Single);
-        });
+        // Solo interesa el ultimo que llegue
+        studentClassCode = classCode.ToString();
     }
     [ClientRpc]
     private void PlayCollisionSoundClientRPC(ClientRpcParams clientRpcParams)
