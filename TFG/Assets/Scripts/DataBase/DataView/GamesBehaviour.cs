@@ -46,20 +46,25 @@ public class GamesBehaviour : MonoBehaviour
     }
     IEnumerator GetGames()
     {
-        yield return new WaitForSeconds(1);
+        float t = 0f;
+        while (filters.GetGamesCount() == 0 && t < 2f)
+        {
+            t += Time.deltaTime;
+            yield return null;
+        }
         ShowGames();
     }
     private void ShowGames()
     {
-        if(selectedGame) return;
-        int i = 1;
-        foreach (var data in filters.gameResponse.data)
+        if (selectedGame) return;
+        int count = filters.GetGamesCount();
+        for (int i = 1; i <= count; i++)
         {
             GameObject partidaPrefab = Instantiate(partidaTarjetita, gamesGLG.transform);
             partidaPrefab.GetComponentInChildren<TextMeshProUGUI>().text = i.ToString();
-            i++;
-            GamePrefabScript gamePrefabScript=  partidaPrefab.GetComponent<GamePrefabScript>();
-            if(gamePrefabScript != null)
+
+            GamePrefabScript gamePrefabScript = partidaPrefab.GetComponent<GamePrefabScript>();
+            if (gamePrefabScript != null)
             {
                 gamePrefabScript.SetObjectToActivate(groupsGO);
                 gamePrefabScript.SetObjectToDesactivate(gamesGO);

@@ -4,13 +4,12 @@ using UnityEngine;
 
 public static class GridJSONCreator
 {
-    // Entrada de datos para componer el JSON
     [System.Serializable]
     public class GridLevelSnapshot
     {
         public int Width;
         public int Height;
-        public int[] Grid;         // grid aplanada (fila mayor: index = y * width + x)
+        public int[] Grid;         
         public Vector2Int Start;
         public Vector2Int Goal;
     }
@@ -18,13 +17,12 @@ public static class GridJSONCreator
     [System.Serializable]
     public class PlayerEndSnapshot
     {
-        public string PlayerId;    // e.g. ClientId/NetworkObjectId/nombre
-        public int GroupId;        // idGrupo al terminar
-        public Vector3 WorldPos;   // posición mundo en el final
-        public Vector2Int GridPos; // posición grid en el final
+        public string PlayerId;    
+        public int GroupId;        
+        public Vector3 WorldPos;   
+        public Vector2Int GridPos; 
     }
 
-    // Construye JSON con comillas simples (para incrustarlo como string en las peticiones, igual que BurguerJSONCreator)
     public static string CreateGridMatchJSON(List<GridLevelSnapshot> levels, List<PlayerEndSnapshot> players)
     {
         var inv = CultureInfo.InvariantCulture;
@@ -56,7 +54,6 @@ public static class GridJSONCreator
 
     static string CreateLevelJSON(GridLevelSnapshot lvl, int index)
     {
-        // 'ID' opcional para trazabilidad
         string json = $@"{{'ID':'Level {index}','Width':{lvl.Width},'Height':{lvl.Height},";
         json += $@"'Start':{{'x':{lvl.Start.x},'y':{lvl.Start.y}}},";
         json += $@"'Goal':{{'x':{lvl.Goal.x},'y':{lvl.Goal.y}}},";
@@ -72,14 +69,13 @@ public static class GridJSONCreator
 
     static string CreatePlayerJSON(PlayerEndSnapshot p, CultureInfo inv)
     {
-        string pid = (p.PlayerId ?? string.Empty).Replace("'", ""); // evitar romper el JSON con comilla simple
+        string pid = (p.PlayerId ?? string.Empty).Replace("'", ""); 
         string json = $@"{{'PlayerId':'{pid}','Group':{p.GroupId},";
         json += $@"'FinalWorldPos':{{'x':{p.WorldPos.x.ToString(inv)},'y':{p.WorldPos.y.ToString(inv)},'z':{p.WorldPos.z.ToString(inv)}}},";
         json += $@"'FinalGridPos':{{'x':{p.GridPos.x},'y':{p.GridPos.y}}}}}";
         return json;
     }
 
-    // Opcional: parseo de vuelta (siguiendo el patrón de BurguerJSONCreator)
     public static GridMatch CreateMatchObject(string data)
     {
         string aux = data.Replace("'", "\"");
@@ -126,8 +122,6 @@ public static class GridJSONCreator
         public Vector3 FinalWorldPos;
         public Vector2Int FinalGridPos;
     }
-
-    // Utilidad por si necesitas aplanar tú la grid 2D antes de llamar al creador
     public static int[] FlattenGrid(int[,] grid, int width, int height)
     {
         int[] flat = new int[width * height];

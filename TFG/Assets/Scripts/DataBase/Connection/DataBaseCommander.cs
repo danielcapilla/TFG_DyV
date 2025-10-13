@@ -247,8 +247,7 @@ public class DataBaseCommander : MonoBehaviour
     string CreatePostGameJSON(string teacherCode, string classCode, string matchJSON)
     {
         DateTime dateTime = DateTime.Today;
-
-        //Construye JSON para la petici REST         
+       
         string json = $@"{{
             ""username"":""{Username}"",
             ""password"":""{Password}"",
