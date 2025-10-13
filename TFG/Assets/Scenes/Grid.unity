@@ -2050,6 +2050,7 @@ GameObject:
   - component: {fileID: 523794117}
   - component: {fileID: 523794119}
   - component: {fileID: 523794118}
+  - component: {fileID: 523794120}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -2175,6 +2176,46 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 523794116}
   m_CullTransparentMesh: 1
+--- !u!114 &523794120
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 523794116}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56eb0353ae6e5124bb35b17aff880f16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_StringReference:
+    m_TableReference:
+      m_TableCollectionName: GUID:1a1d6a68cf9a0fd4484609b20b2b3950
+    m_TableEntryReference:
+      m_KeyId: 203949349432078336
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  m_FormatArguments: []
+  m_UpdateString:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 523794118}
+        m_TargetAssemblyTypeName: TMPro.TextMeshProUGUI, Unity.TextMeshPro
+        m_MethodName: set_text
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  references:
+    version: 2
+    RefIds: []
 --- !u!1 &551404034
 GameObject:
   m_ObjectHideFlags: 0
@@ -5037,6 +5078,7 @@ GameObject:
   - component: {fileID: 1175153890}
   - component: {fileID: 1175153891}
   - component: {fileID: 1175153892}
+  - component: {fileID: 1175153893}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -5102,6 +5144,19 @@ MonoBehaviour:
   teamMenager: {fileID: 1250604520}
   movementPanel: {fileID: 1334008281}
   hostCanvas: {fileID: 1056868266}
+  dataBaseCommander: {fileID: 1175153893}
+--- !u!114 &1175153893
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1175153889}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a57f39a4eb8ded40baa5078aed021b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1184440416
 GameObject:
   m_ObjectHideFlags: 0

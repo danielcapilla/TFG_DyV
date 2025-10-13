@@ -265,10 +265,34 @@ MonoBehaviour:
     m_Metadata:
       m_Items:
       - rid: 2814509147925774342
+  - m_Id: 203949349432078336
+    m_Localized: Waiting...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 203954884520849408
+    m_Localized: Supermarket
+    m_Metadata:
+      m_Items: []
+  - m_Id: 203954884554403840
+    m_Localized: Use algorithmic thinking to plan your moves and collaborate with
+      your team to reach the finish line before everyone else.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 203954884554403841
+    m_Localized: Coordinate with your team to plan the best route to the cash register.
+      Analyze possible movements together and get there before everyone else using
+      the fewest steps.
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:
     - rid: 2814509147925774342
       type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
       data:
-        m_Entries: 0030d878401a3600003058c726d4460000305899d8b569000030d84df4b96900
+        m_Entries: 
+        m_SharedEntries:
+        - id: 15228512950038528
+        - id: 19936511388037120
+        - id: 29754814444875776
+        - id: 29759331483791360

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -35,7 +35,7 @@ public class DataBaseCommander : MonoBehaviour
 
     string CreateSaveJSON()
     {
-        //Construye JSON para la petici�n REST         
+        //Construye JSON para la petici REST         
         string json = $@"{{
             ""username"":""{Username}"",
             ""password"":""{Password}"",
@@ -248,7 +248,7 @@ public class DataBaseCommander : MonoBehaviour
     {
         DateTime dateTime = DateTime.Today;
 
-        //Construye JSON para la petici�n REST         
+        //Construye JSON para la petici REST         
         string json = $@"{{
             ""username"":""{Username}"",
             ""password"":""{Password}"",
@@ -392,5 +392,175 @@ public class DataBaseCommander : MonoBehaviour
         public string BurguersDelivered;
     }
 
+    #endregion
+    #region Chicken Game
+
+    string ChickenGameTable = "ChickenGames";
+
+
+    string CreatePostGameJSONChicken(string teacherCode, string classCode, string matchJSON)
+    {
+        DateTime dateTime = DateTime.Today;
+
+        //Construye JSON para la petici REST         
+        string json = $@"{{
+            ""username"":""{Username}"",
+            ""password"":""{Password}"",
+            ""table"":""{ChickenGameTable}"",
+            ""data"": {{
+                ""DatePlayed"": ""{dateTime.ToString("yyyy-MM-dd")}"",
+                ""TeacherCode"": ""{teacherCode}"",
+                ""ClassPlayed"": ""{classCode}"",
+                ""Grid"": ""{matchJSON}""
+            }}
+        }}";
+
+        return json;
+    }
+
+    string CreateGetGameJSONChicken(string teacherCode, string date = "", string classCode = "")
+    {
+        string json;
+        if (date == "")
+        {
+            Debug.Log("No date");
+            json = $@"{{
+            ""username"":""{Username}"",
+            ""password"":""{Password}"",
+            ""table"":""{ChickenGameTable}"",
+            ""filter"": {{
+                ""TeacherCode"": ""{teacherCode}"",
+                ""ClassPlayed"": ""{classCode}""
+            }}
+        }}";
+        }
+        else if (classCode == "")
+        {
+            Debug.Log("No class");
+            json = $@"{{
+            ""username"":""{Username}"",
+            ""password"":""{Password}"",
+            ""table"":""{ChickenGameTable}"",
+            ""filter"": {{
+                ""TeacherCode"": ""{teacherCode}"",
+                ""DatePlayed"": ""{date}""
+            }}
+        }}";
+        }
+        else
+        {
+            Debug.Log("Both");
+            json = $@"{{
+            ""username"":""{Username}"",
+            ""password"":""{Password}"",
+            ""table"":""{ChickenGameTable}"",
+            ""filter"": {{
+                ""TeacherCode"": ""{teacherCode}"",
+                ""DatePlayed"": ""{date}"",
+                ""ClassPlayed"": ""{classCode}""
+            }}
+        }}";
+        }
+
+        return json;
+    }
+    // Ya no son hamburguesas, pero se reutiliza el mismo formato JSON
+    public void RegisterChickenGridGame(string teacherCode, string classCode, List<GridJSONCreator.GridLevelSnapshot> levels, List<GridJSONCreator.PlayerEndSnapshot> players, Action<int> callback)
+    {
+        // Crea el JSON con grid
+        string matchJSON = GridJSONCreator.CreateGridMatchJSON(levels, players);
+        Debug.Log(matchJSON);
+
+       
+        string json = CreatePostGameJSONChicken(teacherCode, classCode, matchJSON);
+        StartCoroutine(RegisterGameDB(json, callback));
+    }
+
+    public void GetChickenGame(Action<GameResponseChicken> callback, string date = "", string classCode = "")
+    {
+        string json = CreateGetGameJSONChicken(PlayerData.ClassCode, date, classCode);
+        StartCoroutine(GetChickenGameDB(json, callback));
+    }
+
+    IEnumerator GetChickenGameDB(string filter, Action<GameResponseChicken> callback)
+    {
+        using (UnityWebRequest www = UnityWebRequest.Post(url + "get", filter, contentType))
+        {
+            yield return www.SendWebRequest();
+
+            if (www.result != UnityWebRequest.Result.Success)
+            {
+                print("Error: " + www.error);
+                callback(null);
+            }
+            else
+            {
+                print("Respuesta: " + www.downloadHandler.text);
+                var response = JsonUtility.FromJson<GameResponseChicken>(www.downloadHandler.text);
+                callback(response);
+            }
+        }
+    }
+    // Wrapper: recoge grid y posiciones actuales de jugadores y registra en BD
+    public void RegisterChickenGridCurrent(string teacherCode, string classCode, Action<int> callback)
+    {
+        var gen = GridLevelGenerator.Instance;
+        if (gen == null)
+        {
+            Debug.LogWarning("GridLevelGenerator.Instance no encontrado");
+            callback?.Invoke(1);
+            return;
+        }
+
+        // Nivel actual
+        gen.GetSnapshot(out int w, out int h, out int[] flat, out Vector2Int start, out Vector2Int goal);
+        var levels = new List<GridJSONCreator.GridLevelSnapshot>
+        {
+            new GridJSONCreator.GridLevelSnapshot
+            {
+                Width = w,
+                Height = h,
+                Grid = flat,
+                Start = start,
+                Goal = goal
+            }
+        };
+
+        // Posiciones finales/actuales de jugadores
+        var players = new List<GridJSONCreator.PlayerEndSnapshot>();
+        foreach (var kv in Unity.Netcode.NetworkManager.Singleton.ConnectedClients)
+        {
+            var no = kv.Value.PlayerObject;
+            var stats = no.GetComponent<PlayerStats>();
+            var inputCtrl = no.GetComponentInChildren<PlayerInputController>();
+
+            Vector3 worldPos = inputCtrl != null ? inputCtrl.targetPosition.Value : no.transform.position;
+            Vector2Int gridPos = gen.WorldToGrid(worldPos);
+
+            players.Add(new GridJSONCreator.PlayerEndSnapshot
+            {
+                PlayerId = kv.Key.ToString(),
+                GroupId = stats != null ? stats.idGrupo.Value : -1,
+                WorldPos = worldPos,
+                GridPos = gridPos
+            });
+        }
+
+        RegisterChickenGridGame(teacherCode, classCode, levels, players, callback);
+    }
+    [System.Serializable]
+    public class GameResponseChicken
+    {
+        public string result;
+        public List<GameResponseDataChicken> data;
+    }
+
+    [System.Serializable]
+    public class GameResponseDataChicken
+    {
+        public string DatePlayed;
+        public string ClassPlayed;
+        public string Grid; 
+    }
     #endregion
 }

@@ -50,7 +50,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 26437426164707329
-    m_Localized: Ingrese texto...
+    m_Localized: Introduzca texto...
     m_Metadata:
       m_Items: []
   - m_Id: 26437426164707330
@@ -62,7 +62,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 26437426164707332
-    m_Localized: "Introduce el c\xF3digo de clase..."
+    m_Localized: "Introduzca el c\xF3digo de clase..."
     m_Metadata:
       m_Items: []
   - m_Id: 26437426164707333
@@ -90,7 +90,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 26437426164707339
-    m_Localized: Por favor complete ambos campos
+    m_Localized: Por favor, rellene ambos campos
     m_Metadata:
       m_Items: []
   - m_Id: 26437426164707340
@@ -102,11 +102,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 26437426164707342
-    m_Localized: "Error de conexi\xF3n comprueba tu conexi\xF3n a Internet"
+    m_Localized: "Error de conexi\xF3n, comprueba tu conexi\xF3n a Internet"
     m_Metadata:
       m_Items: []
   - m_Id: 26437426164707343
-    m_Localized: Por favor llene todos los campos
+    m_Localized: Por favor rellene todos los campos
     m_Metadata:
       m_Items: []
   - m_Id: 26437426164707344
@@ -185,7 +185,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 26437426164707362
-    m_Localized: "Clasificaci\xF3n"
+    m_Localized: "Categor\xEDa"
     m_Metadata:
       m_Items: []
   - m_Id: 26437426164707363
@@ -229,7 +229,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 29751105270853632
-    m_Localized: Mini juegos
+    m_Localized: Minijuegos
     m_Metadata:
       m_Items: []
   - m_Id: 29751105312796672
@@ -266,10 +266,34 @@ MonoBehaviour:
     m_Metadata:
       m_Items:
       - rid: 2814509147925774341
+  - m_Id: 203949349432078336
+    m_Localized: Esperando...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 203954884520849408
+    m_Localized: Supermercado
+    m_Metadata:
+      m_Items: []
+  - m_Id: 203954884554403840
+    m_Localized: "Usa el pensamiento algor\xEDtmico para planificar tus movimientos
+      y colabora con tu equipo para llegar a la meta antes que los dem\xE1s"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 203954884554403841
+    m_Localized: "Coordina con tu equipo para planificar la mejor ruta hacia la caja
+      registradora. Analicen juntos los movimientos posibles y lleguen antes que
+      los dem\xE1s utilizando el menor n\xFAmero de pasos."
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:
     - rid: 2814509147925774341
       type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
       data:
-        m_Entries: 0030d878401a3600003058c726d4460000305899d8b569000030d84df4b96900
+        m_Entries: 
+        m_SharedEntries:
+        - id: 15228512950038528
+        - id: 19936511388037120
+        - id: 29754814444875776
+        - id: 29759331483791360

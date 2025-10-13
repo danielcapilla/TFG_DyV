@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -25,6 +26,9 @@ public class GameManagerChicken : NetworkBehaviour
     [SerializeField] private GameObject movementPanel;
     [SerializeField] private GameObject hostCanvas;
 
+    [Header("Base de Datos")]
+    [SerializeField] private DataBaseCommander dataBaseCommander;
+    private bool dbSent = false;
 
     // Eventos
     public delegate void PlayerSpawned(NetworkObjectReference playerNOR, int idGroup);
@@ -114,7 +118,12 @@ public class GameManagerChicken : NetworkBehaviour
         {
             yield return new WaitForSeconds(winMusic.clip.length);
         }
-        NetworkManager.Singleton.SceneManager.LoadScene("Podium", LoadSceneMode.Single);
+        // Envio de datos a la base de datos
+        dataBaseCommander.RegisterChickenGridCurrent(PlayerData.ClassCode, PlayerData.ClassCode, _ =>
+        {
+            NetworkManager.Singleton.SceneManager.LoadScene("Podium", LoadSceneMode.Single);
+        });
+        //NetworkManager.Singleton.SceneManager.LoadScene("Podium", LoadSceneMode.Single);
     }
     [Rpc(SendTo.Everyone)]
     private void ActivateWinMusicRPC()
@@ -137,7 +146,17 @@ public class GameManagerChicken : NetworkBehaviour
             }
         });
     }
+    public void SaveMatchToDB()
+    {
+        if (dataBaseCommander == null)
+            dataBaseCommander = GameObject.FindFirstObjectByType<DataBaseCommander>();
 
+        // Usa los códigos que corresponda (ajusta si tienes studentClassCode)
+        dataBaseCommander.RegisterChickenGridCurrent(PlayerData.ClassCode, PlayerData.ClassCode, _ =>
+        {
+            NetworkManager.Singleton.SceneManager.LoadScene("Podium", LoadSceneMode.Single);
+        });
+    }
     [ClientRpc]
     private void PlayCollisionSoundClientRPC(ClientRpcParams clientRpcParams)
     {

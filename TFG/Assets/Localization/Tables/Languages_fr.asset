@@ -58,11 +58,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 26437426164707331
-    m_Localized: Saisissez votre nom d'utilisateur...
+    m_Localized: Entrez le nom d'utilisateur...
     m_Metadata:
       m_Items: []
   - m_Id: 26437426164707332
-    m_Localized: Entrez le code de la classe...
+    m_Localized: Entrez le code de classe...
     m_Metadata:
       m_Items: []
   - m_Id: 26437426164707333
@@ -151,13 +151,14 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 26437426164707354
     m_Localized: "Utilisez la pens\xE9e abstraite pour d\xE9chiffrer les codes des
-      ingr\xE9dients et travaillez avec votre \xE9quipe pour terminer autant de commandes
-      que possible."
+      ingr\xE9dients et travaillez avec votre \xE9quipe pour ex\xE9cuter autant de
+      commandes que possible."
     m_Metadata:
       m_Items: []
   - m_Id: 26437426164707355
     m_Localized: "Regardez les exemples de hamburgers pour d\xE9coder les ingr\xE9dients,
-      puis compl\xE9tez et livrez autant de hamburgers au guichet de service."
+      puis compl\xE9tez et livrez autant de hamburgers que possible au guichet de
+      service."
     m_Metadata:
       m_Items: []
   - m_Id: 26437426164707356
@@ -225,7 +226,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 29660703238565888
-    m_Localized: l'audio
+    m_Localized: Audio
     m_Metadata:
       m_Items: []
   - m_Id: 29751105270853632
@@ -266,10 +267,34 @@ MonoBehaviour:
     m_Metadata:
       m_Items:
       - rid: 2814509147925774343
+  - m_Id: 203949349432078336
+    m_Localized: En attente...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 203954884520849408
+    m_Localized: "Supermarch\xE9"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 203954884554403840
+    m_Localized: "Utilisez la pens\xE9e algorithmique pour planifier vos mouvements
+      et collaborez avec votre \xE9quipe pour atteindre la ligne d\u2019arriv\xE9e
+      avant tout le monde."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 203954884554403841
+    m_Localized: "Coordonnez-vous avec votre \xE9quipe pour planifier le meilleur
+      itin\xE9raire jusqu'\xE0 la caisse."
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:
     - rid: 2814509147925774343
       type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
       data:
-        m_Entries: 0030d878401a3600003058c726d4460000305899d8b569000030d84df4b96900
+        m_Entries: 
+        m_SharedEntries:
+        - id: 15228512950038528
+        - id: 19936511388037120
+        - id: 29754814444875776
+        - id: 29759331483791360

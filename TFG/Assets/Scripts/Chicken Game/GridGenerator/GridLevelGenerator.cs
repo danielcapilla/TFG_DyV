@@ -500,4 +500,12 @@ public class GridLevelGenerator : NetworkBehaviour
         }
         return chances.Length - 1; // fallback
     }
+    public void GetSnapshot(out int w, out int h, out int[] flatGrid, out Vector2Int s, out Vector2Int g)
+    {
+        w = width;
+        h = height;
+        flatGrid = FlattenGrid(grid, width, height);
+        s = start;
+        g = goal;
+    }
 }

@@ -14,27 +14,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:1a1d6a68cf9a0fd4484609b20b2b3950
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 203954884520849408
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
   description:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:1a1d6a68cf9a0fd4484609b20b2b3950
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 203954884554403840
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
   tutorialText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:1a1d6a68cf9a0fd4484609b20b2b3950
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 203954884554403841
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0

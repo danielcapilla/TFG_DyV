@@ -255,6 +255,22 @@ MonoBehaviour:
     m_Key: partidas2
     m_Metadata:
       m_Items: []
+  - m_Id: 203949349432078336
+    m_Key: waiting
+    m_Metadata:
+      m_Items: []
+  - m_Id: 203954884520849408
+    m_Key: supermarket
+    m_Metadata:
+      m_Items: []
+  - m_Id: 203954884554403840
+    m_Key: supermarketDescription
+    m_Metadata:
+      m_Items: []
+  - m_Id: 203954884554403841
+    m_Key: supermarketTutorial
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:
