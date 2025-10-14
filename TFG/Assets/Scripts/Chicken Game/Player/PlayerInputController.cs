@@ -11,6 +11,7 @@ public class PlayerInputController : NetworkBehaviour
     public float moveDistance = 1f; // Distancia por movimiento
     public float moveDuration = 0.5f; // Duracion del movimiento
     public float rotationSpeed = 10f;
+    public Vector2Int CurrentGridPos { get; private set; }
     public bool IsMoving { get; private set; }
     public bool LastMoveBlocked { get; private set; }
     [SerializeField] private LayerMask obstacleMask;
@@ -37,7 +38,7 @@ public class PlayerInputController : NetworkBehaviour
             targetPosition.Value = transform.position;
             gameManagerChicken = FindFirstObjectByType<GameManagerChicken>();
             gameManagerChicken.OnPlayerSpawned += ActivateIdentificators;
-            
+            UpdateCurrentGridPos(transform.position);
 
         }
         targetPosition.OnValueChanged += OnTargetPositionChanged;
@@ -70,6 +71,9 @@ public class PlayerInputController : NetworkBehaviour
 
     private void OnTargetPositionChanged(Vector3 oldValue, Vector3 newValue)
     {
+        // Actualizar la pos
+        UpdateCurrentGridPos(newValue);
+
         // Solo iniciar movimiento si no estamos ya moviendonos
         if (!IsMoving && currentMovementCoroutine == null)
         {
@@ -179,5 +183,12 @@ public class PlayerInputController : NetworkBehaviour
             Vector3 origin = transform.position + Vector3.up * 0.1f; 
             return Physics.Raycast(origin, Vector3.down, rayLength, LayerMask.GetMask("Default", "Ground"));
         }
+    }
+    private void UpdateCurrentGridPos(Vector3 worldPos)
+    {
+        var gen = GridLevelGenerator.Instance;
+        if (gen == null) return;
+
+        CurrentGridPos = gen.WorldToGrid(worldPos);
     }
 }

@@ -36,6 +36,7 @@ public class GamePrefabScript : MonoBehaviour
         if (objectToActivate != null)
         {
             onClicked?.Invoke(this, GetComponentInChildren<TextMeshProUGUI>().text);
+            objectToActivate.transform.parent.gameObject.SetActive(true);
             objectToActivate.SetActive(true);
             objectToDesactivate.SetActive(false);
             

@@ -25,6 +25,13 @@ public class ClassInfoBehaviour : MonoBehaviour
                 else
                 {
                     menus[i - 1].gameObject.SetActive(true);
+                    if (menus[i].name == "Info")
+                    {
+                        foreach (Transform child in menus[i].transform)
+                        {
+                              child.gameObject.SetActive(false);
+                        }
+                    }
                     menus[i].gameObject.SetActive(false);
                 }
                 break;

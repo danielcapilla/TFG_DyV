@@ -286,6 +286,26 @@ MonoBehaviour:
       itin\xE9raire jusqu'\xE0 la caisse."
     m_Metadata:
       m_Items: []
+  - m_Id: 205444540093575168
+    m_Localized: Joueur
+    m_Metadata:
+      m_Items: []
+  - m_Id: 205444540139712512
+    m_Localized: Sortie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 205444540139712513
+    m_Localized: "M\xE9ta"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 205444540139712514
+    m_Localized: Obstacle
+    m_Metadata:
+      m_Items: []
+  - m_Id: 205444540139712515
+    m_Localized: Vide
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:

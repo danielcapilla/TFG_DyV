@@ -271,6 +271,26 @@ MonoBehaviour:
     m_Key: supermarketTutorial
     m_Metadata:
       m_Items: []
+  - m_Id: 205444540093575168
+    m_Key: player
+    m_Metadata:
+      m_Items: []
+  - m_Id: 205444540139712512
+    m_Key: start
+    m_Metadata:
+      m_Items: []
+  - m_Id: 205444540139712513
+    m_Key: goal
+    m_Metadata:
+      m_Items: []
+  - m_Id: 205444540139712514
+    m_Key: obstacle
+    m_Metadata:
+      m_Items: []
+  - m_Id: 205444540139712515
+    m_Key: free
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

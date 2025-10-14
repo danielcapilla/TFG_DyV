@@ -463,13 +463,11 @@ public class DataBaseCommander : MonoBehaviour
         return json;
     }
     // Ya no son hamburguesas, pero se reutiliza el mismo formato JSON
-    public void RegisterChickenGridGame(string teacherCode, string classCode, List<GridJSONCreator.GridLevelSnapshot> levels, List<GridJSONCreator.PlayerEndSnapshot> players, Action<int> callback)
+    public void RegisterChickenGridGame(string teacherCode, string classCode, List<GridJSONCreator.GridLevelSnapshot> levels, List<GridJSONCreator.GroupsEndSnapshot> groups, Action<int> callback)
     {
-        // Crea el JSON con grid
-        string matchJSON = GridJSONCreator.CreateGridMatchJSON(levels, players);
+        string matchJSON = GridJSONCreator.CreateGridMatchJSON(levels, groups);
         Debug.Log(matchJSON);
 
-       
         string json = CreatePostGameJSONChicken(teacherCode, classCode, matchJSON);
         StartCoroutine(RegisterGameDB(json, callback));
     }
@@ -499,6 +497,7 @@ public class DataBaseCommander : MonoBehaviour
             }
         }
     }
+    #region ChickenWrapper
     // Wrapper: recoge grid y posiciones actuales de jugadores y registra en BD
     public void RegisterChickenGridCurrent(string teacherCode, string classCode, Action<int> callback)
     {
@@ -524,27 +523,48 @@ public class DataBaseCommander : MonoBehaviour
             }
         };
 
-        // Posiciones finales/actuales de jugadores
-        var players = new List<GridJSONCreator.PlayerEndSnapshot>();
-        foreach (var kv in Unity.Netcode.NetworkManager.Singleton.ConnectedClients)
+        // Grupos (Lista de Players y pos del grupo)
+        var groups = new List<GridJSONCreator.GroupsEndSnapshot>();
+        var tm = TeamMenager.Instance;
+        if (tm == null || tm.teams == null)
         {
-            var no = kv.Value.PlayerObject;
-            var stats = no.GetComponent<PlayerStats>();
-            var inputCtrl = no.GetComponentInChildren<PlayerInputController>();
+            Debug.LogWarning("[DB] TeamMenager.Instance no disponible; no se pueden agrupar jugadores.");
+            callback?.Invoke(1);
+            return;
+        }
 
-            Vector3 worldPos = inputCtrl != null ? inputCtrl.targetPosition.Value : no.transform.position;
-            Vector2Int gridPos = gen.WorldToGrid(worldPos);
+        foreach (var team in tm.teams)
+        {
+            if (team == null) continue;
+            int gid = team.ID;
+            if (gid == -1) continue; // descartar host
+            if (team.integrantes == null || team.integrantes.Count == 0) continue;
 
-            players.Add(new GridJSONCreator.PlayerEndSnapshot
+            // Primer integrante = el que tiene InputCtrl
+            var leaderId = team.integrantes[0];
+            if (!Unity.Netcode.NetworkManager.Singleton.ConnectedClients.TryGetValue(leaderId, out var leaderClient) ||
+                leaderClient?.PlayerObject == null)
+                continue;
+
+            var leaderNO = leaderClient.PlayerObject;
+            var inputCtrl = leaderNO.GetComponentInChildren<PlayerInputController>();
+            // Pos del player
+            Vector2Int groupPos = inputCtrl.CurrentGridPos;
+
+            // Integrantes del equipo
+            var playersIds = new List<string>(team.integrantes.Count);
+            foreach (var cid in team.integrantes)
+                playersIds.Add(cid.ToString());
+
+            groups.Add(new GridJSONCreator.GroupsEndSnapshot
             {
-                PlayerId = kv.Key.ToString(),
-                GroupId = stats != null ? stats.idGrupo.Value : -1,
-                WorldPos = worldPos,
-                GridPos = gridPos
+                GroupId = gid,
+                PlayersId = playersIds.ToArray(),
+                GridPos = groupPos
             });
         }
 
-        RegisterChickenGridGame(teacherCode, classCode, levels, players, callback);
+        RegisterChickenGridGame(teacherCode, classCode, levels, groups, callback);
     }
     [System.Serializable]
     public class GameResponseChicken
@@ -560,5 +580,6 @@ public class DataBaseCommander : MonoBehaviour
         public string ClassPlayed;
         public string Grid; 
     }
+    #endregion
     #endregion
 }

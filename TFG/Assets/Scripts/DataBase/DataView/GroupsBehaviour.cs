@@ -59,17 +59,13 @@ public class GroupsBehaviour : MonoBehaviour
                 i++;
             }
         }
-        else // Chicken
+        else if(filtersBehaviour.selectedGameType == FiltersBehaviour.GameType.Chicken) // Chicken
         {
-            var distinctGroups = filtersBehaviour.chickenMatch.Players
-                .Select(p => p.Group)
-                .Distinct()
-                .OrderBy(g => g);
-
+            var distinctGroups = filtersBehaviour.chickenMatch.Groups.Select(g => g.Group).Distinct().OrderBy(g => g).ToList();
             foreach (var data in distinctGroups)
             {
                 GameObject partidaPrefab = Instantiate(grupoTarjetita, groupsGLG.transform);
-                partidaPrefab.GetComponentInChildren<TextMeshProUGUI>().text = i.ToString();
+                partidaPrefab.GetComponentInChildren<TextMeshProUGUI>().text = (data).ToString();
                 var gamePrefabScript = partidaPrefab.GetComponent<GamePrefabScript>();
                 if (gamePrefabScript != null)
                 {

@@ -80,7 +80,6 @@ public class FiltersBehaviour : MonoBehaviour
     public void GetGamesChicken(DataBaseCommander.GameResponseChicken data)
     {
         chickenResponse = data;
-        Debug.Log(chickenResponse);
         if (chickenResponse != null && chickenResponse.data != null && chickenResponse.data.Count > 0)
         {
             chickenMatch = GridJSONCreator.CreateMatchObject(chickenResponse.data[0].Grid);

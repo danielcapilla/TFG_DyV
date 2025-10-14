@@ -285,6 +285,26 @@ MonoBehaviour:
       los dem\xE1s utilizando el menor n\xFAmero de pasos."
     m_Metadata:
       m_Items: []
+  - m_Id: 205444540093575168
+    m_Localized: Jugador
+    m_Metadata:
+      m_Items: []
+  - m_Id: 205444540139712512
+    m_Localized: Inicio
+    m_Metadata:
+      m_Items: []
+  - m_Id: 205444540139712513
+    m_Localized: Meta
+    m_Metadata:
+      m_Items: []
+  - m_Id: 205444540139712514
+    m_Localized: "Obst\xE1culo"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 205444540139712515
+    m_Localized: Libre
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:

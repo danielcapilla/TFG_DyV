@@ -15,36 +15,33 @@ public static class GridJSONCreator
     }
 
     [System.Serializable]
-    public class PlayerEndSnapshot
-    {
-        public string PlayerId;    
-        public int GroupId;        
-        public Vector3 WorldPos;   
+    public class GroupsEndSnapshot
+    {   
+        public int GroupId;
+        public string[] PlayersId;
         public Vector2Int GridPos; 
     }
 
-    public static string CreateGridMatchJSON(List<GridLevelSnapshot> levels, List<PlayerEndSnapshot> players)
+    public static string CreateGridMatchJSON(List<GridLevelSnapshot> grid, List<GroupsEndSnapshot> groups)
     {
-        var inv = CultureInfo.InvariantCulture;
-
         string json = "";
         json += "{";
 
-        // Levels
-        json += "'Levels':[";
-        for (int i = 0; i < levels.Count; i++)
+        // Grid 
+        json += "'Grid':[";
+        for (int i = 0; i < grid.Count; i++)
         {
-            json += CreateLevelJSON(levels[i], i);
-            if (i != levels.Count - 1) json += ",";
+            json += CreateLevelJSON(grid[i], i);
+            if (i != grid.Count - 1) json += ",";
         }
         json += "],";
 
-        // Players
-        json += "'Players':[";
-        for (int i = 0; i < players.Count; i++)
+        // Groups
+        json += "'Groups':[";
+        for (int i = 0; i < groups.Count; i++)
         {
-            json += CreatePlayerJSON(players[i], inv);
-            if (i != players.Count - 1) json += ",";
+            json += CreateGroupJSON(groups[i]);
+            if (i != groups.Count - 1) json += ",";
         }
         json += "]";
 
@@ -67,13 +64,27 @@ public static class GridJSONCreator
         return json;
     }
 
-    static string CreatePlayerJSON(PlayerEndSnapshot p, CultureInfo inv)
+    static string CreateGroupJSON(GroupsEndSnapshot g)
     {
-        string pid = (p.PlayerId ?? string.Empty).Replace("'", ""); 
-        string json = $@"{{'PlayerId':'{pid}','Group':{p.GroupId},";
-        json += $@"'FinalWorldPos':{{'x':{p.WorldPos.x.ToString(inv)},'y':{p.WorldPos.y.ToString(inv)},'z':{p.WorldPos.z.ToString(inv)}}},";
-        json += $@"'FinalGridPos':{{'x':{p.GridPos.x},'y':{p.GridPos.y}}}}}";
-        return json;
+        System.Text.StringBuilder sb = new System.Text.StringBuilder();
+        sb.Append("{");
+        sb.AppendFormat("'Group':{0},", g.GroupId);
+
+        sb.Append("'PlayersId':[");
+        if (g.PlayersId != null && g.PlayersId.Length > 0)
+        {
+            for (int i = 0; i < g.PlayersId.Length; i++)
+            {
+                string pid = (g.PlayersId[i] ?? string.Empty).Replace("'", "");
+                sb.AppendFormat("'{0}'", pid);
+                if (i != g.PlayersId.Length - 1) sb.Append(",");
+            }
+        }
+        sb.Append("],");
+
+        sb.AppendFormat("'FinalGridPos':{{'x':{0},'y':{1}}}", g.GridPos.x, g.GridPos.y);
+        sb.Append("}");
+        return sb.ToString();
     }
 
     public static GridMatch CreateMatchObject(string data)
@@ -82,29 +93,29 @@ public static class GridJSONCreator
         GridMatchData md = JsonUtility.FromJson<GridMatchData>(aux);
 
         GridMatch match = new GridMatch();
-        if (md.Levels != null)
-            match.Levels.AddRange(md.Levels);
-        if (md.Players != null)
-            match.Players.AddRange(md.Players);
+        if (md.Grid != null)
+            match.Grids.AddRange(md.Grid);
+        if (md.Groups != null)
+            match.Groups.AddRange(md.Groups);
         return match;
     }
 
     [System.Serializable]
     class GridMatchData
     {
-        public LevelData[] Levels;
-        public PlayerData[] Players;
+        public GridData[] Grid;
+        public GroupData[] Groups;
     }
 
     [System.Serializable]
     public class GridMatch
     {
-        public List<LevelData> Levels = new();
-        public List<PlayerData> Players = new();
+        public List<GridData> Grids = new();
+        public List<GroupData> Groups = new();
     }
 
     [System.Serializable]
-    public class LevelData
+    public class GridData
     {
         public string ID;
         public int Width;
@@ -115,11 +126,10 @@ public static class GridJSONCreator
     }
 
     [System.Serializable]
-    public class PlayerData
+    public class GroupData
     {
-        public string PlayerId;
         public int Group;
-        public Vector3 FinalWorldPos;
+        public string[] PlayerId;
         public Vector2Int FinalGridPos;
     }
     public static int[] FlattenGrid(int[,] grid, int width, int height)

@@ -284,6 +284,26 @@ MonoBehaviour:
       the fewest steps.
     m_Metadata:
       m_Items: []
+  - m_Id: 205444540093575168
+    m_Localized: Player
+    m_Metadata:
+      m_Items: []
+  - m_Id: 205444540139712512
+    m_Localized: Start
+    m_Metadata:
+      m_Items: []
+  - m_Id: 205444540139712513
+    m_Localized: Goal
+    m_Metadata:
+      m_Items: []
+  - m_Id: 205444540139712514
+    m_Localized: Obstacle
+    m_Metadata:
+      m_Items: []
+  - m_Id: 205444540139712515
+    m_Localized: Free
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:

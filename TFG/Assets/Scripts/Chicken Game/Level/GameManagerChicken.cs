@@ -25,6 +25,7 @@ public class GameManagerChicken : NetworkBehaviour
     [SerializeField] private TeamMenager teamMenager;
     [Header("UI")]
     [SerializeField] private GameObject movementPanel;
+    [SerializeField] private GameObject movementPanelToggle;
     [SerializeField] private GameObject hostCanvas;
 
     [Header("Base de Datos")]
@@ -97,6 +98,8 @@ public class GameManagerChicken : NetworkBehaviour
     {
         if (movementPanel != null)
             movementPanel.SetActive(b);
+        if(movementPanelToggle != null)
+            movementPanelToggle.SetActive(b);
     }
 
     [Rpc(SendTo.Everyone)]
