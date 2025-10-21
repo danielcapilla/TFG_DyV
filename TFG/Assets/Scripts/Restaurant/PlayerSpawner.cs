@@ -11,17 +11,14 @@ public class PlayerSpawner : NetworkBehaviour
     [Header("Prefabs")]
     [SerializeField] private GameObject playerPrefab;
     [SerializeField] private RestaurantBehaviour[] restaurantBehaviourArray;
-    private ChooseGroup chooseGroup;
+    [SerializeField] private ChooseGroup chooseGroup;
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
-        if (!IsServer)
+        if (IsServer)
         {
-            chooseGroup = FindFirstObjectByType<ChooseGroup>();
             chooseGroup.OnPlayerReady += SpawnPlayerForClientRPC;
-        }
-        else
-        {
+
             NetworkManager.Singleton.SceneManager.OnLoadEventCompleted += SceneLoadedCallback;
             NetworkManager.Singleton.SceneManager.OnUnload += SceneUnloadedCallback;
         }
@@ -30,7 +27,6 @@ public class PlayerSpawner : NetworkBehaviour
     [Rpc(SendTo.Server)]
     private void SpawnPlayerForClientRPC(ulong clientId)
     {
-
         GameObject player = Instantiate(playerPrefab);
         var netObj = player.GetComponent<NetworkObject>();
         netObj.SpawnWithOwnership(clientId);

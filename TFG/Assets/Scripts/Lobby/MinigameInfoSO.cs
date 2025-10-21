@@ -11,5 +11,7 @@ public class MinigameInfoSO : ScriptableObject
     public LocalizedString tutorialText;
     public string sceneName;
     public Sprite icon;
+    // New 
+    public string tutorialSceneName;
     //Button background image?
 }

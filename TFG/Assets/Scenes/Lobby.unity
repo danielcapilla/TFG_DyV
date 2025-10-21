@@ -960,7 +960,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1049776941
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2543,6 +2543,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5129655575118640364, guid: 44059f80afb918e44b5a9d9a99c17bef, type: 3}
+      propertyPath: lobbyCamera
+      value: 
+      objectReference: {fileID: 534976301}
+    - target: {fileID: 5129655575118640364, guid: 44059f80afb918e44b5a9d9a99c17bef, type: 3}
+      propertyPath: lobbyCanvas
+      value: 
+      objectReference: {fileID: 1509598233}
     - target: {fileID: 5129655575118640364, guid: 44059f80afb918e44b5a9d9a99c17bef, type: 3}
       propertyPath: TutorialText
       value: 

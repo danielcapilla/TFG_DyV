@@ -11,6 +11,9 @@ public class MinigameSelectorBehaviour : NetworkBehaviour
     [SerializeField] GameObject minigameSelectorPanel;
     [SerializeField] float time;
     [SerializeField] Vector3 startPos;
+    // For Tutorials
+    [SerializeField] GameObject lobbyCamera;
+    [SerializeField] GameObject lobbyCanvas;
 
     [SerializeField] Image gameImage;
 
@@ -21,15 +24,25 @@ public class MinigameSelectorBehaviour : NetworkBehaviour
 
     [SerializeField] LocalizeStringEvent DescriptionText;
     [SerializeField] LocalizeStringEvent TutorialText;
+    // Singleton
+    public static MinigameSelectorBehaviour Instance { get; private set; }
+
+    void Awake()
+    {
+        if (Instance == null)
+            Instance = this;
+        else
+            Destroy(gameObject);
+    }
 
     // Start is called before the first frame update
     void Start()
     {
         startPos = minigameSelectorPanel.transform.localPosition;
-        if (!IsServer) 
-        {
-            PlayButton.SetActive(false);
-        }
+        //if (!IsServer) 
+        //{
+        //    PlayButton.SetActive(false);
+        //}
     }
 
     public void OpenPanel()
@@ -47,12 +60,49 @@ public class MinigameSelectorBehaviour : NetworkBehaviour
     public void IrAJuego()
     {
         //TODO If Host start game if client cast vote to poll
-        if (selectedGame.Length > 0)
+        if(IsServer)
         {
-            NetworkManager.Singleton.SceneManager.LoadScene(selectedGame, LoadSceneMode.Single);
+            if (selectedGame.Length > 0)
+            {
+                NetworkManager.Singleton.SceneManager.LoadScene(selectedGame, LoadSceneMode.Single);
+            }
+        }
+        else
+        {
+            if (selectedGame.Length > 0)
+            {
+                HideLobbyUI();
+                SceneManager.LoadSceneAsync(selectedGame, LoadSceneMode.Additive);
+            }
+        }
+
+    }
+    private void HideLobbyUI()
+    {
+        lobbyCanvas.SetActive(false);
+        if (lobbyCamera != null)
+            lobbyCamera.gameObject.SetActive(false);
+    }
+    public void ReturnFromTutorial()
+    {
+        Scene tutorialScene = SceneManager.GetSceneByName(selectedGame);
+
+        if (tutorialScene.isLoaded)
+        {
+            SceneManager.UnloadSceneAsync(tutorialScene).completed += (op) =>
+            {
+                lobbyCanvas.SetActive(true);
+                if (lobbyCamera != null)
+                    lobbyCamera.gameObject.SetActive(true);
+            };
+        }
+        else
+        {
+            lobbyCanvas.SetActive(true);
+            if (lobbyCamera != null)
+                lobbyCamera.gameObject.SetActive(true);
         }
     }
-
     public void SelectButton(Button pressedButton) 
     {
         if (selectedButton != null) 
@@ -70,6 +120,10 @@ public class MinigameSelectorBehaviour : NetworkBehaviour
         TutorialText.StringReference.SetReference(info.tutorialText.TableReference, info.tutorialText.TableEntryReference);
         DescriptionText.RefreshString();
         TutorialText.RefreshString();
-        selectedGame = info.sceneName;
+        // New
+        if(IsServer)
+            selectedGame = info.sceneName;
+        else
+            selectedGame = info.tutorialSceneName;
     }
 }

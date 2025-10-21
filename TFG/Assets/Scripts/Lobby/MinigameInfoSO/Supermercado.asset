@@ -41,6 +41,7 @@ MonoBehaviour:
     m_LocalVariables: []
   sceneName: Grid
   icon: {fileID: 21300000, guid: 24ae9ccef15a40c4bb5421689b46f59d, type: 3}
+  tutorialSceneName: ChickenTutorial 1
   references:
     version: 2
     RefIds: []
