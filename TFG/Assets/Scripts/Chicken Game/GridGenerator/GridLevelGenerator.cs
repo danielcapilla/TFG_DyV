@@ -1,5 +1,4 @@
-﻿using Microsoft.Unity.VisualStudio.Editor;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Unity.Netcode;
 using UnityEngine;
@@ -15,6 +14,7 @@ public class GridLevelGenerator : NetworkBehaviour
     [Range(0f, 0.9f)] public float obstacleDensity = 0.25f;
     public Vector2Int start = new Vector2Int(0, 0);
     [Min(1)] public int maxGoalTries = 200;
+    public bool tutorialGrid;   
 
     [Header("Prefabs")]
     public GameObject floorPrefab;
@@ -56,7 +56,7 @@ public class GridLevelGenerator : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
-
+           
         if(!IsServer) return;
         Generate();
         SendGridToClients();
@@ -66,7 +66,14 @@ public class GridLevelGenerator : NetworkBehaviour
         base.OnNetworkDespawn();
     }
 
-
+    private void Start()
+    {
+        if (tutorialGrid && !IsServer)
+        {
+            Generate();
+            BuildSceneFromGrid();
+        }
+    }
     public void Generate()
     {
         // Semilla, se usa la hora del sistema para que sea distinta a cada ejecucion

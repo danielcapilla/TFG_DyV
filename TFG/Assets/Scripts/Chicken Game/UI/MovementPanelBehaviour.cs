@@ -16,7 +16,7 @@ public class MovementPanelBehaviour : MonoBehaviour
     [SerializeField] private GameObject movementButton;
 
     private Graphic graphic;
-    private bool isVisible = true;
+    public bool isVisible = true;
     private bool hasShaken = false;
 
     // Tweens registrados (para la limpieza)

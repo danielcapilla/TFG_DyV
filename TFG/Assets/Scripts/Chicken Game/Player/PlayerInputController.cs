@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
-using UnityEditor.PackageManager;
 using UnityEngine;
 
 public class PlayerInputController : NetworkBehaviour
@@ -27,6 +26,9 @@ public class PlayerInputController : NetworkBehaviour
     
     public Action<int> OnObstaculeCollided;
 
+    [Header("Modo tutorial")]
+    public bool isTutorialMode = false;
+
     private void Start()
     {
         dust = GetComponentInChildren<ParticleSystem>();
@@ -37,7 +39,8 @@ public class PlayerInputController : NetworkBehaviour
         {
             targetPosition.Value = transform.position;
             gameManagerChicken = FindFirstObjectByType<GameManagerChicken>();
-            gameManagerChicken.OnPlayerSpawned += ActivateIdentificators;
+            if(gameManagerChicken != null)
+                gameManagerChicken.OnPlayerSpawned += ActivateIdentificators;
             UpdateCurrentGridPos(transform.position);
 
         }
@@ -99,7 +102,8 @@ public class PlayerInputController : NetworkBehaviour
             targetPosition.Value = transform.position;
             IsMoving = false;
             currentMovementCoroutine = null;
-            gameManagerChicken.PlayCollisionSoundForGroup(GetComponentInParent<PlayerStats>().idGrupo.Value);
+            //gameManagerChicken.PlayCollisionSoundForGroup(GetComponentInParent<PlayerStats>().idGrupo.Value);
+            OnObstaculeCollided?.Invoke(GetComponentInParent<PlayerStats>()? GetComponentInParent<PlayerStats>().idGrupo.Value : 0);
             yield break;
         }
         // Rotacion
@@ -132,35 +136,101 @@ public class PlayerInputController : NetworkBehaviour
         currentMovementCoroutine = null;
     }
 
-    // Metodos llamados por los comandos (solo en servidor)
+    // Metodos llamados por los comandos (solo en servidor o tutorial)
     public void MoveUp()
     {
-        if (!IsServer || IsMoving) return;
-        LastMoveBlocked = false;               
-        targetPosition.Value += Vector3.forward * moveDistance;
+        if (IsMoving) return;
+
+        if (isTutorialMode)
+        {
+            TryMoveLocal(Vector3.forward);
+        }
+        else
+        {
+            if (!IsServer) return;
+            LastMoveBlocked = false;
+            targetPosition.Value += Vector3.forward * moveDistance;
+        }
     }
+
     public void MoveDown()
     {
-        if (!IsServer || IsMoving) return;
-        LastMoveBlocked = false;
-        targetPosition.Value += Vector3.back * moveDistance;
+        if (IsMoving) return;
+
+        if (isTutorialMode)
+        {
+            TryMoveLocal(Vector3.back);
+        }
+        else
+        {
+            if (!IsServer) return;
+            LastMoveBlocked = false;
+            targetPosition.Value += Vector3.back * moveDistance;
+        }
     }
+
     public void MoveLeft()
     {
-        if (!IsServer || IsMoving) return;
-        LastMoveBlocked = false;
-        targetPosition.Value += Vector3.left * moveDistance;
+        if (IsMoving) return;
+
+        if (isTutorialMode)
+        {
+            TryMoveLocal(Vector3.left);
+        }
+        else
+        {
+            if (!IsServer) return;
+            LastMoveBlocked = false;
+            targetPosition.Value += Vector3.left * moveDistance;
+        }
     }
+
     public void MoveRight()
     {
-        if (!IsServer || IsMoving) return;
-        LastMoveBlocked = false;
-        targetPosition.Value += Vector3.right * moveDistance;
+        if (IsMoving) return;
+
+        if (isTutorialMode)
+        {
+            TryMoveLocal(Vector3.right);
+        }
+        else
+        {
+            if (!IsServer) return;
+            LastMoveBlocked = false;
+            targetPosition.Value += Vector3.right * moveDistance;
+        }
     }
+
     public void StopMovement()
     {
-        if (!IsServer) return;
-        targetPosition.Value = transform.position;
+        if (isTutorialMode)
+        {
+            TryMoveLocal(Vector3.zero);
+            return;
+        }
+        else
+        {
+            if (!IsServer) return;
+            targetPosition.Value = transform.position;
+        }
+
+
+    }
+    private void TryMoveLocal(Vector3 direction)
+    {
+        if (IsMoving) return;
+
+        Rigidbody rb = GetComponent<Rigidbody>();
+        Vector3 startPos = rb.position;
+        Vector3 targetPos = startPos + direction * moveDistance;
+
+        // Resetear flag
+        LastMoveBlocked = false;
+
+
+        // Iniciar movimiento local usando la misma coroutine existente
+        if (currentMovementCoroutine == null)
+            currentMovementCoroutine = StartCoroutine(MoveToPositionCoroutine(targetPos));
     }
 
     public override void OnNetworkDespawn()

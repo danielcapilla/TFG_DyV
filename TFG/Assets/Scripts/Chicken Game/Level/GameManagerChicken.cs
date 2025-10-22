@@ -87,7 +87,7 @@ public class GameManagerChicken : NetworkBehaviour
             if (inputController != null)
             {
                 OnPlayerSpawned?.Invoke(player, player.GetComponent<PlayerStats>().idGrupo.Value);
-                //inputController.OnObstaculeCollided += PlayCollisionSoundForGroup; Falta desuscribirse
+                inputController.OnObstaculeCollided += PlayCollisionSoundForGroup; //Falta desuscribirse
                 ActivatePlayerInputRPC(player);
             }
         }
@@ -108,8 +108,8 @@ public class GameManagerChicken : NetworkBehaviour
         playerInputNetworkObjectReference.TryGet(out NetworkObject playerInputNetworkObject);
         PlayerInput playerInput = playerInputNetworkObject.GetComponentInChildren<PlayerInput>();
         playerInput.enabled = true;
-        if (movementPanel != null)
-            movementPanel.SetActive(true);
+        //if (movementPanel != null)
+        //    movementPanel.SetActive(true);
         ActivateChickenMusic();
     }
     [Rpc(SendTo.Everyone)]

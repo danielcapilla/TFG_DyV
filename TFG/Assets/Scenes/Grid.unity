@@ -6331,8 +6331,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxPlayers: 30
-  maxplayersPerTeam: 2
-  minPlayersPerTeam: 2
+  maxplayersPerTeam: 3
+  minPlayersPerTeam: 1
   teamType: {fileID: 11400000, guid: 04d661a4781ace747a66c5eedc8be7ab, type: 2}
   teams: []
 --- !u!114 &1250604521
@@ -8449,6 +8449,7 @@ MonoBehaviour:
   obstacleDensity: 0.25
   start: {x: 0, y: 0}
   maxGoalTries: 200
+  tutorialGrid: 0
   floorPrefab: {fileID: 7997607678849744497, guid: ad0cc2747b6c7034e8795deca1f1aa35, type: 3}
   obstaclePrefabs:
   - {fileID: 5495065315850455973, guid: f7b5900f17ba4884c8860adc9d8841d3, type: 3}
