@@ -305,6 +305,36 @@ MonoBehaviour:
     m_Localized: Libre
     m_Metadata:
       m_Items: []
+  - m_Id: 208663472372199424
+    m_Localized: "\xA1Bienvenido al tutorial del minijuego Supermercado!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 208663472372199425
+    m_Localized: Ahora tu jugador es un carrito de la compra.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 208663472372199426
+    m_Localized: "Mu\xE9velo usando las flechas del panel de la derecha."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 208663472372199427
+    m_Localized: "Para ver mejor la tienda, pulsa el bot\xF3n con el icono del ojo."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 208663472372199428
+    m_Localized: Tu objetivo principal es llegar hasta la caja registradora.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 208663472372199429
+    m_Localized: "La ver\xE1s parpadeando con una luz verde. \xA1Intenta llegar hasta
+      ella!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 208663472372199430
+    m_Localized: "\xA1Genial! Has llegado a la caja. Ahora aprender\xE1s a jugar
+      en grupo."
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:

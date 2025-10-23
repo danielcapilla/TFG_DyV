@@ -304,6 +304,36 @@ MonoBehaviour:
     m_Localized: Free
     m_Metadata:
       m_Items: []
+  - m_Id: 208663472372199424
+    m_Localized: Welcome to the Supermarket minigame tutorial!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 208663472372199425
+    m_Localized: Now your player is a shopping cart.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 208663472372199426
+    m_Localized: Move it using the arrows on the right panel.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 208663472372199427
+    m_Localized: To get a better view of the store, click the button with the eye
+      icon.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 208663472372199428
+    m_Localized: Your main objective is to get to the cash register.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 208663472372199429
+    m_Localized: You'll see it flashing green.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 208663472372199430
+    m_Localized: Great! You've reached the checkout. Now you'll learn how to play
+      in a group.
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:

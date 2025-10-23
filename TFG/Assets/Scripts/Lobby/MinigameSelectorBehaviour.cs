@@ -72,7 +72,14 @@ public class MinigameSelectorBehaviour : NetworkBehaviour
             if (selectedGame.Length > 0)
             {
                 HideLobbyUI();
-                SceneManager.LoadSceneAsync(selectedGame, LoadSceneMode.Additive);
+                SceneManager.LoadSceneAsync(selectedGame, LoadSceneMode.Additive).completed += (op) =>
+                {
+                    Scene tutorialScene = SceneManager.GetSceneByName(selectedGame);
+                    if (tutorialScene.IsValid())
+                    {
+                        SceneManager.SetActiveScene(tutorialScene);
+                    }
+                };
             }
         }
 

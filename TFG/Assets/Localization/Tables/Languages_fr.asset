@@ -306,6 +306,36 @@ MonoBehaviour:
     m_Localized: Vide
     m_Metadata:
       m_Items: []
+  - m_Id: 208663472372199424
+    m_Localized: "Bienvenue dans le didacticiel du mini-jeu du supermarch\xE9 !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 208663472372199425
+    m_Localized: "Maintenant, votre lecteur est un panier d\u2019achat."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 208663472372199426
+    m_Localized: "D\xE9placez-le \xE0 l'aide des fl\xE8ches sur le panneau de droite."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 208663472372199427
+    m_Localized: "Pour avoir une meilleure vue du magasin, cliquez sur le bouton
+      avec l'ic\xF4ne en forme d'\u0153il."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 208663472372199428
+    m_Localized: "Votre objectif principal est d\u2019atteindre la caisse."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 208663472372199429
+    m_Localized: Vous le verrez clignoter en vert.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 208663472372199430
+    m_Localized: "Super ! Vous avez atteint la page de paiement. Vous allez maintenant
+      apprendre \xE0 jouer en groupe.\n"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:

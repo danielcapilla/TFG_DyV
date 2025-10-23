@@ -5,11 +5,13 @@ using UnityEngine.InputSystem;
 public class ChickenTutorialGameManager : MonoBehaviour
 {
     [SerializeField] private GameObject playerPrefab;
+    [SerializeField] private TutorialGroupBehaviour groupBehaviour;
     [Header("Música")]
     [SerializeField] private AudioSource chickenMusic;
     [SerializeField] private AudioSource winMusic;
     [SerializeField] private AudioSource collisionSound;
     private PlayerInputController playerInputController;
+    private int punctuation = 0;    
 
     public Action<PlayerInputController> OnPlayerSpawned;
     public Action OnPlayerReachedGoal;
@@ -17,19 +19,30 @@ public class ChickenTutorialGameManager : MonoBehaviour
     private void Start()
     {
         SpawnPlayer();
-        playerInputController.OnObstaculeCollided += PlayCollisionSound;    
+        playerInputController.OnObstaculeCollided += PlayCollisionSound;  
+        groupBehaviour.OnTurnExecuted += CalculatePunctuation;
         chickenMusic.Play();
     }
     private void OnDestroy()
     {
         playerInputController.OnObstaculeCollided -= PlayCollisionSound;
+        groupBehaviour.OnTurnExecuted -= CalculatePunctuation;
     }
 
     private void PlayCollisionSound(int obj)
     {
         collisionSound.Play();
     }
-
+    private void CalculatePunctuation()
+    {
+        float progress = GridLevelGenerator.Instance.GetProgress(playerInputController.CurrentGridPos);
+        punctuation = (int)(progress * 100f);
+        if (punctuation == 100)
+        {
+            winMusic.Play();
+            OnPlayerReachedGoal?.Invoke();
+        }
+    }
     private void SpawnPlayer()
     {
         Vector2Int startCell = GridLevelGenerator.Instance.start;

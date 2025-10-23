@@ -9,6 +9,7 @@ public class TutorialGroupBehaviour : MonoBehaviour
     private readonly Queue<ICommand> commandQueue = new Queue<ICommand>();
     [SerializeField] private ChickenTutorialGameManager gameManager;
     public event Action<CommandType> OnCommandAdded;
+    public event Action OnTurnExecuted;
 
     private void Awake()
     {
@@ -53,6 +54,7 @@ public class TutorialGroupBehaviour : MonoBehaviour
                 yield break;
             }
         }
+        OnTurnExecuted?.Invoke();
     }
 
     private ICommand CreateCommandFromType(CommandType type)

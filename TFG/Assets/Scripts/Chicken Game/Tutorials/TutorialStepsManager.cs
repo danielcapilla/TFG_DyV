@@ -1,3 +1,4 @@
+﻿using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -31,6 +32,7 @@ public class TutorialStep
 {
     [TextArea]
     public string message;
+    public string localizationKey;
 
     public bool waitForPlayerAction;
     public TutorialConditionType conditionType = TutorialConditionType.None;
@@ -59,9 +61,11 @@ public class TutorialStepsManager : MonoBehaviour
     [SerializeField] private List<TutorialStep> steps = new List<TutorialStep>();
 
     private int currentStep = 0;
-    // Para los mensajes con tiempo
+
     private Coroutine autoAdvanceCoroutine;
     private MovementPanelBehaviour movementPanelBehaviour;
+
+    [SerializeField] private UnityEngine.Localization.Components.LocalizeStringEvent tutorialLocalizeStringEvent;
 
     void Start()
     {
@@ -103,19 +107,45 @@ public class TutorialStepsManager : MonoBehaviour
 
         var step = steps[index];
 
-        if (tutorialPanel != null)
+        if (!tutorialPanel.gameObject.activeSelf)
         {
-            tutorialPanel.alpha = 1;
+            tutorialPanel.gameObject.SetActive(true);
             tutorialPanel.blocksRaycasts = true;
+            tutorialPanel.alpha = 1f;
+            tutorialPanel.transform.localScale = Vector3.one;
         }
 
-        if (tutorialText != null)
-            tutorialText.text = step.message;
+        tutorialText.DOKill();
+        tutorialText
+            .DOFade(0, 0.3f)
+            .SetEase(Ease.InOutSine)
+            .OnComplete(() =>
+            {
+                if (tutorialLocalizeStringEvent != null && !string.IsNullOrEmpty(step.localizationKey))
+                {
+                    tutorialLocalizeStringEvent.StringReference.TableEntryReference = step.localizationKey;
+                    tutorialLocalizeStringEvent.RefreshString();
+                }
+                else
+                {
+                    tutorialText.text = step.message;
+                }
+
+                tutorialText.DOFade(1, 0.6f).SetEase(Ease.InOutSine);
+            });
+
+        tutorialPanel.transform.DOKill();
+        tutorialPanel.transform
+            .DOScale(1.015f, 2.2f)
+            .SetEase(Ease.InOutSine)
+            .SetLoops(-1, LoopType.Yoyo);
 
         ApplyStepEnterActions(step);
+
         if (!step.waitForPlayerAction && step.conditionType == TutorialConditionType.None)
-            autoAdvanceCoroutine = StartCoroutine(AutoAdvanceAfterDelay(step.autoAdvanceDelay));;
+            autoAdvanceCoroutine = StartCoroutine(AutoAdvanceAfterDelay(step.autoAdvanceDelay));
     }
+
     private void AdvanceStepWithDelay(float delay)
     {
         if (autoAdvanceCoroutine != null)
@@ -159,7 +189,6 @@ public class TutorialStepsManager : MonoBehaviour
                     movementPanel.interactable = false;
                     movementPanel.blocksRaycasts = false;
                     movementPanelBehaviour.isVisible = false;
-
             }
             else if (step.movementPanelAction == MovementPanelAction.Show)
             {
@@ -168,7 +197,6 @@ public class TutorialStepsManager : MonoBehaviour
                     movementPanel.interactable = true;
                     movementPanel.blocksRaycasts = true;
                     movementPanelBehaviour.isVisible = true;
-
             }
         }
     }
@@ -179,7 +207,6 @@ public class TutorialStepsManager : MonoBehaviour
         ShowStep(currentStep);
     }
 
-    // === EVENTOS ===
 
     private void OnCommandAdded(CommandType type)
     {
@@ -187,7 +214,7 @@ public class TutorialStepsManager : MonoBehaviour
 
         if (steps[currentStep].conditionType == TutorialConditionType.CommandAdded)
         {
-            Debug.Log("[Tutorial] Paso completado: Comando a�adido");
+            Debug.Log("[Tutorial] Paso completado: Comando añadido");
             AdvanceStepWithDelay(steps[currentStep].autoAdvanceDelay);
         }
     }
@@ -218,13 +245,18 @@ public class TutorialStepsManager : MonoBehaviour
     {
         if (tutorialPanel != null)
         {
-            tutorialPanel.alpha = 0;
-            tutorialPanel.blocksRaycasts = false;
-        }
+            tutorialPanel.DOKill();
 
-        // Reactivar el Toggle al finalizar el tutorial
-        if (toggle != null)
-            toggle.interactable = true;
+            tutorialPanel.DOFade(0, 0.3f).SetEase(Ease.InOutQuad);
+            tutorialPanel.transform.DOScale(0.95f, 0.3f)
+                .SetEase(Ease.InOutQuad)
+                .OnComplete(() =>
+                {
+                    tutorialPanel.blocksRaycasts = false;
+                    tutorialPanel.gameObject.SetActive(false);
+                });
+            tutorialPanel.transform.DOKill();
+        }
 
         Debug.Log("Completado");
     }

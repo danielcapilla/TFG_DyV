@@ -132,6 +132,7 @@ public class PlayerInputController : NetworkBehaviour
         }
         // Asegurar posicion final
         rb.MovePosition(targetPos);
+        UpdateCurrentGridPos(rb.position);
         IsMoving = false;
         currentMovementCoroutine = null;
     }
