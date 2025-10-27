@@ -526,7 +526,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &59560437
 RectTransform:
   m_ObjectHideFlags: 0
@@ -756,60 +756,65 @@ MonoBehaviour:
   toggle: {fileID: 379344948}
   pauseChicken: {fileID: 1965402125}
   steps:
-  - message: "\xA1Bienvenido al tutorial del minijuego Supermercado!"
-    localizationKey: chickenTuto1/1
+  - message: Ahora toca aprender a jugar en equipo.
+    localizationKey: chickenTuto2/1
     waitForPlayerAction: 0
     conditionType: 0
     movementPanelAction: 2
     toggleMovementPanelAction: 2
     autoAdvanceDelay: 2.5
     pauseTimerOnEnter: 0
-  - message: Tu jugador es ahora un carrito de la compra.
-    localizationKey: chickenTuto1/2
+  - message: "Tu compa\xF1eros de quipo iran a\xF1adiendo movimientos."
+    localizationKey: chickenTuto2/2
     waitForPlayerAction: 0
     conditionType: 0
     movementPanelAction: 2
     toggleMovementPanelAction: 2
     autoAdvanceDelay: 2.5
     pauseTimerOnEnter: 0
-  - message: Mueve al carrito con las flechas de control que se encuentran en el
-      panel de la derecha.
-    localizationKey: chickenTuto1/3
+  - message: "Tu compa\xF1eros de quipo iran a\xF1adiendo movimientos."
+    localizationKey: chickenTuto2/3
+    waitForPlayerAction: 0
+    conditionType: 0
+    movementPanelAction: 2
+    toggleMovementPanelAction: 2
+    autoAdvanceDelay: 3.5
+    pauseTimerOnEnter: 0
+  - message: "Tu compa\xF1eros de quipo iran a\xF1adiendo movimientos."
+    localizationKey: chickenTuto2/4
     waitForPlayerAction: 1
     conditionType: 1
     movementPanelAction: 1
-    toggleMovementPanelAction: 2
-    autoAdvanceDelay: 1
-    pauseTimerOnEnter: 0
-  - message: "Para poder ver mejor la tienda pulsa en el bot\xF3n que tiene un ojo
-      para activar y desactivar los movimientos."
-    localizationKey: chickenTuto1/4
-    waitForPlayerAction: 1
-    conditionType: 2
-    movementPanelAction: 2
     toggleMovementPanelAction: 1
     autoAdvanceDelay: 2.5
-    pauseTimerOnEnter: 0
-  - message: El objetivo principal del juego es llegar a la caja registradora.
-    localizationKey: chickenTuto1/5
+    pauseTimerOnEnter: 1
+  - message: Tiempo
+    localizationKey: chickenTuto2/5
     waitForPlayerAction: 0
     conditionType: 0
     movementPanelAction: 2
     toggleMovementPanelAction: 2
+    autoAdvanceDelay: 4
+    pauseTimerOnEnter: 0
+  - message: "Obst\xE1culos"
+    localizationKey: chickenTuto2/6
+    waitForPlayerAction: 1
+    conditionType: 1
+    movementPanelAction: 1
+    toggleMovementPanelAction: 1
     autoAdvanceDelay: 2.5
     pauseTimerOnEnter: 0
-  - message: "Aparecer\xE1 en la tienda parpadeando con una luz verde. Intenta llegar
-      a ella."
-    localizationKey: chickenTuto1/6
+  - message: Meta
+    localizationKey: chickenTuto2/7
     waitForPlayerAction: 1
     conditionType: 3
     movementPanelAction: 1
     toggleMovementPanelAction: 1
-    autoAdvanceDelay: 1.5
+    autoAdvanceDelay: 2.5
     pauseTimerOnEnter: 0
-  - message: "\xA1Genial!"
-    localizationKey: chickenTuto1/7
-    waitForPlayerAction: 0
+  - message: Terminado
+    localizationKey: chickenTuto2/8
+    waitForPlayerAction: 1
     conditionType: 0
     movementPanelAction: 2
     toggleMovementPanelAction: 2
@@ -2040,8 +2045,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 463353284}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -2465,8 +2470,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   width: 16
   height: 12
-  minPathLength: 10
-  obstacleDensity: 0
+  minPathLength: 13
+  obstacleDensity: 0.215
   start: {x: 0, y: 0}
   maxGoalTries: 200
   tutorialGrid: 1
@@ -2496,7 +2501,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2202962661
+  GlobalObjectIdHash: 2748472566
   InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -4132,7 +4137,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3132895268
+  GlobalObjectIdHash: 2310017116
   InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -4249,8 +4254,8 @@ CanvasGroup:
   m_GameObject: {fileID: 1285084824}
   m_Enabled: 1
   m_Alpha: 0
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
 --- !u!114 &1285084828
 MonoBehaviour:
@@ -4564,9 +4569,9 @@ MonoBehaviour:
   waitingPanel: {fileID: 957848216}
   groupBehaviour: {fileID: 1353180908}
   turnTimer: {fileID: 1353180911}
-  botsManager: {fileID: 0}
+  botsManager: {fileID: 2109112865}
   stepsManager: {fileID: 178803995}
-  hasBots: 0
+  hasBots: 1
 --- !u!114 &1353180911
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4574,7 +4579,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1353180907}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6065c6233d88df147abd56855f9b0e3a, type: 3}
   m_Name: 
@@ -5262,6 +5267,7 @@ GameObject:
   - component: {fileID: 1447547974}
   - component: {fileID: 1447547972}
   - component: {fileID: 1447547979}
+  - component: {fileID: 1447547980}
   m_Layer: 5
   m_Name: MovementPanel
   m_TagString: Untagged
@@ -5408,6 +5414,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   group: {fileID: 1353180908}
   localTurnBehaviour: {fileID: 1353180910}
+--- !u!114 &1447547980
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1447547970}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd086ac2bfdc77c4b8f79c673b582d3b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  appearDuration: 0.25
+  removeDuration: 0.15
+  idleSwingAngle: 8
+  idleSwingDuration: 2
+  Movement: {fileID: 6135802538312618490, guid: eb696d9eda2cb96439fdc5a5f62e6da2, type: 3}
+  HorizontalLayout: {fileID: 59560436}
+  tutorialGroupBehaviour: {fileID: 1353180908}
 --- !u!1 &1474324362
 GameObject:
   m_ObjectHideFlags: 0
@@ -5789,7 +5814,7 @@ MonoBehaviour:
   m_fontSize: 36
   m_fontSizeBase: 36
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
@@ -6830,7 +6855,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1783931744
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8248,6 +8273,56 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2093403181}
   m_CullTransparentMesh: 1
+--- !u!1 &2109112864
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2109112866}
+  - component: {fileID: 2109112865}
+  m_Layer: 0
+  m_Name: Bots Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2109112865
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2109112864}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a488f62987c1d140bf784ed820cb85b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  groupBehaviour: {fileID: 1353180908}
+  localTurnBehaviour: {fileID: 1353180910}
+  gridLevelGenerator: {fileID: 690796843}
+  botsCount: 2
+  minThinkTime: 1
+  maxThinkTime: 2
+--- !u!4 &2109112866
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2109112864}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.0515717, y: 1.0894904, z: -1.4897892}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2119526767
 GameObject:
   m_ObjectHideFlags: 0
@@ -8284,7 +8359,7 @@ RectTransform:
   m_Father: {fileID: 344942097}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -8505,3 +8580,4 @@ SceneRoots:
   - {fileID: 362318540}
   - {fileID: 1987918821}
   - {fileID: 178803996}
+  - {fileID: 2109112866}

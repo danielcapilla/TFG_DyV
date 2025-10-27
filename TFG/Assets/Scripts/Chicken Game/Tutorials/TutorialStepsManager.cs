@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public enum TutorialConditionType
@@ -42,6 +43,8 @@ public class TutorialStep
     public ToggleMovementPanelAction toggleMovementPanelAction = ToggleMovementPanelAction.None;
 
     public float autoAdvanceDelay = 2.5f;
+
+    public bool pauseTimerOnEnter = false;
 }
 
 public class TutorialStepsManager : MonoBehaviour
@@ -52,10 +55,13 @@ public class TutorialStepsManager : MonoBehaviour
 
     [Header("Referencias")]
     [SerializeField] private TutorialGroupBehaviour groupBehaviour;
+    [SerializeField] private LocalTurnBehaviour turnBehaviour;
     [SerializeField] private ChickenTutorialGameManager gameManager;
-
+    [SerializeField] private UnityEngine.Localization.Components.LocalizeStringEvent tutorialLocalizeStringEvent;
     [SerializeField] private CanvasGroup movementPanel;
     [SerializeField] private Toggle toggle;
+    [SerializeField] private PauseChickenTutorial pauseChicken;
+
 
     [Header("Pasos del tutorial")]
     [SerializeField] private List<TutorialStep> steps = new List<TutorialStep>();
@@ -65,13 +71,13 @@ public class TutorialStepsManager : MonoBehaviour
     private Coroutine autoAdvanceCoroutine;
     private MovementPanelBehaviour movementPanelBehaviour;
 
-    [SerializeField] private UnityEngine.Localization.Components.LocalizeStringEvent tutorialLocalizeStringEvent;
+    public event Action<bool> OnMovementPanelVisibilityChanged;
 
     void Start()
     {
         toggle.gameObject.GetComponent<CanvasGroup>().alpha = 0;
         movementPanelBehaviour = movementPanel.GetComponent<MovementPanelBehaviour>();
-        groupBehaviour.OnCommandAdded += OnCommandAdded;
+        turnBehaviour.OnPlayerCommandAdded += OnCommandAdded;
         toggle.onValueChanged.AddListener(OnToggleChanged);
         gameManager.OnPlayerReachedGoal += OnReachedGoal;
 
@@ -80,7 +86,7 @@ public class TutorialStepsManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        groupBehaviour.OnCommandAdded -= OnCommandAdded;
+        turnBehaviour.OnPlayerCommandAdded -= OnCommandAdded;
         toggle.onValueChanged.RemoveListener(OnToggleChanged);
         gameManager.OnPlayerReachedGoal -= OnReachedGoal;
 
@@ -185,19 +191,25 @@ public class TutorialStepsManager : MonoBehaviour
 
             if (step.movementPanelAction == MovementPanelAction.Hide)
             {
-                    movementPanel.alpha = 0;
-                    movementPanel.interactable = false;
-                    movementPanel.blocksRaycasts = false;
-                    movementPanelBehaviour.isVisible = false;
+                movementPanel.alpha = 0;
+                movementPanel.interactable = false;
+                movementPanel.blocksRaycasts = false;
+                movementPanelBehaviour.isVisible = false;
+                OnMovementPanelVisibilityChanged?.Invoke(false);
             }
             else if (step.movementPanelAction == MovementPanelAction.Show)
             {
 
-                    movementPanel.alpha = 1;
-                    movementPanel.interactable = true;
-                    movementPanel.blocksRaycasts = true;
-                    movementPanelBehaviour.isVisible = true;
+                movementPanel.alpha = 1;
+                movementPanel.interactable = true;
+                movementPanel.blocksRaycasts = true;
+                movementPanelBehaviour.isVisible = true;
+                OnMovementPanelVisibilityChanged?.Invoke(true);
             }
+        }
+        if (step.pauseTimerOnEnter)
+        {
+            turnBehaviour.PauseTurnTimer();
         }
     }
 
@@ -208,7 +220,7 @@ public class TutorialStepsManager : MonoBehaviour
     }
 
 
-    private void OnCommandAdded(CommandType type)
+    private void OnCommandAdded()
     {
         if (currentStep >= steps.Count) return;
 
@@ -259,5 +271,30 @@ public class TutorialStepsManager : MonoBehaviour
         }
 
         Debug.Log("Completado");
+
+        if(SceneManager.GetActiveScene().name == "ChickenTutorial 1")
+        {
+            StartCoroutine(LoadNextSceneAdditiveAndUnloadCurrent("ChickenTutorial 2", "ChickenTutorial 1"));
+        }
+        else
+        {
+            pauseChicken.OnQuitButtonClick();
+        }
+    }
+    private IEnumerator LoadNextSceneAdditiveAndUnloadCurrent(string nextSceneName, string prevSceneName)
+    {
+        // Limpiar el singleton de Grid que si no se lo carga
+        //GridLevelGenerator.Instance = null;
+
+        AsyncOperation loadOp = SceneManager.LoadSceneAsync(nextSceneName, LoadSceneMode.Additive);
+        while (!loadOp.isDone)
+            yield return null;
+        
+        Scene newScene = SceneManager.GetSceneByName(nextSceneName);
+        if (newScene.IsValid())
+            SceneManager.SetActiveScene(newScene);
+        yield return null;
+
+        yield return SceneManager.UnloadSceneAsync(prevSceneName);
     }
 }

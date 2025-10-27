@@ -330,8 +330,51 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 208663472372199430
-    m_Localized: Great! You've reached the checkout. Now you'll learn how to play
+    m_Localized: 'Great! You''ve reached the checkout. Now you''ll learn how to play
       in a group.
+
+'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210129611858128896
+    m_Localized: Welcome to the second tutorial! Here you'll learn how to play as
+      a team.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210129611900071936
+    m_Localized: Each player on the team will add one move per turn. Your teammates
+      will add theirs automatically.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210129611900071937
+    m_Localized: This time, you will be the last to add a move to complete the sequence.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210129611900071938
+    m_Localized: When all the movements are ready, they will be executed one after
+      the other.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210129611908460544
+    m_Localized: 'If your turn time runs out, moves will be executed automatically.
+      Decide before time runs out!
+
+'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210129611908460545
+    m_Localized: There are now obstacles in the shop. If you crash into one, all
+      your moves for the turn will be canceled. Avoid collisions to keep your team
+      moving forward!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210130967104860160
+    m_Localized: Perfect! Now you know how to collaborate with your teammates. Reach
+      the goal to finish.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210203429599457280
+    m_Localized: Bravo! You've completed the tutorial.
     m_Metadata:
       m_Items: []
   references:

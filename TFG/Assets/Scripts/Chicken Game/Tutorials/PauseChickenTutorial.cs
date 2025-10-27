@@ -17,6 +17,7 @@ public class PauseChickenTutorial : MonoBehaviour
     public void OnQuitButtonClick()
     {
         Time.timeScale = 1f;
+        Destroy(FindFirstObjectByType<PlayerInputController>().gameObject);
         MinigameSelectorBehaviour.Instance.ReturnFromTutorial();
 
     }

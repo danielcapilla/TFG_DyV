@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -43,12 +42,12 @@ public class GridLevelGenerator : NetworkBehaviour
 
     public static GridLevelGenerator Instance { get; private set; }
 
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
         {
-            Destroy(gameObject);
-            return;
+            Destroy(Instance.gameObject);
         }
         Instance = this;
     }
@@ -70,6 +69,7 @@ public class GridLevelGenerator : NetworkBehaviour
     {
         if (tutorialGrid && !IsServer)
         {
+            Debug.Log("Cargando grid de tutorial en cliente");
             Generate();
             BuildSceneFromGrid();
         }

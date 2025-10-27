@@ -333,7 +333,47 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 208663472372199430
     m_Localized: "Super ! Vous avez atteint la page de paiement. Vous allez maintenant
-      apprendre \xE0 jouer en groupe.\n"
+      apprendre \xE0 jouer en groupe.\n\n"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210129611858128896
+    m_Localized: "Bienvenue dans ce deuxi\xE8me tutoriel ! Vous y apprendrez \xE0
+      jouer en \xE9quipe."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210129611900071936
+    m_Localized: "Chaque joueur de l'\xE9quipe ajoute un mouvement par tour. Vos
+      co\xE9quipiers ajoutent le leur automatiquement.\n"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210129611900071937
+    m_Localized: "Cette fois, vous serez le dernier \xE0 ajouter un mouvement pour
+      compl\xE9ter la s\xE9quence."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210129611900071938
+    m_Localized: "Lorsque tous les mouvements sont pr\xEAts, ils seront ex\xE9cut\xE9s
+      les uns apr\xE8s les autres."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210129611908460544
+    m_Localized: "Si votre temps de jeu est \xE9coul\xE9, les coups seront ex\xE9cut\xE9s
+      automatiquement. D\xE9cidez avant la fin du temps !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210129611908460545
+    m_Localized: "Il y a maintenant des obstacles dans la boutique. Si vous en percutez
+      un, tous vos d\xE9placements du tour seront annul\xE9s. \xC9vitez les collisions
+      pour que votre \xE9quipe continue d'avancer!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210130967104860160
+    m_Localized: "Parfait ! Vous savez maintenant collaborer avec vos co\xE9quipiers.
+      Atteignez l'objectif pour terminer."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210203429599457280
+    m_Localized: "Bravo ! Vous avez termin\xE9 le tutoriel."
     m_Metadata:
       m_Items: []
   references:

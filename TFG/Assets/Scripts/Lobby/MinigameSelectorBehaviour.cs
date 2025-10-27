@@ -24,6 +24,12 @@ public class MinigameSelectorBehaviour : NetworkBehaviour
 
     [SerializeField] LocalizeStringEvent DescriptionText;
     [SerializeField] LocalizeStringEvent TutorialText;
+
+    // Loading UI
+    //[Header("Loading UI")]
+    //[SerializeField] private CanvasGroup loadingPanel;   
+    //[SerializeField] private Image loadingBarFill;       
+
     // Singleton
     public static MinigameSelectorBehaviour Instance { get; private set; }
 
@@ -39,6 +45,10 @@ public class MinigameSelectorBehaviour : NetworkBehaviour
     void Start()
     {
         startPos = minigameSelectorPanel.transform.localPosition;
+
+        //loadingPanel.alpha = 0f;
+        //loadingPanel.gameObject.SetActive(false);
+        //loadingBarFill.fillAmount = 0f;
         //if (!IsServer) 
         //{
         //    PlayButton.SetActive(false);
@@ -92,22 +102,20 @@ public class MinigameSelectorBehaviour : NetworkBehaviour
     }
     public void ReturnFromTutorial()
     {
-        Scene tutorialScene = SceneManager.GetSceneByName(selectedGame);
+        Scene tutorialScene = SceneManager.GetActiveScene();
 
         if (tutorialScene.isLoaded)
         {
             SceneManager.UnloadSceneAsync(tutorialScene).completed += (op) =>
             {
                 lobbyCanvas.SetActive(true);
-                if (lobbyCamera != null)
-                    lobbyCamera.gameObject.SetActive(true);
+                lobbyCamera.gameObject.SetActive(true);
             };
         }
         else
         {
             lobbyCanvas.SetActive(true);
-            if (lobbyCamera != null)
-                lobbyCamera.gameObject.SetActive(true);
+            lobbyCamera.gameObject.SetActive(true);
         }
     }
     public void SelectButton(Button pressedButton) 
@@ -127,10 +135,7 @@ public class MinigameSelectorBehaviour : NetworkBehaviour
         TutorialText.StringReference.SetReference(info.tutorialText.TableReference, info.tutorialText.TableEntryReference);
         DescriptionText.RefreshString();
         TutorialText.RefreshString();
-        // New
-        if(IsServer)
-            selectedGame = info.sceneName;
-        else
-            selectedGame = info.tutorialSceneName;
+
+        selectedGame = IsServer ? info.sceneName : info.tutorialSceneName;
     }
 }

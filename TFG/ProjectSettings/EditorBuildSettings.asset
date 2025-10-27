@@ -32,6 +32,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/ChickenTutorial 1.unity
     guid: 18c8aa25432ef7245a2ec2e15235ba7b
+  - enabled: 1
+    path: Assets/Scenes/ChickenTutorial 2.unity
+    guid: 2cd467118e5f4334fbf633b7e390142f
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: 026a1b4705c18db48b2a93dc0df394a8, type: 2}
     com.unity.input.settings: {fileID: 11400000, guid: e491ef2ec73f78849ad9e6a3a8d3b17f, type: 2}

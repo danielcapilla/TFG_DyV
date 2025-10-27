@@ -319,6 +319,38 @@ MonoBehaviour:
     m_Key: chickenTuto1/7
     m_Metadata:
       m_Items: []
+  - m_Id: 210129611858128896
+    m_Key: chickenTuto2/1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210129611900071936
+    m_Key: chickenTuto2/2
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210129611900071937
+    m_Key: chickenTuto2/3
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210129611900071938
+    m_Key: chickenTuto2/4
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210129611908460544
+    m_Key: chickenTuto2/5
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210129611908460545
+    m_Key: chickenTuto2/6
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210130967104860160
+    m_Key: chickenTuto2/7
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210203429599457280
+    m_Key: chickenTuto2/8
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

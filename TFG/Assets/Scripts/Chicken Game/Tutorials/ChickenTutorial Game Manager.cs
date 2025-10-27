@@ -1,15 +1,18 @@
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class ChickenTutorialGameManager : MonoBehaviour
 {
     [SerializeField] private GameObject playerPrefab;
     [SerializeField] private TutorialGroupBehaviour groupBehaviour;
+    [SerializeField] private GridLevelGenerator gridLevelGenerator;
     [Header("Música")]
     [SerializeField] private AudioSource chickenMusic;
     [SerializeField] private AudioSource winMusic;
     [SerializeField] private AudioSource collisionSound;
+    
     private PlayerInputController playerInputController;
     private int punctuation = 0;    
 
@@ -18,13 +21,20 @@ public class ChickenTutorialGameManager : MonoBehaviour
 
     private void Start()
     {
+        Initialize();
+    }
+
+    private void Initialize()
+    {
         SpawnPlayer();
-        playerInputController.OnObstaculeCollided += PlayCollisionSound;  
+        playerInputController.OnObstaculeCollided += PlayCollisionSound;
         groupBehaviour.OnTurnExecuted += CalculatePunctuation;
         chickenMusic.Play();
     }
+
     private void OnDestroy()
     {
+
         playerInputController.OnObstaculeCollided -= PlayCollisionSound;
         groupBehaviour.OnTurnExecuted -= CalculatePunctuation;
     }
@@ -35,7 +45,7 @@ public class ChickenTutorialGameManager : MonoBehaviour
     }
     private void CalculatePunctuation()
     {
-        float progress = GridLevelGenerator.Instance.GetProgress(playerInputController.CurrentGridPos);
+        float progress = gridLevelGenerator.GetProgress(playerInputController.CurrentGridPos);
         punctuation = (int)(progress * 100f);
         if (punctuation == 100)
         {
@@ -45,30 +55,46 @@ public class ChickenTutorialGameManager : MonoBehaviour
     }
     private void SpawnPlayer()
     {
-        Vector2Int startCell = GridLevelGenerator.Instance.start;
+        Vector2Int startCell = gridLevelGenerator.start;
 
-        // Calcular posicion en mundo segun la  grid
-        Vector3 origin = GridLevelGenerator.Instance.transform.position - new Vector3((GridLevelGenerator.Instance.width - 1) * 0.5f * GridLevelGenerator.Instance.cellSize, 0f,
-            (GridLevelGenerator.Instance.height - 1) * 0.5f * GridLevelGenerator.Instance.cellSize);
+        Vector3 origin = gridLevelGenerator.transform.position - new Vector3((gridLevelGenerator.width - 1) * 0.5f * gridLevelGenerator.cellSize, 0f,
+            (gridLevelGenerator.height - 1) * 0.5f * gridLevelGenerator.cellSize);
 
-        Vector3 spawnXZ = origin + new Vector3(startCell.x * GridLevelGenerator.Instance.cellSize, 10f, startCell.y * GridLevelGenerator.Instance.cellSize); // Y=10 para raycast desde arriba
+        Vector3 spawnXZ = origin + new Vector3(startCell.x * gridLevelGenerator.cellSize, 10f, startCell.y * gridLevelGenerator.cellSize);
 
-        // Raycast hacia abajo para encontrar el suelo
         RaycastHit hit;
-        float spawnY = 0.5f; // valor por defecto si no hay suelo
+        float spawnY = 0.5f;
         if (Physics.Raycast(spawnXZ, Vector3.down, out hit, 20f, LayerMask.GetMask("Default", "Ground")))
         {
-            spawnY = hit.point.y + 0.1f; // 0.1f para evitar quedarse dentro del suelo
+            spawnY = hit.point.y + 0.1f;
         }
         Vector3 spawnPosition = new Vector3(spawnXZ.x, spawnY, spawnXZ.z);
 
-        // Instanciar player como NetworkObject
+        // Reutilizar si ya existe un player en la escena para el tuto 2
+        PlayerInputController existing = FindFirstObjectByType<PlayerInputController>();
+        if (existing != null && existing.isTutorialMode)
+        {
+            this.playerInputController = existing;
+            // Reposicionar 
+            existing.transform.position = spawnPosition;
+            existing.CurrentGridPos = startCell;
+            existing.IsMoving = false;
+            existing.LastMoveBlocked = false;
+            existing.isTutorialMode = true;
+
+            OnPlayerSpawned?.Invoke(this.playerInputController);
+            return;
+        }
+
         GameObject player = Instantiate(playerPrefab, spawnPosition, Quaternion.identity);
         PlayerInputController playerInputController = player.GetComponent<PlayerInputController>();
-        playerInputController.isTutorialMode = true;    
+        playerInputController.isTutorialMode = true;
         player.GetComponent<PlayerInput>().enabled = true;
         this.playerInputController = playerInputController;
-        OnPlayerSpawned?.Invoke(playerInputController);
 
+        // Evitar que Unity lo destruya al cambiar de escena
+        DontDestroyOnLoad(player);
+
+        OnPlayerSpawned?.Invoke(playerInputController);
     }
 }

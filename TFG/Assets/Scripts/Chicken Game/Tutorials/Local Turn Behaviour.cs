@@ -1,4 +1,5 @@
 using DG.Tweening;
+using System;
 using UnityEngine;
 
 public class LocalTurnBehaviour : MonoBehaviour
@@ -10,57 +11,98 @@ public class LocalTurnBehaviour : MonoBehaviour
     [Header("Referencias")]
     [SerializeField] private TutorialGroupBehaviour groupBehaviour;
     [SerializeField] private TutorialTurnTimer turnTimer;
+    [SerializeField] private ChickenTutorialBotsManager botsManager;
+    [SerializeField] private TutorialStepsManager stepsManager;
 
-    private bool playerHasActed = false;
-    private bool botHasActed = false;
     public bool hasBots = false;
+
+    public event Action OnPlayerCommandAdded;
 
     void Start()
     {
         turnTimer.OnTimerEnd += HandleTurnTimeout;
-        groupBehaviour.OnCommandAdded += OnPlayerCommand;
-        ShowMoves(); 
+        groupBehaviour.OnTurnExecuted += HandleTurnExecuted;
+        stepsManager.OnMovementPanelVisibilityChanged += HandleMovementPanelVisibilityChanged;
+        
     }
     private void OnDestroy()
     {
         turnTimer.OnTimerEnd -= HandleTurnTimeout;
-        groupBehaviour.OnCommandAdded -= OnPlayerCommand;
+        groupBehaviour.OnTurnExecuted -= HandleTurnExecuted;
+        stepsManager.OnMovementPanelVisibilityChanged -= HandleMovementPanelVisibilityChanged;
     }
+
     private void HandleTurnTimeout()
     {
-        ExecuteTurn();
+        ExecuteTurn(); // se ejecuta el turno al acabarse el tiempo
+    }
+    private void HandleMovementPanelVisibilityChanged(bool visible)
+    {
+        if (!visible)
+        {
+            // Ocultar panel de movimiento
+            turnTimer.PauseTimer();
+            if (hasBots && botsManager != null)
+                botsManager.PauseBots();
+            ShowWaiting();
+            return;
+        }
+        if (hasBots && botsManager != null)
+        {
+            // En Tuto 2 los bots van primero
+            ShowWaiting();
+            botsManager.RequestBotActions();
+            turnTimer.ResetTimer();
+        }
+        else
+        {
+            // Tuto 1 solo jugador
+            ShowPlayerMoves();
+        }
+    }
+
+    private void HandleTurnExecuted()
+    {
+
+        turnTimer.ResetTimer();
+        DOVirtual.DelayedCall(0.1f, ShowMoves);
     }
 
     public void OnPlayerCommand(CommandType type)
     {
-        playerHasActed = true;
         ShowWaiting();
-
-        if (!hasBots)
-            ExecuteTurn(); // en el tutorial 1
-        else
-            CheckIfTurnFinished(); // en el 2
-    }
-
-    private void CheckIfTurnFinished()
-    {
-        bool allDone = playerHasActed && botHasActed;
-        if (allDone)
-            ExecuteTurn();
+        ExecuteTurn(); // el jugador actua el ultimo
+        OnPlayerCommandAdded?.Invoke();
     }
 
     private void ExecuteTurn()
     {
         ShowWaiting();
+        turnTimer.PauseTimer(); // no contar durante la ejecucion del movimiento
         groupBehaviour.ExecuteTurn(); 
-        turnTimer.ResetTimer();       
-        playerHasActed = false;
-        botHasActed = false;
-
-        DOVirtual.DelayedCall(1.0f, ShowMoves);
     }
 
     private void ShowMoves()
+    {
+        if (hasBots && botsManager != null)
+        {
+            ShowWaiting();
+            botsManager.RequestBotActions(); // cuando acaben, se abrira el panel del player
+            return;
+        }
+        ShowPlayerMoves();
+    }
+
+    public void NotifyBotsFinished()
+    {
+        ShowPlayerMoves();
+    }
+    public void PauseTurnTimer()
+    {
+        turnTimer.PauseTimer();
+    }
+
+    private void ShowPlayerMoves()
     {
         waitingPanel.DOFade(0, 0.25f);
         waitingPanel.interactable = false;

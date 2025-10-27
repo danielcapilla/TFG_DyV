@@ -7,7 +7,6 @@ public class TutorialTurnTimer : MonoBehaviour
 {
     [Header("Variables")]
     [SerializeField] private float timerDuration = 10f;
-    [SerializeField] private float delayAfterZero = 1.5f;
 
     [Header("Referencias")]
     [SerializeField] private Slider timerSlider;
@@ -15,14 +14,13 @@ public class TutorialTurnTimer : MonoBehaviour
 
     private float currentTime;
     private bool isTimerRunning = false;
-    private bool isDelayRunning = false;
 
     public event Action OnTimerEnd;
     public static event Action<float> OnTimerUpdated;
 
     void Start()
     {
-        ResetTimer();
+        UpdateTimerDisplay(timerDuration);
     }
 
     void Update()
@@ -36,7 +34,8 @@ public class TutorialTurnTimer : MonoBehaviour
         {
             currentTime = 0f;
             isTimerRunning = false;
-            StartCoroutine(DelayAndNextTurn());
+
+            OnTimerEnd?.Invoke();
         }
     }
 
@@ -47,20 +46,9 @@ public class TutorialTurnTimer : MonoBehaviour
         isTimerRunning = true;
     }
 
-    private IEnumerator DelayAndNextTurn()
+    public void PauseTimer()
     {
-        isDelayRunning = true;
-        UpdateTimerDisplay(timerDuration);
-
-        yield return new WaitForSeconds(delayAfterZero);
-
-        // Notificamos fin de turno
-        OnTimerEnd?.Invoke();
-
-        // Reiniciamos timer para el siguiente turno
-        ResetTimer();
-
-        isDelayRunning = false;
+        isTimerRunning = false;
     }
 
     private void UpdateTimerDisplay(float time)
@@ -69,6 +57,6 @@ public class TutorialTurnTimer : MonoBehaviour
         timerSlider.value = Mathf.Clamp(time, 0f, timerDuration);
 
         panelBehaviour?.UpdateTimerUI(time, timerDuration);
-        OnTimerUpdated?.Invoke(time / timerDuration);
+        OnTimerUpdated?.Invoke(timerDuration > 0f ? Mathf.Clamp01(time / timerDuration) : 0f);
     }
 }

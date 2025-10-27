@@ -10,9 +10,9 @@ public class PlayerInputController : NetworkBehaviour
     public float moveDistance = 1f; // Distancia por movimiento
     public float moveDuration = 0.5f; // Duracion del movimiento
     public float rotationSpeed = 10f;
-    public Vector2Int CurrentGridPos { get; private set; }
-    public bool IsMoving { get; private set; }
-    public bool LastMoveBlocked { get; private set; }
+    public Vector2Int CurrentGridPos { get; set; }
+    public bool IsMoving { get;  set; }
+    public bool LastMoveBlocked { get;  set; }
     [SerializeField] private LayerMask obstacleMask;
     [Header("Partículas")]
     private ParticleSystem dust;

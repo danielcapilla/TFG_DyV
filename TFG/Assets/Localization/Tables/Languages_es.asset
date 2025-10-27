@@ -335,6 +335,45 @@ MonoBehaviour:
       en grupo."
     m_Metadata:
       m_Items: []
+  - m_Id: 210129611858128896
+    m_Localized: "\xA1Bienvenido al segundo tutorial! Aqu\xED aprender\xE1s a jugar
+      en equipo."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210129611900071936
+    m_Localized: "Cada jugador del equipo a\xF1adir\xE1 un movimiento por turno.
+      Tus compa\xF1eros a\xF1adir\xE1n los suyos autom\xE1ticamente."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210129611900071937
+    m_Localized: "En esta ocasi\xF3n, t\xFA ser\xE1s el \xFAltimo en a\xF1adir un
+      movimiento para completar la secuencia."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210129611900071938
+    m_Localized: "Cuando todos los movimientos est\xE9n listos, se ejecutar\xE1n
+      uno tras otro."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210129611908460544
+    m_Localized: "Si el tiempo del turno se acaba, los movimientos se ejecutar\xE1n
+      autom\xE1ticamente. \xA1Decide antes de que se termine el tiempo!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210129611908460545
+    m_Localized: "Ahora hay obst\xE1culos en la tienda. Si chocas con uno, se cancelar\xE1n
+      todos los movimientos del turno. \xA1Evita chocar para que el equipo avance!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210130967104860160
+    m_Localized: "\xA1Perfecto! Ya sabes c\xF3mo colaborar con tus compa\xF1eros.
+      Alcanza la meta para terminar."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210203429599457280
+    m_Localized: "\xA1Bravo! Has terminado el tutorial."
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:

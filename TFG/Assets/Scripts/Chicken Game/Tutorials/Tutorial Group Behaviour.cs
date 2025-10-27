@@ -11,13 +11,16 @@ public class TutorialGroupBehaviour : MonoBehaviour
     public event Action<CommandType> OnCommandAdded;
     public event Action OnTurnExecuted;
 
+    private bool isExecuting = false;
+
     private void Awake()
     {
         gameManager.OnPlayerSpawned += OnPlayerSpawned;
     }
     private void OnDestroy()
     {
-        gameManager.OnPlayerSpawned -= OnPlayerSpawned;
+        if (gameManager != null)
+            gameManager.OnPlayerSpawned -= OnPlayerSpawned;
     }
     private void OnPlayerSpawned(PlayerInputController controller)
     {
@@ -29,32 +32,43 @@ public class TutorialGroupBehaviour : MonoBehaviour
         ICommand command = CreateCommandFromType(type);
         commandQueue.Enqueue(command);
         OnCommandAdded?.Invoke(type);
-
     }
 
     public void ExecuteTurn()
     {
-        StartCoroutine(ExecuteTurnCoroutine());
+        if (!isExecuting)
+            StartCoroutine(ExecuteTurnCoroutine());
     }
 
     private IEnumerator ExecuteTurnCoroutine()
     {
-        while (commandQueue.Count > 0)
+        isExecuting = true;
+
+        // Snapshot de comandos y limpieza, igual que en online
+        var turnCommands = new List<ICommand>(commandQueue);
+        commandQueue.Clear();
+
+        foreach (var command in turnCommands)
         {
-            var command = commandQueue.Dequeue();
             command.Execute(playerController);
 
-            // Esperar a que termine el movimiento si aplica
+            // Esperar inicio y fin de movimiento si aplica
             yield return new WaitForSeconds(0.05f);
             if (playerController.IsMoving)
                 yield return new WaitUntil(() => !playerController.IsMoving);
 
             if (playerController.LastMoveBlocked)
             {
-                yield break;
+                // Igual que online: romper el turno, pero SIEMPRE notificar OnTurnExecuted después
+                break;
             }
+
+            // Margen suave entre comandos, como en online
+            yield return new WaitForSeconds(0.05f);
         }
+
         OnTurnExecuted?.Invoke();
+        isExecuting = false;
     }
 
     private ICommand CreateCommandFromType(CommandType type)
