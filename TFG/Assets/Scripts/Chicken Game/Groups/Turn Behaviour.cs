@@ -24,7 +24,7 @@ public class TurnBehaviour : NetworkBehaviour
         base.OnNetworkSpawn();
         groupBehaviour.OnCommandAdded += NextTurn;
         turnTimer.OnTimerEnd += ResetTurn;
-
+        //Debug.Log(Clie);
         if (!IsServer) return;
         gameManager.OnPlayerSpawned += HandlePlayerSpawned;
         groupBehaviour.OnExecutedTurn += HandleOnExecutedTurn;
@@ -107,9 +107,15 @@ public class TurnBehaviour : NetworkBehaviour
     public void NextTurn(ulong id, CommandType commandType)
     {
         if (movementPanel.interactable)
+        {
             ShowWaiting();
+        }   
         else
+        {
+
             ShowMoves();
+        }
+            
 
         ChangeTurnRPC(id);
     }
@@ -201,13 +207,10 @@ public class TurnBehaviour : NetworkBehaviour
         // Cancelamos animaciones anteriores
         DOTween.Kill(waitingPanel);
         DOTween.Kill(movementPanel);
-
+        movementPanel.interactable = false;
+        movementPanel.blocksRaycasts = false;
         // Fade out movement
-        movementPanel.DOFade(0, 0.25f).SetEase(Ease.InOutSine).OnComplete(() =>
-        {
-            movementPanel.interactable = false;
-            movementPanel.blocksRaycasts = false;
-        });
+        movementPanel.DOFade(0, 0.25f).SetEase(Ease.InOutSine);
         movementPanel.transform.DOScale(0.95f, 0.25f).SetEase(Ease.InOutSine);
 
         // Fade in waiting

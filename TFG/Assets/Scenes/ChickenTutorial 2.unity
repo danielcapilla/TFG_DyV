@@ -814,7 +814,7 @@ MonoBehaviour:
     pauseTimerOnEnter: 0
   - message: Terminado
     localizationKey: chickenTuto2/8
-    waitForPlayerAction: 1
+    waitForPlayerAction: 0
     conditionType: 0
     movementPanelAction: 2
     toggleMovementPanelAction: 2

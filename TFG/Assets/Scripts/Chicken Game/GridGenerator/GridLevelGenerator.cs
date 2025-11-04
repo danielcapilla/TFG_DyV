@@ -69,7 +69,6 @@ public class GridLevelGenerator : NetworkBehaviour
     {
         if (tutorialGrid && !IsServer)
         {
-            Debug.Log("Cargando grid de tutorial en cliente");
             Generate();
             BuildSceneFromGrid();
         }

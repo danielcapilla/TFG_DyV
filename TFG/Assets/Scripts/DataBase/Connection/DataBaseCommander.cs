@@ -540,14 +540,8 @@ public class DataBaseCommander : MonoBehaviour
             if (gid == -1) continue; // descartar host
             if (team.integrantes == null || team.integrantes.Count == 0) continue;
 
-            // Primer integrante = el que tiene InputCtrl
-            var leaderId = team.integrantes[0];
-            if (!Unity.Netcode.NetworkManager.Singleton.ConnectedClients.TryGetValue(leaderId, out var leaderClient) ||
-                leaderClient?.PlayerObject == null)
-                continue;
-
-            var leaderNO = leaderClient.PlayerObject;
-            var inputCtrl = leaderNO.GetComponentInChildren<PlayerInputController>();
+            TeamInfoChicken teamInfoChicken = (TeamInfoChicken)team;
+            PlayerInputController inputCtrl = teamInfoChicken.playerPrefab;
             // Pos del player
             Vector2Int groupPos = inputCtrl.CurrentGridPos;
 
