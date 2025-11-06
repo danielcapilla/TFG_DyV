@@ -57,6 +57,12 @@ public class GridLevelGenerator : NetworkBehaviour
         base.OnNetworkSpawn();
            
         if(!IsServer) return;
+        //Generate();
+        //SendGridToClients();
+    }
+    public void GenerateLevel()
+    {
+        if (!IsServer) return;
         Generate();
         SendGridToClients();
     }
@@ -347,7 +353,7 @@ public class GridLevelGenerator : NetworkBehaviour
     private void BuildSceneFromGrid()
     {
         // Crear un padre para agrupar los elementos del nivel
-        var root = new GameObject("GridLevel");
+        GameObject root = new GameObject("GridLevel");
         root.transform.SetParent(transform, false);
         spawned.Add(root);
 
@@ -364,7 +370,7 @@ public class GridLevelGenerator : NetworkBehaviour
                 if (floorPrefab != null && grid[x, y] != 2 && grid[x, y] != 3)
                 {
                     Quaternion floorRot = Quaternion.Euler(90f, 0f, 0f);
-                    var floor = Instantiate(floorPrefab, worldPos, floorRot, root.transform);
+                    GameObject floor = Instantiate(floorPrefab, worldPos, floorRot, root.transform);
                     spawned.Add(floor);
                 }
 
@@ -392,7 +398,7 @@ public class GridLevelGenerator : NetworkBehaviour
                 // Instanciar si hay prefab asignado
                 if (toSpawn != null)
                 {
-                    var go = Instantiate(toSpawn, worldPos, rot, root.transform);
+                    GameObject go = Instantiate(toSpawn, worldPos, rot, root.transform);
                     spawned.Add(go);
                 }
             }
@@ -405,28 +411,32 @@ public class GridLevelGenerator : NetworkBehaviour
             Quaternion rotSupDer = Quaternion.Euler(0, 180, 0);
             Quaternion rotSupIzq = Quaternion.Euler(0, 90, 0);
 
+            // Root distinta para los walls
+            GameObject wallRoot = new GameObject("Walls");
+            wallRoot.transform.SetParent(transform, false);
+
             // Esquinas 
-            spawned.Add(Instantiate(wallPrefabs[0], origin + new Vector3(-1 * cellSize, 0f, -1 * cellSize), rotInfIzq, root.transform));
-            spawned.Add(Instantiate(wallPrefabs[0], origin + new Vector3(width * cellSize, 0f, -1 * cellSize), rotInfDer, root.transform));
-            spawned.Add(Instantiate(wallPrefabs[0], origin + new Vector3(width * cellSize, 0f, height * cellSize), rotSupDer, root.transform));
-            spawned.Add(Instantiate(wallPrefabs[0], origin + new Vector3(-1 * cellSize, 0f, height * cellSize), rotSupIzq, root.transform));
+            spawned.Add(Instantiate(wallPrefabs[0], origin + new Vector3(-1 * cellSize, 0f, -1 * cellSize), rotInfIzq, wallRoot.transform));
+            spawned.Add(Instantiate(wallPrefabs[0], origin + new Vector3(width * cellSize, 0f, -1 * cellSize), rotInfDer, wallRoot.transform));
+            spawned.Add(Instantiate(wallPrefabs[0], origin + new Vector3(width * cellSize, 0f, height * cellSize), rotSupDer, wallRoot.transform));
+            spawned.Add(Instantiate(wallPrefabs[0], origin + new Vector3(-1 * cellSize, 0f, height * cellSize), rotSupIzq, wallRoot.transform));
 
             // Puerta
-            spawned.Add(Instantiate(wallPrefabs[3], origin + new Vector3(0, 0f, -1 * cellSize), wallPrefabs[3].transform.rotation, root.transform));
+            spawned.Add(Instantiate(wallPrefabs[3], origin + new Vector3(0, 0f, -1 * cellSize), wallPrefabs[3].transform.rotation, wallRoot.transform));
 
             // Muros horizontales inferiores
             for (int x = 1; x < width; x++)
             {
                 Vector3 posInf = origin + new Vector3(x * cellSize, 0f, -1 * cellSize);
                 GameObject prefab = (x == width - 1) ? wallPrefabs[1] : (Random.value < 0.7f ? wallPrefabs[1] : wallPrefabs[2]);
-                spawned.Add(Instantiate(prefab, posInf, wallPrefabs[1].transform.rotation, root.transform));
+                spawned.Add(Instantiate(prefab, posInf, wallPrefabs[1].transform.rotation, wallRoot.transform));
             }
             // Muros horizontales superiores
             for (int x = 0; x < width; x++)
             {
                 Vector3 posSup = origin + new Vector3(x * cellSize, 0f, height * cellSize);
                 GameObject prefab = (x == 0 || x == width - 1) ? wallPrefabs[1] : (Random.value < 0.7f ? wallPrefabs[1] : wallPrefabs[2]);
-                spawned.Add(Instantiate(prefab, posSup, wallPrefabs[1].transform.rotation * Quaternion.Euler(0, 180, 0), root.transform));
+                spawned.Add(Instantiate(prefab, posSup, wallPrefabs[1].transform.rotation * Quaternion.Euler(0, 180, 0), wallRoot.transform));
             }
 
             // Muros verticales izquierdos 
@@ -436,7 +446,7 @@ public class GridLevelGenerator : NetworkBehaviour
                 Vector3 posIzq = origin + new Vector3(-1 * cellSize, 0f, y * cellSize);
                 //GameObject prefab = (y == 0 || y == height - 1) ? wallPrefabs[1] : (Random.value < 0.8f ? wallPrefabs[1] : wallPrefabs[2]);
                 GameObject prefab = wallPrefabs[1];
-                spawned.Add(Instantiate(prefab, posIzq, verticalRot, root.transform));
+                spawned.Add(Instantiate(prefab, posIzq, verticalRot, wallRoot.transform));
             }
             // Muros verticales derechos 
             Quaternion verticalRotDer = wallPrefabs[1].transform.rotation * Quaternion.Euler(0f, 270f, 0f);
@@ -445,7 +455,7 @@ public class GridLevelGenerator : NetworkBehaviour
                 Vector3 posDer = origin + new Vector3(width * cellSize, 0f, y * cellSize);
                 //GameObject prefab = (y == 0 || y == height - 1) ? wallPrefabs[1] : (Random.value < 0.8f ? wallPrefabs[1] : wallPrefabs[2]);
                 GameObject prefab = wallPrefabs[1];
-                spawned.Add(Instantiate(prefab, posDer, verticalRotDer, root.transform));
+                spawned.Add(Instantiate(prefab, posDer, verticalRotDer, wallRoot.transform));
             }
         }
     }
