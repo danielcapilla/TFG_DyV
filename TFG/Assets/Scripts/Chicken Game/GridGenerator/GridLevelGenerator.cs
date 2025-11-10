@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -42,6 +43,8 @@ public class GridLevelGenerator : NetworkBehaviour
 
     public static GridLevelGenerator Instance { get; private set; }
 
+    public Action OnLevelGenerated;
+
 
     private void Awake()
     {
@@ -66,6 +69,11 @@ public class GridLevelGenerator : NetworkBehaviour
         Generate();
         SendGridToClients();
     }
+    public void GenerateTutorialLevel()
+    {
+        Generate();
+        BuildSceneFromGrid();
+    }
     public override void OnNetworkDespawn()
     {
         base.OnNetworkDespawn();
@@ -82,8 +90,8 @@ public class GridLevelGenerator : NetworkBehaviour
     public void Generate()
     {
         // Semilla, se usa la hora del sistema para que sea distinta a cada ejecucion
-        if (seed == -1) Random.InitState(System.Environment.TickCount);
-        else Random.InitState(seed);
+        if (seed == -1) UnityEngine.Random.InitState(System.Environment.TickCount);
+        else UnityEngine.Random.InitState(seed);
 
         // Validaciones del mapa
         width = Mathf.Max(2, width);
@@ -133,13 +141,15 @@ public class GridLevelGenerator : NetworkBehaviour
                 if (cell == start || cell == goal) continue;
                 if (pathSet.Contains(cell)) continue; // proteger camino
                 // Decidir aleatoriamente si poner obstaculo
-                if (Random.value < obstacleDensity)
+                if (UnityEngine.Random.value < obstacleDensity)
                     grid[x, y] = 1;
             }
         }
         ComputeDistanceMap();
         // 5) Construir escena con prefabs
         //BuildSceneFromGrid();
+        OnLevelGenerated?.Invoke();
+        Debug.Log("Nivel generado: " + width + "x" + height + ", start: " + start + ", goal: " + goal);
     }
 
     private bool TryPickGoal(out Vector2Int picked, out Dictionary<Vector2Int, Vector2Int> cameFrom)
@@ -160,7 +170,9 @@ public class GridLevelGenerator : NetworkBehaviour
         {
             // Sacar la antigua
             Vector2Int cur = queue.Dequeue();
-            foreach (var dir in dirs)
+            // Volver a barajar para mas aleatoriedad
+            Shuffle(localDirs);
+            foreach (var dir in localDirs)
             {
                 // Nueva celda
                 Vector2Int next = cur + dir;
@@ -202,12 +214,54 @@ public class GridLevelGenerator : NetworkBehaviour
             picked = FarthestByManhattan(start);
             return false;
         }
+        // Mas complejidad visual
+        List<ScoredCandidate> scored = new List<ScoredCandidate>(candidates.Count);
+        // Se calcula un score para cada candidato
+        for (int i = 0; i < candidates.Count; i++)
+        {
+            Vector2Int cand = candidates[i];
+            float score = EvaluatePathComplexity(cand, cameFrom);
+            scored.Add(new ScoredCandidate { pos = cand, score = score });
+        }
+        // Ordenar mayor a menor
+        scored.Sort((a, b) => b.score.CompareTo(a.score));
+        // Tomar top 30% para mantener aleatoriedad dentro los mas complejos
+        int topCount = Mathf.Max(1, Mathf.CeilToInt(scored.Count * 0.3f));
 
-        // Elegir aleatoriamente una meta válida
-        picked = candidates[Random.Range(0, candidates.Count)];
+        picked = candidates[UnityEngine.Random.Range(0, topCount)];
         return true;
     }
+    private struct ScoredCandidate
+    {
+        public Vector2Int pos;
+        public float score;
+    }
+    private float EvaluatePathComplexity(Vector2Int goalCell, Dictionary<Vector2Int, Vector2Int> cameFrom)
+    {
+        // Calcular una complejidad para el camino desde start hasta goal (más variedad)
+        // El score depende del num de giros, curvas y distancia Manhattan
+        int turns = 0;
+        Vector2Int prevDir = Vector2Int.zero;
+        Vector2Int cur = goalCell;
 
+        // Recorrer de atras a lante
+        while (cur != start)
+        {
+            Vector2Int parent = cameFrom[cur];
+            Vector2Int dir = cur - parent;
+            // No contar el primer paso y si hay un cambio de dir es un giro
+            if (prevDir != Vector2Int.zero && dir != prevDir) turns++;
+            prevDir = dir;
+            cur = parent;
+        }
+
+        // Distancia Manhattan
+        int manhattan = Mathf.Abs(goalCell.x - start.x) + Mathf.Abs(goalCell.y - start.y);
+
+        // Formula inventada para el score
+        // Los giros tienen mas peso que la distancia Manhattan
+        return turns * 2f + manhattan * 0.25f;
+    }
     private Vector2Int FarthestByManhattan(Vector2Int from)
     {
         Vector2Int best = from;
@@ -428,14 +482,14 @@ public class GridLevelGenerator : NetworkBehaviour
             for (int x = 1; x < width; x++)
             {
                 Vector3 posInf = origin + new Vector3(x * cellSize, 0f, -1 * cellSize);
-                GameObject prefab = (x == width - 1) ? wallPrefabs[1] : (Random.value < 0.7f ? wallPrefabs[1] : wallPrefabs[2]);
+                GameObject prefab = (x == width - 1) ? wallPrefabs[1] : (UnityEngine.Random.value < 0.7f ? wallPrefabs[1] : wallPrefabs[2]);
                 spawned.Add(Instantiate(prefab, posInf, wallPrefabs[1].transform.rotation, wallRoot.transform));
             }
             // Muros horizontales superiores
             for (int x = 0; x < width; x++)
             {
                 Vector3 posSup = origin + new Vector3(x * cellSize, 0f, height * cellSize);
-                GameObject prefab = (x == 0 || x == width - 1) ? wallPrefabs[1] : (Random.value < 0.7f ? wallPrefabs[1] : wallPrefabs[2]);
+                GameObject prefab = (x == 0 || x == width - 1) ? wallPrefabs[1] : (UnityEngine.Random.value < 0.7f ? wallPrefabs[1] : wallPrefabs[2]);
                 spawned.Add(Instantiate(prefab, posSup, wallPrefabs[1].transform.rotation * Quaternion.Euler(0, 180, 0), wallRoot.transform));
             }
 
@@ -499,14 +553,14 @@ public class GridLevelGenerator : NetworkBehaviour
     {
         for (int i = 0; i < array.Length; i++)
         {
-            int j = Random.Range(i, array.Length);
+            int j = UnityEngine.Random.Range(i, array.Length);
             (array[i], array[j]) = (array[j], array[i]);
         }
     }
     private int GetRandomObstacleIndex()
     {
         float[] chances = { 0.45f, 0.45f, 0.1f };
-        float r = Random.value;
+        float r = UnityEngine.Random.value;
         float acc = 0f;
         for (int i = 0; i < chances.Length; i++)
         {

@@ -377,6 +377,30 @@ MonoBehaviour:
     m_Localized: Bravo! You've completed the tutorial.
     m_Metadata:
       m_Items: []
+  - m_Id: 215178943523205120
+    m_Localized: Level Options
+    m_Metadata:
+      m_Items: []
+  - m_Id: 215178943573536768
+    m_Localized: Width
+    m_Metadata:
+      m_Items: []
+  - m_Id: 215178943573536769
+    m_Localized: Height
+    m_Metadata:
+      m_Items: []
+  - m_Id: 215178943573536770
+    m_Localized: Minimum Distance
+    m_Metadata:
+      m_Items: []
+  - m_Id: 215178943573536771
+    m_Localized: Obstacles
+    m_Metadata:
+      m_Items: []
+  - m_Id: 215179407895572480
+    m_Localized: Generate
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:

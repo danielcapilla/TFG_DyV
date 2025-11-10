@@ -27,6 +27,7 @@ public class GameManagerChicken : NetworkBehaviour
     [SerializeField] private GameObject movementPanel;
     [SerializeField] private GameObject movementPanelToggle;
     [SerializeField] private GameObject hostCanvas;
+    [SerializeField] private GameObject groupPanel;
 
     [Header("Base de Datos")]
     [SerializeField] private DataBaseCommander dataBaseCommander;
@@ -48,10 +49,20 @@ public class GameManagerChicken : NetworkBehaviour
         {
             chooseGroup.OnGameStartEvent += StartGame;
             groupBehaviour.OnExecutedTurn += CalculatePunctuation;
-            
+            GridLevelGenerator.Instance.OnLevelGenerated += ActivateGroupPanelRPC;
+
         }
         else
+        {
             hostCanvas.SetActive(false);
+        }
+            
+
+    }
+    [Rpc(SendTo.NotMe)]
+    private void ActivateGroupPanelRPC()
+    {
+        groupPanel.SetActive(true); 
     }
 
     private void CalculatePunctuation(PlayerInputController playerInput, int groupId)
@@ -76,6 +87,11 @@ public class GameManagerChicken : NetworkBehaviour
         {
             chooseGroup.OnGameStartEvent -= StartGame;
             groupBehaviour.OnExecutedTurn -= CalculatePunctuation;
+            GridLevelGenerator.Instance.OnLevelGenerated -= ActivateGroupPanelRPC;
+        }
+        else
+        {
+            
         }
     }
     private void StartGame()

@@ -351,6 +351,30 @@ MonoBehaviour:
     m_Key: chickenTuto2/8
     m_Metadata:
       m_Items: []
+  - m_Id: 215178943523205120
+    m_Key: gridPanelTitle
+    m_Metadata:
+      m_Items: []
+  - m_Id: 215178943573536768
+    m_Key: gridPanelWidth
+    m_Metadata:
+      m_Items: []
+  - m_Id: 215178943573536769
+    m_Key: gridPanelHeight
+    m_Metadata:
+      m_Items: []
+  - m_Id: 215178943573536770
+    m_Key: gridPanelDistance
+    m_Metadata:
+      m_Items: []
+  - m_Id: 215178943573536771
+    m_Key: gridPanelObstacle
+    m_Metadata:
+      m_Items: []
+  - m_Id: 215179407895572480
+    m_Key: gridPanelGenerate
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

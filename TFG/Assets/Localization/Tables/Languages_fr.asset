@@ -50,7 +50,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 26437426164707329
-    m_Localized: Entrez du texte...
+    m_Localized: Saisissez du texte...
     m_Metadata:
       m_Items: []
   - m_Id: 26437426164707330
@@ -58,11 +58,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 26437426164707331
-    m_Localized: Entrez le nom d'utilisateur...
+    m_Localized: Entrez votre nom d'utilisateur...
     m_Metadata:
       m_Items: []
   - m_Id: 26437426164707332
-    m_Localized: Entrez le code de classe...
+    m_Localized: Saisissez le code de la classe...
     m_Metadata:
       m_Items: []
   - m_Id: 26437426164707333
@@ -86,7 +86,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 26437426164707338
-    m_Localized: "Veuillez s\xE9lectionner un sexe"
+    m_Localized: "Veuillez s\xE9lectionner un genre"
     m_Metadata:
       m_Items: []
   - m_Id: 26437426164707339
@@ -94,15 +94,15 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 26437426164707340
-    m_Localized: "Ce nom d'utilisateur est d\xE9j\xE0 utilis\xE9"
+    m_Localized: "Ce nom d'utilisateur est d\xE9j\xE0 utilis\xE9."
     m_Metadata:
       m_Items: []
   - m_Id: 26437426164707341
-    m_Localized: Ce nom d'utilisateur n'existe pas
+    m_Localized: Ce nom d'utilisateur n'existe pas.
     m_Metadata:
       m_Items: []
   - m_Id: 26437426164707342
-    m_Localized: "Erreur de connexion, v\xE9rifiez votre connexion Internet"
+    m_Localized: "Erreur de connexion. Veuillez v\xE9rifier votre connexion Internet."
     m_Metadata:
       m_Items: []
   - m_Id: 26437426164707343
@@ -146,19 +146,17 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 26437426164707353
-    m_Localized: "S\xE9lectionnez un jeu pour afficher son didacticiel"
+    m_Localized: "S\xE9lectionnez un jeu pour afficher son tutoriel."
     m_Metadata:
       m_Items: []
   - m_Id: 26437426164707354
-    m_Localized: "Utilisez la pens\xE9e abstraite pour d\xE9chiffrer les codes des
-      ingr\xE9dients et travaillez avec votre \xE9quipe pour ex\xE9cuter autant de
-      commandes que possible."
+    m_Localized: "Utilisez la pens\xE9e abstraite pour d\xE9crypter les ingr\xE9dients
+      et travaillez en \xE9quipe pour honorer un maximum de commandes."
     m_Metadata:
       m_Items: []
   - m_Id: 26437426164707355
-    m_Localized: "Regardez les exemples de hamburgers pour d\xE9coder les ingr\xE9dients,
-      puis compl\xE9tez et livrez autant de hamburgers que possible au guichet de
-      service."
+    m_Localized: "Consultez les exemples de burgers pour d\xE9crypter les ingr\xE9dients,
+      puis pr\xE9parez-en et apportez-en autant que possible au guichet."
     m_Metadata:
       m_Items: []
   - m_Id: 26437426164707356
@@ -218,11 +216,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 29633785613168641
-    m_Localized: Volume de la musique
+    m_Localized: Volume musical
     m_Metadata:
       m_Items: []
   - m_Id: 29633785613168642
-    m_Localized: Volume des effets sonores
+    m_Localized: Volume SFX
     m_Metadata:
       m_Items: []
   - m_Id: 29660703238565888
@@ -374,6 +372,32 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 210203429599457280
     m_Localized: "Bravo ! Vous avez termin\xE9 le tutoriel."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 215178943523205120
+    m_Localized: Options de Niveau
+    m_Metadata:
+      m_Items: []
+  - m_Id: 215178943573536768
+    m_Localized: Largeur
+    m_Metadata:
+      m_Items: []
+  - m_Id: 215178943573536769
+    m_Localized: Hauteur
+    m_Metadata:
+      m_Items: []
+  - m_Id: 215178943573536770
+    m_Localized: 'Distance Minimale
+
+'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 215178943573536771
+    m_Localized: Obstacles
+    m_Metadata:
+      m_Items: []
+  - m_Id: 215179407895572480
+    m_Localized: "D\xE9clenchement"
     m_Metadata:
       m_Items: []
   references:

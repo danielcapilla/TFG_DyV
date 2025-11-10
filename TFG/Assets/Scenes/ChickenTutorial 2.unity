@@ -2470,11 +2470,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   width: 16
   height: 12
-  minPathLength: 13
-  obstacleDensity: 0.215
+  minPathLength: 18
+  obstacleDensity: 0.267
   start: {x: 0, y: 0}
   maxGoalTries: 200
-  tutorialGrid: 1
+  tutorialGrid: 0
   floorPrefab: {fileID: 7997607678849744497, guid: ad0cc2747b6c7034e8795deca1f1aa35, type: 3}
   obstaclePrefabs:
   - {fileID: 5495065315850455973, guid: f7b5900f17ba4884c8860adc9d8841d3, type: 3}
@@ -3144,6 +3144,7 @@ GameObject:
   m_Component:
   - component: {fileID: 876767691}
   - component: {fileID: 876767690}
+  - component: {fileID: 876767692}
   m_Layer: 0
   m_Name: Game Manager
   m_TagString: Untagged
@@ -3166,6 +3167,7 @@ MonoBehaviour:
   playerPrefab: {fileID: 6692186126720173236, guid: 051ddf15a23d690499bce565b7acebdc, type: 3}
   groupBehaviour: {fileID: 1353180908}
   gridLevelGenerator: {fileID: 690796843}
+  cameraController: {fileID: 876767692}
   chickenMusic: {fileID: 1397864749}
   winMusic: {fileID: 1613529738}
   collisionSound: {fileID: 1862090703}
@@ -3184,6 +3186,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &876767692
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 876767689}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4703c8c814f12ec4e853f49fd703352c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  virtualCamera: {fileID: 82475316}
+  grid: {fileID: 690796845}
+  marginPercentage: 0
 --- !u!1 &957848214
 GameObject:
   m_ObjectHideFlags: 0
@@ -8575,8 +8592,8 @@ SceneRoots:
   - {fileID: 1572434784}
   - {fileID: 690796845}
   - {fileID: 275694928}
-  - {fileID: 876767691}
   - {fileID: 1353180909}
+  - {fileID: 876767691}
   - {fileID: 362318540}
   - {fileID: 1987918821}
   - {fileID: 178803996}

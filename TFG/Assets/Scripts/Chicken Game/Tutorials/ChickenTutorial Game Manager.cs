@@ -8,6 +8,7 @@ public class ChickenTutorialGameManager : MonoBehaviour
     [SerializeField] private GameObject playerPrefab;
     [SerializeField] private TutorialGroupBehaviour groupBehaviour;
     [SerializeField] private GridLevelGenerator gridLevelGenerator;
+    [SerializeField] private CameraController cameraController;
     [Header("Música")]
     [SerializeField] private AudioSource chickenMusic;
     [SerializeField] private AudioSource winMusic;
@@ -23,7 +24,11 @@ public class ChickenTutorialGameManager : MonoBehaviour
     {
         Initialize();
     }
-
+    private void Awake()
+    {
+        gridLevelGenerator.GenerateTutorialLevel();
+        FitCamera();
+    }
     private void Initialize()
     {
         SpawnPlayer();
@@ -32,11 +37,18 @@ public class ChickenTutorialGameManager : MonoBehaviour
         chickenMusic.Play();
     }
 
+    private void FitCamera()
+    {
+        Debug.Log("Ajustando cámara al nivel generado");
+        cameraController.FitCameraToLevel();
+    }
+
     private void OnDestroy()
     {
 
         playerInputController.OnObstaculeCollided -= PlayCollisionSound;
         groupBehaviour.OnTurnExecuted -= CalculatePunctuation;
+        gridLevelGenerator.OnLevelGenerated -= FitCamera;
     }
 
     private void PlayCollisionSound(int obj)
