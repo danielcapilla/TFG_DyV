@@ -11419,8 +11419,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29a488aaa16f707479c065ca1ca3c37d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_color1: {r: 0.37254903, g: 0.654902, b: 0.8784314, a: 1}
-  m_color2: {r: 0.24313726, g: 0.5529412, b: 0.78039217, a: 0.8509804}
+  m_color1: {r: 0.35510856, g: 0.5992078, b: 0.7924528, a: 1}
+  m_color2: {r: 0.3426486, g: 0.68906504, b: 0.9433962, a: 0.8509804}
   m_angle: 0
   m_ignoreRatio: 1
 --- !u!114 &1672855307
