@@ -19,11 +19,17 @@ public class GridOptionsBehaviour : NetworkBehaviour
     [SerializeField] private TextMeshProUGUI widthValueText;
     [SerializeField] private DraggableNumberField startXInputField;
     [SerializeField] private DraggableNumberField startYInputField;
+    [SerializeField] private GameObject pauseButton;
 
     [SerializeField] private CameraController cameraController;
 
     private void Start()
     {
+        if(!IsServer)
+        {
+            gridOptionsPanel.SetActive(false);
+            pauseButton.SetActive(false);
+        }
         ObstaclesSlider();
         DistanceSlider();
         HeightSlider();

@@ -101,7 +101,7 @@ public class GroupBehaviour : NetworkBehaviour
         ICommand command = CreateCommandFromType(commandType);
         teamInfo.commandQueue.Enqueue(command);
 
-        Debug.Log($"[GroupBehaviour] Command {commandType} added for group {groupId} by player {clientId}");
+        //Debug.Log($"[GroupBehaviour] Command {commandType} added for group {groupId} by player {clientId}");
     }
 
     private ICommand CreateCommandFromType(CommandType type)
@@ -126,7 +126,7 @@ public class GroupBehaviour : NetworkBehaviour
 
         if (groupIsExecuting[groupId])
         {
-            Debug.Log($"[GroupBehaviour] Turn already executing for group {groupId}, ignored.");
+            //Debug.Log($"[GroupBehaviour] Turn already executing for group {groupId}, ignored.");
             return;
         }
 
@@ -157,7 +157,7 @@ public class GroupBehaviour : NetworkBehaviour
         teamInfo.commandQueue.Clear();
 
         OnExecuteTurn?.Invoke(groupId);
-        Debug.Log($"[GroupBehaviour] Executing {turnCommands.Count} commands for group {groupId}");
+        //Debug.Log($"[GroupBehaviour] Executing {turnCommands.Count} commands for group {groupId}");
 
         foreach (var command in turnCommands)
         {
@@ -173,7 +173,7 @@ public class GroupBehaviour : NetworkBehaviour
             }
             if (playerController.LastMoveBlocked)
             {
-                Debug.Log($"[GroupBehaviour] Movimiento bloqueado. Cancelando resto de comandos del turno del grupo {groupId}");
+                //Debug.Log($"[GroupBehaviour] Movimiento bloqueado. Cancelando resto de comandos del turno del grupo {groupId}");
                 break; // turnCommands restante se descarta
             }
 
@@ -182,7 +182,7 @@ public class GroupBehaviour : NetworkBehaviour
         }
 
         OnExecutedTurn?.Invoke(playerController, groupId);
-        Debug.Log($"[GroupBehaviour] Finished executing turn for group {groupId}");
+        //Debug.Log($"[GroupBehaviour] Finished executing turn for group {groupId}");
 
         groupIsExecuting[groupId] = false;
         groupCoroutines[groupId] = null;

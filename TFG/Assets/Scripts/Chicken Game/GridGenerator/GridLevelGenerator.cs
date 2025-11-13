@@ -45,6 +45,8 @@ public class GridLevelGenerator : NetworkBehaviour
 
     public Action OnLevelGenerated;
 
+    private List<Vector2Int> freeCells;
+
 
     private void Awake()
     {
@@ -146,6 +148,7 @@ public class GridLevelGenerator : NetworkBehaviour
             }
         }
         ComputeDistanceMap();
+        GetFreeCells();
         // 5) Construir escena con prefabs
         //BuildSceneFromGrid();
         OnLevelGenerated?.Invoke();
@@ -547,6 +550,38 @@ public class GridLevelGenerator : NetworkBehaviour
         {
             DestroyImmediate(child.gameObject);
         }
+    }
+    private void GetFreeCells()
+    {
+        freeCells = new List<Vector2Int>();
+
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                if (grid[x, y] == 0)
+                {
+                    freeCells.Add(new Vector2Int(x, y));
+                }
+            }
+        }
+    }
+
+    public Vector3 GetRandomFreeCell()
+    {
+        Vector2Int randomCell = freeCells[UnityEngine.Random.Range(0, freeCells.Count)];
+
+        Vector3 origin = transform.position - new Vector3(
+            (width - 1) * 0.5f * cellSize,
+            0f,
+            (height - 1) * 0.5f * cellSize
+        );
+
+        float worldX = origin.x + randomCell.x * cellSize;
+        float worldZ = origin.z + randomCell.y * cellSize;
+        float worldY = origin.y + cellSize * 0.5f;
+
+        return new Vector3(worldX, worldY, worldZ);
     }
     // Algoritmo de Fisher-Yates para barajar un array
     private void Shuffle(Vector2Int[] array)
