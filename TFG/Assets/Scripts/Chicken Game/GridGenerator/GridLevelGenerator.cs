@@ -44,7 +44,7 @@ public class GridLevelGenerator : NetworkBehaviour
     public static GridLevelGenerator Instance { get; private set; }
 
     public Action OnLevelGenerated;
-
+    // Para los powerUps
     private List<Vector2Int> freeCells;
 
 

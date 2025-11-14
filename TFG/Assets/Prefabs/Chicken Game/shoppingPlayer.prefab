@@ -5107,9 +5107,6 @@ PrefabInstance:
       addedObject: {fileID: 7518809564857978284}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 346cdf4366cd0b945808f59bcd553e99, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 7548466307709824753}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 346cdf4366cd0b945808f59bcd553e99, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 4292206024799053397}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 346cdf4366cd0b945808f59bcd553e99, type: 3}
       insertIndex: -1
@@ -5123,6 +5120,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 346cdf4366cd0b945808f59bcd553e99, type: 3}
       insertIndex: -1
       addedObject: {fileID: -4131249891841905753}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 346cdf4366cd0b945808f59bcd553e99, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7314695585500614288}
   m_SourcePrefab: {fileID: 100100000, guid: 346cdf4366cd0b945808f59bcd553e99, type: 3}
 --- !u!4 &6310875135465512462 stripped
 Transform:
@@ -5146,7 +5146,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1944120566
+  GlobalObjectIdHash: 4280688505
   InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -5157,37 +5157,6 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
---- !u!114 &7548466307709824753
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6692186126720173236}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: df2868252ab5c4d1da357e8f11f1b524, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  UseUnreliableDeltas: 0
-  SyncPositionX: 1
-  SyncPositionY: 1
-  SyncPositionZ: 1
-  SyncRotAngleX: 1
-  SyncRotAngleY: 1
-  SyncRotAngleZ: 1
-  SyncScaleX: 1
-  SyncScaleY: 1
-  SyncScaleZ: 1
-  PositionThreshold: 0.001
-  RotAngleThreshold: 0.01
-  ScaleThreshold: 0.01
-  UseQuaternionSynchronization: 0
-  UseQuaternionCompression: 0
-  UseHalfFloatPrecision: 0
-  InLocalSpace: 0
-  Interpolate: 0
-  SlerpPosition: 0
 --- !u!54 &4292206024799053397
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -5249,6 +5218,7 @@ MonoBehaviour:
   halo: {fileID: 8772155039438434770}
   targetPosition:
     m_InternalValue: {x: 0, y: 0, z: 0}
+  isTutorialMode: 0
 --- !u!114 &5419336488927573425
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5300,3 +5270,34 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.3, y: 0.39055958, z: 0.4789149}
   m_Center: {x: 0, y: 0.19527979, z: -0.014457449}
+--- !u!114 &7314695585500614288
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6692186126720173236}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e96cb6065543e43c4a752faaa1468eb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UseUnreliableDeltas: 0
+  SyncPositionX: 1
+  SyncPositionY: 1
+  SyncPositionZ: 1
+  SyncRotAngleX: 1
+  SyncRotAngleY: 1
+  SyncRotAngleZ: 1
+  SyncScaleX: 1
+  SyncScaleY: 1
+  SyncScaleZ: 1
+  PositionThreshold: 0.001
+  RotAngleThreshold: 0.01
+  ScaleThreshold: 0.01
+  UseQuaternionSynchronization: 0
+  UseQuaternionCompression: 0
+  UseHalfFloatPrecision: 0
+  InLocalSpace: 0
+  Interpolate: 1
+  SlerpPosition: 0

@@ -2196,7 +2196,7 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 0
-  m_FillAmount: 0.25925925
+  m_FillAmount: 0.11111111
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
@@ -3774,6 +3774,68 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!1 &601117765
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 601117766}
+  - component: {fileID: 601117767}
+  m_Layer: 5
+  m_Name: PowerUps
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &601117766
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 601117765}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1334008282}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 3.1167, y: 454.9}
+  m_SizeDelta: {x: 494.03, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &601117767
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 601117765}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30649d3a9faa99c48a7b1166b86bf2a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 3
+  m_Spacing: 20
+  m_ChildForceExpandWidth: 0
+  m_ChildForceExpandHeight: 0
+  m_ChildControlWidth: 0
+  m_ChildControlHeight: 0
+  m_ChildScaleWidth: 0
+  m_ChildScaleHeight: 0
+  m_ReverseArrangement: 0
 --- !u!1 &625392760
 GameObject:
   m_ObjectHideFlags: 0
@@ -6136,7 +6198,7 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 0
-  m_FillAmount: 0.2777778
+  m_FillAmount: 0.11111111
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
@@ -6397,6 +6459,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   powerUpPrefabs:
   - {fileID: 9047823684311459095, guid: bc675734859943443b1f01b3f4e9aebd, type: 3}
+  - {fileID: 6777139765343525365, guid: 06ff5e0c6ded8bc4e85968b67551b285, type: 3}
   spawnInterval: 10
   maxActivePowerUps: 3
   gridGenerator: {fileID: 2014524304}
@@ -9002,6 +9065,7 @@ GameObject:
   - component: {fileID: 1246324738}
   - component: {fileID: 1246324739}
   - component: {fileID: 1246324741}
+  - component: {fileID: 1246324742}
   m_Layer: 0
   m_Name: UIManager
   m_TagString: Untagged
@@ -9093,6 +9157,21 @@ MonoBehaviour:
   startYInputField: {fileID: 1888132351}
   pauseButton: {fileID: 799044060}
   cameraController: {fileID: 1175153894}
+--- !u!114 &1246324742
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1246324737}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5be2d39248799f4c8f8736e92d0b3e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  powerUp: {fileID: 5733974971613779271, guid: 714dc0897e1ba6e428fd9e62a5f5d6b8, type: 3}
+  horizontalLayout: {fileID: 601117765}
+  movementPanel: {fileID: 1334008281}
 --- !u!1 &1249684815
 GameObject:
   m_ObjectHideFlags: 0
@@ -9925,6 +10004,7 @@ RectTransform:
   - {fileID: 1657280468}
   - {fileID: 581868372}
   - {fileID: 1772057174}
+  - {fileID: 601117766}
   m_Father: {fileID: 314887646}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
@@ -11333,7 +11413,7 @@ MonoBehaviour:
   m_MinValue: 4
   m_MaxValue: 40
   m_WholeNumbers: 1
-  m_Value: 14
+  m_Value: 8
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
@@ -12004,7 +12084,7 @@ MonoBehaviour:
   m_MinValue: 3
   m_MaxValue: 30
   m_WholeNumbers: 1
-  m_Value: 10
+  m_Value: 6
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
@@ -14228,10 +14308,10 @@ SceneRoots:
   - {fileID: 1250604522}
   - {fileID: 1175153890}
   - {fileID: 1488909049}
+  - {fileID: 970793566}
   - {fileID: 1246324740}
   - {fileID: 304926010}
   - {fileID: 2012714930}
   - {fileID: 262628318}
   - {fileID: 974046156}
   - {fileID: 56828499}
-  - {fileID: 970793566}

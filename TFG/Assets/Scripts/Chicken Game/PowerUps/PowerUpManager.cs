@@ -22,7 +22,7 @@ public class PowerUpManager : NetworkBehaviour
     {
         base.OnNetworkSpawn();
 
-        // Solo el servidor maneja el spawn de power-ups
+        // Solo el servidor maneja el spawn de powerUps
         if (!IsServer) return;
         chooseGroup.OnGameStartEvent += OnLevelGenerated;
 
@@ -125,6 +125,11 @@ public static class PowerUpEvents
     public static void InvokeInvertControls(float duration)
     {
         OnInvertControls?.Invoke(duration);
+    }
+    public static Action<float> OnPlayerSpeedUp;
+    public static void InvokePlayerSpeedUp(float duration)
+    {
+        OnPlayerSpeedUp?.Invoke(duration);
     }
 }
 

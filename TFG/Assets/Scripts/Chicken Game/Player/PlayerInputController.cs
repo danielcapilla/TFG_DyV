@@ -23,7 +23,8 @@ public class PlayerInputController : NetworkBehaviour
     public NetworkVariable<Vector3> targetPosition = new NetworkVariable<Vector3>( Vector3.zero,
         NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     private Coroutine currentMovementCoroutine;
-    
+    private Coroutine speedCoroutine;
+
     public Action<int> OnObstaculeCollided;
 
     [Header("Modo tutorial")]
@@ -261,5 +262,22 @@ public class PlayerInputController : NetworkBehaviour
         if (gen == null) return;
 
         CurrentGridPos = gen.WorldToGrid(worldPos);
+    }
+    public void StartSpeedUp(float multiplier, float duration)
+    {
+        if (speedCoroutine != null)
+            StopCoroutine(speedCoroutine);
+
+        speedCoroutine = StartCoroutine(SpeedUpCoroutine(multiplier, duration));
+    }
+
+    private IEnumerator SpeedUpCoroutine(float multiplier, float duration)
+    {
+        moveDistance = multiplier;
+
+        yield return new WaitForSeconds(duration);
+
+        moveDistance = 1f;
+        speedCoroutine = null;
     }
 }

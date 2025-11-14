@@ -1,14 +1,13 @@
 ﻿using Unity.Netcode;
 using UnityEngine;
-using System.Collections.Generic;
 
-public class InvertControlsPowerUp : PowerUp
+public class SpeedUpPowerUp : PowerUp
 {
-    // Cosa que no sabia, si se spawnea un objeto en el servidor, 
-    // las fisica se ejecutan en el cliente que las ha spawneado (en este caso el server)
+    [SerializeField] private float speedMultiplier = 2f;
+
     protected void OnTriggerEnter(Collider go)
     {
-        
+
         // Si ya fue recogido, no hacer nada (por si entra otro cliente 0.001 segundos despues)
         if (isPickedUp.Value) return;
 
@@ -25,7 +24,11 @@ public class InvertControlsPowerUp : PowerUp
 
         PlayerInputController player = target.GetComponent<PlayerInputController>();
         NetworkObject networkObject = player.GetComponentInParent<NetworkObject>();
-        RequestActivatePowerUpRPC(networkObject.OwnerClientId);        
+        RequestActivatePowerUpRPC(networkObject.OwnerClientId);
+        // Al hacerse las fisicas en el servidor, el efecto se aplica directamente desde el servidor
+        // por lo cual es el servidor quien llama a StartSpeedUp
+        // el cambio se realiza integro en el playerInputController
+        player.StartSpeedUp(speedMultiplier, duration);
     }
 
     [Rpc(SendTo.Server)]
@@ -33,34 +36,11 @@ public class InvertControlsPowerUp : PowerUp
     {
         if (isPickedUp.Value) return;
         isPickedUp.Value = true;
+
         int pickerGroupId = NetworkManager.Singleton.ConnectedClients[playerClientId].PlayerObject.GetComponent<PlayerStats>().idGrupo.Value;
-        TeamMenager teamManager = FindFirstObjectByType<TeamMenager>();
+        TeamMenager teamManager = FindFirstObjectByType<TeamMenager>();;
         if (teamManager != null)
-        {
-            // Afectar a los demas grupos no a mi
-            List<ulong> affectedClients = new List<ulong>();
-
-            for (int i = 0; i < teamManager.teams.Count; i++)
-            {
-                if (i == pickerGroupId) continue;
-
-                TeamInfoChicken teamInfo = (TeamInfoChicken)teamManager.teams[i];
-                // Agregar varios elementos
-                affectedClients.AddRange(teamInfo.integrantes);
-            }
-
-            // Notificamos a los agraciados
-            if (affectedClients.Count > 0)
-            {
-                InvertControlsClientRpc(duration, new ClientRpcParams
-                {
-                    Send = new ClientRpcSendParams
-                    {
-                        TargetClientIds = affectedClients.ToArray()
-                    }
-                });
-            }
-
+        {          
             // Notificamos al que lo recogio
             TeamInfoChicken pickerTeamInfo = (TeamInfoChicken)teamManager.teams[pickerGroupId];
             if (pickerTeamInfo.integrantes.Count > 0)
@@ -105,18 +85,14 @@ public class InvertControlsPowerUp : PowerUp
     }
 
     [ClientRpc]
-    private void InvertControlsClientRpc(float duration, ClientRpcParams clientRpcParams = default)
-    {
-        PowerUpEvents.InvokeInvertControls(duration);
-    }
-
-    [ClientRpc]
     private void NotifyPickerGroupClientRpc(ClientRpcParams clientRpcParams = default)
     {
+        PowerUpEvents.InvokePlayerSpeedUp(duration);
         PlayPickUpSound();
     }
 
     public override void RemoveEffect(GameObject target)
     {
+      
     }
 }
