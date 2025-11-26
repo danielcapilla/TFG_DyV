@@ -15,6 +15,8 @@ public class PowerUpManager : NetworkBehaviour
     [SerializeField] private ChooseGroup chooseGroup;
     [SerializeField] private AudioSource popAppear;
 
+    public static PowerUpManager Instance { get; private set; }
+
     private List<NetworkObject> activePowerUps = new List<NetworkObject>();
     private Coroutine spawnCoroutine;
 
@@ -24,6 +26,13 @@ public class PowerUpManager : NetworkBehaviour
 
         // Solo el servidor maneja el spawn de powerUps
         if (!IsServer) return;
+
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
         chooseGroup.OnGameStartEvent += OnLevelGenerated;
 
     }
@@ -62,6 +71,7 @@ public class PowerUpManager : NetworkBehaviour
             StopCoroutine(spawnCoroutine);
             spawnCoroutine = null;
         }
+        ClearAllPowerUps();
     }
 
     private void ClearAllPowerUps()

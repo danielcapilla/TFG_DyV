@@ -1,3 +1,4 @@
+using DG.Tweening;
 using TMPro;
 using Unity.Mathematics;
 using Unity.Netcode;
@@ -21,6 +22,14 @@ public class GridOptionsBehaviour : NetworkBehaviour
     [SerializeField] private DraggableNumberField startYInputField;
     [SerializeField] private GameObject pauseButton;
 
+    [SerializeField] private UIGradient gradient;
+    [SerializeField] private Graphic graphic;
+    [SerializeField] private RectTransform panelTransform;
+
+    // Tweens registrados (para la limpieza)
+    private Tweener gradientTween;
+    private Tweener introScaleTween;
+
     [SerializeField] private CameraController cameraController;
 
     private void Start()
@@ -29,7 +38,26 @@ public class GridOptionsBehaviour : NetworkBehaviour
         {
             gridOptionsPanel.SetActive(false);
             pauseButton.SetActive(false);
+            return;
         }
+
+        // Gradiente que respira
+        if (gradient != null)
+        {
+            gradientTween = DOTween.To(
+                () => gradient.m_color1,
+                x => { gradient.m_color1 = x; if (graphic != null) graphic.SetAllDirty(); },
+                new Color(1f, 0.7f, 0.3f),
+                2f
+            ).SetLoops(-1, LoopType.Yoyo);
+        }
+        // Animacion de entrada
+        if (panelTransform != null)
+        {
+            panelTransform.localScale = Vector3.zero;
+            introScaleTween = panelTransform.DOScale(1f, 0.5f).SetEase(Ease.OutBack);           
+        }
+
         ObstaclesSlider();
         DistanceSlider();
         HeightSlider();
@@ -40,6 +68,18 @@ public class GridOptionsBehaviour : NetworkBehaviour
 
         UpdateStartLimits();
     }
+    void OnDisable()
+    {
+        KillAllTweens();
+    }
+    public override void OnNetworkDespawn()
+    {
+        base.OnNetworkDespawn();
+        if(!IsServer)
+            return;
+        KillAllTweens();
+    }
+
     public void Generate()
     {
         gridOptionsPanel.SetActive(false);
@@ -124,5 +164,14 @@ public class GridOptionsBehaviour : NetworkBehaviour
         gridLevelGenerator.start.y = startYInputField.GetValue();
 
         UpdateDistanceSliderRange(gridLevelGenerator.start.x, gridLevelGenerator.start.y);
+    }
+    private void KillAllTweens()
+    {
+        gradientTween?.Kill();
+        introScaleTween?.Kill();
+
+        if (panelTransform) DOTween.Kill(panelTransform);
+        if (gradient) DOTween.Kill(gradient);
+
     }
 }

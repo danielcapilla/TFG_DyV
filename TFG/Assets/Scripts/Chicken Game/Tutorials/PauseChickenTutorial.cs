@@ -21,5 +21,22 @@ public class PauseChickenTutorial : MonoBehaviour
         MinigameSelectorBehaviour.Instance.ReturnFromTutorial();
 
     }
+    private void OnEnable()
+    {
+        SceneManager.sceneUnloaded += OnSceneUnloaded;
+    }
 
+    private void OnDisable()
+    {
+        SceneManager.sceneUnloaded -= OnSceneUnloaded;
+    }
+
+    private void OnSceneUnloaded(Scene scene)
+    {
+        var player = FindFirstObjectByType<PlayerInputController>();
+        if (player != null)
+        {
+            Destroy(player.gameObject);
+        }
+    }
 }
