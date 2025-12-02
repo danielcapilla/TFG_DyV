@@ -45,7 +45,7 @@ public class GridLevelGenerator : NetworkBehaviour
 
     public Action OnLevelGenerated;
     // Para los powerUps
-    private List<Vector2Int> freeCells;
+    private List<Vector2Int> freeCells = new List<Vector2Int>();
 
 
     private void Awake()
@@ -141,14 +141,25 @@ public class GridLevelGenerator : NetworkBehaviour
                 Vector2Int cell = new Vector2Int(x, y);
                 // No poner obstaculo en inicio, meta o camino garantizado
                 if (cell == start || cell == goal) continue;
-                if (pathSet.Contains(cell)) continue; // proteger camino
+                if (pathSet.Contains(cell))
+                {
+                    // Guardar celda libre
+                    freeCells.Add(cell);
+                    continue; // proteger camino
+                }
+                
                 // Decidir aleatoriamente si poner obstaculo
                 if (UnityEngine.Random.value < obstacleDensity)
                     grid[x, y] = 1;
+                // Guardar celda libre
+                else
+                {
+                    freeCells.Add(cell);
+                }
             }
         }
         ComputeDistanceMap();
-        GetFreeCells();
+        //GetFreeCells();
         // 5) Construir escena con prefabs
         //BuildSceneFromGrid();
         OnLevelGenerated?.Invoke();
