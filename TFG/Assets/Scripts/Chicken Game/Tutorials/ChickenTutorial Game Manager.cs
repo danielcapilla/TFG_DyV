@@ -20,9 +20,34 @@ public class ChickenTutorialGameManager : MonoBehaviour
     public Action<PlayerInputController> OnPlayerSpawned;
     public Action OnPlayerReachedGoal;
 
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+        SceneManager.sceneUnloaded += OnSceneUnloaded;
+    }
+    private void OnDisable()
+    {
+        SceneManager.sceneUnloaded -= OnSceneUnloaded;
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if(scene.name == "ChickenTutorial 1" || scene.name == "ChickenTutorial 2")
+            Initialize();
+
+    }
+    private void OnSceneUnloaded(Scene scene)
+    {
+        PlayerInputController player = FindFirstObjectByType<PlayerInputController>();
+        if (player != null)
+        {
+            Destroy(player.gameObject);
+        }
+    }
     private void Start()
     {
-        Initialize();
+        //Initialize();
     }
     private void Awake()
     {
@@ -34,12 +59,11 @@ public class ChickenTutorialGameManager : MonoBehaviour
         SpawnPlayer();
         playerInputController.OnObstaculeCollided += PlayCollisionSound;
         groupBehaviour.OnTurnExecuted += CalculatePunctuation;
-        chickenMusic.Play();
+        //chickenMusic.Play();
     }
 
     private void FitCamera()
     {
-        Debug.Log("Ajustando cámara al nivel generado");
         cameraController.FitCameraToLevel();
     }
 
@@ -53,7 +77,8 @@ public class ChickenTutorialGameManager : MonoBehaviour
 
     private void PlayCollisionSound(int obj)
     {
-        collisionSound.Play();
+        if(collisionSound != null)
+            collisionSound.Play();
     }
     private void CalculatePunctuation()
     {
@@ -93,6 +118,7 @@ public class ChickenTutorialGameManager : MonoBehaviour
             existing.IsMoving = false;
             existing.LastMoveBlocked = false;
             existing.isTutorialMode = true;
+            //DontDestroyOnLoad(existing.gameObject);
 
             OnPlayerSpawned?.Invoke(this.playerInputController);
             return;
@@ -103,7 +129,6 @@ public class ChickenTutorialGameManager : MonoBehaviour
         playerInputController.isTutorialMode = true;
         player.GetComponent<PlayerInput>().enabled = true;
         this.playerInputController = playerInputController;
-
         // Evitar que Unity lo destruya al cambiar de escena
         DontDestroyOnLoad(player);
 

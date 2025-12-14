@@ -226,7 +226,7 @@ public class TutorialStepsManager : MonoBehaviour
 
         if (steps[currentStep].conditionType == TutorialConditionType.CommandAdded)
         {
-            Debug.Log("[Tutorial] Paso completado: Comando añadido");
+            //Debug.Log("[Tutorial] Paso completado: Comando añadido");
             AdvanceStepWithDelay(steps[currentStep].autoAdvanceDelay);
         }
     }
@@ -237,7 +237,7 @@ public class TutorialStepsManager : MonoBehaviour
 
         if (steps[currentStep].conditionType == TutorialConditionType.TogglePressed)
         {
-            Debug.Log("[Tutorial] Paso completado: Toggle activado");
+            //Debug.Log("[Tutorial] Paso completado: Toggle activado");
             AdvanceStepWithDelay(steps[currentStep].autoAdvanceDelay);
         }
     }
@@ -248,7 +248,7 @@ public class TutorialStepsManager : MonoBehaviour
 
         if (steps[currentStep].conditionType == TutorialConditionType.ReachedGoal)
         {
-            Debug.Log("[Tutorial] Paso completado: Meta alcanzada");
+            //Debug.Log("[Tutorial] Paso completado: Meta alcanzada");
             AdvanceStepWithDelay(steps[currentStep].autoAdvanceDelay);
         }
     }
@@ -270,7 +270,6 @@ public class TutorialStepsManager : MonoBehaviour
             tutorialPanel.transform.DOKill();
         }
 
-        Debug.Log("Completado");
 
         if(SceneManager.GetActiveScene().name == "ChickenTutorial 1")
         {

@@ -33,6 +33,7 @@ public class PlayerInputController : NetworkBehaviour
     private void Start()
     {
         dust = GetComponentInChildren<ParticleSystem>();
+        //DontDestroyOnLoad(gameObject);
     }
     public override void OnNetworkSpawn()
     {
@@ -280,4 +281,5 @@ public class PlayerInputController : NetworkBehaviour
         moveDistance = 1f;
         speedCoroutine = null;
     }
+    
 }

@@ -163,7 +163,7 @@ public class GridLevelGenerator : NetworkBehaviour
         // 5) Construir escena con prefabs
         //BuildSceneFromGrid();
         OnLevelGenerated?.Invoke();
-        Debug.Log("Nivel generado: " + width + "x" + height + ", start: " + start + ", goal: " + goal);
+        //Debug.Log("Nivel generado: " + width + "x" + height + ", start: " + start + ", goal: " + goal);
     }
 
     private bool TryPickGoal(out Vector2Int picked, out Dictionary<Vector2Int, Vector2Int> cameFrom)
@@ -231,6 +231,7 @@ public class GridLevelGenerator : NetworkBehaviour
         // Mas complejidad visual
         List<ScoredCandidate> scored = new List<ScoredCandidate>(candidates.Count);
         // Se calcula un score para cada candidato
+        //Debug.Log("Candidatos para meta: " + candidates.Count);
         for (int i = 0; i < candidates.Count; i++)
         {
             Vector2Int cand = candidates[i];
@@ -241,7 +242,7 @@ public class GridLevelGenerator : NetworkBehaviour
         scored.Sort((a, b) => b.score.CompareTo(a.score));
         // Tomar top 30% para mantener aleatoriedad dentro los mas complejos
         int topCount = Mathf.Max(1, Mathf.CeilToInt(scored.Count * 0.3f));
-
+        //Debug.Log("Top candidatos para meta: " + topCount);
         picked = candidates[UnityEngine.Random.Range(0, topCount)];
         return true;
     }
@@ -535,7 +536,7 @@ public class GridLevelGenerator : NetworkBehaviour
     [Rpc(SendTo.Everyone)]
     void ReceiveLevelClientRpc(int[] flatGrid, int width, int height, Vector2Int start, Vector2Int goal)
     {
-        Debug.Log("Recibiendo nivel en cliente");
+        //Debug.Log("Recibiendo nivel en cliente");
 
         this.width = width;
         this.height = height;
