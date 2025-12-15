@@ -23,11 +23,11 @@ public class ChickenTutorialGameManager : MonoBehaviour
     private void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
-        SceneManager.sceneUnloaded += OnSceneUnloaded;
+        //SceneManager.sceneUnloaded += OnSceneUnloaded;
     }
     private void OnDisable()
     {
-        SceneManager.sceneUnloaded -= OnSceneUnloaded;
+        //SceneManager.sceneUnloaded -= OnSceneUnloaded;
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
@@ -39,10 +39,11 @@ public class ChickenTutorialGameManager : MonoBehaviour
     }
     private void OnSceneUnloaded(Scene scene)
     {
+
         PlayerInputController player = FindFirstObjectByType<PlayerInputController>();
         if (player != null)
         {
-            Destroy(player.gameObject);
+            //Destroy(player.gameObject);
         }
     }
     private void Start()
@@ -51,11 +52,13 @@ public class ChickenTutorialGameManager : MonoBehaviour
     }
     private void Awake()
     {
-        gridLevelGenerator.GenerateTutorialLevel();
-        FitCamera();
+        //gridLevelGenerator.GenerateTutorialLevel();
+        //FitCamera();
     }
     private void Initialize()
     {
+        gridLevelGenerator.GenerateTutorialLevel();
+        FitCamera();
         SpawnPlayer();
         playerInputController.OnObstaculeCollided += PlayCollisionSound;
         groupBehaviour.OnTurnExecuted += CalculatePunctuation;
@@ -106,7 +109,6 @@ public class ChickenTutorialGameManager : MonoBehaviour
             spawnY = hit.point.y + 0.1f;
         }
         Vector3 spawnPosition = new Vector3(spawnXZ.x, spawnY, spawnXZ.z);
-
         // Reutilizar si ya existe un player en la escena para el tuto 2
         PlayerInputController existing = FindFirstObjectByType<PlayerInputController>();
         if (existing != null && existing.isTutorialMode)
@@ -130,7 +132,7 @@ public class ChickenTutorialGameManager : MonoBehaviour
         player.GetComponent<PlayerInput>().enabled = true;
         this.playerInputController = playerInputController;
         // Evitar que Unity lo destruya al cambiar de escena
-        DontDestroyOnLoad(player);
+        //DontDestroyOnLoad(player);
 
         OnPlayerSpawned?.Invoke(playerInputController);
     }
