@@ -16,28 +16,26 @@ namespace Assets.Scripts.DataBase.CoTEDi_DB
 
         private void TestDB()
         {
-            ListWrapper<string> testList = new ListWrapper<string>();
-            testList.items = new System.Collections.Generic.List<string> { "0", "1", "103", "2", "JALI" };
+            DataStorage.Instance.userData.UserID = "User123";
+            DataStorage.Instance.userData.Name = "Test User";
 
-            ListWrapper<ListWrapper<string>> hamburguersList = new ListWrapper<ListWrapper<string>>();
-            hamburguersList.items.Add(testList);
+            DataStorage.Instance.gameData.GameID = 42;
+            DataStorage.Instance.gameData.GameStartTime = System.DateTime.Now.ToString();
+            DataStorage.Instance.gameData.GameEndTime = System.DateTime.Now.AddHours(1).ToString();
+            DataStorage.Instance.gameData.GameAux1 = "Auxiliary Data 1";
 
-            Debug.Log(hamburguersList.ToString());
-            string tes = hamburguersList.ToString();
-            string json = JsonUtility.ToJson(DataStorage.Instance.hamburguersInfo);
+            DataStorage.Instance.hamburguersInfo.HamburguersCodes = "Code1,Code2,Code3";
+            DataStorage.Instance.hamburguersInfo.CodesMeaning = "Meaning1,Meaning2,Meaning3";
+            DataStorage.Instance.hamburguersInfo.RequestedHamburguers = "Burger1,Burger2";
 
-            Debug.Log(json);
+            DataStorage.Instance.interactionData.Interactions = "Interaction1,Interaction2";
+            DataStorage.Instance.interactionData.HamburguersDelivered = "Burger1";
+            DataStorage.Instance.interactionData.Movement = "Up,Down,Left,Right";
 
-            DictionaryWrapper<string, string> dictTest = new DictionaryWrapper<string, string>();
-            
-            dictTest.Add("Key1", "Value1");
-            dictTest.Add("Key2", "Value2");
-            
-            Debug.Log(dictTest.ToString());
+            Debug.Log("DataStorage Test Completed Successfully.");
+            DataStorage.Instance.SaveCombinedJsonToFile();
+
         }
-    
-        // List<List<string>> 
-        
     
     }
 }

@@ -10,15 +10,20 @@ using System.Runtime.InteropServices;
 using System.IO.Compression;
 using System.Runtime.CompilerServices;
 using System.Linq;
+using UnityEngine.Rendering;
 
 public class DataStorage : MonoBehaviour
 {
     public static DataStorage Instance { get; private set; }
 
     #region Data Classes
+    public class DataClass
+    {
+        // Base class for data classes
+    }
 
     [Serializable]
-    public class UserData
+    public class UserData : DataClass
     {
         public string UserID;
         public string Name;
@@ -26,17 +31,17 @@ public class DataStorage : MonoBehaviour
     }
 
     [Serializable]
-    public class GameData
+    public class GameData : DataClass
     {
         public int GameID;
-        public DateTime StartTime;
-        public DateTime EndTime;
-        public string Aux1 = "";
-        public string Aux2 = "";
+        public string GameStartTime;
+        public string GameEndTime;
+        public string GameAux1 = "";
+        public string GameAux2 = "";
     }
 
     [Serializable]
-    public class HamburguersInfo
+    public class HamburguersInfo : DataClass
     {
         public string HamburguersCodes;
         public string CodesMeaning;
@@ -44,10 +49,10 @@ public class DataStorage : MonoBehaviour
     }
 
     [Serializable]
-    public class InteractionData
+    public class InteractionData : DataClass
     {
         public string Interactions;
-        public string DeliveredHamburguers;
+        public string HamburguersDelivered;
         public string Movement;
 
     }
@@ -85,6 +90,84 @@ public class DataStorage : MonoBehaviour
         interactionData = new InteractionData();
 
     }
+
+    public static string GetDataJson(DataClass data)
+    {
+        return JsonUtility.ToJson(data);
+    }
+
+    public string GetCombinedDataJson()
+    {
+        JObject finalJson = new JObject();
+        JsonMergeSettings mergeSettings = new JsonMergeSettings { MergeArrayHandling = MergeArrayHandling.Union };
+
+        finalJson.Merge(JObject.Parse(GetDataJson(userData)), mergeSettings);
+        finalJson.Merge(JObject.Parse(GetDataJson(gameData)), mergeSettings);
+        finalJson.Merge(JObject.Parse(GetDataJson(hamburguersInfo)), mergeSettings);
+        finalJson.Merge(JObject.Parse(GetDataJson(interactionData)), mergeSettings);
+
+
+        return finalJson.ToString();
+    }
+
+    private byte[] CreateZipFromJsons(Dictionary<string, string> jsonFiles)
+    {
+        using (MemoryStream memoryStream = new MemoryStream())
+        {
+            using (ZipArchive archive = new ZipArchive(memoryStream, ZipArchiveMode.Create, true))
+            {
+                foreach (var kvp in jsonFiles)
+                {
+                    ZipArchiveEntry entry = archive.CreateEntry(kvp.Key);
+                    using (StreamWriter writer = new StreamWriter(entry.Open()))
+                    {
+                        writer.Write(kvp.Value);
+                    }
+                }
+            }
+            return memoryStream.ToArray();
+        }
+    }
+
+    public void SaveCombinedJsonToFile()
+    {
+        try
+        {
+            string FolderName = $"{Application.persistentDataPath}/DataCollection/{userData.UserID}_Date_" +
+                                $"{System.DateTime.Now.Year}_{System.DateTime.Now.Month}_{System.DateTime.Now.Day}_ " +
+                                $"{System.DateTime.Now.Hour}_{System.DateTime.Now.Minute}/";
+
+            // Zip data
+            Dictionary<string, string> jsonFiles = new Dictionary<string, string>();
+
+
+            if (!Directory.Exists(FolderName))
+                Directory.CreateDirectory(FolderName);
+
+
+            // Fill jsonFiles dictionary
+            jsonFiles.Add("CombinedData.json", GetCombinedDataJson());
+
+            byte[] zipBytes = CreateZipFromJsons(jsonFiles);
+
+            //! Deprecated, not recommended to use in itch.io builds, people might freak out when a download starts automatically
+            #if UNITY_WEBGL && !UNITY_EDITOR
+                // DownloadFile($"{userData.UserID}_Session{sessionData.SessionID}_Game{gameData.GameID}_Time{sessionTime}.zip", zipBytes, zipBytes.Length);
+            #else
+                File.WriteAllBytes(Path.Combine(FolderName, "Games.zip"), zipBytes);
+            #endif
+
+            Debug.Log("JSON data saved to " + Path.Combine(FolderName, $"Games.zip"));
+
+
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("Failed to save JSON data: " + e.Message);
+        }
+    }
+
+
 
 }
 
