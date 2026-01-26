@@ -68,7 +68,6 @@ public class CommandSpawner : MonoBehaviour
         instanceRectTransform.anchoredPosition = new Vector3(0f , 0f, 0f);
         foreach (IngredientsScriptableObject ingredient in order)
         {
-
             if (ingredient.Rarity == IngredientRarity.core) { continue; }
 
             //Give to the script the code object ignoring breads
@@ -79,8 +78,6 @@ public class CommandSpawner : MonoBehaviour
 
             Image prefabImage = prefab.AddComponent<Image>();
             prefabImage.sprite = Codes[codes[ingredient]];
-
-
         }
 
     }

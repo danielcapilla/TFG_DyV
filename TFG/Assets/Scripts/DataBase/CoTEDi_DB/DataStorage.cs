@@ -17,9 +17,10 @@ public class DataStorage : MonoBehaviour
     public static DataStorage Instance { get; private set; }
 
     #region Data Classes
-    public class DataClass
+    public abstract class DataClass
     {
         // Base class for data classes
+        public abstract void OnAwakeData();
     }
 
     [Serializable]
@@ -27,7 +28,50 @@ public class DataStorage : MonoBehaviour
     {
         public string UserID;
         public string Name;
+        public string Age;
+        public string UserAux1;
+        public string UserAux2;
 
+        public override void OnAwakeData()
+        {
+            UserID = "";
+            Name = "";
+            Age = "";
+            UserAux1 = "";
+            UserAux2 = "";
+        }
+
+        public void SetUserData(string name, string age)
+        {
+            Name = name.Replace(" ", "_").ToLower();
+            UserID = GenerateUserID(Name);
+        }
+
+        private string GenerateUserID(string name)
+        {
+            // Function by https://stackoverflow.com/questions/63615950/generate-unique-id-from-string-in-c-sharp
+            string hash;
+            using (var hashAlgorithm = SHA256.Create())
+            {
+                // Convert the input string to a byte array and compute the hash.
+                byte[] data = hashAlgorithm.ComputeHash(Encoding.UTF8.GetBytes(name));
+
+                // Create a new Stringbuilder to collect the bytes
+                // and create a string.
+                var sBuilder = new StringBuilder();
+
+                // Loop through each byte of the hashed data
+                // and format each one as a hexadecimal string.
+                for (int i = 0; i < data.Length; i++)  
+                {
+                    sBuilder.Append(data[i].ToString("x2"));
+                }
+
+                // Return the hexadecimal string.
+                hash = sBuilder.ToString();
+            }
+            return hash;
+        }
     }
 
     [Serializable]
@@ -38,6 +82,22 @@ public class DataStorage : MonoBehaviour
         public string GameEndTime;
         public string GameAux1 = "";
         public string GameAux2 = "";
+
+        public override void OnAwakeData()
+        {
+            GameID = 0;
+            GameStartTime = "";
+            GameEndTime = "";
+        }
+
+        public void SetGameTime(bool isStartTime)
+        {
+            string currentTime = System.DateTime.Now.ToString("M/d/yyyy/HH:mm:ss");
+            if (isStartTime)
+                GameStartTime = currentTime;
+            else
+                GameEndTime = currentTime;
+        }
     }
 
     [Serializable]
@@ -46,6 +106,17 @@ public class DataStorage : MonoBehaviour
         public string HamburguersCodes;
         public string CodesMeaning;
         public string RequestedHamburguers;
+        public string HamburgerInfoAux1;
+        public string HamburgerInfoAux2;
+
+        public override void OnAwakeData()
+        {
+            HamburguersCodes = "";
+            CodesMeaning = "";
+            RequestedHamburguers = "";
+            HamburgerInfoAux1 = "";
+            HamburgerInfoAux2 = "";
+        }
     }
 
     [Serializable]
@@ -54,7 +125,17 @@ public class DataStorage : MonoBehaviour
         public string Interactions;
         public string HamburguersDelivered;
         public string Movement;
+        public string InteractionDataAux1;
+        public string InteractionDataAux2;
 
+        public override void OnAwakeData()
+        {
+            Interactions = "";
+            HamburguersDelivered = "";
+            Movement = "";
+            InteractionDataAux1 = "";
+            InteractionDataAux2 = "";
+        }
     }
 
     #endregion
@@ -73,6 +154,12 @@ public class DataStorage : MonoBehaviour
         {
             Instance = this;
             StartClasses();
+            InitData();
+            Debug.Log(userData.UserID);
+            Debug.Log(userData.Name);
+            Debug.Log(userData.Age);
+            Debug.Log(gameData.GameAux1);
+
             DontDestroyOnLoad(gameObject);
         }
         else
@@ -89,6 +176,23 @@ public class DataStorage : MonoBehaviour
         hamburguersInfo = new HamburguersInfo();
         interactionData = new InteractionData();
 
+        userData.OnAwakeData();
+        gameData.OnAwakeData();
+        hamburguersInfo.OnAwakeData();
+        interactionData.OnAwakeData();
+    }
+
+    private void InitData()
+    {
+        Debug.Log("Edad: " + PlayerData.Age);
+        // TODO: Fix this ToString
+        userData.SetUserData(PlayerData.Name, PlayerData.Age.ToString());
+        gameData.SetGameTime(true);
+    }
+
+    private void EndData()
+    {
+        gameData.SetGameTime(false);
     }
 
     public static string GetDataJson(DataClass data)
@@ -166,8 +270,6 @@ public class DataStorage : MonoBehaviour
             Debug.LogError("Failed to save JSON data: " + e.Message);
         }
     }
-
-
 
 }
 

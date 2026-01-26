@@ -9,6 +9,7 @@ public class RecipeRandomizer : NetworkBehaviour
     [SerializeField] public List<List<IngredientsScriptableObject>> recipes = new List<List<IngredientsScriptableObject>>();
     [SerializeField] List<IngredientsScriptableObject> extraIngredients = new List<IngredientsScriptableObject>();
     public List<List<IngredientsScriptableObject>> currentOrders = new List<List<IngredientsScriptableObject>>();
+    [SerializeField] HamburgersInfo_Collector hamburgersInfo_Collector;
 
     private NetworkVariable<int> randomSeed = new();
 
@@ -39,6 +40,9 @@ public class RecipeRandomizer : NetworkBehaviour
         GenerateRandomRecipes();
         commandSpawner.SpawnRecipes(recipes, pairedIngredients);
         GenerateRandomOrder();
+        hamburgersInfo_Collector.SetHamburguersCodes(recipes);
+        hamburgersInfo_Collector.SetCodesMeaning(pairedIngredients);
+        hamburgersInfo_Collector.SetAllRequestsIngredients(currentOrders);
     }
 
     public override void OnNetworkDespawn()
