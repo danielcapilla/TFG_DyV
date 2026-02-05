@@ -1,0 +1,5 @@
+# ninja log v5
+224	298	7912134439601549	C:/Users/adria/COTEDI/Code/Repos/TFG_DyV/TFG/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/5i1u5032/obj/armeabi-v7a/libswappywrapper.so	a455cc4d1d700942
+0	223	7912134438840111	FramePacing/CMakeFiles/swappywrapper.dir/UnitySwappyWrapper.cpp.o	1e9053de02f539b5
+1	134	7912143995641466	FramePacing/CMakeFiles/swappywrapper.dir/UnitySwappyWrapper.cpp.o	1e9053de02f539b5
+135	202	7912143996313814	C:/Users/adria/COTEDI/Code/Repos/TFG_DyV/TFG/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/5i1u5032/obj/armeabi-v7a/libswappywrapper.so	a455cc4d1d700942

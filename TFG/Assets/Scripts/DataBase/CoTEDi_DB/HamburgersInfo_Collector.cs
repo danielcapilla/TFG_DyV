@@ -52,7 +52,7 @@ public class HamburgersInfo_Collector : MonoBehaviour
         {
             codesMeaning += $"({kvp.Key.ID.ToString()}, {kvp.Value})";
             count++;
-            if (count < ingredientsCodesMeaning.Count)
+            if (count < ingredientsCodesMeaning.Count - 1)
             {
                 codesMeaning += ", ";
             }
@@ -71,6 +71,23 @@ public class HamburgersInfo_Collector : MonoBehaviour
             requestedHamburgers[i].Ingredients = ingredients[i];
             Debug.Log($"Requested hamburguer {i}: " + requestedHamburgers[i].ToString());
         }
+    }
+
+    public void RequestedHamburguersToString()
+    {
+        string requestedString = "[";
+        for (int i = 0; i < requestedHamburgers.Count; i++)
+        {
+            string foo = $"{{{requestedHamburgers[i].ToString()}}}";
+            if (i < requestedHamburgers.Count - 1)
+            {
+                foo += ", ";
+            }
+            requestedString += foo;
+        }
+        requestedString += "]";
+        dataStorage.hamburguersInfo.RequestedHamburguers = requestedString;
+        Debug.Log(requestedString);
     }
 
 }

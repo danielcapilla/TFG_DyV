@@ -22,6 +22,18 @@ public class DeliveryStation : InteractableObject
     [SerializeField] AudioSource ScoreSound;
     [SerializeField] AudioSource FailSound;
 
+    [SerializeField] HamburgersInfo_Collector hamburgersInfo_Collector;
+
+    private Timer timerTotal = new Timer();
+    private Timer timerHamburguer = new Timer();
+
+    private new void Start()
+    {
+        base.Start();
+        timerTotal.StartTimer();
+        timerHamburguer.StartTimer();
+    }
+
     public override void Interact(PlayerCarry player)
     {
         base.Interact(player);
@@ -54,7 +66,6 @@ public class DeliveryStation : InteractableObject
             {
                 for (int i = 0; i < randomizer.currentOrders[teamInfo.idOrder].Count; ++i)
                 {
-
                     if (randomizer.currentOrders[teamInfo.idOrder][i].ID != plate.Ingredients[i].ingredient.ID)
                     {
                         same = false;
@@ -65,6 +76,29 @@ public class DeliveryStation : InteractableObject
             {
                 same = false;
             }
+
+
+            // Send info about the delivered hamburger to the collector
+            if (!same)
+            {
+                hamburgersInfo_Collector.requestedHamburgers[teamInfo.idOrder].NumFails++;
+            }
+            else
+            {
+                Debug.Log("Timer hamburguer: " + timerHamburguer.GetElapsedTime() + " State: " + timerHamburguer.IsRunning());
+                hamburgersInfo_Collector.requestedHamburgers[teamInfo.idOrder].TimeRequested = (int) Math.Round(timerHamburguer.GetElapsedTime());
+                timerHamburguer.ResetTimer();
+
+                hamburgersInfo_Collector.RequestedHamburguersToString();
+            }
+
+            Debug.Log($"Delivered hamburger for order {teamInfo.idOrder} | Correct: {same} " +
+          $"| Time needed: {hamburgersInfo_Collector.requestedHamburgers[teamInfo.idOrder].TimeRequested} \n Requested at: " +
+          $"{hamburgersInfo_Collector.requestedHamburgers[teamInfo.idOrder].MomentRequested} \n" +
+          $"{hamburgersInfo_Collector.requestedHamburgers[teamInfo.idOrder].NumFails}");
+            
+
+
             //Entregar puntuacion
             if (same)
             {
@@ -80,12 +114,19 @@ public class DeliveryStation : InteractableObject
                         TargetClientIds = teamInfo.integrantes.ToArray()
                     }
                 });
+
+                // Update statistics
+                timerHamburguer.StartTimer();
+                // Set the time that the hamburguer is requested
+                Debug.Log("Timer total: " + timerTotal.GetElapsedTime() + "State: " + timerTotal.IsRunning());
+                hamburgersInfo_Collector.requestedHamburgers[teamInfo.idOrder].MomentRequested = (int)Math.Round(timerTotal.GetElapsedTime());
+
                 //Mutex Unity
                 StartCoroutine(ChangeStatistics(teamInfo));
             }
             else
             {
-                Debug.Log("La has cagado....");
+                Debug.Log("Wrong deliver");
                 FailOrderClientRpc(new ClientRpcParams
                 {
                     Send = new ClientRpcSendParams
@@ -105,9 +146,8 @@ public class DeliveryStation : InteractableObject
         ScoreSound.Play();
         if(order < randomizer.currentOrders.Count)
         {
-            randomizer.NextOrder(order);
+            randomizer.NextOrder(order);   
         }
-        
     }
 
     [ClientRpc]

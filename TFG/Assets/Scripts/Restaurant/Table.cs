@@ -5,9 +5,9 @@ using UnityEngine;
 
 public class Table : InteractableObject
 {
-    bool isOccupied = false;
+    public bool isOccupied = false;
     [SerializeField] Transform placePosition;
-    ICarryObject holdingObject;
+    public ICarryObject holdingObject;
 
     public override void Interact(PlayerCarry player)
     {
@@ -30,6 +30,7 @@ public class Table : InteractableObject
             holdingObject.GetGameObject().transform.parent = playerCarry.transform;
             playerCarry.CarryObject(holdingObject);
             isOccupied = false;
+            holdingObject = null;
         }
         //TODO if plate on table and player holding ingredient, add ingredient
         else if (isOccupied && playerCarry.isCarrying)

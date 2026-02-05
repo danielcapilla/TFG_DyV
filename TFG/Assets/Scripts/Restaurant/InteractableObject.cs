@@ -9,11 +9,11 @@ public abstract class InteractableObject : NetworkBehaviour
     [SerializeField]
     private Color color = new Color(68, 68, 68, 255);
 
-    //helper list to cache all the materials ofd this object
+    //helper list to cache all the materials of this object
     private List<Material> materials;
 
     //Gets all the materials from each renderer
-    private void Start()
+    protected virtual void Start()
     {
         materials = new List<Material>();
         renderers = GetComponentsInChildren<Renderer>();

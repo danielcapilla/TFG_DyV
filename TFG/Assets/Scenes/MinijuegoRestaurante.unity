@@ -34252,6 +34252,7 @@ MonoBehaviour:
   statisticsBehaviour: {fileID: 484440624}
   ScoreSound: {fileID: 1615974902}
   FailSound: {fileID: 2040928231}
+  hamburgersInfo_Collector: {fileID: 4408347005509597761}
 --- !u!65 &928928689
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -34400,6 +34401,7 @@ MonoBehaviour:
   statisticsBehaviour: {fileID: 484440624}
   ScoreSound: {fileID: 1615974902}
   FailSound: {fileID: 2040928231}
+  hamburgersInfo_Collector: {fileID: 4408347005509597761}
 --- !u!65 &928992821
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -57152,6 +57154,7 @@ MonoBehaviour:
   statisticsBehaviour: {fileID: 484440624}
   ScoreSound: {fileID: 1615974902}
   FailSound: {fileID: 2040928231}
+  hamburgersInfo_Collector: {fileID: 4408347005509597761}
 --- !u!65 &1493661964
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -77817,6 +77820,7 @@ MonoBehaviour:
   statisticsBehaviour: {fileID: 484440624}
   ScoreSound: {fileID: 1615974902}
   FailSound: {fileID: 2040928231}
+  hamburgersInfo_Collector: {fileID: 4408347005509597761}
 --- !u!65 &1983595903
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -78163,6 +78167,7 @@ MonoBehaviour:
   statisticsBehaviour: {fileID: 484440624}
   ScoreSound: {fileID: 1615974902}
   FailSound: {fileID: 2040928231}
+  hamburgersInfo_Collector: {fileID: 4408347005509597761}
 --- !u!65 &1992208055
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -82505,6 +82510,7 @@ MonoBehaviour:
   statisticsBehaviour: {fileID: 484440624}
   ScoreSound: {fileID: 1615974902}
   FailSound: {fileID: 2040928231}
+  hamburgersInfo_Collector: {fileID: 4408347005509597761}
 --- !u!1 &2108190870
 GameObject:
   m_ObjectHideFlags: 0

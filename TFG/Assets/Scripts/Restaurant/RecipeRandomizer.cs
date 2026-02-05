@@ -17,6 +17,9 @@ public class RecipeRandomizer : NetworkBehaviour
 
     private Countdown countdown;
 
+    // Current order (used for storing PlayerController interaction data)
+    int currentOrderIndex = 0;
+
     public override void OnNetworkSpawn()
     {
         commandSpawner = GetComponent<CommandSpawner>();
@@ -245,5 +248,11 @@ public class RecipeRandomizer : NetworkBehaviour
     public void NextOrder(int order)
     {
         commandSpawner.SpawnOrder(pairedIngredients, currentOrders[order]);
+        currentOrderIndex = order;
+    }
+
+    public List<IngredientsScriptableObject> GetCurrentOrder()
+    {
+        return currentOrders[currentOrderIndex];
     }
 }

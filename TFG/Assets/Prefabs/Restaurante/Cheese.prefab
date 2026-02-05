@@ -61,6 +61,9 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -107,6 +110,8 @@ MonoBehaviour:
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!114 &3226473880626693916
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -119,7 +124,75 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be8e3dea5aa1a064c9029ad85dfdfa36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ingredient: {fileID: 0}
+  ingredient: {fileID: 11400000, guid: ce72c9fa7817a7042bfd6568831e3bc9, type: 2}
+  playerName:
+    utf8LengthInBytes: 0
+    bytes:
+      offset0000:
+        byte0000: 0
+        byte0001: 0
+        byte0002: 0
+        byte0003: 0
+        byte0004: 0
+        byte0005: 0
+        byte0006: 0
+        byte0007: 0
+        byte0008: 0
+        byte0009: 0
+        byte0010: 0
+        byte0011: 0
+        byte0012: 0
+        byte0013: 0
+        byte0014: 0
+        byte0015: 0
+      offset0016:
+        byte0000: 0
+        byte0001: 0
+        byte0002: 0
+        byte0003: 0
+        byte0004: 0
+        byte0005: 0
+        byte0006: 0
+        byte0007: 0
+        byte0008: 0
+        byte0009: 0
+        byte0010: 0
+        byte0011: 0
+        byte0012: 0
+        byte0013: 0
+        byte0014: 0
+        byte0015: 0
+      offset0032:
+        byte0000: 0
+        byte0001: 0
+        byte0002: 0
+        byte0003: 0
+        byte0004: 0
+        byte0005: 0
+        byte0006: 0
+        byte0007: 0
+        byte0008: 0
+        byte0009: 0
+        byte0010: 0
+        byte0011: 0
+        byte0012: 0
+        byte0013: 0
+        byte0014: 0
+        byte0015: 0
+      byte0048: 0
+      byte0049: 0
+      byte0050: 0
+      byte0051: 0
+      byte0052: 0
+      byte0053: 0
+      byte0054: 0
+      byte0055: 0
+      byte0056: 0
+      byte0057: 0
+      byte0058: 0
+      byte0059: 0
+      byte0060: 0
+      byte0061: 0
 --- !u!114 &5113258959470642947
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -132,4 +205,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a199afb4ffd46204e9f637f5bb3408aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hostManager: {fileID: 0}

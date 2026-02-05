@@ -9,7 +9,8 @@ public class Trashcan : InteractableObject
     {
         base.Interact(player);
         DespawnMultiplayerServerRPC(player.GetNetworkObject());
-        
+        player.isCarrying = false;
+
     }
     [ServerRpc(RequireOwnership = false)]
     private void DespawnMultiplayerServerRPC(NetworkObjectReference playerNetworkObjectReference)
