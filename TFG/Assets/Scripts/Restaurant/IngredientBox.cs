@@ -27,7 +27,7 @@ public class IngredientBox : InteractableObject
         base.Interact(player);
         SpawnMultiplayerServerRPC(player.GetNetworkObject());
     }
-    [ServerRpc(RequireOwnership = false)]
+    [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
     private void SpawnMultiplayerServerRPC(NetworkObjectReference playerNetworkObjectReference)
     {
 

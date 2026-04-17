@@ -1,4 +1,4 @@
-﻿using DG.Tweening;
+using DG.Tweening;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,10 +19,7 @@ public class GroupsPanelBehaviour : MonoBehaviour
     [SerializeField] private Ease pulseEase = Ease.InOutSine;
 
     [Header("Movimiento Idle Botones Grupos")]
-    [SerializeField] private float groupMoveRadius = 8f;
     [SerializeField] private Vector2 groupMoveDurationRange = new Vector2(2.5f, 4.2f);
-    [SerializeField] private float groupRandomStartDelayMax = 0.6f;
-    [SerializeField] private Ease groupMoveEase = Ease.InOutSine;
 
     [Header("Idle Grupos")]
     [SerializeField] private float floatAmplitude = 6f;

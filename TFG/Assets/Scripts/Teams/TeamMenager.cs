@@ -50,7 +50,7 @@ public class TeamMenager : NetworkBehaviour
     //    Instance = this;
     //   // DontDestroyOnLoad(this.gameObject);
     //}
-    [ServerRpc (RequireOwnership = false)]
+    [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
     public void QuitPlayerFromTheTeamServerRPC(ulong id, int groupNumber)
     {
         teams[groupNumber].integrantes.Remove(id);

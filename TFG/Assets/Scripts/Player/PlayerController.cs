@@ -20,12 +20,32 @@ public class PlayerController : NetworkBehaviour
 
     [SerializeField] GameObject FeetLocalizer;
 
+    // Sin red activa, actuamos como si fueramos el owner
+    private bool IsOffline => !NetworkManager.Singleton || !NetworkManager.Singleton.IsListening;
+    private bool IsLocallyControlled => IsOffline || IsOwner;
+
+    private void Start()
+    {
+        // En offline OnNetworkSpawn no se llama, inicializamos todo aqui
+        if (IsOffline)
+        {
+            InitializePlayer();
+        }
+    }
+
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
         DontDestroyOnLoad(gameObject);
         if (!IsOwner) return;
-        FeetLocalizer.SetActive(true);
+        InitializePlayer();
+    }
+
+    private void InitializePlayer()
+    {
+        if (FeetLocalizer != null)
+            FeetLocalizer.SetActive(true);
+
         playerInput = GetComponent<PlayerInput>();
         playerInput.enabled = true;
         rb = GetComponent<Rigidbody>();
@@ -45,20 +65,14 @@ public class PlayerController : NetworkBehaviour
         carryScript = GetComponent<PlayerCarry>();
 
         layer = gameObject.layer;
-
         layer = 1 << layer;
-
         layer = ~layer;
     }
-    void Start()
-    {
 
-    }
-
-    // Update is called once per frame
     void Update()
     {
-        if (!IsOwner) return;
+        if (!IsLocallyControlled) return;
+        if (playerInput == null) return;
 
         input = playerInput.actions["Movement"].ReadValue<Vector2>();
 
@@ -87,15 +101,14 @@ public class PlayerController : NetworkBehaviour
 
     private void FixedUpdate()
     {
-        if (!IsOwner) return;
-        //Vector3 desiredMovement = (forward * input.y + right * input.x);
+        if (!IsLocallyControlled) return;
+        if (rb == null) return;
 
         Vector3 desiredMovement = new Vector3(input.x, 0f, input.y);
         if (desiredMovement.magnitude > 0.1f)
         {
             rb.AddForce(desiredMovement * force);
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(desiredMovement, Vector3.up), rotationSpeed * Time.deltaTime);
-            //rb.AddForce(new Vector3(input.x, 0f, input.y)*force);
         }
         else
         {
@@ -106,8 +119,6 @@ public class PlayerController : NetworkBehaviour
     public void Interact(InputAction.CallbackContext context)
     {
         Debug.Log("Interaccion");
-
-        //Check for interactable object in front and call its interact method
         if (interactableInRange != null)
         {
             interactableInRange.Interact(carryScript);

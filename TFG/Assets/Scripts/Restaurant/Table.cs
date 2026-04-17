@@ -15,7 +15,7 @@ public class Table : InteractableObject
         ReplaceObjectsServerRPC(player.GetNetworkObject());
         
     }
-    [ServerRpc (RequireOwnership = false)]
+    [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
     private void ReplaceObjectsServerRPC(NetworkObjectReference playerNetworkObjectReference)
     {
         playerNetworkObjectReference.TryGet(out NetworkObject playerNetworkObject);
@@ -53,7 +53,7 @@ public class Table : InteractableObject
         holdingObject.GetGameObject().transform.localPosition = placePosition.localPosition;
         isOccupied = true;
     }
-    [ServerRpc (RequireOwnership = false)]
+    [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
     private void SetParentTableServerRPC()
     {
         holdingObject.GetGameObject().transform.parent = this.transform;

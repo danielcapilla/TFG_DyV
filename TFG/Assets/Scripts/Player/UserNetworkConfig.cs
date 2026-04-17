@@ -7,7 +7,6 @@ public class UserNetworkConfig : NetworkBehaviour
 {
     public NetworkVariable<FixedString64Bytes> usernameNetworkVariable = new(default, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     public NetworkVariable<int> profilePicIDNetworkVariable = new(default, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
-    private bool conectionFailed = false;
     public override void OnNetworkSpawn()
     {
         //NetworkManager.Singleton.OnServerStopped += OnServerDisconnect;
@@ -39,7 +38,7 @@ public class UserNetworkConfig : NetworkBehaviour
     private void OnServerDisconnect(bool obj)
     {
         Debug.Log("Server stopped");
-        conectionFailed = true;
+        Debug.Log("Connection to server failed.");
         //SceneManager.LoadScene("MainMenu");
     }
 

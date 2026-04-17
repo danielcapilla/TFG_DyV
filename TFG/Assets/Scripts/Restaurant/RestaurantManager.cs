@@ -21,7 +21,7 @@ public class RestaurantManager : NetworkBehaviour
         }
         if (!IsServer || !IsHost) return;
     }
-    [ServerRpc(RequireOwnership = false)]
+    [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
     private void ClassCodeServerRPC(FixedString64Bytes classCode)
     {
         studentClassCode = classCode.ToString();

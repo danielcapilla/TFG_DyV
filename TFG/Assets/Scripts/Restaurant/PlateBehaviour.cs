@@ -14,7 +14,7 @@ public class PlateBehaviour : NetworkBehaviour, ICarryObject
     {
         AddIngredientServerRPC(ingredient.GetNetworkObject(), playerName);
     }
-    [ServerRpc (RequireOwnership = false)]
+    [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
     private void AddIngredientServerRPC(NetworkObjectReference ingredientNetworkObjectReference, FixedString64Bytes playerName)
     {
         ingredientNetworkObjectReference.TryGet(out NetworkObject ingredientNetworkObject);

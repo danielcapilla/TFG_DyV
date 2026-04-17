@@ -1,4 +1,4 @@
-using Cinemachine;
+using Unity.Cinemachine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,8 +6,8 @@ using UnityEngine;
 
 public class CameraSelector : MonoBehaviour
 {
-    [SerializeField] List<CinemachineVirtualCamera> cameras;
-    CinemachineVirtualCamera currentCamera; 
+    [SerializeField] List<CinemachineCamera> cameras;
+    CinemachineCamera currentCamera; 
     int currentViewingCameraID = 0;
     public EventHandler<OnCameraChangeEventArgs> OnCameraChange;
     public class OnCameraChangeEventArgs : System.EventArgs
@@ -17,7 +17,7 @@ public class CameraSelector : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        foreach (CinemachineVirtualCamera cam in cameras) 
+        foreach (CinemachineCamera cam in cameras) 
         {
             cam.gameObject.SetActive(false);
         }

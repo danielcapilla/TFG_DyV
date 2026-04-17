@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -25,7 +25,6 @@ public class TurnTimer : NetworkBehaviour
     private bool isTimerRunning = false;
     private bool isDelayRunning = false;
     public Action<ulong> OnTimerEnd;
-    public static event Action<float> OnTimerUpdated;
 
     public override void OnNetworkSpawn()
     {

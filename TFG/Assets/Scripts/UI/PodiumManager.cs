@@ -40,7 +40,7 @@ public class PodiumManager : NetworkBehaviour
 
         
     }
-    [ServerRpc (RequireOwnership = false)]
+    [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
     private void ShowPodiumServerRPC()
     {
         teamManager.teams.Sort((team1, team2) => team2.Puntuacion.CompareTo(team1.Puntuacion));
@@ -61,7 +61,7 @@ public class PodiumManager : NetworkBehaviour
         localizeStringEvent = podiumGameObject.GetComponentInChildren<LocalizeStringEvent>();
         var groupIdLocalizationString = localizeStringEvent.StringReference["groupId"] as IntVariable;
         groupIdLocalizationString.Value = groupId;
-        podiumScript.SetData($"{position + 1}º", $"{score}");
+        podiumScript.SetData($"{position + 1}ï¿½", $"{score}");
     }
     public override void OnNetworkDespawn()
     {

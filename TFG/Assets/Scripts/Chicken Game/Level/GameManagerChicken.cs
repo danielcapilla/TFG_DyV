@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Collections;
@@ -31,7 +31,6 @@ public class GameManagerChicken : NetworkBehaviour
 
     [Header("Base de Datos")]
     [SerializeField] private DataBaseCommander dataBaseCommander;
-    private bool dbSent = false;
     private string studentClassCode = "A";
 
     // Eventos

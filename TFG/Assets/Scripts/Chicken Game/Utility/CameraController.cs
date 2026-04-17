@@ -1,6 +1,4 @@
-using Cinemachine;
 using System.Linq;
-using UnityEditor;
 using UnityEngine;
 
 public class CameraController : MonoBehaviour
@@ -30,7 +28,7 @@ public class CameraController : MonoBehaviour
         foreach (Collider col in colliders.Skip(1))
             totalBounds.Encapsulate(col.bounds);
 
-        // Calculamos el tamaño de la camara con la rotacion inicial considerada
+        // Calculamos el tamano de la camara con la rotacion inicial considerada
         float orthoSize = CalculateOrthographicSize(totalBounds, virtualCamera);
 
         // Aplicamos un margen porcentual si queremos
@@ -44,22 +42,13 @@ public class CameraController : MonoBehaviour
 
     private Vector3 CalculateCameraPosition(Bounds bounds, Quaternion cameraRotation, float orthoSize)
     {
-        // El centro de los bounds que la camara debe enmarcar
         Vector3 center = bounds.center;
-
-        // forward Z +  hacia donde mira la camara
         Vector3 cameraForward = cameraRotation * Vector3.forward;
-
-        // Distancia necesaria para que la camara ortografica enmarque los bounds
         float distance = orthoSize * 2.0f;
-
-        // Posicion de la camara = centro de los bounds + direccion opuesta a donde mira * distancia
         Vector3 cameraPosition = center + (-cameraForward) * distance;
-
         return cameraPosition;
     }
 
-    // Obtener todas las esquinas de los bounds
     private Vector3[] GetBoundsCorners(Bounds bounds)
     {
         Vector3[] corners = new Vector3[8];
@@ -77,12 +66,11 @@ public class CameraController : MonoBehaviour
 
         return corners;
     }
-    // Queremos que la camara orto enmarque todos los bounds dentro de ella con una rot fija
+
     private float CalculateOrthographicSize(Bounds bounds, Camera camera)
     {
         Vector3[] corners = GetBoundsCorners(bounds);
 
-        // Encontrar los limites en el espacio de la camara
         float minX = float.MaxValue;
         float maxX = float.MinValue;
         float minY = float.MaxValue;
@@ -90,28 +78,18 @@ public class CameraController : MonoBehaviour
 
         foreach (Vector3 corner in corners)
         {
-            // Convertir la esquina al espacio de la camara (mundo a camara)
             Vector3 viewSpaceCorner = camera.worldToCameraMatrix.MultiplyPoint3x4(corner);
-            minX = Mathf.Min(minX, viewSpaceCorner.x); // Izquierda
-            maxX = Mathf.Max(maxX, viewSpaceCorner.x); // Derecha
-            minY = Mathf.Min(minY, viewSpaceCorner.y); // Abajo
-            maxY = Mathf.Max(maxY, viewSpaceCorner.y); // Arriba
+            minX = Mathf.Min(minX, viewSpaceCorner.x);
+            maxX = Mathf.Max(maxX, viewSpaceCorner.x);
+            minY = Mathf.Min(minY, viewSpaceCorner.y);
+            maxY = Mathf.Max(maxY, viewSpaceCorner.y);
         }
 
-        // Dimensiones minimas necesarias
         float width = maxX - minX;
         float height = maxY - minY;
-
         float aspect = (float)Screen.width / Screen.height;
-
-        // Calcular el size ortografico necesario
-        // https://docs.unity3d.com/ScriptReference/Camera-orthographicSize.html
-        // Formula de Unity: AnchoVisible = orthoSize × 2 × aspect
         float orthoSizeWidth = (width / 2f) / aspect;
-        // Formula de Unity: AltoVisible = orthoSize × 2
         float orthoSizeHeight = height / 2f;
-        // Devolvemos el mayor de los dos porque la camara debe cubrir ambos ejes (hay un eje que sobre sale un poco)
         return Mathf.Max(orthoSizeWidth, orthoSizeHeight);
     }
 }
-

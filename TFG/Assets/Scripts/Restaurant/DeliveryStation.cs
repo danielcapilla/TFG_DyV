@@ -30,7 +30,7 @@ public class DeliveryStation : InteractableObject
 
     }
 
-    [ServerRpc(RequireOwnership = false)]
+    [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
     public void DeliverPlateServerRPC(NetworkObjectReference playerNetworkObjectReference)
     {
         playerNetworkObjectReference.TryGet(out NetworkObject playerNetworkObject);
@@ -124,7 +124,7 @@ public class DeliveryStation : InteractableObject
         holdingObject = playerCarry.DropObject();
         SetParentTableServerRPC();
     }
-    [ServerRpc(RequireOwnership = false)]
+    [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
     private void SetParentTableServerRPC()
     {
         holdingObject.GetGameObject().transform.parent = this.transform;

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
@@ -17,7 +17,7 @@ public class PlayerInputController : NetworkBehaviour
     [Header("Partículas")]
     private ParticleSystem dust;
     [Header("Localizadores")]
-    [SerializeField] private Light light;
+    [SerializeField] private Light playerLight;
     [SerializeField] private GameObject halo;
     private GameManagerChicken gameManagerChicken;
     public NetworkVariable<Vector3> targetPosition = new NetworkVariable<Vector3>( Vector3.zero,
@@ -30,11 +30,24 @@ public class PlayerInputController : NetworkBehaviour
     [Header("Modo tutorial")]
     public bool isTutorialMode = false;
 
+    // Indica si estamos en modo offline (sin red activa)
+    private bool IsOffline => !NetworkManager.Singleton || !NetworkManager.Singleton.IsListening;
+
     private void Start()
     {
         dust = GetComponentInChildren<ParticleSystem>();
-        //DontDestroyOnLoad(gameObject);
+
+        // En modo offline OnNetworkSpawn no se llama, inicializamos aqui
+        if (IsOffline)
+        {
+            targetPosition.OnValueChanged += OnTargetPositionChanged;
+            gameManagerChicken = FindFirstObjectByType<GameManagerChicken>();
+            if (gameManagerChicken != null)
+                gameManagerChicken.OnPlayerSpawned += ActivateIdentificators;
+            UpdateCurrentGridPos(transform.position);
+        }
     }
+
     public override void OnNetworkSpawn()
     {
         if (IsServer)
@@ -44,20 +57,30 @@ public class PlayerInputController : NetworkBehaviour
             if(gameManagerChicken != null)
                 gameManagerChicken.OnPlayerSpawned += ActivateIdentificators;
             UpdateCurrentGridPos(transform.position);
-
         }
         targetPosition.OnValueChanged += OnTargetPositionChanged;
     }
+
     private void Update()
     {
-        if (!light.gameObject.activeSelf) return;
+        if (!playerLight.gameObject.activeSelf) return;
         float t = (Mathf.Sin(Time.time * 5f) + 1f) / 2f;
-        light.intensity = Mathf.Lerp(0f, 2f, t);
+        playerLight.intensity = Mathf.Lerp(0f, 2f, t);
     }
+
     private void ActivateIdentificators(NetworkObjectReference playerNOR, int idGroup)
     {
         TeamInfo teamInfo = TeamMenager.Instance.teams[GetComponentInParent<PlayerStats>().idGrupo.Value];
         ulong[] targetClients = teamInfo.integrantes.ToArray();
+
+        if (IsOffline)
+        {
+            // En offline activamos directamente sin RPC
+            playerLight.gameObject.SetActive(true);
+            halo.SetActive(true);
+            return;
+        }
+
         ActivateIdentificatorsForClientRPC(new ClientRpcParams
         {
             Send = new ClientRpcSendParams
@@ -70,7 +93,7 @@ public class PlayerInputController : NetworkBehaviour
     [ClientRpc]
     private void ActivateIdentificatorsForClientRPC(ClientRpcParams clientRpcParams)
     {
-        light.gameObject.SetActive(true);
+        playerLight.gameObject.SetActive(true);
         halo.SetActive(true);
     }
 
@@ -100,11 +123,12 @@ public class PlayerInputController : NetworkBehaviour
         // Comprobar colisiones con raycast
         if (Physics.Raycast(startPos, direction, distance, obstacleMask))
         {
-            LastMoveBlocked = true;                          
-            targetPosition.Value = transform.position;
+            LastMoveBlocked = true;
+            // En offline no podemos escribir en NetworkVariable, usamos posicion local
+            if (!IsOffline)
+                targetPosition.Value = transform.position;
             IsMoving = false;
             currentMovementCoroutine = null;
-            //gameManagerChicken.PlayCollisionSoundForGroup(GetComponentInParent<PlayerStats>().idGrupo.Value);
             OnObstaculeCollided?.Invoke(GetComponentInParent<PlayerStats>()? GetComponentInParent<PlayerStats>().idGrupo.Value : 0);
             yield break;
         }
@@ -139,12 +163,11 @@ public class PlayerInputController : NetworkBehaviour
         currentMovementCoroutine = null;
     }
 
-    // Metodos llamados por los comandos (solo en servidor o tutorial)
+    // Metodos llamados por los comandos
     public void MoveUp()
     {
         if (IsMoving) return;
-
-        if (isTutorialMode)
+        if (isTutorialMode || IsOffline)
         {
             TryMoveLocal(Vector3.forward);
         }
@@ -159,8 +182,7 @@ public class PlayerInputController : NetworkBehaviour
     public void MoveDown()
     {
         if (IsMoving) return;
-
-        if (isTutorialMode)
+        if (isTutorialMode || IsOffline)
         {
             TryMoveLocal(Vector3.back);
         }
@@ -175,8 +197,7 @@ public class PlayerInputController : NetworkBehaviour
     public void MoveLeft()
     {
         if (IsMoving) return;
-
-        if (isTutorialMode)
+        if (isTutorialMode || IsOffline)
         {
             TryMoveLocal(Vector3.left);
         }
@@ -191,8 +212,7 @@ public class PlayerInputController : NetworkBehaviour
     public void MoveRight()
     {
         if (IsMoving) return;
-
-        if (isTutorialMode)
+        if (isTutorialMode || IsOffline)
         {
             TryMoveLocal(Vector3.right);
         }
@@ -206,7 +226,7 @@ public class PlayerInputController : NetworkBehaviour
 
     public void StopMovement()
     {
-        if (isTutorialMode)
+        if (isTutorialMode || IsOffline)
         {
             TryMoveLocal(Vector3.zero);
             return;
@@ -216,9 +236,8 @@ public class PlayerInputController : NetworkBehaviour
             if (!IsServer) return;
             targetPosition.Value = transform.position;
         }
-
-
     }
+
     private void TryMoveLocal(Vector3 direction)
     {
         if (IsMoving) return;
@@ -227,11 +246,8 @@ public class PlayerInputController : NetworkBehaviour
         Vector3 startPos = rb.position;
         Vector3 targetPos = startPos + direction * moveDistance;
 
-        // Resetear flag
         LastMoveBlocked = false;
 
-
-        // Iniciar movimiento local usando la misma coroutine existente
         if (currentMovementCoroutine == null)
             currentMovementCoroutine = StartCoroutine(MoveToPositionCoroutine(targetPos));
     }
@@ -239,15 +255,29 @@ public class PlayerInputController : NetworkBehaviour
     public override void OnNetworkDespawn()
     {
         targetPosition.OnValueChanged -= OnTargetPositionChanged;
-        if (IsServer)
+        if (IsServer && gameManagerChicken != null)
         {
             gameManagerChicken.OnPlayerSpawned -= ActivateIdentificators;
         }
     }
+
+    public override void OnDestroy()
+    {
+        base.OnDestroy();
+        // Limpieza en modo offline (OnNetworkDespawn no se llama)
+        if (IsOffline)
+        {
+            targetPosition.OnValueChanged -= OnTargetPositionChanged;
+            if (gameManagerChicken != null)
+                gameManagerChicken.OnPlayerSpawned -= ActivateIdentificators;
+        }
+    }
+
     private void CreateDust()
     {
         dust.Play();
     }
+
     public bool IsGrounded
     {
         get
@@ -257,29 +287,26 @@ public class PlayerInputController : NetworkBehaviour
             return Physics.Raycast(origin, Vector3.down, rayLength, LayerMask.GetMask("Default", "Ground"));
         }
     }
+
     private void UpdateCurrentGridPos(Vector3 worldPos)
     {
         var gen = GridLevelGenerator.Instance;
         if (gen == null) return;
-
         CurrentGridPos = gen.WorldToGrid(worldPos);
     }
+
     public void StartSpeedUp(float multiplier, float duration)
     {
         if (speedCoroutine != null)
             StopCoroutine(speedCoroutine);
-
         speedCoroutine = StartCoroutine(SpeedUpCoroutine(multiplier, duration));
     }
 
     private IEnumerator SpeedUpCoroutine(float multiplier, float duration)
     {
         moveDistance = multiplier;
-
         yield return new WaitForSeconds(duration);
-
         moveDistance = 1f;
         speedCoroutine = null;
     }
-    
 }

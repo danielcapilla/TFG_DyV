@@ -1,4 +1,4 @@
-﻿using DG.Tweening;
+using DG.Tweening;
 using System;
 using Unity.Netcode;
 using UnityEngine;
@@ -16,7 +16,6 @@ public class TurnBehaviour : NetworkBehaviour
     [SerializeField] private TurnTimer turnTimer;
     [SerializeField] private TeamMenager teamMenager;
 
-    private bool isInitializingTurn = false;
     private Tween activateDelayTween;
 
     public override void OnNetworkSpawn()
@@ -47,8 +46,9 @@ public class TurnBehaviour : NetworkBehaviour
         if (movementPanel != null) DOTween.Kill(movementPanel.transform);
         activateDelayTween?.Kill();
     }
-    private void OnDestroy()
+    public override void OnDestroy()
     {
+        base.OnDestroy();
         KillTweens();
     }
     private void OnDisable()

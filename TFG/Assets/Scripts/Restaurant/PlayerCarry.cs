@@ -22,7 +22,7 @@ public class PlayerCarry : NetworkBehaviour
     {
         CarryObjectServerRPC(carryObject.GetNetworkObject());
     }
-    [ServerRpc(RequireOwnership = false)]
+    [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
     public void CarryObjectServerRPC(NetworkObjectReference carryObjectNetworkObjectReference) 
     {
         CarryObjectClientRPC(carryObjectNetworkObjectReference);       
@@ -49,7 +49,7 @@ public class PlayerCarry : NetworkBehaviour
         isCarrying = false;
         return temp;
     }
-    [ServerRpc (RequireOwnership = false)]
+    [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
     private void DropOnjectServerRPC(NetworkObjectReference tempNetworkObjectReference)
     {
         tempNetworkObjectReference.TryGet(out NetworkObject carryObjectNetworkObject);
