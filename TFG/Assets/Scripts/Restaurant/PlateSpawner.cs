@@ -1,34 +1,29 @@
-using System.Collections;
-using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
 public class PlateSpawner : InteractableObject
 {
     [SerializeField] GameObject plate;
-    public override void Interact(PlayerCarry player)
+
+    protected override void InteractOnline(PlayerCarry player) => SpawnServerRPC(player.GetNetworkObject());
+
+    protected override void InteractOffline(PlayerCarry player)
     {
-        base.Interact(player);
-        SpawnMultiplayerServerRPC(player.GetNetworkObject());
-    
+        if (player.isCarrying) return;
+        GameObject instance = Instantiate(plate);
+        player.TryPickUp(instance.GetComponent<PlateBehaviour>());
     }
+
     [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
-    private void SpawnMultiplayerServerRPC(NetworkObjectReference playerNetworkObjectReference)
+    private void SpawnServerRPC(NetworkObjectReference playerRef)
     {
-        playerNetworkObjectReference.TryGet(out NetworkObject playerNetworkObject);
-        PlayerCarry playerCarry = playerNetworkObject.GetComponent<PlayerCarry>();
-        if (!playerCarry.isCarrying)
-        {
-            GameObject instance = Instantiate(plate);
-            ICarryObject carryObject = instance.GetComponent<PlateBehaviour>();
-            //Para que lo vean los clientes
-            NetworkObject instanceNetworkObject = instance.GetComponent<NetworkObject>();
-            instanceNetworkObject.Spawn(true);
+        if (!playerRef.TryGet(out NetworkObject playerNet)) return;
+        PlayerCarry playerCarry = playerNet.GetComponent<PlayerCarry>();
+        if (playerCarry.isCarrying) return;
 
-
-            //Poner de padre al player que lo ha invocado (solo funciona si se pone en una serverRPC)
-            carryObject.GetGameObject().transform.SetParent(playerCarry.transform);
-            playerCarry.CarryObject(carryObject);
-        }
+        GameObject instance = Instantiate(plate);
+        NetworkObject netObj = instance.GetComponent<NetworkObject>();
+        netObj.Spawn(true);
+        playerCarry.CarryObject(instance.GetComponent<PlateBehaviour>());
     }
 }

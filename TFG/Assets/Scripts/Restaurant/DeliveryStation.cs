@@ -1,5 +1,4 @@
 using DG.Tweening;
-using System;
 using System.Collections;
 using System.Linq;
 using TMPro;
@@ -14,144 +13,171 @@ public class DeliveryStation : InteractableObject
     [SerializeField] float time;
     ICarryObject holdingObject;
     [SerializeField] TeamMenager teamMenager;
-    [SerializeField]
-    private TextMeshProUGUI scoreText;
-    [SerializeField]
-    private StatisticsBehaviour statisticsBehaviour;
-
+    [SerializeField] private TextMeshProUGUI scoreText;
+    [SerializeField] private StatisticsBehaviour statisticsBehaviour;
     [SerializeField] AudioSource ScoreSound;
     [SerializeField] AudioSource FailSound;
+    private int offlineOrderIndex = 0; // Indice del pedido actual en modo offline
 
-    public override void Interact(PlayerCarry player)
+    // ── Offline ───────────────────────────────────────────────────────────────
+    protected override void InteractOffline(PlayerCarry player)
     {
-        base.Interact(player);
-        DeliverPlateServerRPC(player.GetNetworkObject());
-        //Si lleva un plato
+        if (!player.isCarrying) return;
+        if (!player.carryingObject.GetGameObject().TryGetComponent<PlateBehaviour>(out PlateBehaviour plate)) return;
 
+        holdingObject = player.DropObject();
+        PlayerCarry.SetParentSafe(holdingObject.GetGameObject(), transform);
+        holdingObject.GetGameObject().transform.localPosition = placePosition.localPosition;
+
+        bool correct = EvaluatePlate(plate, 0);
+        if (correct)
+        {
+            offlineOrderIndex++;
+            scoreText?.SetText(offlineOrderIndex.ToString());
+            ScoreSound?.Play();
+            // Mostrar el siguiente pedido si quedan
+            if (offlineOrderIndex < randomizer.currentOrders.Count)
+                randomizer.NextOrder(offlineOrderIndex);
+        }
+        else
+        {
+            FailSound?.Play();
+        }
+
+        // Animar y destruir
+        ICarryObject captured = holdingObject;
+        captured.GetGameObject().transform
+            .DOMove(endPos.position, time)
+            .SetEase(Ease.InQuart)
+            .OnComplete(() =>
+            {
+                foreach (ICarryObject obj in plate.GetGameObject()
+                             .transform.GetComponentsInChildren<ICarryObject>().Reverse())
+                    Destroy(obj.GetGameObject());
+                Destroy(captured.GetGameObject());
+            });
+    }
+
+    // ── Online ────────────────────────────────────────────────────────────────
+    protected override void InteractOnline(PlayerCarry player)
+    {
+        DeliverPlateServerRPC(player.GetNetworkObject());
     }
 
     [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
-    public void DeliverPlateServerRPC(NetworkObjectReference playerNetworkObjectReference)
+    public void DeliverPlateServerRPC(NetworkObjectReference playerRef)
     {
-        playerNetworkObjectReference.TryGet(out NetworkObject playerNetworkObject);
-        PlayerCarry playerCarry = playerNetworkObject.GetComponent<PlayerCarry>();
-        PlayerStats playerStats = playerNetworkObject.GetComponentInParent<PlayerStats>();
+        if (!playerRef.TryGet(out NetworkObject playerNet)) return;
+        PlayerCarry playerCarry = playerNet.GetComponent<PlayerCarry>();
+        PlayerStats playerStats = playerNet.GetComponentInParent<PlayerStats>();
+        if (!playerCarry.isCarrying) return;
+        if (!playerCarry.carryingObject.GetGameObject().TryGetComponent<PlateBehaviour>(out PlateBehaviour plate)) return;
 
-        if (playerCarry.carryingObject.GetGameObject().TryGetComponent<PlateBehaviour>(out PlateBehaviour plate))
+        PlaceOrderClientRPC(playerRef);
+        MovePlateClientRPC(plate.GetNetworkObject());
+
+        int idGrupo = playerStats.idGrupo.Value;
+        bool correct = EvaluatePlate(plate, idGrupo);
+        TeamInfoRestaurante teamInfo = (TeamInfoRestaurante)teamMenager.teams[idGrupo];
+
+        var deliveredBurguer = new DeliveredBurguerInfo
         {
-            //Colocar plato en superficie
-            PlaceOrderClientRPC(playerNetworkObjectReference);
-            //Animar plato (con DOTween puede que con alguna corutina o algo) para que sea entregado
-            MovePlateClientRPC(plate.GetNetworkObject());
-            //Evaluar plato respecto al pedido
-            bool same = true;
-            TeamInfoRestaurante teamInfo = (TeamInfoRestaurante)teamMenager.teams[playerStats.idGrupo.Value];
-            DeliveredBurguerInfo deliveredBurguer = new();
-            deliveredBurguer.burguer = plate.Ingredients;
-            deliveredBurguer.idOrder = teamInfo.idOrder;
-            teamInfo.Burguers.Add(deliveredBurguer);
-            if (randomizer.currentOrders[teamInfo.idOrder].Count == plate.Ingredients.Count)
-            {
-                for (int i = 0; i < randomizer.currentOrders[teamInfo.idOrder].Count; ++i)
-                {
+            burguer = plate.Ingredients,
+            idOrder = teamInfo.idOrder
+        };
+        teamInfo.Burguers.Add(deliveredBurguer);
 
-                    if (randomizer.currentOrders[teamInfo.idOrder][i].ID != plate.Ingredients[i].ingredient.ID)
-                    {
-                        same = false;
-                    }
-                }
-            }
-            else
+        if (correct)
+        {
+            teamInfo.Puntuacion++;
+            teamInfo.onPuntuacionChanged?.Invoke(teamInfo.Puntuacion);
+            teamInfo.idOrder++;
+            teamInfo.OnIdOrderChange?.Invoke(teamInfo.idOrder);
+            NextOrderClientRpc(teamInfo.idOrder, teamInfo.Puntuacion, new ClientRpcParams
             {
-                same = false;
-            }
-            //Entregar puntuacion
-            if (same)
+                Send = new ClientRpcSendParams { TargetClientIds = teamInfo.integrantes.ToArray() }
+            });
+            StartCoroutine(ChangeStatistics(teamInfo));
+        }
+        else
+        {
+            FailOrderClientRpc(new ClientRpcParams
             {
-                Debug.Log("Hamburguesa correcta");
-                teamInfo.Puntuacion++;
-                teamInfo.onPuntuacionChanged?.Invoke(teamInfo.Puntuacion);
-                teamInfo.idOrder++;
-                teamInfo.OnIdOrderChange?.Invoke(teamInfo.idOrder);
-                NextOrderClientRpc(teamInfo.idOrder, teamInfo.Puntuacion, new ClientRpcParams
-                {
-                    Send = new ClientRpcSendParams
-                    {
-                        TargetClientIds = teamInfo.integrantes.ToArray()
-                    }
-                });
-                //Mutex Unity
-                StartCoroutine(ChangeStatistics(teamInfo));
-            }
-            else
-            {
-                Debug.Log("La has cagado....");
-                FailOrderClientRpc(new ClientRpcParams
-                {
-                    Send = new ClientRpcSendParams
-                    {
-                        TargetClientIds = teamInfo.integrantes.ToArray()
-                    }
-                });
-            }
-
+                Send = new ClientRpcSendParams { TargetClientIds = teamInfo.integrantes.ToArray() }
+            });
         }
     }
 
+    // ── Logica comun de evaluacion ────────────────────────────────────────────
+    private bool EvaluatePlate(PlateBehaviour plate, int idGrupo)
+    {
+        if (randomizer == null || randomizer.currentOrders == null ||
+            randomizer.currentOrders.Count == 0) return false;
+
+        int orderIndex = IsOffline ? offlineOrderIndex : ((TeamInfoRestaurante)teamMenager.teams[idGrupo]).idOrder;
+        if (orderIndex >= randomizer.currentOrders.Count) return false;
+
+        var order = randomizer.currentOrders[orderIndex];
+        if (order.Count != plate.Ingredients.Count) return false;
+
+        for (int i = 0; i < order.Count; i++)
+        {
+            if (order[i].ID != plate.Ingredients[i].ingredient.ID)
+                return false;
+        }
+        return true;
+    }
+
     [ClientRpc]
-    public void NextOrderClientRpc(int order, int teamScore, ClientRpcParams clientRpcParams = default)
+    public void NextOrderClientRpc(int order, int teamScore, ClientRpcParams p = default)
     {
         scoreText.text = teamScore.ToString();
         ScoreSound.Play();
-        if(order < randomizer.currentOrders.Count)
-        {
+        if (order < randomizer.currentOrders.Count)
             randomizer.NextOrder(order);
-        }
-        
     }
 
     [ClientRpc]
-    public void FailOrderClientRpc(ClientRpcParams clientRpcParams = default)
-    {
-        FailSound.Play();
-    }
+    public void FailOrderClientRpc(ClientRpcParams p = default) => FailSound.Play();
 
     [ClientRpc]
-    private void PlaceOrderClientRPC(NetworkObjectReference playerNetworkObjectReference)
+    private void PlaceOrderClientRPC(NetworkObjectReference playerRef)
     {
-        playerNetworkObjectReference.TryGet(out NetworkObject playerNetworkObject);
-        PlayerCarry playerCarry = playerNetworkObject.GetComponent<PlayerCarry>();
+        if (!playerRef.TryGet(out NetworkObject playerNet)) return;
+        PlayerCarry playerCarry = playerNet.GetComponent<PlayerCarry>();
         holdingObject = playerCarry.DropObject();
-        SetParentTableServerRPC();
+        SetParentServerRPC();
     }
+
     [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
-    private void SetParentTableServerRPC()
+    private void SetParentServerRPC()
     {
-        holdingObject.GetGameObject().transform.parent = this.transform;
+        PlayerCarry.SetParentSafe(holdingObject.GetGameObject(), transform);
     }
+
     [ClientRpc]
-    public void MovePlateClientRPC(NetworkObjectReference plateNetworkObjectReference)
+    public void MovePlateClientRPC(NetworkObjectReference plateRef)
     {
-        plateNetworkObjectReference.TryGet(out NetworkObject plateNetworkObject);
-        PlateBehaviour plate = plateNetworkObject.GetComponent<PlateBehaviour>();
+        if (!plateRef.TryGet(out NetworkObject plateNet)) return;
+        PlateBehaviour plate = plateNet.GetComponent<PlateBehaviour>();
 
         holdingObject.GetGameObject().transform.localPosition = placePosition.localPosition;
-
-        holdingObject.GetGameObject().transform.DOMove(endPos.position, time).SetEase(Ease.InQuart).OnComplete(() =>
-        {
-            DOTween.Kill(holdingObject.GetGameObject().transform);
-            foreach (ICarryObject objToDestroy in plate.GetGameObject().transform.GetComponentsInChildren<ICarryObject>().Reverse())
+        holdingObject.GetGameObject().transform
+            .DOMove(endPos.position, time)
+            .SetEase(Ease.InQuart)
+            .OnComplete(() =>
             {
-                objToDestroy.GetNetworkObject().Despawn(objToDestroy.GetGameObject());
-            }
-        });
+                DOTween.Kill(holdingObject.GetGameObject().transform);
+                foreach (ICarryObject obj in plate.GetGameObject()
+                             .transform.GetComponentsInChildren<ICarryObject>().Reverse())
+                    obj.GetNetworkObject().Despawn(obj.GetGameObject());
+            });
     }
 
     private IEnumerator ChangeStatistics(TeamInfoRestaurante teamInfo)
     {
-        //Mutex de unity
         yield return new WaitUntil(() => statisticsBehaviour.finished);
-        (int, int) posiciones = teamMenager.GetPositions(teamInfo);
-        statisticsBehaviour.ChangePosition(posiciones.Item1, posiciones.Item2, teamMenager.teams.IndexOf(teamInfo));
+        (int, int) pos = teamMenager.GetPositions(teamInfo);
+        statisticsBehaviour.ChangePosition(pos.Item1, pos.Item2, teamMenager.teams.IndexOf(teamInfo));
     }
 }

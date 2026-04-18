@@ -6,47 +6,43 @@ public class IngredientBox : InteractableObject
     public IngredientsScriptableObject ingredient;
     [SerializeField] GameObject Lid;
 
-
     private void Awake()
     {
-        //GameObject instance = Instantiate(ingredient.Model, transform);
-        //instance.transform.localPosition = new Vector3(0, 0.5f, 0);
         GameObject lid = Instantiate(Lid, transform);
         lid.transform.localPosition = new Vector3(0, 0.8f, 0);
         GameObject plane = new GameObject("Plane");
         plane.transform.parent = transform;
         plane.transform.Rotate(new Vector3(90, 0, 0));
-        SpriteRenderer renderer = plane.AddComponent<SpriteRenderer>();
-        renderer.sprite = ingredient.Sprite;
+        SpriteRenderer sr = plane.AddComponent<SpriteRenderer>();
+        sr.sprite = ingredient.Sprite;
         plane.transform.localPosition = new Vector3(0, 1.01f, -ingredient.Sprite.bounds.size.y / 4);
         plane.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
     }
 
-    public override void Interact(PlayerCarry player)
+    protected override void InteractOnline(PlayerCarry player) => SpawnServerRPC(player.GetNetworkObject());
+
+    protected override void InteractOffline(PlayerCarry player)
     {
-        base.Interact(player);
-        SpawnMultiplayerServerRPC(player.GetNetworkObject());
+        if (player.isCarrying) return;
+        GameObject instance = Instantiate(ingredient.Model);
+        IngredientBehaviour carryObject = instance.GetComponent<IngredientBehaviour>();
+        carryObject.ingredient = ingredient;
+        player.TryPickUp(carryObject);
     }
+
     [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
-    private void SpawnMultiplayerServerRPC(NetworkObjectReference playerNetworkObjectReference)
+    private void SpawnServerRPC(NetworkObjectReference playerRef)
     {
+        if (!playerRef.TryGet(out NetworkObject playerNet)) return;
+        PlayerCarry playerCarry = playerNet.GetComponent<PlayerCarry>();
+        if (playerCarry.isCarrying) return;
 
-        playerNetworkObjectReference.TryGet(out NetworkObject playerNetworkObject);
-        PlayerCarry playerCarry = playerNetworkObject.GetComponent<PlayerCarry>();
-        if (!playerCarry.isCarrying)
-        {
-            GameObject instance = Instantiate(ingredient.Model);
-            ICarryObject carryObject = instance.GetComponent<IngredientBehaviour>();
-            //Para que lo vean los clientes
-            NetworkObject instanceNetworkObject = instance.GetComponent<NetworkObject>();
-            instanceNetworkObject.Spawn(true);
-
-
-            //Poner de padre al player que lo ha invocado (solo funciona si se pone en una serverRPC)
-            carryObject.GetGameObject().transform.SetParent(playerCarry.transform);
-            carryObject.GetGameObject().GetComponent<IngredientBehaviour>().ingredient = ingredient;
-            playerCarry.CarryObject(carryObject);
-        }
+        GameObject instance = Instantiate(ingredient.Model);
+        NetworkObject netObj = instance.GetComponent<NetworkObject>();
+        netObj.Spawn(true);
+        instance.GetComponent<IngredientBehaviour>().ingredient = ingredient;
+        // CarryObject -> TryPickUp -> PickUpServerRPC -> PickUpClientRPC en todos
+        // PickUpClientRPC hace SetParentSafe(carryPosition) en cada cliente localmente
+        playerCarry.CarryObject(instance.GetComponent<IngredientBehaviour>());
     }
-    //Missing box display its content and highlight when player can interact
 }

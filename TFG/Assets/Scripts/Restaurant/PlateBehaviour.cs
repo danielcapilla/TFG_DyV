@@ -1,6 +1,4 @@
 using DG.Tweening;
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using Unity.Collections;
 using Unity.Netcode;
@@ -10,46 +8,82 @@ public class PlateBehaviour : NetworkBehaviour, ICarryObject
 {
     public List<IngredientBehaviour> Ingredients = new List<IngredientBehaviour>();
 
-    public void AddIngredient(IngredientBehaviour ingredient, FixedString64Bytes playerName) 
-    {
-        AddIngredientServerRPC(ingredient.GetNetworkObject(), playerName);
-    }
-    [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
-    private void AddIngredientServerRPC(NetworkObjectReference ingredientNetworkObjectReference, FixedString64Bytes playerName)
-    {
-        ingredientNetworkObjectReference.TryGet(out NetworkObject ingredientNetworkObject);
-        IngredientBehaviour ingredient = ingredientNetworkObject.GetComponent<IngredientBehaviour>();
+    // ── ICarryObject ──────────────────────────────────────────────────────────
+    public string CarryType => "plate";
+    public bool CanBePickedUp => true;
+    public NetworkObject GetNetworkObject() => NetworkObject;
+    public GameObject GetGameObject() => gameObject;
+    public void OnPickedUp(PlayerCarry carrier) { }
+    public void OnDelivered(ICarryReceiver receiver) { }
+    public void OnRejected(ICarryReceiver receiver) { }
 
-        ingredient.transform.parent = transform;
-        RelocateClientRPC(ingredientNetworkObjectReference);
-        ingredient.playerName = playerName;
-        
+    // ── Añadir ingrediente ────────────────────────────────────────────────────
 
-    }
-    [ClientRpc]
-    private void RelocateClientRPC(NetworkObjectReference ingredientNetworkObjectReference)
+    public void AddIngredient(IngredientBehaviour ingredient, FixedString64Bytes playerName)
     {
-        ingredientNetworkObjectReference.TryGet(out NetworkObject ingredientNetworkObject);
-        IngredientBehaviour ingredient = ingredientNetworkObject.GetComponent<IngredientBehaviour>();
-        //ingredient.transform.localPosition = Vector3.zero;
-        if (Ingredients.Count > 0)
+        bool isOffline = !NetworkManager.Singleton || !NetworkManager.Singleton.IsListening;
+
+        if (isOffline)
         {
-            ingredient.transform.localPosition = new Vector3(0, Ingredients[Ingredients.Count - 1].transform.localPosition.y + Ingredients[Ingredients.Count - 1].transform.localScale.y * 2, 0);
+            AddIngredientLocally(ingredient, playerName);
         }
         else
         {
-            ingredient.transform.localPosition = new Vector3(0, this.transform.localPosition.y + ingredient.transform.localScale.y * 2, 0);
+            NetworkObject no = ingredient.GetNetworkObject();
+            if (no != null)
+                AddIngredientServerRPC(no, playerName);
+            else
+                AddIngredientLocally(ingredient, playerName);
         }
-        Ingredients.Add(ingredient);
-    }
-    public NetworkObject GetNetworkObject()
-    {
-        return NetworkObject;
     }
 
-    public GameObject GetGameObject()
+    private void AddIngredientLocally(IngredientBehaviour ingredient, FixedString64Bytes playerName)
     {
-        return gameObject;
+        ingredient.playerName = playerName;
+        PlayerCarry.SetParentSafe(ingredient.gameObject, transform);
+        PlaceIngredient(ingredient);
+        Ingredients.Add(ingredient);
+    }
+
+    private void PlaceIngredient(IngredientBehaviour ingredient)
+    {
+        if (Ingredients.Count > 0)
+        {
+            IngredientBehaviour last = Ingredients[Ingredients.Count - 1];
+            ingredient.transform.localPosition = new Vector3(
+                0,
+                last.transform.localPosition.y + last.transform.localScale.y * 2,
+                0);
+        }
+        else
+        {
+            ingredient.transform.localPosition = new Vector3(0, ingredient.transform.localScale.y, 0);
+        }
+    }
+
+    [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
+    private void AddIngredientServerRPC(NetworkObjectReference ingredientRef, FixedString64Bytes playerName)
+    {
+        if (!ingredientRef.TryGet(out NetworkObject ingredientNetObj)) return;
+        IngredientBehaviour ingredient = ingredientNetObj.GetComponent<IngredientBehaviour>();
+        if (ingredient == null) return;
+
+        PlayerCarry.SetParentSafe(ingredient.gameObject, transform);
+        ingredient.playerName = playerName;
+        RelocateClientRPC(ingredientRef);
+    }
+
+    [ClientRpc]
+    private void RelocateClientRPC(NetworkObjectReference ingredientRef)
+    {
+        if (!ingredientRef.TryGet(out NetworkObject ingredientNetObj)) return;
+        IngredientBehaviour ingredient = ingredientNetObj.GetComponent<IngredientBehaviour>();
+        if (ingredient == null) return;
+
+        // Reparentar localmente al plato en cada cliente (igual que SetParentSafe)
+        PlayerCarry.SetParentSafe(ingredient.gameObject, transform);
+        PlaceIngredient(ingredient);
+        Ingredients.Add(ingredient);
     }
 
     public override void OnNetworkDespawn()

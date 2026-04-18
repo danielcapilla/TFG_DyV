@@ -4,50 +4,44 @@ using UnityEngine;
 
 public abstract class InteractableObject : NetworkBehaviour
 {
-    //we assign all the renderers here through the inspector
     Renderer[] renderers;
-    [SerializeField]
-    private Color color = new Color(68, 68, 68, 255);
-
-    //helper list to cache all the materials ofd this object
+    [SerializeField] private Color color = new Color(68, 68, 68, 255);
     private List<Material> materials;
 
-    //Gets all the materials from each renderer
+    protected bool IsOffline => !NetworkManager.Singleton || !NetworkManager.Singleton.IsListening;
+
     private void Start()
     {
         materials = new List<Material>();
         renderers = GetComponentsInChildren<Renderer>();
-        foreach (Renderer renderer in renderers)
-        {
-            materials.AddRange(renderer.materials);
-        }
+        foreach (Renderer r in renderers)
+            materials.AddRange(r.materials);
     }
 
     public void toggleHighlight(bool val)
     {
-        if (val)
+        if (materials == null) return;
+        foreach (var mat in materials)
         {
-            foreach (var material in materials)
-            {
-                //We need to enable the EMISSION
-                material.EnableKeyword("_EMISSION");
-                //before we can set the color
-                material.SetColor("_EmissionColor", color);
-            }
-        }
-        else
-        {
-            foreach (var material in materials)
-            {
-                //we can just disable the EMISSION
-                //if we don't use emission color anywhere else
-                material.DisableKeyword("_EMISSION");
-            }
+            if (val) { mat.EnableKeyword("_EMISSION"); mat.SetColor("_EmissionColor", color); }
+            else       mat.DisableKeyword("_EMISSION");
         }
     }
 
-    public virtual void Interact(PlayerCarry player)
+    /// <summary>
+    /// Punto de entrada unico. En red llama a la logica de red; en offline llama a InteractOffline.
+    /// </summary>
+    public void Interact(PlayerCarry player)
     {
-
+        if (IsOffline)
+            InteractOffline(player);
+        else
+            InteractOnline(player);
     }
+
+    /// <summary>Logica en red (RPCs). Sobreescribir en cada hijo.</summary>
+    protected virtual void InteractOnline(PlayerCarry player) { }
+
+    /// <summary>Logica offline sin red. Sobreescribir en cada hijo.</summary>
+    protected virtual void InteractOffline(PlayerCarry player) { }
 }

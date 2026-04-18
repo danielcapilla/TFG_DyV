@@ -305,6 +305,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a17ba4f077a39e44a62e9fdcb219039, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   ingredient: {fileID: 11400000, guid: 25a7e4eaf79471147a8d3e440e059422, type: 2}
   Lid: {fileID: 919132149155446097, guid: 92311d5c8816d0e42b89e7734a5993b1, type: 3}
@@ -322,10 +323,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 73076661
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -485,6 +488,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe65783c859319d47b441a6d6d91db3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   placePosition: {fileID: 1864587804}
 --- !u!114 &19540035
@@ -501,10 +505,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 3008562564
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -1428,6 +1434,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a17ba4f077a39e44a62e9fdcb219039, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   ingredient: {fileID: 11400000, guid: ec51d024fdc0fe84182e2338ecd0a9da, type: 2}
   Lid: {fileID: 919132149155446097, guid: 92311d5c8816d0e42b89e7734a5993b1, type: 3}
@@ -1445,10 +1452,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 195469310
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -1668,6 +1677,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe65783c859319d47b441a6d6d91db3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   placePosition: {fileID: 1507706567}
 --- !u!114 &59248481
@@ -1684,10 +1694,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 517503307
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -2013,6 +2025,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a17ba4f077a39e44a62e9fdcb219039, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   ingredient: {fileID: 11400000, guid: 25a7e4eaf79471147a8d3e440e059422, type: 2}
   Lid: {fileID: 919132149155446097, guid: 92311d5c8816d0e42b89e7734a5993b1, type: 3}
@@ -2030,10 +2043,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 590499781
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -2300,6 +2315,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe65783c859319d47b441a6d6d91db3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   placePosition: {fileID: 947801442}
 --- !u!114 &75950634
@@ -2316,10 +2332,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 1659406358
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -2664,6 +2682,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: -12
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -3014,6 +3033,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a17ba4f077a39e44a62e9fdcb219039, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   ingredient: {fileID: 11400000, guid: 2ac9d416f0144ba458ef4cd2c55190ff, type: 2}
   Lid: {fileID: 919132149155446097, guid: 92311d5c8816d0e42b89e7734a5993b1, type: 3}
@@ -3031,10 +3051,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 341017534
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -3470,6 +3492,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe65783c859319d47b441a6d6d91db3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   placePosition: {fileID: 553880374}
 --- !u!114 &122376250
@@ -3486,10 +3509,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 4028270490
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -4522,6 +4547,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a17ba4f077a39e44a62e9fdcb219039, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   ingredient: {fileID: 11400000, guid: 2ac9d416f0144ba458ef4cd2c55190ff, type: 2}
   Lid: {fileID: 919132149155446097, guid: 92311d5c8816d0e42b89e7734a5993b1, type: 3}
@@ -4539,10 +4565,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 2398553381
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -4703,6 +4731,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a17ba4f077a39e44a62e9fdcb219039, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   ingredient: {fileID: 11400000, guid: 18de10f244c124e408298195b3b7d629, type: 2}
   Lid: {fileID: 919132149155446097, guid: 92311d5c8816d0e42b89e7734a5993b1, type: 3}
@@ -4720,10 +4749,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 559692730
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -5216,6 +5247,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe65783c859319d47b441a6d6d91db3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   placePosition: {fileID: 1092559342}
 --- !u!114 &187684385
@@ -5232,10 +5264,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 953883090
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -5363,6 +5397,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a17ba4f077a39e44a62e9fdcb219039, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   ingredient: {fileID: 11400000, guid: ce72c9fa7817a7042bfd6568831e3bc9, type: 2}
   Lid: {fileID: 919132149155446097, guid: 92311d5c8816d0e42b89e7734a5993b1, type: 3}
@@ -5380,10 +5415,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 4178489429
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -5543,6 +5580,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe65783c859319d47b441a6d6d91db3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   placePosition: {fileID: 2044982601}
 --- !u!114 &199869356
@@ -5559,10 +5597,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 1646293361
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -5642,50 +5682,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 199869353}
   m_Mesh: {fileID: 4138275794758717579, guid: 19f85f3d53f8b924bb15019cebbb7af1, type: 3}
---- !u!1 &201883592
-GameObject:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 201883593}
-  - component: {fileID: 201883594}
-  m_Layer: 0
-  m_Name: cm
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &201883593
-Transform:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 201883592}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 2117530443}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &201883594
-MonoBehaviour:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 201883592}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &203389632
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6147,6 +6143,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe65783c859319d47b441a6d6d91db3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   placePosition: {fileID: 1069209324}
 --- !u!114 &215930092
@@ -6163,10 +6160,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 4210122199
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -6279,6 +6278,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe65783c859319d47b441a6d6d91db3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   placePosition: {fileID: 1160696450}
 --- !u!65 &216292452
@@ -6385,10 +6385,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 2516954508
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -6885,6 +6887,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe65783c859319d47b441a6d6d91db3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   placePosition: {fileID: 196519581}
 --- !u!114 &224904034
@@ -6901,10 +6904,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 365567811
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -7527,50 +7532,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1293548933}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &243660588
-GameObject:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 243660589}
-  - component: {fileID: 243660592}
-  m_Layer: 0
-  m_Name: cm
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &243660589
-Transform:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 243660588}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1529601947}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &243660592
-MonoBehaviour:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 243660588}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &247973152
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8119,6 +8080,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe65783c859319d47b441a6d6d91db3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   placePosition: {fileID: 1751266788}
 --- !u!114 &267444392
@@ -8135,10 +8097,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 1832012857
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -8412,6 +8376,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe65783c859319d47b441a6d6d91db3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   placePosition: {fileID: 1393855487}
 --- !u!114 &270900288
@@ -8428,10 +8393,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 708992502
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -8728,6 +8695,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: -12
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -9016,6 +8984,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe65783c859319d47b441a6d6d91db3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   placePosition: {fileID: 1887934011}
 --- !u!114 &298462484
@@ -9032,10 +9001,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 3850569379
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -9783,6 +9754,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a17ba4f077a39e44a62e9fdcb219039, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   ingredient: {fileID: 11400000, guid: 18de10f244c124e408298195b3b7d629, type: 2}
   Lid: {fileID: 919132149155446097, guid: 92311d5c8816d0e42b89e7734a5993b1, type: 3}
@@ -9800,10 +9772,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 2195352822
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -10843,6 +10817,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80c6fa0f1cdb6744ebc16f24114a9e39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
 --- !u!65 &360936485
 BoxCollider:
@@ -10947,10 +10922,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 1787778049
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -11004,6 +10981,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a17ba4f077a39e44a62e9fdcb219039, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   ingredient: {fileID: 11400000, guid: 6a07a640a512d734887e2e0e954a99fb, type: 2}
   Lid: {fileID: 919132149155446097, guid: 92311d5c8816d0e42b89e7734a5993b1, type: 3}
@@ -11021,10 +10999,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 3093731041
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -12129,6 +12109,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe65783c859319d47b441a6d6d91db3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   placePosition: {fileID: 1224243521}
 --- !u!114 &388380934
@@ -12145,10 +12126,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 27509139
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -12534,6 +12517,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9cd608e4f39015f42a2626e94111b4af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   chooseGroup: {fileID: 1560538632}
   countdown: {fileID: 1196646259}
   cameraSelector: {fileID: 1822124153}
@@ -12567,10 +12551,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 4014239839
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -12961,6 +12947,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe65783c859319d47b441a6d6d91db3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   placePosition: {fileID: 2105320632}
 --- !u!114 &422809541
@@ -12977,10 +12964,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 3305594795
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -13200,6 +13189,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe65783c859319d47b441a6d6d91db3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   placePosition: {fileID: 395381077}
 --- !u!114 &423376903
@@ -13216,10 +13206,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 1911248585
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -13600,6 +13592,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe65783c859319d47b441a6d6d91db3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   placePosition: {fileID: 278655244}
 --- !u!114 &426060262
@@ -13616,10 +13609,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 1153622608
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -14190,6 +14185,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: -12
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -14311,6 +14307,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe65783c859319d47b441a6d6d91db3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   placePosition: {fileID: 1249930272}
 --- !u!114 &439887146
@@ -14327,10 +14324,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 2066540209
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -14963,6 +14962,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: -12
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -15293,8 +15293,7 @@ Transform:
   m_LocalPosition: {x: 3.1, y: 10.5, z: -8.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1746968570}
+  m_Children: []
   m_Father: {fileID: 1123441726}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &465414122
@@ -15306,36 +15305,40 @@ MonoBehaviour:
   m_GameObject: {fileID: 465414120}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 45e653bab7fb20e499bda25e1b646fea, type: 3}
+  m_Script: {fileID: 11500000, guid: f9dfa5b682dcd46bda6128250e975f58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ExcludedPropertiesInInspector:
-  - m_Script
-  m_LockStageInInspector: 
-  m_StreamingVersion: 20170927
-  m_Priority: 10
-  m_StandbyUpdate: 2
-  m_LookAt: {fileID: 0}
-  m_Follow: {fileID: 0}
-  m_Lens:
+  Priority:
+    Enabled: 1
+    m_Value: 10
+  OutputChannel: 1
+  StandbyUpdate: 2
+  m_StreamingVersion: 20241001
+  m_LegacyPriority: 0
+  Target:
+    TrackingTarget: {fileID: 0}
+    LookAtTarget: {fileID: 0}
+    CustomLookAtTarget: 0
+  Lens:
     FieldOfView: 77
     OrthographicSize: 5
     NearClipPlane: 0.3
     FarClipPlane: 100
     Dutch: 0
     ModeOverride: 0
-    LensShift: {x: 0, y: 0}
-    GateFit: 2
-    FocusDistance: 10
-    m_SensorSize: {x: 1, y: 1}
-  m_Transitions:
-    m_BlendHint: 0
-    m_InheritPosition: 0
-    m_OnCameraLive:
-      m_PersistentCalls:
-        m_Calls: []
-  m_LegacyBlendHint: 0
-  m_ComponentOwner: {fileID: 1746968570}
+    PhysicalProperties:
+      GateFit: 2
+      SensorSize: {x: 1, y: 1}
+      LensShift: {x: 0, y: 0}
+      FocusDistance: 10
+      Iso: 200
+      ShutterSpeed: 0.005
+      Aperture: 16
+      BladeCount: 5
+      Curvature: {x: 2, y: 11}
+      BarrelClipping: 0.25
+      Anamorphism: 0
+  BlendHint: 0
 --- !u!1001 &467455417
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16299,6 +16302,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -18013,6 +18017,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a17ba4f077a39e44a62e9fdcb219039, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   ingredient: {fileID: 11400000, guid: 454a391bad102ca42943249a8cb7113e, type: 2}
   Lid: {fileID: 919132149155446097, guid: 92311d5c8816d0e42b89e7734a5993b1, type: 3}
@@ -18030,10 +18035,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 3871396256
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -19569,6 +19576,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a17ba4f077a39e44a62e9fdcb219039, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   ingredient: {fileID: 11400000, guid: ec51d024fdc0fe84182e2338ecd0a9da, type: 2}
   Lid: {fileID: 919132149155446097, guid: 92311d5c8816d0e42b89e7734a5993b1, type: 3}
@@ -19586,10 +19594,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 3638157839
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -20136,6 +20146,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -20226,6 +20237,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe65783c859319d47b441a6d6d91db3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   placePosition: {fileID: 563179588}
 --- !u!114 &590774407
@@ -20242,10 +20254,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 1466246413
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -20481,6 +20495,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe65783c859319d47b441a6d6d91db3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   placePosition: {fileID: 2049523546}
 --- !u!114 &601265794
@@ -20497,10 +20512,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 1331378118
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -20829,6 +20846,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe65783c859319d47b441a6d6d91db3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   placePosition: {fileID: 892319132}
 --- !u!114 &615716360
@@ -20845,10 +20863,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 2825664297
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -22187,6 +22207,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a17ba4f077a39e44a62e9fdcb219039, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   ingredient: {fileID: 11400000, guid: ec51d024fdc0fe84182e2338ecd0a9da, type: 2}
   Lid: {fileID: 919132149155446097, guid: 92311d5c8816d0e42b89e7734a5993b1, type: 3}
@@ -22204,10 +22225,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 1159327162
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -22426,6 +22449,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a17ba4f077a39e44a62e9fdcb219039, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   ingredient: {fileID: 11400000, guid: 454a391bad102ca42943249a8cb7113e, type: 2}
   Lid: {fileID: 919132149155446097, guid: 92311d5c8816d0e42b89e7734a5993b1, type: 3}
@@ -22443,10 +22467,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 1396437118
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -22574,6 +22600,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a17ba4f077a39e44a62e9fdcb219039, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   ingredient: {fileID: 11400000, guid: 6a07a640a512d734887e2e0e954a99fb, type: 2}
   Lid: {fileID: 919132149155446097, guid: 92311d5c8816d0e42b89e7734a5993b1, type: 3}
@@ -22591,10 +22618,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 3024147171
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -23257,6 +23286,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a17ba4f077a39e44a62e9fdcb219039, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   ingredient: {fileID: 11400000, guid: 2ac9d416f0144ba458ef4cd2c55190ff, type: 2}
   Lid: {fileID: 919132149155446097, guid: 92311d5c8816d0e42b89e7734a5993b1, type: 3}
@@ -23274,10 +23304,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 2222788159
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -24737,6 +24769,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe65783c859319d47b441a6d6d91db3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   placePosition: {fileID: 1025462477}
 --- !u!114 &708498766
@@ -24753,10 +24786,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 2176492765
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -25280,6 +25315,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a17ba4f077a39e44a62e9fdcb219039, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   ingredient: {fileID: 11400000, guid: 2ac9d416f0144ba458ef4cd2c55190ff, type: 2}
   Lid: {fileID: 919132149155446097, guid: 92311d5c8816d0e42b89e7734a5993b1, type: 3}
@@ -25297,10 +25333,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 2660517962
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -25475,6 +25513,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: -12
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -25976,6 +26015,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a17ba4f077a39e44a62e9fdcb219039, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   ingredient: {fileID: 11400000, guid: 2ac9d416f0144ba458ef4cd2c55190ff, type: 2}
   Lid: {fileID: 919132149155446097, guid: 92311d5c8816d0e42b89e7734a5993b1, type: 3}
@@ -25993,10 +26033,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 4138301901
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -26175,6 +26217,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80c6fa0f1cdb6744ebc16f24114a9e39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
 --- !u!114 &731987947
 MonoBehaviour:
@@ -26190,10 +26233,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 3333305571
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -26440,6 +26485,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe65783c859319d47b441a6d6d91db3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   placePosition: {fileID: 1544123711}
 --- !u!114 &740552140
@@ -26456,10 +26502,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 1815616101
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -26939,6 +26987,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: -12
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -27028,6 +27077,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a17ba4f077a39e44a62e9fdcb219039, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   ingredient: {fileID: 11400000, guid: 18de10f244c124e408298195b3b7d629, type: 2}
   Lid: {fileID: 919132149155446097, guid: 92311d5c8816d0e42b89e7734a5993b1, type: 3}
@@ -27045,10 +27095,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 589773404
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -27384,6 +27436,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c656b185c0b629349a707cfec85e9ef6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   plate: {fileID: 6651605816638231789, guid: 2c7d8ee637031014f82d6940e84dc537, type: 3}
 --- !u!114 &766765811
@@ -27400,10 +27453,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 45716425
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -27698,6 +27753,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe65783c859319d47b441a6d6d91db3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   placePosition: {fileID: 842953707}
 --- !u!114 &769290611
@@ -27714,10 +27770,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 547942673
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -28254,6 +28312,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -28426,6 +28485,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a17ba4f077a39e44a62e9fdcb219039, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   ingredient: {fileID: 11400000, guid: 63c79b2bea4e86f468831d4bb689f8e6, type: 2}
   Lid: {fileID: 919132149155446097, guid: 92311d5c8816d0e42b89e7734a5993b1, type: 3}
@@ -28443,10 +28503,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 2583514460
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -28575,6 +28637,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe65783c859319d47b441a6d6d91db3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   placePosition: {fileID: 1558002423}
 --- !u!114 &793418181
@@ -28591,10 +28654,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 1741000377
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -29178,6 +29243,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe65783c859319d47b441a6d6d91db3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   placePosition: {fileID: 1244791137}
 --- !u!114 &808578390
@@ -29194,10 +29260,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 2017344291
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -29738,6 +29806,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe65783c859319d47b441a6d6d91db3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   placePosition: {fileID: 310228504}
 --- !u!114 &817284227
@@ -29754,10 +29823,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 1658193234
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -30377,10 +30448,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 171092958
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -30398,6 +30471,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c88c7d4accc74024dad4c34f42ea2060, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   orderCanvas: {fileID: 760264691}
   hostCanvas: {fileID: 1866267646}
   cameraSelector: {fileID: 1822124153}
@@ -32274,28 +32348,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72ece51f2901e7445ab60da3685d6b5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ShowDebugText: 0
-  m_ShowCameraFrustum: 1
-  m_IgnoreTimeScale: 0
-  m_WorldUpOverride: {fileID: 0}
-  m_UpdateMethod: 2
-  m_BlendUpdateMethod: 1
-  m_DefaultBlend:
-    m_Style: 0
-    m_Time: 2
-    m_CustomCurve:
+  ShowDebugText: 0
+  ShowCameraFrustum: 1
+  IgnoreTimeScale: 0
+  WorldUpOverride: {fileID: 0}
+  ChannelMask: -1
+  UpdateMethod: 2
+  BlendUpdateMethod: 1
+  LensModeOverride:
+    Enabled: 0
+    DefaultMode: 2
+  DefaultBlend:
+    Style: 0
+    Time: 2
+    CustomCurve:
       serializedVersion: 2
       m_Curve: []
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  m_CustomBlends: {fileID: 0}
-  m_CameraCutEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_CameraActivatedEvent:
-    m_PersistentCalls:
-      m_Calls: []
+  CustomBlends: {fileID: 0}
 --- !u!1 &889451040
 GameObject:
   m_ObjectHideFlags: 0
@@ -32345,6 +32417,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe65783c859319d47b441a6d6d91db3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   placePosition: {fileID: 117246612}
 --- !u!114 &889451043
@@ -32361,10 +32434,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 2212331538
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -33300,6 +33375,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: -12
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -34015,6 +34091,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe65783c859319d47b441a6d6d91db3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   placePosition: {fileID: 1880665840}
 --- !u!114 &928646650
@@ -34031,10 +34108,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 3278661980
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -34210,10 +34289,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 641724920
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -34231,6 +34312,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 279d06f488c28e34c81fd419a45305b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 255}
   randomizer: {fileID: 1196646254}
   endPos: {fileID: 1315322628}
@@ -34358,10 +34440,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 1210606543
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -34379,6 +34463,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 279d06f488c28e34c81fd419a45305b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 255}
   randomizer: {fileID: 1196646254}
   endPos: {fileID: 1742982681}
@@ -34717,6 +34802,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe65783c859319d47b441a6d6d91db3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   placePosition: {fileID: 8168278}
 --- !u!114 &933358144
@@ -34733,10 +34819,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 2586840071
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -35080,6 +35168,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a17ba4f077a39e44a62e9fdcb219039, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   ingredient: {fileID: 11400000, guid: 454a391bad102ca42943249a8cb7113e, type: 2}
   Lid: {fileID: 919132149155446097, guid: 92311d5c8816d0e42b89e7734a5993b1, type: 3}
@@ -35097,10 +35186,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 2605643458
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -35574,6 +35665,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe65783c859319d47b441a6d6d91db3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   placePosition: {fileID: 2038007037}
 --- !u!114 &966495338
@@ -35590,10 +35682,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 993645076
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -36156,6 +36250,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe65783c859319d47b441a6d6d91db3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   placePosition: {fileID: 1868944817}
 --- !u!114 &987955540
@@ -36172,10 +36267,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 620672434
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -36288,6 +36385,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a17ba4f077a39e44a62e9fdcb219039, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   ingredient: {fileID: 11400000, guid: 6a07a640a512d734887e2e0e954a99fb, type: 2}
   Lid: {fileID: 919132149155446097, guid: 92311d5c8816d0e42b89e7734a5993b1, type: 3}
@@ -36305,10 +36403,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 4289125919
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -37011,6 +37111,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe65783c859319d47b441a6d6d91db3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   placePosition: {fileID: 1686837730}
 --- !u!114 &1001779969
@@ -37027,10 +37128,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 230621261
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -37324,50 +37427,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 4, y: 0.5000001, z: 4}
   m_Center: {x: 0, y: 0.24999999, z: 0}
---- !u!1 &1005826858
-GameObject:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1005826859}
-  - component: {fileID: 1005826860}
-  m_Layer: 0
-  m_Name: cm
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1005826859
-Transform:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1005826858}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1725871894}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1005826860
-MonoBehaviour:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1005826858}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1007918716
 GameObject:
   m_ObjectHideFlags: 0
@@ -37482,6 +37541,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe65783c859319d47b441a6d6d91db3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   placePosition: {fileID: 1083570467}
 --- !u!114 &1014623481
@@ -37498,10 +37558,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 2749413428
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -37737,6 +37799,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe65783c859319d47b441a6d6d91db3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   placePosition: {fileID: 1927372407}
 --- !u!114 &1019595751
@@ -37753,10 +37816,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 3324214929
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -38221,6 +38286,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe65783c859319d47b441a6d6d91db3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   placePosition: {fileID: 439246631}
 --- !u!114 &1026595679
@@ -38237,10 +38303,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 3031922870
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -38369,6 +38437,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe65783c859319d47b441a6d6d91db3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   placePosition: {fileID: 1794325129}
 --- !u!65 &1027888218
@@ -38475,10 +38544,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 4011853551
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -38778,6 +38849,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe65783c859319d47b441a6d6d91db3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   placePosition: {fileID: 1201444893}
 --- !u!114 &1038183700
@@ -38794,10 +38866,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 44747592
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -38973,6 +39047,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -39568,6 +39643,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe65783c859319d47b441a6d6d91db3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   placePosition: {fileID: 825209413}
 --- !u!114 &1051070629
@@ -39584,10 +39660,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 149191909
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -39762,6 +39840,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: -12
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -39934,6 +40013,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe65783c859319d47b441a6d6d91db3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   placePosition: {fileID: 631816662}
 --- !u!114 &1057364585
@@ -39950,10 +40030,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 3815735863
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -40081,6 +40163,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a17ba4f077a39e44a62e9fdcb219039, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   ingredient: {fileID: 11400000, guid: 454a391bad102ca42943249a8cb7113e, type: 2}
   Lid: {fileID: 919132149155446097, guid: 92311d5c8816d0e42b89e7734a5993b1, type: 3}
@@ -40098,10 +40181,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 261255563
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -40229,6 +40314,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a17ba4f077a39e44a62e9fdcb219039, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   ingredient: {fileID: 11400000, guid: 6a07a640a512d734887e2e0e954a99fb, type: 2}
   Lid: {fileID: 919132149155446097, guid: 92311d5c8816d0e42b89e7734a5993b1, type: 3}
@@ -40246,10 +40332,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 3847804631
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -40640,6 +40728,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe65783c859319d47b441a6d6d91db3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   placePosition: {fileID: 867831498}
 --- !u!114 &1079462423
@@ -40656,10 +40745,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 3997194946
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -40986,6 +41077,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a17ba4f077a39e44a62e9fdcb219039, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   ingredient: {fileID: 11400000, guid: 18de10f244c124e408298195b3b7d629, type: 2}
   Lid: {fileID: 919132149155446097, guid: 92311d5c8816d0e42b89e7734a5993b1, type: 3}
@@ -41003,10 +41095,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 2835295873
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -41181,6 +41275,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe65783c859319d47b441a6d6d91db3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   placePosition: {fileID: 902794072}
 --- !u!114 &1084568793
@@ -41197,10 +41292,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 3657587209
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -41542,10 +41639,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 3141354089
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -41563,6 +41662,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 831ed9dc210cadd41b5a7035c77e2afb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   recipe: {fileID: 1196646254}
   teamMenager: {fileID: 1645041031}
   dataBaseCommander: {fileID: 1093527942}
@@ -41729,6 +41829,7 @@ MonoBehaviour:
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: -12
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -41925,6 +42026,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a17ba4f077a39e44a62e9fdcb219039, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   ingredient: {fileID: 11400000, guid: ec51d024fdc0fe84182e2338ecd0a9da, type: 2}
   Lid: {fileID: 919132149155446097, guid: 92311d5c8816d0e42b89e7734a5993b1, type: 3}
@@ -41942,10 +42044,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 3568467593
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -42226,6 +42330,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a17ba4f077a39e44a62e9fdcb219039, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   ingredient: {fileID: 11400000, guid: 6a07a640a512d734887e2e0e954a99fb, type: 2}
   Lid: {fileID: 919132149155446097, guid: 92311d5c8816d0e42b89e7734a5993b1, type: 3}
@@ -42243,10 +42348,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 4002594868
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -42900,6 +43007,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a17ba4f077a39e44a62e9fdcb219039, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   ingredient: {fileID: 11400000, guid: ce72c9fa7817a7042bfd6568831e3bc9, type: 2}
   Lid: {fileID: 919132149155446097, guid: 92311d5c8816d0e42b89e7734a5993b1, type: 3}
@@ -42917,10 +43025,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 2776279870
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -43460,6 +43570,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a17ba4f077a39e44a62e9fdcb219039, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   ingredient: {fileID: 11400000, guid: 63c79b2bea4e86f468831d4bb689f8e6, type: 2}
   Lid: {fileID: 919132149155446097, guid: 92311d5c8816d0e42b89e7734a5993b1, type: 3}
@@ -43477,10 +43588,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 3986882458
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -43612,6 +43725,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c656b185c0b629349a707cfec85e9ef6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   plate: {fileID: 6651605816638231789, guid: 2c7d8ee637031014f82d6940e84dc537, type: 3}
 --- !u!114 &1142177317
@@ -43628,10 +43742,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 2651864038
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -44370,6 +44486,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a17ba4f077a39e44a62e9fdcb219039, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   ingredient: {fileID: 11400000, guid: 63c79b2bea4e86f468831d4bb689f8e6, type: 2}
   Lid: {fileID: 919132149155446097, guid: 92311d5c8816d0e42b89e7734a5993b1, type: 3}
@@ -44476,10 +44593,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 1122221764
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -44533,6 +44652,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a17ba4f077a39e44a62e9fdcb219039, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   ingredient: {fileID: 11400000, guid: 63c79b2bea4e86f468831d4bb689f8e6, type: 2}
   Lid: {fileID: 919132149155446097, guid: 92311d5c8816d0e42b89e7734a5993b1, type: 3}
@@ -44550,10 +44670,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 3996774541
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -45189,6 +45311,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80c6fa0f1cdb6744ebc16f24114a9e39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
 --- !u!114 &1171493546
 MonoBehaviour:
@@ -45204,10 +45327,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 3817768621
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -45733,6 +45858,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: -12
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -46218,6 +46344,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a17ba4f077a39e44a62e9fdcb219039, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   ingredient: {fileID: 11400000, guid: c3f0356240167d947aa8c03fffd3af7f, type: 2}
   Lid: {fileID: 919132149155446097, guid: 92311d5c8816d0e42b89e7734a5993b1, type: 3}
@@ -46235,10 +46362,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 289125570
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -46548,6 +46677,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5dde00348e60978419249f6bae1db907, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   currentMenu: {fileID: 11400000, guid: 00b0e432646738d42ad26b106bea214d, type: 2}
   extraIngredients: []
 --- !u!114 &1196646255
@@ -46605,10 +46735,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 954265041
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -46639,9 +46771,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a98f6e908bb7e3541a085e9caa8fa226, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   tiempo: 240
   regresiveTime: 3
   timeStarted:
+    UpdateTraits:
+      MinSecondsBetweenUpdates: 0
+      MaxSecondsBetweenUpdates: 0
     m_InternalValue: 0
   GUI: {fileID: 4846893993274482153}
   GUI2: {fileID: 784302241}
@@ -46915,6 +47051,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe65783c859319d47b441a6d6d91db3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   placePosition: {fileID: 1630061096}
 --- !u!114 &1203312417
@@ -46931,10 +47068,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 1104043873
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -47185,6 +47324,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a17ba4f077a39e44a62e9fdcb219039, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   ingredient: {fileID: 11400000, guid: ec51d024fdc0fe84182e2338ecd0a9da, type: 2}
   Lid: {fileID: 919132149155446097, guid: 92311d5c8816d0e42b89e7734a5993b1, type: 3}
@@ -47202,10 +47342,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 3477491946
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -47333,6 +47475,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a17ba4f077a39e44a62e9fdcb219039, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   ingredient: {fileID: 11400000, guid: ec51d024fdc0fe84182e2338ecd0a9da, type: 2}
   Lid: {fileID: 919132149155446097, guid: 92311d5c8816d0e42b89e7734a5993b1, type: 3}
@@ -47350,10 +47493,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 1382654886
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -47682,6 +47827,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe65783c859319d47b441a6d6d91db3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   placePosition: {fileID: 1974113372}
 --- !u!114 &1226155992
@@ -47698,10 +47844,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 364801386
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -47861,6 +48009,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe65783c859319d47b441a6d6d91db3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   placePosition: {fileID: 86448607}
 --- !u!114 &1229407350
@@ -47877,10 +48026,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 1514305099
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -48009,6 +48160,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe65783c859319d47b441a6d6d91db3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   placePosition: {fileID: 44511107}
 --- !u!114 &1234180534
@@ -48025,10 +48177,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 1479975902
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -48325,6 +48479,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: -12
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -48414,6 +48569,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a17ba4f077a39e44a62e9fdcb219039, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   ingredient: {fileID: 11400000, guid: 63c79b2bea4e86f468831d4bb689f8e6, type: 2}
   Lid: {fileID: 919132149155446097, guid: 92311d5c8816d0e42b89e7734a5993b1, type: 3}
@@ -48431,10 +48587,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 3846656196
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -49312,6 +49470,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a17ba4f077a39e44a62e9fdcb219039, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   ingredient: {fileID: 11400000, guid: ce72c9fa7817a7042bfd6568831e3bc9, type: 2}
   Lid: {fileID: 919132149155446097, guid: 92311d5c8816d0e42b89e7734a5993b1, type: 3}
@@ -49329,10 +49488,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 3223889944
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -49460,6 +49621,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a17ba4f077a39e44a62e9fdcb219039, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   ingredient: {fileID: 11400000, guid: c3f0356240167d947aa8c03fffd3af7f, type: 2}
   Lid: {fileID: 919132149155446097, guid: 92311d5c8816d0e42b89e7734a5993b1, type: 3}
@@ -49477,10 +49639,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 300011080
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -49927,6 +50091,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a17ba4f077a39e44a62e9fdcb219039, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   ingredient: {fileID: 11400000, guid: 454a391bad102ca42943249a8cb7113e, type: 2}
   Lid: {fileID: 919132149155446097, guid: 92311d5c8816d0e42b89e7734a5993b1, type: 3}
@@ -49944,10 +50109,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 1853410537
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -50186,6 +50353,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c656b185c0b629349a707cfec85e9ef6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   plate: {fileID: 6651605816638231789, guid: 2c7d8ee637031014f82d6940e84dc537, type: 3}
 --- !u!114 &1279472138
@@ -50202,10 +50370,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 2968145144
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -50334,6 +50504,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe65783c859319d47b441a6d6d91db3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   placePosition: {fileID: 243052279}
 --- !u!114 &1293548935
@@ -50350,10 +50521,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 3493657053
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -50482,6 +50655,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe65783c859319d47b441a6d6d91db3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   placePosition: {fileID: 2124015641}
 --- !u!114 &1297588658
@@ -50498,10 +50672,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 2500889888
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -50891,6 +51067,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: -12
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -51300,6 +51477,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c656b185c0b629349a707cfec85e9ef6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   plate: {fileID: 6651605816638231789, guid: 2c7d8ee637031014f82d6940e84dc537, type: 3}
 --- !u!114 &1315845804
@@ -51316,10 +51494,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 3540716097
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -51554,6 +51734,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a17ba4f077a39e44a62e9fdcb219039, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   ingredient: {fileID: 11400000, guid: 454a391bad102ca42943249a8cb7113e, type: 2}
   Lid: {fileID: 919132149155446097, guid: 92311d5c8816d0e42b89e7734a5993b1, type: 3}
@@ -51571,10 +51752,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 486828298
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -51703,6 +51886,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe65783c859319d47b441a6d6d91db3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   placePosition: {fileID: 1878540567}
 --- !u!114 &1329751055
@@ -51719,10 +51903,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 2193841426
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -52249,6 +52435,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe65783c859319d47b441a6d6d91db3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   placePosition: {fileID: 341883815}
 --- !u!114 &1364313611
@@ -52265,10 +52452,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 1264496349
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -52946,6 +53135,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80c6fa0f1cdb6744ebc16f24114a9e39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
 --- !u!114 &1381644821
 MonoBehaviour:
@@ -52961,10 +53151,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 4244461409
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -53542,6 +53734,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe65783c859319d47b441a6d6d91db3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   placePosition: {fileID: 1367544806}
 --- !u!114 &1408512399
@@ -53558,10 +53751,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 3043691145
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -53689,6 +53884,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80c6fa0f1cdb6744ebc16f24114a9e39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
 --- !u!114 &1411500839
 MonoBehaviour:
@@ -53704,10 +53900,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 1936995782
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -53866,6 +54064,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a17ba4f077a39e44a62e9fdcb219039, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   ingredient: {fileID: 11400000, guid: 18de10f244c124e408298195b3b7d629, type: 2}
   Lid: {fileID: 919132149155446097, guid: 92311d5c8816d0e42b89e7734a5993b1, type: 3}
@@ -53883,10 +54082,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 742604066
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -54029,10 +54230,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 3560177631
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -54050,6 +54253,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94160efe8f1ea114bb5d0310f2866145, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
 --- !u!4 &1426090320
 Transform:
   m_ObjectHideFlags: 0
@@ -55833,6 +56037,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a17ba4f077a39e44a62e9fdcb219039, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   ingredient: {fileID: 11400000, guid: c3f0356240167d947aa8c03fffd3af7f, type: 2}
   Lid: {fileID: 919132149155446097, guid: 92311d5c8816d0e42b89e7734a5993b1, type: 3}
@@ -55850,10 +56055,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 2156905684
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -56726,6 +56933,7 @@ MonoBehaviour:
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: -12
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -57109,10 +57317,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 1338561497
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -57130,6 +57340,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 279d06f488c28e34c81fd419a45305b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 255}
   randomizer: {fileID: 1196646254}
   endPos: {fileID: 771612690}
@@ -57957,6 +58168,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a17ba4f077a39e44a62e9fdcb219039, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   ingredient: {fileID: 11400000, guid: 25a7e4eaf79471147a8d3e440e059422, type: 2}
   Lid: {fileID: 919132149155446097, guid: 92311d5c8816d0e42b89e7734a5993b1, type: 3}
@@ -57974,10 +58186,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 2075417282
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -58086,8 +58300,7 @@ Transform:
   m_LocalPosition: {x: 3.1, y: 10.5, z: -8.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 243660589}
+  m_Children: []
   m_Father: {fileID: 1936878415}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1529601948
@@ -58099,36 +58312,40 @@ MonoBehaviour:
   m_GameObject: {fileID: 1529601946}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 45e653bab7fb20e499bda25e1b646fea, type: 3}
+  m_Script: {fileID: 11500000, guid: f9dfa5b682dcd46bda6128250e975f58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ExcludedPropertiesInInspector:
-  - m_Script
-  m_LockStageInInspector: 
-  m_StreamingVersion: 20170927
-  m_Priority: 10
-  m_StandbyUpdate: 2
-  m_LookAt: {fileID: 0}
-  m_Follow: {fileID: 0}
-  m_Lens:
+  Priority:
+    Enabled: 1
+    m_Value: 10
+  OutputChannel: 1
+  StandbyUpdate: 2
+  m_StreamingVersion: 20241001
+  m_LegacyPriority: 0
+  Target:
+    TrackingTarget: {fileID: 0}
+    LookAtTarget: {fileID: 0}
+    CustomLookAtTarget: 0
+  Lens:
     FieldOfView: 77
     OrthographicSize: 5
     NearClipPlane: 0.3
     FarClipPlane: 100
     Dutch: 0
     ModeOverride: 0
-    LensShift: {x: 0, y: 0}
-    GateFit: 2
-    FocusDistance: 10
-    m_SensorSize: {x: 1, y: 1}
-  m_Transitions:
-    m_BlendHint: 0
-    m_InheritPosition: 0
-    m_OnCameraLive:
-      m_PersistentCalls:
-        m_Calls: []
-  m_LegacyBlendHint: 0
-  m_ComponentOwner: {fileID: 243660589}
+    PhysicalProperties:
+      GateFit: 2
+      SensorSize: {x: 1, y: 1}
+      LensShift: {x: 0, y: 0}
+      FocusDistance: 10
+      Iso: 200
+      ShutterSpeed: 0.005
+      Aperture: 16
+      BladeCount: 5
+      Curvature: {x: 2, y: 11}
+      BarrelClipping: 0.25
+      Anamorphism: 0
+  BlendHint: 0
 --- !u!1 &1533033966
 GameObject:
   m_ObjectHideFlags: 0
@@ -58178,6 +58395,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe65783c859319d47b441a6d6d91db3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   placePosition: {fileID: 1678021818}
 --- !u!114 &1533033969
@@ -58194,10 +58412,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 2724554672
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -58571,6 +58791,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe65783c859319d47b441a6d6d91db3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   placePosition: {fileID: 1055288568}
 --- !u!114 &1541840938
@@ -58587,10 +58808,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 3743953640
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -58841,6 +59064,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe65783c859319d47b441a6d6d91db3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   placePosition: {fileID: 27169392}
 --- !u!114 &1544134790
@@ -58857,10 +59081,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 1635176763
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -59096,6 +59322,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe65783c859319d47b441a6d6d91db3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   placePosition: {fileID: 1785371284}
 --- !u!114 &1549134637
@@ -59112,10 +59339,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 995226822
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -59442,6 +59671,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe65783c859319d47b441a6d6d91db3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   placePosition: {fileID: 96237874}
 --- !u!114 &1557608742
@@ -59458,10 +59688,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 1792369310
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -59710,6 +59942,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7698dfd951c4a7845a8c61b68e317698, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   playerPrefab: {fileID: 8696548776287242032, guid: fe8a7d002e19cc148a11302f8b750b27, type: 3}
   restaurantBehaviourArray:
   - {fileID: 1055239971}
@@ -59748,10 +59981,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 1363930963
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -59769,6 +60004,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47cb4b2ba62721645adaaf7c3b927cd7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   teamManager: {fileID: 1645041031}
   readyButton: {fileID: 1732089051}
   groupCanvas: {fileID: 1272749904}
@@ -59880,6 +60116,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe65783c859319d47b441a6d6d91db3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   placePosition: {fileID: 1336999813}
 --- !u!114 &1563989888
@@ -59896,10 +60133,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 3810477397
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -60388,6 +60627,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe65783c859319d47b441a6d6d91db3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   placePosition: {fileID: 1813872800}
 --- !u!114 &1581974409
@@ -60404,10 +60644,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 1176473292
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -60535,6 +60777,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a17ba4f077a39e44a62e9fdcb219039, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   ingredient: {fileID: 11400000, guid: 18de10f244c124e408298195b3b7d629, type: 2}
   Lid: {fileID: 919132149155446097, guid: 92311d5c8816d0e42b89e7734a5993b1, type: 3}
@@ -60552,10 +60795,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 3599083189
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -61218,6 +61463,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: -12
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -62182,6 +62428,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe65783c859319d47b441a6d6d91db3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   placePosition: {fileID: 1967065260}
 --- !u!114 &1636382451
@@ -62198,10 +62445,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 323214689
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -62391,6 +62640,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a17ba4f077a39e44a62e9fdcb219039, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   ingredient: {fileID: 11400000, guid: c3f0356240167d947aa8c03fffd3af7f, type: 2}
   Lid: {fileID: 919132149155446097, guid: 92311d5c8816d0e42b89e7734a5993b1, type: 3}
@@ -62408,10 +62658,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 1694219288
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -62659,6 +62911,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8ae2f89e7bc89c48a67cbef37eb1c9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   maxPlayers: 30
   maxplayersPerTeam: 4
   minPlayersPerTeam: 1
@@ -62693,10 +62946,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 12152986
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -63393,6 +63648,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe65783c859319d47b441a6d6d91db3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   placePosition: {fileID: 1226680176}
 --- !u!114 &1655636848
@@ -63409,10 +63665,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 2781280696
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -64261,6 +64519,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -64636,6 +64895,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe65783c859319d47b441a6d6d91db3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   placePosition: {fileID: 474770899}
 --- !u!114 &1682479690
@@ -64652,10 +64912,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 749000852
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -64830,6 +65092,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: -12
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -65196,6 +65459,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe65783c859319d47b441a6d6d91db3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   placePosition: {fileID: 1066300385}
 --- !u!114 &1690593326
@@ -65212,10 +65476,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 2675617154
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -65493,8 +65759,7 @@ Transform:
   m_LocalPosition: {x: 3.1, y: 10.5, z: -8.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1963187169}
+  m_Children: []
   m_Father: {fileID: 1930102541}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1700492784
@@ -65506,36 +65771,40 @@ MonoBehaviour:
   m_GameObject: {fileID: 1700492782}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 45e653bab7fb20e499bda25e1b646fea, type: 3}
+  m_Script: {fileID: 11500000, guid: f9dfa5b682dcd46bda6128250e975f58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ExcludedPropertiesInInspector:
-  - m_Script
-  m_LockStageInInspector: 
-  m_StreamingVersion: 20170927
-  m_Priority: 10
-  m_StandbyUpdate: 2
-  m_LookAt: {fileID: 0}
-  m_Follow: {fileID: 0}
-  m_Lens:
+  Priority:
+    Enabled: 1
+    m_Value: 10
+  OutputChannel: 1
+  StandbyUpdate: 2
+  m_StreamingVersion: 20241001
+  m_LegacyPriority: 0
+  Target:
+    TrackingTarget: {fileID: 0}
+    LookAtTarget: {fileID: 0}
+    CustomLookAtTarget: 0
+  Lens:
     FieldOfView: 77
     OrthographicSize: 5
     NearClipPlane: 0.3
     FarClipPlane: 100
     Dutch: 0
     ModeOverride: 0
-    LensShift: {x: 0, y: 0}
-    GateFit: 2
-    FocusDistance: 10
-    m_SensorSize: {x: 1, y: 1}
-  m_Transitions:
-    m_BlendHint: 0
-    m_InheritPosition: 0
-    m_OnCameraLive:
-      m_PersistentCalls:
-        m_Calls: []
-  m_LegacyBlendHint: 0
-  m_ComponentOwner: {fileID: 1963187169}
+    PhysicalProperties:
+      GateFit: 2
+      SensorSize: {x: 1, y: 1}
+      LensShift: {x: 0, y: 0}
+      FocusDistance: 10
+      Iso: 200
+      ShutterSpeed: 0.005
+      Aperture: 16
+      BladeCount: 5
+      Curvature: {x: 2, y: 11}
+      BarrelClipping: 0.25
+      Anamorphism: 0
+  BlendHint: 0
 --- !u!1 &1700878296
 GameObject:
   m_ObjectHideFlags: 0
@@ -65584,6 +65853,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a17ba4f077a39e44a62e9fdcb219039, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   ingredient: {fileID: 11400000, guid: 6a07a640a512d734887e2e0e954a99fb, type: 2}
   Lid: {fileID: 919132149155446097, guid: 92311d5c8816d0e42b89e7734a5993b1, type: 3}
@@ -65601,10 +65871,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 4199308482
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -65733,6 +66005,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe65783c859319d47b441a6d6d91db3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   placePosition: {fileID: 1875411968}
 --- !u!114 &1701437772
@@ -65749,10 +66022,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 169840346
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -66380,8 +66655,7 @@ Transform:
   m_LocalPosition: {x: 3.1, y: 10.5, z: -8.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1005826859}
+  m_Children: []
   m_Father: {fileID: 258274279}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1725871895
@@ -66393,36 +66667,40 @@ MonoBehaviour:
   m_GameObject: {fileID: 1725871893}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 45e653bab7fb20e499bda25e1b646fea, type: 3}
+  m_Script: {fileID: 11500000, guid: f9dfa5b682dcd46bda6128250e975f58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ExcludedPropertiesInInspector:
-  - m_Script
-  m_LockStageInInspector: 
-  m_StreamingVersion: 20170927
-  m_Priority: 10
-  m_StandbyUpdate: 2
-  m_LookAt: {fileID: 0}
-  m_Follow: {fileID: 0}
-  m_Lens:
+  Priority:
+    Enabled: 1
+    m_Value: 10
+  OutputChannel: 1
+  StandbyUpdate: 2
+  m_StreamingVersion: 20241001
+  m_LegacyPriority: 0
+  Target:
+    TrackingTarget: {fileID: 0}
+    LookAtTarget: {fileID: 0}
+    CustomLookAtTarget: 0
+  Lens:
     FieldOfView: 77
     OrthographicSize: 5
     NearClipPlane: 0.3
     FarClipPlane: 100
     Dutch: 0
     ModeOverride: 0
-    LensShift: {x: 0, y: 0}
-    GateFit: 2
-    FocusDistance: 10
-    m_SensorSize: {x: 1, y: 1}
-  m_Transitions:
-    m_BlendHint: 0
-    m_InheritPosition: 0
-    m_OnCameraLive:
-      m_PersistentCalls:
-        m_Calls: []
-  m_LegacyBlendHint: 0
-  m_ComponentOwner: {fileID: 1005826859}
+    PhysicalProperties:
+      GateFit: 2
+      SensorSize: {x: 1, y: 1}
+      LensShift: {x: 0, y: 0}
+      FocusDistance: 10
+      Iso: 200
+      ShutterSpeed: 0.005
+      Aperture: 16
+      BladeCount: 5
+      Curvature: {x: 2, y: 11}
+      BarrelClipping: 0.25
+      Anamorphism: 0
+  BlendHint: 0
 --- !u!1 &1732089049
 GameObject:
   m_ObjectHideFlags: 0
@@ -66757,6 +67035,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe65783c859319d47b441a6d6d91db3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   placePosition: {fileID: 159612226}
 --- !u!114 &1736023064
@@ -66773,10 +67052,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 3712529991
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -66887,50 +67168,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 928992817}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1746968569
-GameObject:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1746968570}
-  - component: {fileID: 1746968571}
-  m_Layer: 0
-  m_Name: cm
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1746968570
-Transform:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1746968569}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 465414121}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1746968571
-MonoBehaviour:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1746968569}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1748038306
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -67086,6 +67323,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a17ba4f077a39e44a62e9fdcb219039, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   ingredient: {fileID: 11400000, guid: 25a7e4eaf79471147a8d3e440e059422, type: 2}
   Lid: {fileID: 919132149155446097, guid: 92311d5c8816d0e42b89e7734a5993b1, type: 3}
@@ -67103,10 +67341,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 3041318608
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -67347,6 +67587,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a17ba4f077a39e44a62e9fdcb219039, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   ingredient: {fileID: 11400000, guid: c3f0356240167d947aa8c03fffd3af7f, type: 2}
   Lid: {fileID: 919132149155446097, guid: 92311d5c8816d0e42b89e7734a5993b1, type: 3}
@@ -67364,10 +67605,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 3817343278
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -70316,6 +70559,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe65783c859319d47b441a6d6d91db3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   placePosition: {fileID: 76226146}
 --- !u!114 &1835108773
@@ -70332,10 +70576,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 4083973221
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -70662,6 +70908,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe65783c859319d47b441a6d6d91db3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   placePosition: {fileID: 1264215571}
 --- !u!114 &1840614429
@@ -70678,10 +70925,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 2267484398
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -71525,10 +71774,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 1228800952
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -71546,6 +71797,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8abc61c40cd58d74fa84b42aaac5641e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   pauseButton: {fileID: 1760631541}
   resumeButton: {fileID: 2095954511}
   exitButton: {fileID: 1868661344}
@@ -71777,6 +72029,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe65783c859319d47b441a6d6d91db3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   placePosition: {fileID: 1415148113}
 --- !u!114 &1872014808
@@ -71793,10 +72046,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 346080650
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -72417,6 +72672,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c656b185c0b629349a707cfec85e9ef6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   plate: {fileID: 6651605816638231789, guid: 2c7d8ee637031014f82d6940e84dc537, type: 3}
 --- !u!114 &1883633799
@@ -72433,10 +72689,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 1079727171
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -73404,6 +73662,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe65783c859319d47b441a6d6d91db3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   placePosition: {fileID: 1103311649}
 --- !u!114 &1893457445
@@ -73420,10 +73679,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 463198681
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -73658,6 +73919,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a17ba4f077a39e44a62e9fdcb219039, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   ingredient: {fileID: 11400000, guid: 63c79b2bea4e86f468831d4bb689f8e6, type: 2}
   Lid: {fileID: 919132149155446097, guid: 92311d5c8816d0e42b89e7734a5993b1, type: 3}
@@ -73675,10 +73937,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 1343714332
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -73806,6 +74070,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a17ba4f077a39e44a62e9fdcb219039, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   ingredient: {fileID: 11400000, guid: 2ac9d416f0144ba458ef4cd2c55190ff, type: 2}
   Lid: {fileID: 919132149155446097, guid: 92311d5c8816d0e42b89e7734a5993b1, type: 3}
@@ -73823,10 +74088,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 4088828582
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -74884,6 +75151,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: -12
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -75081,6 +75349,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe65783c859319d47b441a6d6d91db3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   placePosition: {fileID: 1952125390}
 --- !u!114 &1926191365
@@ -75097,10 +75366,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 3640094204
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -75850,6 +76121,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a17ba4f077a39e44a62e9fdcb219039, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   ingredient: {fileID: 11400000, guid: ce72c9fa7817a7042bfd6568831e3bc9, type: 2}
   Lid: {fileID: 919132149155446097, guid: 92311d5c8816d0e42b89e7734a5993b1, type: 3}
@@ -75867,10 +76139,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 2531293353
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -75998,6 +76272,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a17ba4f077a39e44a62e9fdcb219039, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   ingredient: {fileID: 11400000, guid: 25a7e4eaf79471147a8d3e440e059422, type: 2}
   Lid: {fileID: 919132149155446097, guid: 92311d5c8816d0e42b89e7734a5993b1, type: 3}
@@ -76015,10 +76290,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 4132031443
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -76158,8 +76435,7 @@ Transform:
   m_LocalPosition: {x: 3.1, y: 10.5, z: -8.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 2062206207}
+  m_Children: []
   m_Father: {fileID: 819495886}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1957660691
@@ -76171,36 +76447,40 @@ MonoBehaviour:
   m_GameObject: {fileID: 1957660689}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 45e653bab7fb20e499bda25e1b646fea, type: 3}
+  m_Script: {fileID: 11500000, guid: f9dfa5b682dcd46bda6128250e975f58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ExcludedPropertiesInInspector:
-  - m_Script
-  m_LockStageInInspector: 
-  m_StreamingVersion: 20170927
-  m_Priority: 10
-  m_StandbyUpdate: 2
-  m_LookAt: {fileID: 0}
-  m_Follow: {fileID: 0}
-  m_Lens:
+  Priority:
+    Enabled: 1
+    m_Value: 10
+  OutputChannel: 1
+  StandbyUpdate: 2
+  m_StreamingVersion: 20241001
+  m_LegacyPriority: 0
+  Target:
+    TrackingTarget: {fileID: 0}
+    LookAtTarget: {fileID: 0}
+    CustomLookAtTarget: 0
+  Lens:
     FieldOfView: 77
     OrthographicSize: 5
     NearClipPlane: 0.3
     FarClipPlane: 100
     Dutch: 0
     ModeOverride: 0
-    LensShift: {x: 0, y: 0}
-    GateFit: 2
-    FocusDistance: 10
-    m_SensorSize: {x: 1, y: 1}
-  m_Transitions:
-    m_BlendHint: 0
-    m_InheritPosition: 0
-    m_OnCameraLive:
-      m_PersistentCalls:
-        m_Calls: []
-  m_LegacyBlendHint: 0
-  m_ComponentOwner: {fileID: 2062206207}
+    PhysicalProperties:
+      GateFit: 2
+      SensorSize: {x: 1, y: 1}
+      LensShift: {x: 0, y: 0}
+      FocusDistance: 10
+      Iso: 200
+      ShutterSpeed: 0.005
+      Aperture: 16
+      BladeCount: 5
+      Curvature: {x: 2, y: 11}
+      BarrelClipping: 0.25
+      Anamorphism: 0
+  BlendHint: 0
 --- !u!1001 &1957848269
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -76568,50 +76848,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 7cd971984e9848944871fbb689a3c75e, type: 3}
   m_PrefabInstance: {fileID: 1962493055}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1963187168
-GameObject:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1963187169}
-  - component: {fileID: 1963187170}
-  m_Layer: 0
-  m_Name: cm
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1963187169
-Transform:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1963187168}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1700492783}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1963187170
-MonoBehaviour:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1963187168}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1965498728
 GameObject:
   m_ObjectHideFlags: 0
@@ -76661,6 +76897,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe65783c859319d47b441a6d6d91db3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   placePosition: {fileID: 2108190871}
 --- !u!114 &1965498731
@@ -76677,10 +76914,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 2594404099
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -77176,6 +77415,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe65783c859319d47b441a6d6d91db3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   placePosition: {fileID: 693893969}
 --- !u!114 &1977976950
@@ -77192,10 +77432,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 1134020661
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -77323,6 +77565,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a17ba4f077a39e44a62e9fdcb219039, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   ingredient: {fileID: 11400000, guid: c3f0356240167d947aa8c03fffd3af7f, type: 2}
   Lid: {fileID: 919132149155446097, guid: 92311d5c8816d0e42b89e7734a5993b1, type: 3}
@@ -77340,10 +77583,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 561143385
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -77579,6 +77824,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe65783c859319d47b441a6d6d91db3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   placePosition: {fileID: 2046687709}
 --- !u!114 &1982273970
@@ -77595,10 +77841,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 2720930345
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -77774,10 +78022,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 528446661
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -77795,6 +78045,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 279d06f488c28e34c81fd419a45305b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 255}
   randomizer: {fileID: 1196646254}
   endPos: {fileID: 773841741}
@@ -78120,10 +78371,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 3766022341
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -78141,6 +78394,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 279d06f488c28e34c81fd419a45305b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 255}
   randomizer: {fileID: 1196646254}
   endPos: {fileID: 1641386481}
@@ -78559,6 +78813,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: -12
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -78648,6 +78903,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a17ba4f077a39e44a62e9fdcb219039, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   ingredient: {fileID: 11400000, guid: ce72c9fa7817a7042bfd6568831e3bc9, type: 2}
   Lid: {fileID: 919132149155446097, guid: 92311d5c8816d0e42b89e7734a5993b1, type: 3}
@@ -78665,10 +78921,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 2439699331
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -78781,6 +79039,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a17ba4f077a39e44a62e9fdcb219039, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   ingredient: {fileID: 11400000, guid: 25a7e4eaf79471147a8d3e440e059422, type: 2}
   Lid: {fileID: 919132149155446097, guid: 92311d5c8816d0e42b89e7734a5993b1, type: 3}
@@ -78887,10 +79146,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 260202020
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -80840,50 +81101,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2056963969}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &2062206206
-GameObject:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2062206207}
-  - component: {fileID: 2062206208}
-  m_Layer: 0
-  m_Name: cm
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2062206207
-Transform:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2062206206}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1957660690}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2062206208
-MonoBehaviour:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2062206206}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &2066092846
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -81039,6 +81256,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80c6fa0f1cdb6744ebc16f24114a9e39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
 --- !u!114 &2070026477
 MonoBehaviour:
@@ -81054,10 +81272,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 1817973474
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -81276,6 +81496,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a17ba4f077a39e44a62e9fdcb219039, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   ingredient: {fileID: 11400000, guid: ce72c9fa7817a7042bfd6568831e3bc9, type: 2}
   Lid: {fileID: 919132149155446097, guid: 92311d5c8816d0e42b89e7734a5993b1, type: 3}
@@ -81293,10 +81514,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 1785399208
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -81623,6 +81846,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c656b185c0b629349a707cfec85e9ef6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   plate: {fileID: 6651605816638231789, guid: 2c7d8ee637031014f82d6940e84dc537, type: 3}
 --- !u!65 &2083041849
@@ -81732,10 +81956,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 4148301312
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -82462,10 +82688,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 1833322868
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -82483,6 +82711,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 279d06f488c28e34c81fd419a45305b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 255}
   randomizer: {fileID: 1196646254}
   endPos: {fileID: 1424923609}
@@ -82862,6 +83091,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe65783c859319d47b441a6d6d91db3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 1}
   placePosition: {fileID: 1465692246}
 --- !u!114 &2112150127
@@ -82878,10 +83108,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 3335349464
   InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -83289,8 +83521,7 @@ Transform:
   m_LocalPosition: {x: 3.1, y: 10.5, z: -8.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 201883593}
+  m_Children: []
   m_Father: {fileID: 581413796}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2117530444
@@ -83302,36 +83533,40 @@ MonoBehaviour:
   m_GameObject: {fileID: 2117530442}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 45e653bab7fb20e499bda25e1b646fea, type: 3}
+  m_Script: {fileID: 11500000, guid: f9dfa5b682dcd46bda6128250e975f58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ExcludedPropertiesInInspector:
-  - m_Script
-  m_LockStageInInspector: 
-  m_StreamingVersion: 20170927
-  m_Priority: 10
-  m_StandbyUpdate: 2
-  m_LookAt: {fileID: 0}
-  m_Follow: {fileID: 0}
-  m_Lens:
+  Priority:
+    Enabled: 1
+    m_Value: 10
+  OutputChannel: 1
+  StandbyUpdate: 2
+  m_StreamingVersion: 20241001
+  m_LegacyPriority: 0
+  Target:
+    TrackingTarget: {fileID: 0}
+    LookAtTarget: {fileID: 0}
+    CustomLookAtTarget: 0
+  Lens:
     FieldOfView: 77
     OrthographicSize: 5
     NearClipPlane: 0.3
     FarClipPlane: 100
     Dutch: 0
     ModeOverride: 0
-    LensShift: {x: 0, y: 0}
-    GateFit: 2
-    FocusDistance: 10
-    m_SensorSize: {x: 1, y: 1}
-  m_Transitions:
-    m_BlendHint: 0
-    m_InheritPosition: 0
-    m_OnCameraLive:
-      m_PersistentCalls:
-        m_Calls: []
-  m_LegacyBlendHint: 0
-  m_ComponentOwner: {fileID: 201883593}
+    PhysicalProperties:
+      GateFit: 2
+      SensorSize: {x: 1, y: 1}
+      LensShift: {x: 0, y: 0}
+      FocusDistance: 10
+      Iso: 200
+      ShutterSpeed: 0.005
+      Aperture: 16
+      BladeCount: 5
+      Curvature: {x: 2, y: 11}
+      BarrelClipping: 0.25
+      Anamorphism: 0
+  BlendHint: 0
 --- !u!1001 &2119421674
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -83854,6 +84089,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: -12
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -84081,6 +84317,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: -12
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -84370,6 +84607,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0

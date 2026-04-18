@@ -1,34 +1,43 @@
-using System.Collections;
-using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
 public class Trashcan : InteractableObject
 {
-    public override void Interact(PlayerCarry player)
+    protected override void InteractOffline(PlayerCarry player)
     {
-        base.Interact(player);
-        DespawnMultiplayerServerRPC(player.GetNetworkObject());
-        
-    }
-    [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
-    private void DespawnMultiplayerServerRPC(NetworkObjectReference playerNetworkObjectReference)
-    {
-        playerNetworkObjectReference.TryGet(out NetworkObject playerNetworkObject);
-        PlayerCarry playerCarry = playerNetworkObject.GetComponent<PlayerCarry>();
+        if (!player.isCarrying) return;
 
-        if (playerCarry.isCarrying)
+        ICarryObject toDestroy = player.DropObject();
+        if (toDestroy == null) return;
+
+        // En offline destruimos los objetos normalmente
+        foreach (ICarryObject obj in toDestroy.GetGameObject()
+                     .transform.GetComponentsInChildren<ICarryObject>())
         {
-            ICarryObject destroyObject = playerCarry.DropObject();
-            if (destroyObject != null)
-            {
-                //destroyObject.GetNetworkObject().Despawn(destroyObject.GetGameObject());
-                foreach (ICarryObject objToDestroy in destroyObject.GetGameObject().transform.GetComponentsInChildren<ICarryObject>())
-                {
-                    objToDestroy.GetNetworkObject().Despawn(objToDestroy.GetGameObject());
-                }
-                //DespawnObjectsClientRPC(destroyObject.GetNetworkObject());
-            }
+            Destroy(obj.GetGameObject());
+        }
+        Destroy(toDestroy.GetGameObject());
+    }
+
+    protected override void InteractOnline(PlayerCarry player)
+    {
+        DespawnServerRPC(player.GetNetworkObject());
+    }
+
+    [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
+    private void DespawnServerRPC(NetworkObjectReference playerRef)
+    {
+        if (!playerRef.TryGet(out NetworkObject playerNet)) return;
+        PlayerCarry playerCarry = playerNet.GetComponent<PlayerCarry>();
+        if (!playerCarry.isCarrying) return;
+
+        ICarryObject toDestroy = playerCarry.DropObject();
+        if (toDestroy == null) return;
+
+        foreach (ICarryObject obj in toDestroy.GetGameObject()
+                     .transform.GetComponentsInChildren<ICarryObject>())
+        {
+            obj.GetNetworkObject().Despawn(obj.GetGameObject());
         }
     }
 }
