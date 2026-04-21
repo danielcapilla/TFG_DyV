@@ -13,23 +13,24 @@ public class PlayerController : NetworkBehaviour
     Vector3 right;
     Camera cam;
 
+    PlayerCarry carryScript;
     LayerMask layer;
 
     public InteractableObject interactableInRange;
 
     [SerializeField] GameObject FeetLocalizer;
 
-    [Header("Deteccion de interactuables")]
-    [SerializeField][Range(10f, 180f)] private float interactionAngle = 90f;
-
-    private Vector3 lastMoveDirection = Vector3.forward;
-
+    // Sin red activa, actuamos como si fueramos el owner
     private bool IsOffline => !NetworkManager.Singleton || !NetworkManager.Singleton.IsListening;
     private bool IsLocallyControlled => IsOffline || IsOwner;
 
     private void Start()
     {
-        if (IsOffline) InitializePlayer();
+        // En offline OnNetworkSpawn no se llama, inicializamos todo aqui
+        if (IsOffline)
+        {
+            InitializePlayer();
+        }
     }
 
     public override void OnNetworkSpawn()
@@ -42,7 +43,8 @@ public class PlayerController : NetworkBehaviour
 
     private void InitializePlayer()
     {
-        if (FeetLocalizer != null) FeetLocalizer.SetActive(true);
+        if (FeetLocalizer != null)
+            FeetLocalizer.SetActive(true);
 
         playerInput = GetComponent<PlayerInput>();
         playerInput.enabled = true;
@@ -50,10 +52,17 @@ public class PlayerController : NetworkBehaviour
         playerInput.actions["Interact"].performed += Interact;
 
         cam = Camera.main;
+
         forward = cam.transform.forward;
         right = cam.transform.right;
-        forward.y = 0f; right.y = 0f;
-        forward.Normalize(); right.Normalize();
+
+        forward.y = 0f;
+        right.y = 0f;
+
+        forward.Normalize();
+        right.Normalize();
+
+        carryScript = GetComponent<PlayerCarry>();
 
         layer = gameObject.layer;
         layer = 1 << layer;
@@ -67,48 +76,27 @@ public class PlayerController : NetworkBehaviour
 
         input = playerInput.actions["Movement"].ReadValue<Vector2>();
 
-        // Actualizar ultima direccion de movimiento
-        Vector3 moveDir = new Vector3(input.x, 0f, input.y);
-        if (moveDir.magnitude > 0.1f)
-            lastMoveDirection = moveDir.normalized;
-
-        InteractableObject detected = DetectInteractable();
-
-        if (detected != interactableInRange)
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, InteractionRange, layer))
         {
-            if (interactableInRange != null) interactableInRange.toggleHighlight(false);
-            interactableInRange = detected;
-            if (interactableInRange != null) interactableInRange.toggleHighlight(true);
-        }
-    }
-
-    private InteractableObject DetectInteractable()
-    {
-        Collider[] hits = Physics.OverlapSphere(transform.position, InteractionRange, layer);
-
-        InteractableObject best = null;
-        float bestScore = -1f;
-
-        foreach (Collider col in hits)
-        {
-            if (!col.TryGetComponent<InteractableObject>(out InteractableObject interactable)) continue;
-
-            Vector3 toObject = col.transform.position - transform.position;
-            toObject.y = 0f;
-            if (toObject.sqrMagnitude < 0.001f) continue;
-
-            float angle = Vector3.Angle(lastMoveDirection, toObject.normalized);
-            if (angle > interactionAngle * 0.5f) continue;
-
-            float score = (1f - angle / (interactionAngle * 0.5f)) / toObject.magnitude;
-            if (score > bestScore)
+            if (hit.transform.gameObject.TryGetComponent<InteractableObject>(out InteractableObject interactable))
             {
-                bestScore = score;
-                best = interactable;
+                if (interactable != interactableInRange && interactableInRange != null)
+                {
+                    interactableInRange.toggleHighlight(false);
+                }
+                interactable.toggleHighlight(true);
+                interactableInRange = interactable;
             }
         }
-
-        return best;
+        else
+        {
+            if (interactableInRange != null)
+            {
+                interactableInRange.toggleHighlight(false);
+                interactableInRange = null;
+            }
+        }
     }
 
     private void FixedUpdate()
@@ -120,33 +108,26 @@ public class PlayerController : NetworkBehaviour
         if (desiredMovement.magnitude > 0.1f)
         {
             rb.AddForce(desiredMovement * force);
-            transform.rotation = Quaternion.Slerp(transform.rotation,
-                Quaternion.LookRotation(desiredMovement, Vector3.up), rotationSpeed * Time.deltaTime);
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(desiredMovement, Vector3.up), rotationSpeed * Time.deltaTime);
         }
         else
         {
-            transform.rotation = Quaternion.Slerp(transform.rotation,
-                Quaternion.LookRotation(transform.forward, Vector3.up), rotationSpeed * Time.deltaTime);
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(transform.forward, Vector3.up), rotationSpeed * Time.deltaTime);
         }
     }
 
     public void Interact(InputAction.CallbackContext context)
     {
+        Debug.Log("Interaccion");
         if (interactableInRange != null)
-            interactableInRange.Interact(gameObject);
+        {
+            interactableInRange.Interact(carryScript);
+        }
     }
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = new Color(0f, 0.5f, 1f, 0.3f);
-        Gizmos.DrawWireSphere(transform.position, InteractionRange);
-
-        Gizmos.color = Color.cyan;
-        Vector3 dir = Application.isPlaying ? lastMoveDirection : transform.forward;
-        Vector3 left  = Quaternion.Euler(0,  interactionAngle * 0.5f, 0) * dir * InteractionRange;
-        Vector3 right2 = Quaternion.Euler(0, -interactionAngle * 0.5f, 0) * dir * InteractionRange;
-        Gizmos.DrawLine(transform.position, transform.position + left);
-        Gizmos.DrawLine(transform.position, transform.position + right2);
-        Gizmos.DrawLine(transform.position, transform.position + dir * InteractionRange);
+        Gizmos.color = Color.blue;
+        Gizmos.DrawLine(transform.position, transform.TransformDirection(Vector3.forward) * InteractionRange + transform.position);
     }
 }

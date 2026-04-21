@@ -6,7 +6,7 @@ public static class UIInitializer
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     private static void EnsureEventSystem()
     {
-        if (Object.FindFirstObjectByType<EventSystem>() == null)
+        if (Object.FindObjectOfType<EventSystem>() == null)
         {
             var es = new GameObject("EventSystem");
             es.AddComponent<EventSystem>();

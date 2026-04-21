@@ -24,21 +24,24 @@ public abstract class InteractableObject : NetworkBehaviour
         foreach (var mat in materials)
         {
             if (val) { mat.EnableKeyword("_EMISSION"); mat.SetColor("_EmissionColor", color); }
-            else mat.DisableKeyword("_EMISSION");
+            else       mat.DisableKeyword("_EMISSION");
         }
     }
 
     /// <summary>
-    /// Punto de entrada. Recibe el GameObject del jugador.
-    /// Cada implementacion hace GetComponent de lo que necesite,
-    /// sin depender de una interfaz concreta.
+    /// Punto de entrada unico. En red llama a la logica de red; en offline llama a InteractOffline.
     /// </summary>
-    public void Interact(GameObject player)
+    public void Interact(PlayerCarry player)
     {
-        if (IsOffline) InteractOffline(player);
-        else InteractOnline(player);
+        if (IsOffline)
+            InteractOffline(player);
+        else
+            InteractOnline(player);
     }
 
-    protected virtual void InteractOnline(GameObject player) { }
-    protected virtual void InteractOffline(GameObject player) { }
+    /// <summary>Logica en red (RPCs). Sobreescribir en cada hijo.</summary>
+    protected virtual void InteractOnline(PlayerCarry player) { }
+
+    /// <summary>Logica offline sin red. Sobreescribir en cada hijo.</summary>
+    protected virtual void InteractOffline(PlayerCarry player) { }
 }

@@ -20,13 +20,12 @@ public class DeliveryStation : InteractableObject
     private int offlineOrderIndex = 0; // Indice del pedido actual en modo offline
 
     // ── Offline ───────────────────────────────────────────────────────────────
-    protected override void InteractOffline(GameObject player)
+    protected override void InteractOffline(PlayerCarry player)
     {
-        PlayerCarry carry = player.GetComponent<PlayerCarry>();
-        if (carry == null || !carry.isCarrying) return;
-        if (!carry.carryingObject.GetGameObject().TryGetComponent<PlateBehaviour>(out PlateBehaviour plate)) return;
+        if (!player.isCarrying) return;
+        if (!player.carryingObject.GetGameObject().TryGetComponent<PlateBehaviour>(out PlateBehaviour plate)) return;
 
-        holdingObject = carry.DropObject();
+        holdingObject = player.DropObject();
         PlayerCarry.SetParentSafe(holdingObject.GetGameObject(), transform);
         holdingObject.GetGameObject().transform.localPosition = placePosition.localPosition;
 
@@ -60,10 +59,9 @@ public class DeliveryStation : InteractableObject
     }
 
     // ── Online ────────────────────────────────────────────────────────────────
-    protected override void InteractOnline(GameObject player)
+    protected override void InteractOnline(PlayerCarry player)
     {
-        NetworkObject netObj = player.GetComponent<NetworkObject>();
-        if (netObj != null) DeliverPlateServerRPC(netObj);
+        DeliverPlateServerRPC(player.GetNetworkObject());
     }
 
     [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]

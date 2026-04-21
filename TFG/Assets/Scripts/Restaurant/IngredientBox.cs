@@ -19,32 +19,30 @@ public class IngredientBox : InteractableObject
         plane.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
     }
 
-    protected override void InteractOnline(GameObject player)
-    {
-        NetworkObject netObj = player.GetComponent<NetworkObject>();
-        if (netObj != null) SpawnServerRPC(netObj);
-    }
+    protected override void InteractOnline(PlayerCarry player) => SpawnServerRPC(player.GetNetworkObject());
 
-    protected override void InteractOffline(GameObject player)
+    protected override void InteractOffline(PlayerCarry player)
     {
-        PlayerCarry carry = player.GetComponent<PlayerCarry>();
-        if (carry == null || carry.isCarrying) return;
+        if (player.isCarrying) return;
         GameObject instance = Instantiate(ingredient.Model);
         IngredientBehaviour carryObject = instance.GetComponent<IngredientBehaviour>();
         carryObject.ingredient = ingredient;
-        carry.TryPickUp(carryObject);
+        player.TryPickUp(carryObject);
     }
 
     [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
     private void SpawnServerRPC(NetworkObjectReference playerRef)
     {
         if (!playerRef.TryGet(out NetworkObject playerNet)) return;
-        PlayerCarry carry = playerNet.GetComponent<PlayerCarry>();
-        if (carry == null || carry.isCarrying) return;
+        PlayerCarry playerCarry = playerNet.GetComponent<PlayerCarry>();
+        if (playerCarry.isCarrying) return;
+
         GameObject instance = Instantiate(ingredient.Model);
         NetworkObject netObj = instance.GetComponent<NetworkObject>();
         netObj.Spawn(true);
         instance.GetComponent<IngredientBehaviour>().ingredient = ingredient;
-        carry.CarryObject(instance.GetComponent<IngredientBehaviour>());
+        // CarryObject -> TryPickUp -> PickUpServerRPC -> PickUpClientRPC en todos
+        // PickUpClientRPC hace SetParentSafe(carryPosition) en cada cliente localmente
+        playerCarry.CarryObject(instance.GetComponent<IngredientBehaviour>());
     }
 }

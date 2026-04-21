@@ -1,42 +1,40 @@
 using System.Collections.Generic;
+using System.Linq;
 using Unity.Netcode;
 using UnityEngine;
 
-/// <summary>
-/// Gestiona los equipos de cualquier minijuego.
-/// totalTeams y maxplayersPerTeam se configuran en el inspector
-/// y ChooseGroup los lee para generar la UI dinamicamente.
-/// </summary>
 public class TeamMenager : NetworkBehaviour
 {
-    [Header("Configuracion de equipos")]
-    public int totalTeams = 6;
-    public int maxPlayersPerTeam = 4;
-    public int minPlayersPerTeam = 1;
-
-    [Header("Tipo de equipo (ScriptableObject del juego)")]
+    public int maxPlayers;
+    public int maxplayersPerTeam;
+    public int minPlayersPerTeam;
     public TeamInfo teamType;
-
-    public List<TeamInfo> teams = new List<TeamInfo>();
+    public List<TeamInfo> teams;
     public List<TeamInfo> teamsScoreSorted { get; private set; }
-
     public static TeamMenager Instance { get; private set; }
 
     private bool IsOffline => !NetworkManager.Singleton || !NetworkManager.Singleton.IsListening;
 
     void Start()
     {
+        // En online solo el servidor inicializa
         if (!IsOffline && !IsServer) return;
 
-        if (Instance != null && Instance != this) { Destroy(gameObject); return; }
+        // Singleton
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
         Instance = this;
+        DontDestroyOnLoad(gameObject);
 
-        teams.Clear();
+        int totalTeams = 6;
         for (int i = 0; i < totalTeams; i++)
         {
-            TeamInfo copy = teamType.Clone();
-            copy.ID = i;
-            teams.Add(copy);
+            TeamInfo copia = teamType.Clone();
+            copia.ID = i + 1;
+            teams.Add(copia);
         }
         teamsScoreSorted = new List<TeamInfo>(teams);
     }
@@ -44,27 +42,30 @@ public class TeamMenager : NetworkBehaviour
     [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
     public void QuitPlayerFromTheTeamServerRPC(ulong id, int groupNumber)
     {
-        if (groupNumber >= 0 && groupNumber < teams.Count)
-            teams[groupNumber].integrantes.Remove(id);
+        teams[groupNumber].integrantes.Remove(id);
     }
 
     public (int, int) GetPositions(TeamInfo teamThatScored)
     {
         int idx = teamsScoreSorted.IndexOf(teamThatScored);
-        int idxOld = idx;
-        for (int i = idx - 1; i >= 0; i--)
+        int idxold = idx;
+        for (int i = idx; i >= 0; i--)
+        {
             if (teamsScoreSorted[i].Puntuacion < teamThatScored.Puntuacion)
                 idx = i;
-        return (idx, idxOld);
+        }
+        return (idx, idxold);
     }
 
-    public void SortTeams() =>
-        teamsScoreSorted.Sort((t1, t2) => t2.Puntuacion.CompareTo(t1.Puntuacion));
-
-    public void UpdateIndex(int from, int to)
+    public void SortTeams()
     {
-        TeamInfo temp = teamsScoreSorted[from];
+        teamsScoreSorted.Sort((t1, t2) => t2.Puntuacion.CompareTo(t1.Puntuacion));
+    }
+
+    public void UpdateIndex(int deDondeVengo, int aDondeVoy)
+    {
+        TeamInfo temp = teamsScoreSorted[deDondeVengo];
         teamsScoreSorted.Remove(temp);
-        teamsScoreSorted.Insert(to, temp);
+        teamsScoreSorted.Insert(aDondeVoy, temp);
     }
 }
