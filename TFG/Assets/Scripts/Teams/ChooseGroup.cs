@@ -1,154 +1,209 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class ChooseGroup : NetworkBehaviour
 {
-    PlayerStats player;
-    [SerializeField] public TeamMenager teamManager;
+    [Header("UI")]
     [SerializeField] private Button readyButton;
     [SerializeField] private GameObject groupCanvas;
-    private Button previousButton;
-    [SerializeField] private Button[] buttons;
+    [SerializeField] private Transform buttonsContainer;
+    [SerializeField] private GameObject buttonPrefab;
 
-    private Dictionary<ulong, bool> playerReadyDictionary;
+    public static event System.Action<ulong> OnPlayerReady;
+    public static event System.Action OnGameStartEvent;
+
     public static List<ulong> connectedPlayers;
 
-    private bool host = false;
+    private Dictionary<ulong, bool> playerReadyDictionary;
+    private int selectedGroup = -1;
+    private List<Button> groupButtons = new List<Button>();
 
     private bool IsOffline => !NetworkManager.Singleton || !NetworkManager.Singleton.IsListening;
+    private TeamMenager teamManager => TeamMenager.Instance;
 
-    public delegate void PlayerReady(ulong id);
-    public event PlayerReady OnPlayerReady;
-    public delegate void OnGameStart();
-    public event OnGameStart OnGameStartEvent;
+    // ── Offline ───────────────────────────────────────────────────────────────
 
     private void Start()
     {
         if (!IsOffline) return;
 
-        // En offline: asignamos el jugador al equipo 0 automaticamente y arrancamos
         connectedPlayers = new List<ulong> { 0 };
-
-        // Ocultamos el canvas de seleccion — no hace falta en offline
         if (groupCanvas != null) groupCanvas.SetActive(false);
 
-        // Asignar equipo 0 al jugador local
         PlayerStats localPlayer = FindFirstObjectByType<PlayerStats>();
-        if (localPlayer != null)
-            localPlayer.idGrupo.Value = 0;  // NetworkVariable, funciona offline desde el mismo objeto
+        if (localPlayer != null) localPlayer.idGrupo.Value = 0;
 
-        // Añadir al equipo
         if (teamManager != null && teamManager.teams.Count > 0)
             teamManager.teams[0].integrantes.Add(0);
 
-        // Arrancar el juego directamente
+        // En offline disparar OnPlayerReady igual que en online
+        // para que PlayerSpawner reciba el evento y spawnee al jugador
+        OnPlayerReady?.Invoke(0);
         OnGameStartEvent?.Invoke();
     }
+
+    // ── Online ────────────────────────────────────────────────────────────────
 
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
-        readyButton.gameObject.SetActive(false);
+
         if (IsServer)
         {
-            playerReadyDictionary = new Dictionary<ulong, bool>();
-            connectedPlayers = NetworkManager.Singleton.ConnectedClientsIds.ToList<ulong>();
-            if (host) return;
-            groupCanvas.gameObject.SetActive(false);
-            connectedPlayers.Remove(OwnerClientId);
+            // Esperar a que TeamMenager.Instance este disponible antes de usarlo
+            StartCoroutine(InitServerDelayed());
+        }
+        else
+        {
+            // El cliente espera recibir el RPC con el numero de equipos
+            // No hace nada aqui — los botones se crean al recibir SendTeamConfigClientRpc
         }
     }
 
-    public void ChangeGroup()
+    private IEnumerator InitServerDelayed()
     {
-        if (previousButton != null)
-            previousButton.interactable = true;
+        // Esperar hasta que TeamMenager.Instance este listo
+        yield return new WaitUntil(() => TeamMenager.Instance != null);
 
-        Button clickedButton = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.GetComponent<Button>();
-        clickedButton.interactable = false;
-        previousButton = clickedButton;
-        ChangeGroupRPC(NetworkManager.Singleton.LocalClientId,
-            (int.Parse(clickedButton.GetComponentInChildren<TextMeshProUGUI>().text)) - 1);
+        playerReadyDictionary = new Dictionary<ulong, bool>();
+        // El host es observador — excluirlo de los jugadores
+        connectedPlayers = NetworkManager.Singleton.ConnectedClientsIds
+            .Where(id => id != OwnerClientId).ToList();
+
+        // El host no juega: ocultar canvas
+        if (groupCanvas != null) groupCanvas.SetActive(false);
+
+        // Enviar totalTeams a los clientes para que generen los botones
+        SendTeamConfigClientRpc(teamManager.totalTeams);
+    }
+
+    [ClientRpc]
+    private void SendTeamConfigClientRpc(int totalTeams)
+    {
+        // Solo ejecutar en clientes puros (no en el servidor/host)
+        if (IsServer) return;
+
+        SetupGroupButtons(totalTeams);
+        readyButton.gameObject.SetActive(false);
+        readyButton.onClick.RemoveAllListeners();
+        readyButton.onClick.AddListener(ReadyPlayer);
+    }
+
+    private void SetupGroupButtons(int totalTeams)
+    {
+        if (buttonsContainer == null || buttonPrefab == null) return;
+
+        foreach (Transform child in buttonsContainer)
+            Destroy(child.gameObject);
+        groupButtons.Clear();
+
+        for (int i = 0; i < totalTeams; i++)
+        {
+            int groupIndex = i;
+            GameObject btn = Instantiate(buttonPrefab, buttonsContainer);
+
+            TextMeshProUGUI label = btn.GetComponentInChildren<TextMeshProUGUI>();
+            if (label != null) label.text = $"{i + 1}";
+
+            Button button = btn.GetComponent<Button>();
+            button.onClick.AddListener(() => SelectGroup(groupIndex, button));
+            groupButtons.Add(button);
+        }
+    }
+
+    private void SelectGroup(int groupIndex, Button clicked)
+    {
+        foreach (var btn in groupButtons) btn.interactable = true;
+        clicked.interactable = false;
+        selectedGroup = groupIndex;
+        ChangeGroupRpc(NetworkManager.Singleton.LocalClientId, groupIndex);
         readyButton.gameObject.SetActive(true);
     }
 
     [Rpc(SendTo.Server)]
-    private void ChangeGroupRPC(ulong id, int groupNumber)
+    private void ChangeGroupRpc(ulong id, int groupNumber)
     {
-        player = NetworkManager.Singleton.ConnectedClients[id].PlayerObject.gameObject.GetComponent<PlayerStats>();
-        player.idGrupo.Value = groupNumber;
+        PlayerStats ps = NetworkManager.Singleton.ConnectedClients[id].PlayerObject
+            .GetComponent<PlayerStats>();
+        ps.idGrupo.Value = groupNumber;
     }
 
-    public void ReadyPlayer()
+    private void ReadyPlayer()
     {
+        if (selectedGroup < 0) return;
         readyButton.interactable = false;
-        foreach (Button button in buttons)
-            button.interactable = false;
-        ReadyPlayerRPC(NetworkManager.Singleton.LocalClientId);
+        foreach (var btn in groupButtons) btn.interactable = false;
+        ReadyPlayerRpc(NetworkManager.Singleton.LocalClientId);
     }
 
     [Rpc(SendTo.Server)]
-    public void ReadyPlayerRPC(ulong id)
+    private void ReadyPlayerRpc(ulong id)
     {
-        player = NetworkManager.Singleton.ConnectedClients[id].PlayerObject.gameObject.GetComponent<PlayerStats>();
-        TeamInfo teamInfo = teamManager.teams[player.idGrupo.Value];
-        if (teamInfo.integrantes.Count >= teamManager.maxplayersPerTeam)
+        PlayerStats ps = NetworkManager.Singleton.ConnectedClients[id].PlayerObject
+            .GetComponent<PlayerStats>();
+        int group = ps.idGrupo.Value;
+
+        if (group < 0 || group >= teamManager.teams.Count)
         {
-            ShowWarningClientRPC($"Este grupo está lleno (máximo {teamManager.maxplayersPerTeam} jugadores).",
+            ShowWarningClientRpc("Selecciona un equipo primero.",
                 new ClientRpcParams { Send = new ClientRpcSendParams { TargetClientIds = new[] { id } } });
-            ReenableReadyUIClientRPC(new ClientRpcParams { Send = new ClientRpcSendParams { TargetClientIds = new[] { id } } });
+            ReenableUIClientRpc(
+                new ClientRpcParams { Send = new ClientRpcSendParams { TargetClientIds = new[] { id } } });
+            return;
+        }
+
+        TeamInfo teamInfo = teamManager.teams[group];
+        if (teamInfo.integrantes.Count >= teamManager.maxPlayersPerTeam)
+        {
+            ShowWarningClientRpc($"Equipo lleno (max {teamManager.maxPlayersPerTeam}).",
+                new ClientRpcParams { Send = new ClientRpcSendParams { TargetClientIds = new[] { id } } });
+            ReenableUIClientRpc(
+                new ClientRpcParams { Send = new ClientRpcSendParams { TargetClientIds = new[] { id } } });
+            return;
+        }
+
+        // Guard: evitar que el mismo jugador se procese dos veces
+        if (playerReadyDictionary.ContainsKey(id) && playerReadyDictionary[id]) return;
+
+        teamInfo.integrantes.Add(id);
+        playerReadyDictionary[id] = true;
+        CheckAllReady();
+    }
+
+    private void CheckAllReady()
+    {
+        bool allReady = connectedPlayers.All(id =>
+            playerReadyDictionary.ContainsKey(id) && playerReadyDictionary[id]);
+
+        if (!allReady) return;
+
+        if (!AreTeamsValid())
+        {
+            playerReadyDictionary.Clear();
+            foreach (var team in teamManager.teams) team.integrantes.Clear();
+            ShowWarningClientRpc(
+                $"Cada equipo debe tener entre {teamManager.minPlayersPerTeam} y {teamManager.maxPlayersPerTeam} jugadores.");
+            ReenableUIClientRpc();
         }
         else
         {
-            teamInfo.integrantes.Add(id);
-            SetPlayerReady(id);
+            // Limpiar el diccionario inmediatamente para evitar que una segunda llamada
+            // residual vuelva a disparar el evento
+            // Copiar para el spawn pero NO limpiar connectedPlayers —
+            // otros sistemas (GameManagerRestaurant) la necesitan en OnGameStartEvent
+            var toSpawn = new System.Collections.Generic.List<ulong>(connectedPlayers);
+            playerReadyDictionary.Clear();
+
+            foreach (ulong clientId in toSpawn)
+                OnPlayerReady?.Invoke(clientId);
+            HideCanvasRpc();
+            OnGameStartEvent?.Invoke();
         }
-    }
-
-    public void SetPlayerReady(ulong id)
-    {
-        playerReadyDictionary[id] = true;
-        bool allClientsReady = connectedPlayers.All(cid =>
-            playerReadyDictionary.ContainsKey(cid) && playerReadyDictionary[cid]);
-
-        if (allClientsReady)
-        {
-            if (!AreTeamsValid())
-            {
-                playerReadyDictionary.Clear();
-                foreach (var team in teamManager.teams)
-                    team.integrantes.Clear();
-                ShowWarningClientRPC($"Cada grupo debe tener entre {teamManager.minPlayersPerTeam} y {teamManager.maxplayersPerTeam} jugadores.");
-                ReenableReadyUIClientRPC();
-            }
-            else
-            {
-                foreach (ulong clientId in connectedPlayers)
-                    OnPlayerReady?.Invoke(clientId);
-                DesactivateGroupCanvasRPC();
-                OnGameStartEvent?.Invoke();
-            }
-        }
-    }
-
-    [ClientRpc]
-    private void ShowWarningClientRPC(string message, ClientRpcParams clientRpcParams = default)
-    {
-        NotificationManager.Instance.ShowWarningNotification(message);
-    }
-
-    [ClientRpc]
-    private void ReenableReadyUIClientRPC(ClientRpcParams clientRpcParams = default)
-    {
-        if (readyButton != null) readyButton.interactable = true;
-        if (buttons != null)
-            foreach (Button button in buttons)
-                if (button != null) button.interactable = true;
     }
 
     private bool AreTeamsValid()
@@ -157,15 +212,23 @@ public class ChooseGroup : NetworkBehaviour
         {
             int count = team.integrantes.Count;
             if (count == 0) continue;
-            if (count < teamManager.minPlayersPerTeam || count > teamManager.maxplayersPerTeam)
+            if (count < teamManager.minPlayersPerTeam || count > teamManager.maxPlayersPerTeam)
                 return false;
         }
         return true;
     }
 
-    [Rpc(SendTo.Everyone)]
-    public void DesactivateGroupCanvasRPC()
+    [ClientRpc]
+    private void ShowWarningClientRpc(string msg, ClientRpcParams p = default) =>
+        NotificationManager.Instance.ShowWarningNotification(msg);
+
+    [ClientRpc]
+    private void ReenableUIClientRpc(ClientRpcParams p = default)
     {
-        groupCanvas.gameObject.SetActive(false);
+        readyButton.interactable = true;
+        foreach (var btn in groupButtons) btn.interactable = true;
     }
+
+    [Rpc(SendTo.Everyone)]
+    public void HideCanvasRpc() => groupCanvas.SetActive(false);
 }

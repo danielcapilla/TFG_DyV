@@ -61,31 +61,31 @@ public class HostManager : NetworkBehaviour
         if (activarEscena)
         {
             activarEscena = false;
-            objetosActivos = GameObject.FindObjectsOfType<MeshRenderer>();
+            objetosActivos = GameObject.FindObjectsByType<MeshRenderer>(FindObjectsSortMode.None);
             foreach (MeshRenderer objeto in objetosActivos)
             {
                 objeto.enabled = false;
             }
             orderCanvas.SetActive(false);
-            //Controles de cámara
+            //Controles de cï¿½mara
             hostCanvas.transform.GetChild(0).gameObject.SetActive(false);
             hostCanvas.transform.GetChild(1).gameObject.SetActive(false);
-            //Activar estadísticas
+            //Activar estadï¿½sticas
             hostCanvas.transform.GetChild(2).gameObject.SetActive(true);
         }
         else
         {
             activarEscena = true;
-            objetosActivos = GameObject.FindObjectsOfType<MeshRenderer>();
+            objetosActivos = GameObject.FindObjectsByType<MeshRenderer>(FindObjectsSortMode.None);
             foreach (MeshRenderer objeto in objetosActivos)
             {
                 objeto.enabled = true;
             }
             orderCanvas.SetActive(true);
-            //Controles de cámara
+            //Controles de cï¿½mara
             hostCanvas.transform.GetChild(0).gameObject.SetActive(true);
             hostCanvas.transform.GetChild(1).gameObject.SetActive(true);
-            //Desactivar estadísticas
+            //Desactivar estadï¿½sticas
             hostCanvas.transform.GetChild(2).gameObject.SetActive(false);
 
         }

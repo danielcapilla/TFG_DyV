@@ -8,15 +8,12 @@ public class PlayerCarry : NetworkBehaviour
     public bool isCarrying => carryingObject != null;
     public ICarryObject carryingObject { get; private set; }
 
-    [SerializeField] private TeamMenager teamManager;
 
     public bool IsOffline => !NetworkManager.Singleton || !NetworkManager.Singleton.IsListening;
 
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
-        var tm = GameObject.Find("TeamManager");
-        if (tm != null) teamManager = tm.GetComponent<TeamMenager>();
     }
 
     // ── SetParentSafe ─────────────────────────────────────────────────────────
@@ -152,12 +149,7 @@ public class PlayerCarry : NetworkBehaviour
                 }
             }
         }
-        if (teamManager != null && IsOwner)
-        {
-            teamManager.QuitPlayerFromTheTeamServerRPC(
-                OwnerClientId,
-                gameObject.GetComponentInParent<PlayerStats>().idGrupo.Value);
-        }
+
     }
 
     public void SetCarryingObject(ICarryObject obj) { carryingObject = obj; }

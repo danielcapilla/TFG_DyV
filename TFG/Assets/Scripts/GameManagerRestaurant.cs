@@ -1,4 +1,5 @@
-﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using Unity.Netcode;
 using UnityEngine;
@@ -6,22 +7,20 @@ using UnityEngine.InputSystem;
 
 public class GameManagerRestaurant : NetworkBehaviour
 {
-    [Header("Evento")]
-    [SerializeField] private ChooseGroup chooseGroup;
     [Header("Tiempo")]
     [SerializeField] private Countdown countdown;
-    [Header("Cámara")]
+    [Header("Camara")]
     [SerializeField] private CameraSelector cameraSelector;
-    [Header("Música")]
+    [Header("Musica")]
     [SerializeField] private AudioSource restaurantMusic;
-
 
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
-        if(IsServer)
+        if (IsServer)
         {
-            chooseGroup.OnGameStartEvent += StartGame;
+            ChooseGroup.OnGameStartEvent -= StartGame;
+            ChooseGroup.OnGameStartEvent += StartGame;
         }
     }
 
@@ -29,38 +28,55 @@ public class GameManagerRestaurant : NetworkBehaviour
     {
         base.OnNetworkDespawn();
         if (IsServer)
-        {
-            chooseGroup.OnGameStartEvent -= StartGame;
-        }
+            ChooseGroup.OnGameStartEvent -= StartGame;
     }
+
     private void StartGame()
     {
+        // Copiar la lista ANTES del yield — ChooseGroup la limpia despues de disparar el evento
+        List<ulong> players = new List<ulong>(ChooseGroup.connectedPlayers ?? new List<ulong>());
+        StartCoroutine(StartGameDelayed(players));
+    }
+
+    private IEnumerator StartGameDelayed(List<ulong> players)
+    {
+        // Esperar a que PlayerSpawner haya spawneado los jugadores
+        yield return new WaitForSeconds(0.5f);
+
         countdown.CambiarVariable();
-        
-        
-        foreach (ulong playerId in ChooseGroup.connectedPlayers)
+
+        foreach (ulong playerId in players)
         {
-            NetworkObject player = NetworkManager.ConnectedClients[playerId].PlayerObject;
-            SetCameraRPC(player.GetComponent<PlayerStats>().idGrupo.Value, playerId);
-            PlayerInput playerInput = player.GetComponentInChildren<PlayerInput>();
-            ActivatePlayerInputRPC(playerInput.GetComponent<NetworkObject>());
+            if (!NetworkManager.ConnectedClients.ContainsKey(playerId)) continue;
+            NetworkObject playerStats = NetworkManager.ConnectedClients[playerId].PlayerObject;
+            if (playerStats == null) continue;
+
+            SetCameraRpc(playerStats.GetComponent<PlayerStats>().idGrupo.Value, playerId);
+
+            // El jugador controlable es el hijo del PlayerObject spawneado por PlayerSpawner
+            if (playerStats.transform.childCount > 0)
+            {
+                NetworkObject playerNetObj = playerStats.transform.GetChild(0)
+                    .GetComponent<NetworkObject>();
+                if (playerNetObj != null)
+                    ActivatePlayerControllerRpc(playerNetObj);
+            }
         }
     }
 
     [Rpc(SendTo.Everyone)]
-    private void ActivatePlayerInputRPC(NetworkObjectReference playerInputNetworkObjectReference)
+    private void ActivatePlayerControllerRpc(NetworkObjectReference playerRef)
     {
-        playerInputNetworkObjectReference.TryGet(out NetworkObject playerInputNetworkObject);
-        PlayerController playerController = playerInputNetworkObject.GetComponent<PlayerController>();
-        playerController.enabled = true;
+        if (!playerRef.TryGet(out NetworkObject playerNetObj)) return;
+        PlayerController controller = playerNetObj.GetComponent<PlayerController>();
+        if (controller != null) controller.enabled = true;
         ActivateRestaurantMusic();
     }
-    private void ActivateRestaurantMusic()
-    {
-        restaurantMusic.Play();
-    }
+
+    private void ActivateRestaurantMusic() => restaurantMusic.Play();
+
     [Rpc(SendTo.Everyone)]
-    private void SetCameraRPC(int groupID, ulong id)
+    private void SetCameraRpc(int groupID, ulong id)
     {
         if (id != NetworkManager.Singleton.LocalClientId) return;
         cameraSelector.ActivateCamera(groupID);

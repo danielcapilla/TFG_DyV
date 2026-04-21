@@ -10,8 +10,8 @@ public abstract class TeamInfo : ScriptableObject
     public int Puntuacion = 0;
     public Action<int> onPuntuacionChanged;
 
-    public virtual TeamInfo Clone()
-    {
-        return (TeamInfo)ScriptableObject.CreateInstance<TeamInfo>(); ;
-    }
+    /// <summary>
+    /// Cada subclase debe sobreescribir este metodo para clonar su tipo concreto.
+    /// </summary>
+    public abstract TeamInfo Clone();
 }

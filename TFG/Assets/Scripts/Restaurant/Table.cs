@@ -8,56 +8,58 @@ public class Table : InteractableObject
     [SerializeField] Transform placePosition;
     ICarryObject holdingObject;
 
-    protected override void InteractOffline(PlayerCarry player)
+    protected override void InteractOffline(GameObject player)
     {
-        if (!isOccupied && player.isCarrying)       PlaceObjectOffline(player);
-        else if (isOccupied && !player.isCarrying)  PickUpFromTableOffline(player);
-        else if (isOccupied && player.isCarrying)   TryAddIngredientToPlate(player);
+        PlayerCarry carry = player.GetComponent<PlayerCarry>();
+        if (carry == null) return;
+        if (!isOccupied && carry.isCarrying)      PlaceObjectOffline(carry);
+        else if (isOccupied && !carry.isCarrying) PickUpFromTableOffline(carry);
+        else if (isOccupied && carry.isCarrying)  TryAddIngredientToPlate(carry);
     }
 
-    private void PlaceObjectOffline(PlayerCarry player)
+    private void PlaceObjectOffline(PlayerCarry carry)
     {
-        holdingObject = player.DropObject();
+        holdingObject = carry.DropObject();
         if (holdingObject == null) return;
         PlayerCarry.SetParentSafe(holdingObject.GetGameObject(), transform);
         holdingObject.GetGameObject().transform.localPosition = placePosition.localPosition;
         isOccupied = true;
     }
 
-    private void PickUpFromTableOffline(PlayerCarry player)
+    private void PickUpFromTableOffline(PlayerCarry carry)
     {
         if (holdingObject == null) return;
-        player.PickUpLocally(holdingObject);
+        carry.PickUpLocally(holdingObject);
         isOccupied = false;
         holdingObject = null;
     }
 
-    protected override void InteractOnline(PlayerCarry player)
+    protected override void InteractOnline(GameObject player)
     {
-        ReplaceObjectsServerRPC(player.GetNetworkObject());
+        NetworkObject netObj = player.GetComponent<NetworkObject>();
+        if (netObj != null) ReplaceObjectsServerRPC(netObj);
     }
 
     [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
     private void ReplaceObjectsServerRPC(NetworkObjectReference playerRef)
     {
         if (!playerRef.TryGet(out NetworkObject playerNet)) return;
-        PlayerCarry playerCarry = playerNet.GetComponent<PlayerCarry>();
+        PlayerCarry carry = playerNet.GetComponent<PlayerCarry>();
+        if (carry == null) return;
 
-        if (!isOccupied && playerCarry.isCarrying)
+        if (!isOccupied && carry.isCarrying)
         {
-            // Actualizar estado Netcode: null parent (root)
-            playerCarry.carryingObject.GetNetworkObject().TrySetParent((NetworkObject)null);
-            PlaceObjectClientRPC(playerRef, playerCarry.carryingObject.GetNetworkObject());
+            carry.carryingObject.GetNetworkObject().TrySetParent((NetworkObject)null);
+            PlaceObjectClientRPC(playerRef, carry.carryingObject.GetNetworkObject());
         }
-        else if (isOccupied && !playerCarry.isCarrying)
+        else if (isOccupied && !carry.isCarrying)
         {
-            // Actualizar estado Netcode: hijo del jugador
             holdingObject.GetNetworkObject().TrySetParent(playerNet);
             PickUpFromTableClientRPC(playerRef, holdingObject.GetNetworkObject());
         }
-        else if (isOccupied && playerCarry.isCarrying)
+        else if (isOccupied && carry.isCarrying)
         {
-            TryAddIngredientToPlate(playerCarry);
+            TryAddIngredientToPlate(carry);
         }
     }
 
@@ -66,9 +68,8 @@ public class Table : InteractableObject
     {
         if (!playerRef.TryGet(out NetworkObject playerNet)) return;
         if (!objRef.TryGet(out NetworkObject objNet)) return;
-        PlayerCarry playerCarry = playerNet.GetComponent<PlayerCarry>();
-        holdingObject = playerCarry.DropObject(); // DropObject ya hace SetParentSafe(null)
-        // Ahora mover a la posicion de la mesa localmente
+        PlayerCarry carry = playerNet.GetComponent<PlayerCarry>();
+        holdingObject = carry.DropObject();
         PlayerCarry.SetParentSafe(objNet.gameObject, transform);
         objNet.transform.localPosition = placePosition.localPosition;
         isOccupied = true;
@@ -79,31 +80,31 @@ public class Table : InteractableObject
     {
         if (!playerRef.TryGet(out NetworkObject playerNet)) return;
         if (!objRef.TryGet(out NetworkObject objNet)) return;
-        PlayerCarry playerCarry = playerNet.GetComponent<PlayerCarry>();
+        PlayerCarry carry = playerNet.GetComponent<PlayerCarry>();
         ICarryObject obj = objNet.GetComponent<ICarryObject>();
         if (obj == null) return;
-        playerCarry.SetCarryingObject(obj);
-        PlayerCarry.SetParentSafe(objNet.gameObject, playerCarry.GetCarryPosition());
+        carry.SetCarryingObject(obj);
+        PlayerCarry.SetParentSafe(objNet.gameObject, carry.GetCarryPosition());
         objNet.transform.localPosition = Vector3.zero;
         objNet.transform.localRotation = Quaternion.identity;
-        obj.OnPickedUp(playerCarry);
+        obj.OnPickedUp(carry);
         isOccupied = false;
         holdingObject = null;
     }
 
-    private void TryAddIngredientToPlate(PlayerCarry player)
+    private void TryAddIngredientToPlate(PlayerCarry carry)
     {
-        if (holdingObject == null || player.carryingObject == null) return;
+        if (holdingObject == null || carry.carryingObject == null) return;
         if (!holdingObject.GetGameObject().TryGetComponent<PlateBehaviour>(out PlateBehaviour plate)) return;
-        if (!player.carryingObject.GetGameObject().TryGetComponent<IngredientBehaviour>(out IngredientBehaviour _)) return;
+        if (!carry.carryingObject.GetGameObject().TryGetComponent<IngredientBehaviour>(out IngredientBehaviour _)) return;
 
         FixedString64Bytes username = IsOffline
             ? new FixedString64Bytes("offline")
-            : (player.GetComponentInParent<UserNetworkConfig>() != null
-                ? player.GetComponentInParent<UserNetworkConfig>().usernameNetworkVariable.Value
+            : (carry.GetComponentInParent<UserNetworkConfig>() != null
+                ? carry.GetComponentInParent<UserNetworkConfig>().usernameNetworkVariable.Value
                 : new FixedString64Bytes("unknown"));
 
-        ICarryObject dropped = player.DropObject();
+        ICarryObject dropped = carry.DropObject();
         if (dropped is IngredientBehaviour ing)
             plate.AddIngredient(ing, username);
     }

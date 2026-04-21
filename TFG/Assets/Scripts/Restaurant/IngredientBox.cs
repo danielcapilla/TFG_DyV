@@ -19,30 +19,32 @@ public class IngredientBox : InteractableObject
         plane.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
     }
 
-    protected override void InteractOnline(PlayerCarry player) => SpawnServerRPC(player.GetNetworkObject());
-
-    protected override void InteractOffline(PlayerCarry player)
+    protected override void InteractOnline(GameObject player)
     {
-        if (player.isCarrying) return;
+        NetworkObject netObj = player.GetComponent<NetworkObject>();
+        if (netObj != null) SpawnServerRPC(netObj);
+    }
+
+    protected override void InteractOffline(GameObject player)
+    {
+        PlayerCarry carry = player.GetComponent<PlayerCarry>();
+        if (carry == null || carry.isCarrying) return;
         GameObject instance = Instantiate(ingredient.Model);
         IngredientBehaviour carryObject = instance.GetComponent<IngredientBehaviour>();
         carryObject.ingredient = ingredient;
-        player.TryPickUp(carryObject);
+        carry.TryPickUp(carryObject);
     }
 
     [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
     private void SpawnServerRPC(NetworkObjectReference playerRef)
     {
         if (!playerRef.TryGet(out NetworkObject playerNet)) return;
-        PlayerCarry playerCarry = playerNet.GetComponent<PlayerCarry>();
-        if (playerCarry.isCarrying) return;
-
+        PlayerCarry carry = playerNet.GetComponent<PlayerCarry>();
+        if (carry == null || carry.isCarrying) return;
         GameObject instance = Instantiate(ingredient.Model);
         NetworkObject netObj = instance.GetComponent<NetworkObject>();
         netObj.Spawn(true);
         instance.GetComponent<IngredientBehaviour>().ingredient = ingredient;
-        // CarryObject -> TryPickUp -> PickUpServerRPC -> PickUpClientRPC en todos
-        // PickUpClientRPC hace SetParentSafe(carryPosition) en cada cliente localmente
-        playerCarry.CarryObject(instance.GetComponent<IngredientBehaviour>());
+        carry.CarryObject(instance.GetComponent<IngredientBehaviour>());
     }
 }

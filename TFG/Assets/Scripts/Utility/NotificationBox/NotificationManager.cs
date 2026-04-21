@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,7 +15,7 @@ public class NotificationManager : MonoBehaviour
                 return _instance;
             }
 
-            _instance = FindObjectOfType<NotificationManager>();
+            _instance = FindFirstObjectByType<NotificationManager>();
 
             if (_instance != null)
             {

@@ -5,25 +5,29 @@ public class PlateSpawner : InteractableObject
 {
     [SerializeField] GameObject plate;
 
-    protected override void InteractOnline(PlayerCarry player) => SpawnServerRPC(player.GetNetworkObject());
-
-    protected override void InteractOffline(PlayerCarry player)
+    protected override void InteractOnline(GameObject player)
     {
-        if (player.isCarrying) return;
+        NetworkObject netObj = player.GetComponent<NetworkObject>();
+        if (netObj != null) SpawnServerRPC(netObj);
+    }
+
+    protected override void InteractOffline(GameObject player)
+    {
+        PlayerCarry carry = player.GetComponent<PlayerCarry>();
+        if (carry == null || carry.isCarrying) return;
         GameObject instance = Instantiate(plate);
-        player.TryPickUp(instance.GetComponent<PlateBehaviour>());
+        carry.TryPickUp(instance.GetComponent<PlateBehaviour>());
     }
 
     [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
     private void SpawnServerRPC(NetworkObjectReference playerRef)
     {
         if (!playerRef.TryGet(out NetworkObject playerNet)) return;
-        PlayerCarry playerCarry = playerNet.GetComponent<PlayerCarry>();
-        if (playerCarry.isCarrying) return;
-
+        PlayerCarry carry = playerNet.GetComponent<PlayerCarry>();
+        if (carry == null || carry.isCarrying) return;
         GameObject instance = Instantiate(plate);
         NetworkObject netObj = instance.GetComponent<NetworkObject>();
         netObj.Spawn(true);
-        playerCarry.CarryObject(instance.GetComponent<PlateBehaviour>());
+        carry.CarryObject(instance.GetComponent<PlateBehaviour>());
     }
 }
