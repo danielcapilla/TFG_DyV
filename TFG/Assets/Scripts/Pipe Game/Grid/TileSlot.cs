@@ -2,14 +2,25 @@ using Unity.Netcode;
 using UnityEngine;
 
 /// <summary>
-/// Hueco de la cuadricula donde el jugador puede dejar una baldosa.
+/// Hueco de la cuadricula donde el jugador puede dejar una loseta (PipeTile).
+/// Busca automaticamente el PipeConnectionChecker en la escena al inicializar.
 /// </summary>
 public class TileSlot : InteractableObject, ICarryReceiver
 {
     private bool isOccupied = false;
     private ICarryObject placedTile = null;
 
+    private PipeConnectionChecker connectionChecker;
+
     [SerializeField] private Vector3 tileOffset = new Vector3(0, 0.05f, 0);
+
+    /// <summary>La PipeTile colocada en este slot, o null si esta vacio.</summary>
+    public PipeTile PlacedTile => placedTile?.GetGameObject()?.GetComponent<PipeTile>();
+
+    private void Awake()
+    {
+        connectionChecker = FindFirstObjectByType<PipeConnectionChecker>();
+    }
 
     // ── ICarryReceiver ────────────────────────────────────────────────────────
 
@@ -47,6 +58,7 @@ public class TileSlot : InteractableObject, ICarryReceiver
             carry.TryPickUp(placedTile);
             placedTile = null;
             isOccupied = false;
+            connectionChecker?.EvaluateCircuit();
         }
     }
 
@@ -67,14 +79,12 @@ public class TileSlot : InteractableObject, ICarryReceiver
 
         if (!isOccupied && carry.isCarrying)
         {
-            // Actualizar estado Netcode del objeto (desenparentar del jugador)
             NetworkObject tileNet = carry.carryingObject.GetNetworkObject();
             tileNet.TrySetParent((NetworkObject)null);
             PlaceTileClientRPC(playerRef, tileNet);
         }
         else if (isOccupied && !carry.isCarrying)
         {
-            // Actualizar estado Netcode (hacer hijo del jugador)
             NetworkObject tileNet = placedTile.GetNetworkObject();
             tileNet.TrySetParent(playerNet);
             PickUpFromSlotClientRPC(playerRef, tileNet);
@@ -88,10 +98,8 @@ public class TileSlot : InteractableObject, ICarryReceiver
         if (!tileRef.TryGet(out NetworkObject tileNet)) return;
         PlayerCarry carry = playerNet.GetComponent<PlayerCarry>();
 
-        // Soltar estado local del jugador
-        ICarryObject tile = carry.DropObject();
+        carry.DropObject();
 
-        // Colocar visualmente en el hueco en cada cliente
         PlayerCarry.SetParentSafe(tileNet.gameObject, transform);
         tileNet.transform.localPosition = tileOffset;
         tileNet.transform.localRotation = Quaternion.identity;
@@ -109,7 +117,6 @@ public class TileSlot : InteractableObject, ICarryReceiver
         ICarryObject tile = tileNet.GetComponent<ICarryObject>();
         if (tile == null) return;
 
-        // Coger visualmente en cada cliente
         carry.SetCarryingObject(tile);
         PlayerCarry.SetParentSafe(tileNet.gameObject, carry.GetCarryPosition());
         tileNet.transform.localPosition = Vector3.zero;
@@ -118,5 +125,39 @@ public class TileSlot : InteractableObject, ICarryReceiver
 
         placedTile = null;
         isOccupied = false;
+    }
+
+    // ── Gizmos ────────────────────────────────────────────────────────────────
+
+    private void OnDrawGizmos()
+    {
+        PipeTile tile = PlacedTile;
+        if (tile == null) return;
+
+        // Dibujar las aperturas de la loseta colocada
+        DrawOpeningGizmos(tile.Openings, transform.position + Vector3.up * 0.1f, 0.35f);
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        // Mostrar el slot aunque este vacio al seleccionarlo
+        Gizmos.color = new Color(1f, 1f, 0f, 0.3f);
+        Gizmos.DrawCube(transform.position + Vector3.up * 0.05f, new Vector3(0.9f, 0.05f, 0.9f));
+    }
+
+    internal static void DrawOpeningGizmos(TileDirection openings, Vector3 center, float size)
+    {
+        if ((openings & TileDirection.North) != 0) DrawArrow(center, Vector3.forward,  Color.blue, size);
+        if ((openings & TileDirection.South) != 0) DrawArrow(center, -Vector3.forward, Color.blue, size);
+        if ((openings & TileDirection.East)  != 0) DrawArrow(center, Vector3.right,    Color.blue, size);
+        if ((openings & TileDirection.West)  != 0) DrawArrow(center, -Vector3.right,   Color.blue, size);
+    }
+
+    private static void DrawArrow(Vector3 origin, Vector3 dir, Color color, float len)
+    {
+        Gizmos.color = color;
+        Vector3 end = origin + dir * len;
+        Gizmos.DrawLine(origin, end);
+        Gizmos.DrawSphere(end, 0.05f);
     }
 }

@@ -13,6 +13,7 @@ public class GridGenerator : MonoBehaviour
 
     [Header("Espaciado entre huecos")]
     [SerializeField] private float cellSize = 1.1f;
+    public float CellSize => cellSize;
 
     [Header("Prefab del hueco")]
     [SerializeField] private GameObject tileSlotPrefab;
@@ -59,6 +60,10 @@ public class GridGenerator : MonoBehaviour
         }
 
         Debug.Log($"GridGenerator: generada cuadricula {columns}x{rows}.");
+
+        // Notificar al checker para que reconstruya el mapa de slots
+        PipeConnectionChecker checker = FindFirstObjectByType<PipeConnectionChecker>();
+        checker?.BuildSlotMap();
     }
 
     // Genera la cuadricula automaticamente al entrar en Play si no tiene hijos

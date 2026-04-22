@@ -24,6 +24,10 @@ public class PlayerController : NetworkBehaviour
 
     private Vector3 lastMoveDirection = Vector3.forward;
 
+    [Header("Animacion")]
+    [SerializeField] private Animator animator;
+    private static readonly int IsWalkingHash = Animator.StringToHash("isWalking");
+
     private bool IsOffline => !NetworkManager.Singleton || !NetworkManager.Singleton.IsListening;
     private bool IsLocallyControlled => IsOffline || IsOwner;
 
@@ -47,6 +51,7 @@ public class PlayerController : NetworkBehaviour
         playerInput = GetComponent<PlayerInput>();
         playerInput.enabled = true;
         rb = GetComponent<Rigidbody>();
+        animator = GetComponentInChildren<Animator>();
         playerInput.actions["Interact"].performed += Interact;
 
         cam = Camera.main;
@@ -69,8 +74,12 @@ public class PlayerController : NetworkBehaviour
 
         // Actualizar ultima direccion de movimiento
         Vector3 moveDir = new Vector3(input.x, 0f, input.y);
-        if (moveDir.magnitude > 0.1f)
+        bool isMoving = moveDir.magnitude > 0.1f;
+        if (isMoving)
             lastMoveDirection = moveDir.normalized;
+
+        if (animator != null)
+            animator.SetBool(IsWalkingHash, isMoving);
 
         InteractableObject detected = DetectInteractable();
 
