@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
@@ -10,14 +10,14 @@ public class PlayerSpawner : NetworkBehaviour
 {
     [Header("Prefabs")]
     [SerializeField] private GameObject playerPrefab;
-    [SerializeField] private RestaurantBehaviour[] restaurantBehaviourArray;
+    [SerializeField] private GameSceneBehaviour[] restaurantBehaviourArray;
     [SerializeField] private ChooseGroup chooseGroup;
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
         if (IsServer)
         {
-            chooseGroup.OnPlayerReady += SpawnPlayerForClientRPC;
+            ChooseGroup.OnPlayerReady += SpawnPlayerForClientRPC;
 
             NetworkManager.Singleton.SceneManager.OnLoadEventCompleted += SceneLoadedCallback;
             NetworkManager.Singleton.SceneManager.OnUnload += SceneUnloadedCallback;
@@ -55,7 +55,7 @@ public class PlayerSpawner : NetworkBehaviour
         PlayerStats player = playerStatsNetworkObject.GetComponent<PlayerStats>();
         if (player.idGrupo.Value != -1)
         {
-            restaurantBehaviourArray[player.idGrupo.Value].RemovePosition(player.transform, player.OwnerClientId);
+            player.transform.SetParent(null, true); // RemovePosition: detach from slot
         }
     }
     [Rpc(SendTo.Everyone)]
@@ -63,7 +63,7 @@ public class PlayerSpawner : NetworkBehaviour
     {
         playerStatsNetworkObjectReference.TryGet(out NetworkObject playerStatsNetworkObject);
         PlayerStats player = playerStatsNetworkObject.GetComponent<PlayerStats>();
-        restaurantBehaviourArray[groupNumber].AddPosition(player.transform.GetChild(0), player.OwnerClientId);
+        { var slot = restaurantBehaviourArray[groupNumber].spawnPositions.Length > 0 ? restaurantBehaviourArray[groupNumber].spawnPositions[0] : restaurantBehaviourArray[groupNumber].transform; player.transform.GetChild(0).SetPositionAndRotation(slot.position, slot.rotation); }
     }
     private void SceneUnloadedCallback(ulong clientId, string sceneName, AsyncOperation asyncOperation)
     {
@@ -100,7 +100,7 @@ public class PlayerSpawner : NetworkBehaviour
     {
         base.OnNetworkDespawn();
         if(!IsServer)
-            chooseGroup.OnPlayerReady -= SpawnPlayerForClientRPC;
+            ChooseGroup.OnPlayerReady -= SpawnPlayerForClientRPC;
         else
         {
             NetworkManager.Singleton.SceneManager.OnLoadEventCompleted -= SceneLoadedCallback;

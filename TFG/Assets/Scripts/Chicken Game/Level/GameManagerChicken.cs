@@ -46,7 +46,7 @@ public class GameManagerChicken : NetworkBehaviour
         }
         if (IsServer)
         {
-            chooseGroup.OnGameStartEvent += StartGame;
+            ChooseGroup.OnGameStartEvent += StartGame;
             groupBehaviour.OnExecutedTurn += CalculatePunctuation;
             GridLevelGenerator.Instance.OnLevelGenerated += ActivateGroupPanelRPC;
 
@@ -84,7 +84,7 @@ public class GameManagerChicken : NetworkBehaviour
         base.OnNetworkDespawn();
         if (IsServer)
         {
-            chooseGroup.OnGameStartEvent -= StartGame;
+            ChooseGroup.OnGameStartEvent -= StartGame;
             groupBehaviour.OnExecutedTurn -= CalculatePunctuation;
             GridLevelGenerator.Instance.OnLevelGenerated -= ActivateGroupPanelRPC;
         }

@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class PowerUpManager : NetworkBehaviour
 {
-    [Header("Configuración")]
+    [Header("Configuraciï¿½n")]
     [SerializeField] private GameObject[] powerUpPrefabs; 
     [SerializeField] private float spawnInterval = 10f; 
     [SerializeField] private int maxActivePowerUps = 3; 
@@ -33,7 +33,7 @@ public class PowerUpManager : NetworkBehaviour
             return;
         }
         Instance = this;
-        chooseGroup.OnGameStartEvent += OnLevelGenerated;
+        ChooseGroup.OnGameStartEvent += OnLevelGenerated;
 
     }
 
@@ -48,7 +48,7 @@ public class PowerUpManager : NetworkBehaviour
         base.OnNetworkDespawn();
 
         if (!IsServer) return;
-        chooseGroup.OnGameStartEvent -= OnLevelGenerated;
+        ChooseGroup.OnGameStartEvent -= OnLevelGenerated;
         StopSpawning();
     }
 

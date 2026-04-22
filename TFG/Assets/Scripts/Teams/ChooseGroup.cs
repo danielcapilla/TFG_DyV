@@ -21,6 +21,7 @@ public class ChooseGroup : NetworkBehaviour
 
     private Dictionary<ulong, bool> playerReadyDictionary;
     private int selectedGroup = -1;
+    private bool gameStarted = false; // evita doble disparo de OnPlayerReady
     private List<Button> groupButtons = new List<Button>();
 
     private bool IsOffline => !NetworkManager.Singleton || !NetworkManager.Singleton.IsListening;
@@ -71,6 +72,7 @@ public class ChooseGroup : NetworkBehaviour
         yield return new WaitUntil(() => TeamMenager.Instance != null);
 
         playerReadyDictionary = new Dictionary<ulong, bool>();
+        gameStarted = false;
         // El host es observador — excluirlo de los jugadores
         connectedPlayers = NetworkManager.Singleton.ConnectedClientsIds
             .Where(id => id != OwnerClientId).ToList();
@@ -192,10 +194,9 @@ public class ChooseGroup : NetworkBehaviour
         }
         else
         {
-            // Limpiar el diccionario inmediatamente para evitar que una segunda llamada
-            // residual vuelva a disparar el evento
-            // Copiar para el spawn pero NO limpiar connectedPlayers —
-            // otros sistemas (GameManagerRestaurant) la necesitan en OnGameStartEvent
+            if (gameStarted) return; // guard absoluto contra doble disparo
+            gameStarted = true;
+
             var toSpawn = new System.Collections.Generic.List<ulong>(connectedPlayers);
             playerReadyDictionary.Clear();
 

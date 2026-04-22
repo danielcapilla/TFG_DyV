@@ -58,8 +58,14 @@ public class RecipeRandomizer : NetworkBehaviour
 
     private void SetRandomSeed(int current, int newValue)
     {
-        randomSeed.Value = newValue;
-        Random.InitState(randomSeed.Value);
+        Random.InitState(newValue);
+        if (!IsServer)
+        {
+            RandomizeIngredients();
+            GenerateRandomRecipes();
+            commandSpawner.SpawnRecipes(recipes, pairedIngredients);
+            GenerateRandomOrder();
+        }
     }
 
     public void RandomizeIngredients()
