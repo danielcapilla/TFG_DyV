@@ -16,7 +16,7 @@ public class TurnTimer : NetworkBehaviour
     [Header("Referencias")]
     //[SerializeField] private TextMeshProUGUI timerText;
     [SerializeField] private Slider timerSlider;
-    [SerializeField] private TeamMenager teamMenager;
+    [SerializeField] private TeamManager teamMenager;
     [SerializeField] private GameManagerChicken gameManagerChicken;
     [SerializeField] private GroupBehaviour groupBehaviour;
     [SerializeField] private MovementPanelBehaviour panelBehaviour;

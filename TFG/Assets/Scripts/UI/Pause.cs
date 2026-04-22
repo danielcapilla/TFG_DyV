@@ -15,7 +15,7 @@ public class Pause : NetworkBehaviour
     [SerializeField]
     private GameObject pauseMenuCanvas;
     [SerializeField]
-    private TeamMenager teamMenager;
+    private TeamManager teamMenager;
     [SerializeField]
     private GameObject pausePanel;
 

@@ -525,10 +525,10 @@ public class DataBaseCommander : MonoBehaviour
 
         // Grupos (Lista de Players y pos del grupo)
         var groups = new List<GridJSONCreator.GroupsEndSnapshot>();
-        var tm = TeamMenager.Instance;
+        var tm = TeamManager.Instance;
         if (tm == null || tm.teams == null)
         {
-            Debug.LogWarning("[DB] TeamMenager.Instance no disponible; no se pueden agrupar jugadores.");
+            Debug.LogWarning("[DB] TeamManager.Instance no disponible; no se pueden agrupar jugadores.");
             callback?.Invoke(1);
             return;
         }

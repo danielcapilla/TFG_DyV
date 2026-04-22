@@ -25,7 +25,7 @@ public class ChooseGroup : NetworkBehaviour
     private List<Button> groupButtons = new List<Button>();
 
     private bool IsOffline => !NetworkManager.Singleton || !NetworkManager.Singleton.IsListening;
-    private TeamMenager teamManager => TeamMenager.Instance;
+    private TeamManager teamManager => TeamManager.Instance;
 
     // ── Offline ───────────────────────────────────────────────────────────────
 
@@ -56,7 +56,7 @@ public class ChooseGroup : NetworkBehaviour
 
         if (IsServer)
         {
-            // Esperar a que TeamMenager.Instance este disponible antes de usarlo
+            // Esperar a que TeamManager.Instance este disponible antes de usarlo
             StartCoroutine(InitServerDelayed());
         }
         else
@@ -68,8 +68,8 @@ public class ChooseGroup : NetworkBehaviour
 
     private IEnumerator InitServerDelayed()
     {
-        // Esperar hasta que TeamMenager.Instance este listo
-        yield return new WaitUntil(() => TeamMenager.Instance != null);
+        // Esperar hasta que TeamManager.Instance este listo
+        yield return new WaitUntil(() => TeamManager.Instance != null);
 
         playerReadyDictionary = new Dictionary<ulong, bool>();
         gameStarted = false;

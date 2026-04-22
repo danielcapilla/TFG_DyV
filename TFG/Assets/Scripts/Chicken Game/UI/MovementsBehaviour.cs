@@ -14,7 +14,7 @@ public class MovementsBehaviour : NetworkBehaviour
     [SerializeField] private GameObject Movement;
     [SerializeField] private GameObject HorizontalLayout;
     [SerializeField] private GroupBehaviour groupBehaviour;
-    [SerializeField] private TeamMenager teamMenager;
+    [SerializeField] private TeamManager teamMenager;
 
     public override void OnNetworkSpawn()
     {

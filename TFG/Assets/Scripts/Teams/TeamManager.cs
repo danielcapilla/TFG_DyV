@@ -7,7 +7,7 @@ using UnityEngine;
 /// totalTeams y maxplayersPerTeam se configuran en el inspector
 /// y ChooseGroup los lee para generar la UI dinamicamente.
 /// </summary>
-public class TeamMenager : NetworkBehaviour
+public class TeamManager : NetworkBehaviour
 {
     [Header("Configuracion de equipos")]
     public int totalTeams = 6;
@@ -20,7 +20,7 @@ public class TeamMenager : NetworkBehaviour
     public List<TeamInfo> teams = new List<TeamInfo>();
     public List<TeamInfo> teamsScoreSorted { get; private set; }
 
-    public static TeamMenager Instance { get; private set; }
+    public static TeamManager Instance { get; private set; }
 
     private bool IsOffline => !NetworkManager.Singleton || !NetworkManager.Singleton.IsListening;
 

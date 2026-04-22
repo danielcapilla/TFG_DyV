@@ -15223,7 +15223,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levv: {fileID: 493907723}
   statisticPanel: {fileID: 6007575129550788211, guid: 0dcbed02fa1636c48a748aeb7aac6fcb, type: 3}
-  teamManager: {fileID: 1645041031}
+  teamManager: {fileID: 0}
   hamburger: {fileID: 1888269183}
 --- !u!114 &484440625
 MonoBehaviour:
@@ -15237,7 +15237,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: feeef1693275c6146b03529d0aadf2db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  teamManager: {fileID: 1645041031}
+  teamManager: {fileID: 0}
   hamburgerOrder: {fileID: 1693974319}
   ingridientTarjetita: {fileID: 7628038042188016586, guid: 32141ec1ffa4d7a44ba70fb156f0da32, type: 3}
 --- !u!1 &490896974
@@ -28967,7 +28967,7 @@ MonoBehaviour:
   orderCanvas: {fileID: 760264691}
   hostCanvas: {fileID: 1866267646}
   cameraSelector: {fileID: 1822124153}
-  teamManager: {fileID: 1645041031}
+  teamManager: {fileID: 0}
   scoreText: {fileID: 490896976}
   recipeRandomizer: {fileID: 1196646254}
 --- !u!1 &839104516
@@ -30822,7 +30822,7 @@ Transform:
   m_GameObject: {fileID: 889409465}
   serializedVersion: 2
   m_LocalRotation: {x: 0.32804236, y: 0.00020113842, z: -0.000048066897, w: 0.944663}
-  m_LocalPosition: {x: 332.5, y: 10.5, z: -8.1}
+  m_LocalPosition: {x: 444.6, y: 10.5, z: -8.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -32810,7 +32810,7 @@ MonoBehaviour:
   endPos: {fileID: 1315322628}
   placePosition: {fileID: 576039522}
   time: 2
-  teamMenager: {fileID: 1645041031}
+  teamMenager: {fileID: 0}
   scoreText: {fileID: 490896976}
   statisticsBehaviour: {fileID: 484440624}
   ScoreSound: {fileID: 1615974902}
@@ -32961,7 +32961,7 @@ MonoBehaviour:
   endPos: {fileID: 1742982681}
   placePosition: {fileID: 1102007086}
   time: 2
-  teamMenager: {fileID: 1645041031}
+  teamMenager: {fileID: 0}
   scoreText: {fileID: 490896976}
   statisticsBehaviour: {fileID: 484440624}
   ScoreSound: {fileID: 1615974902}
@@ -40141,7 +40141,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   recipe: {fileID: 1196646254}
-  teamMenager: {fileID: 1645041031}
+  teamMenager: {fileID: 0}
   dataBaseCommander: {fileID: 1093527942}
 --- !u!4 &1093527941
 Transform:
@@ -55587,7 +55587,7 @@ MonoBehaviour:
   endPos: {fileID: 771612690}
   placePosition: {fileID: 1657023578}
   time: 2
-  teamMenager: {fileID: 1645041031}
+  teamMenager: {fileID: 0}
   scoreText: {fileID: 490896976}
   statisticsBehaviour: {fileID: 484440624}
   ScoreSound: {fileID: 1615974902}
@@ -61002,17 +61002,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 4, y: 0.5000001, z: 4}
   m_Center: {x: 0, y: 0.24999999, z: 0}
---- !u!114 &1645041031 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5058536776280689271, guid: a8dc0d00ad17eb048bd6361b721166f3, type: 3}
-  m_PrefabInstance: {fileID: 2785989672198913831}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c8ae2f89e7bc89c48a67cbef37eb1c9b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1645107398
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -69698,7 +69687,7 @@ MonoBehaviour:
   resumeButton: {fileID: 2095954511}
   exitButton: {fileID: 1868661344}
   pauseMenuCanvas: {fileID: 471294224}
-  teamMenager: {fileID: 1645041031}
+  teamMenager: {fileID: 0}
   pausePanel: {fileID: 758026067}
 --- !u!1 &1868661342
 GameObject:
@@ -75848,7 +75837,7 @@ MonoBehaviour:
   endPos: {fileID: 773841741}
   placePosition: {fileID: 1168695733}
   time: 2
-  teamMenager: {fileID: 1645041031}
+  teamMenager: {fileID: 0}
   scoreText: {fileID: 490896976}
   statisticsBehaviour: {fileID: 484440624}
   ScoreSound: {fileID: 1615974902}
@@ -76197,7 +76186,7 @@ MonoBehaviour:
   endPos: {fileID: 1641386481}
   placePosition: {fileID: 1303667713}
   time: 2
-  teamMenager: {fileID: 1645041031}
+  teamMenager: {fileID: 0}
   scoreText: {fileID: 490896976}
   statisticsBehaviour: {fileID: 484440624}
   ScoreSound: {fileID: 1615974902}
@@ -80514,7 +80503,7 @@ MonoBehaviour:
   endPos: {fileID: 1424923609}
   placePosition: {fileID: 1450882771}
   time: 2
-  teamMenager: {fileID: 1645041031}
+  teamMenager: {fileID: 0}
   scoreText: {fileID: 490896976}
   statisticsBehaviour: {fileID: 484440624}
   ScoreSound: {fileID: 1615974902}
@@ -82041,9 +82030,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5058536776280689271, guid: a8dc0d00ad17eb048bd6361b721166f3, type: 3}
-      propertyPath: minPlayersPerTeam
-      value: 0
-      objectReference: {fileID: 0}
+      propertyPath: teamType
+      value: 
+      objectReference: {fileID: 11400000, guid: 0bbaf5999cd93284684d5246a83477f9, type: 2}
     - target: {fileID: 5375117866281707993, guid: a8dc0d00ad17eb048bd6361b721166f3, type: 3}
       propertyPath: m_Name
       value: TeamSelectorCanvas
@@ -82070,10 +82059,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6783052929986343086, guid: a8dc0d00ad17eb048bd6361b721166f3, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 339349952}
-    - target: {fileID: 6783052929986343086, guid: a8dc0d00ad17eb048bd6361b721166f3, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 339349952}
     - target: {fileID: 6783052929986343086, guid: a8dc0d00ad17eb048bd6361b721166f3, type: 3}
@@ -82169,27 +82154,31 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8496145578023469572, guid: a8dc0d00ad17eb048bd6361b721166f3, type: 3}
-      propertyPath: 'sceneBehaviours.Array.data[0]'
+      propertyPath: gameSceneBehaviourArray.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8496145578023469572, guid: a8dc0d00ad17eb048bd6361b721166f3, type: 3}
+      propertyPath: 'gameSceneBehaviourArray.Array.data[0]'
       value: 
       objectReference: {fileID: 1936878416}
     - target: {fileID: 8496145578023469572, guid: a8dc0d00ad17eb048bd6361b721166f3, type: 3}
-      propertyPath: 'sceneBehaviours.Array.data[1]'
+      propertyPath: 'gameSceneBehaviourArray.Array.data[1]'
       value: 
       objectReference: {fileID: 258274280}
     - target: {fileID: 8496145578023469572, guid: a8dc0d00ad17eb048bd6361b721166f3, type: 3}
-      propertyPath: 'sceneBehaviours.Array.data[2]'
+      propertyPath: 'gameSceneBehaviourArray.Array.data[2]'
       value: 
       objectReference: {fileID: 1123441727}
     - target: {fileID: 8496145578023469572, guid: a8dc0d00ad17eb048bd6361b721166f3, type: 3}
-      propertyPath: 'sceneBehaviours.Array.data[3]'
+      propertyPath: 'gameSceneBehaviourArray.Array.data[3]'
       value: 
       objectReference: {fileID: 819495887}
     - target: {fileID: 8496145578023469572, guid: a8dc0d00ad17eb048bd6361b721166f3, type: 3}
-      propertyPath: 'sceneBehaviours.Array.data[4]'
+      propertyPath: 'gameSceneBehaviourArray.Array.data[4]'
       value: 
       objectReference: {fileID: 581413797}
     - target: {fileID: 8496145578023469572, guid: a8dc0d00ad17eb048bd6361b721166f3, type: 3}
-      propertyPath: 'sceneBehaviours.Array.data[5]'
+      propertyPath: 'gameSceneBehaviourArray.Array.data[5]'
       value: 
       objectReference: {fileID: 1930102542}
     - target: {fileID: 8736462013678524737, guid: a8dc0d00ad17eb048bd6361b721166f3, type: 3}

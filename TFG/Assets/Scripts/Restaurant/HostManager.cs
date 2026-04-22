@@ -15,7 +15,7 @@ public class HostManager : NetworkBehaviour
     [SerializeField]
     private CameraSelector cameraSelector;
     [SerializeField]
-    private TeamMenager teamManager;
+    private TeamManager teamManager;
     [SerializeField]
     private TextMeshProUGUI scoreText;
     [SerializeField]

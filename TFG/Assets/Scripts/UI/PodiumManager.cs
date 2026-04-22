@@ -13,7 +13,7 @@ using UnityEngine.UI;
 
 public class PodiumManager : NetworkBehaviour
 {
-    private TeamMenager teamManager;
+    private TeamManager teamManager;
     private LateJoinsBehaviour lateJoinsBehaviour;
     [SerializeField]
     private GameObject podium;
@@ -29,7 +29,7 @@ public class PodiumManager : NetworkBehaviour
         lobbyButton.SetActive(IsServer);
         if (!IsServer) return;
         NetworkManager.Singleton.SceneManager.OnUnload += UnSceceLoaded;
-        teamManager = FindFirstObjectByType<TeamMenager>();
+        teamManager = FindFirstObjectByType<TeamManager>();
         lateJoinsBehaviour = FindFirstObjectByType<LateJoinsBehaviour>();
 
         ShowPodium();

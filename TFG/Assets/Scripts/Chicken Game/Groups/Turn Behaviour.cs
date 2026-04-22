@@ -14,7 +14,7 @@ public class TurnBehaviour : NetworkBehaviour
     [SerializeField] private ChooseGroup chooseGroup;
     [SerializeField] private GameManagerChicken gameManager;
     [SerializeField] private TurnTimer turnTimer;
-    [SerializeField] private TeamMenager teamMenager;
+    [SerializeField] private TeamManager teamMenager;
 
     private Tween activateDelayTween;
 

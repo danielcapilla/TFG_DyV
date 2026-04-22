@@ -20,7 +20,7 @@ public class StatisticsBehaviour : MonoBehaviour
     [SerializeField]
     private GameObject statisticPanel;
     [SerializeField]
-    private TeamMenager teamManager;
+    private TeamManager teamManager;
     private LocalizeStringEvent localizeStringEvent;
     [SerializeField]
     private GameObject hamburger;

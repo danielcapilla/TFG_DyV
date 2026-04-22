@@ -8,7 +8,7 @@ public class RestaurantManager : NetworkBehaviour
     [SerializeField]
     private RecipeRandomizer recipe;
     [SerializeField]
-    private TeamMenager teamMenager;
+    private TeamManager teamMenager;
     [SerializeField]
     private DataBaseCommander dataBaseCommander;
     private string studentClassCode = "A";

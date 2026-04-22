@@ -38,7 +38,7 @@ public class SpeedUpPowerUp : PowerUp
         isPickedUp.Value = true;
 
         int pickerGroupId = NetworkManager.Singleton.ConnectedClients[playerClientId].PlayerObject.GetComponent<PlayerStats>().idGrupo.Value;
-        TeamMenager teamManager = FindFirstObjectByType<TeamMenager>();;
+        TeamManager teamManager = FindFirstObjectByType<TeamManager>();;
         if (teamManager != null)
         {          
             // Notificamos al que lo recogio

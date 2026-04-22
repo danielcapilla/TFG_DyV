@@ -70,7 +70,7 @@ public class PlayerInputController : NetworkBehaviour
 
     private void ActivateIdentificators(NetworkObjectReference playerNOR, int idGroup)
     {
-        TeamInfo teamInfo = TeamMenager.Instance.teams[GetComponentInParent<PlayerStats>().idGrupo.Value];
+        TeamInfo teamInfo = TeamManager.Instance.teams[GetComponentInParent<PlayerStats>().idGrupo.Value];
         ulong[] targetClients = teamInfo.integrantes.ToArray();
 
         if (IsOffline)

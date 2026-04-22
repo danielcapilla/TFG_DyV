@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class HamburgerOrderScript : MonoBehaviour
 {
     [SerializeField]
-    private TeamMenager teamManager;
+    private TeamManager teamManager;
     private Button previousButton;
     [SerializeField]
     private GameObject hamburgerOrder;

@@ -12,7 +12,7 @@ public class DeliveryStation : InteractableObject
     [SerializeField] Transform placePosition;
     [SerializeField] float time;
     ICarryObject holdingObject;
-    [SerializeField] TeamMenager teamMenager;
+    [SerializeField] TeamManager teamMenager;
     [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private StatisticsBehaviour statisticsBehaviour;
     [SerializeField] AudioSource ScoreSound;

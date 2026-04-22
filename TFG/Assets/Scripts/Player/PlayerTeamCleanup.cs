@@ -7,13 +7,13 @@ using UnityEngine;
 /// </summary>
 public class PlayerTeamCleanup : NetworkBehaviour
 {
-    private TeamMenager teamManager;
+    private TeamManager teamManager;
 
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
         var tm = GameObject.Find("TeamManager");
-        if (tm != null) teamManager = tm.GetComponent<TeamMenager>();
+        if (tm != null) teamManager = tm.GetComponent<TeamManager>();
     }
 
     public override void OnNetworkDespawn()

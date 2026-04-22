@@ -9,7 +9,7 @@ public class ChooseGroupChicken : NetworkBehaviour
 {
 
     [Header("Referencias")]
-    [SerializeField] public TeamMenager teamManager;
+    [SerializeField] public TeamManager teamManager;
     [SerializeField] private Button readyButton;
     [SerializeField] private GameObject groupCanvas;
     //[SerializeField] private Countdown countdown;

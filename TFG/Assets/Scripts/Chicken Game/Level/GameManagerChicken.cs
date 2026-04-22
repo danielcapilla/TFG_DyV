@@ -22,7 +22,7 @@ public class GameManagerChicken : NetworkBehaviour
     [SerializeField] private AudioSource collisionSound;
 
     [Header("Equipos")]
-    [SerializeField] private TeamMenager teamMenager;
+    [SerializeField] private TeamManager teamMenager;
     [Header("UI")]
     [SerializeField] private GameObject movementPanel;
     [SerializeField] private GameObject movementPanelToggle;

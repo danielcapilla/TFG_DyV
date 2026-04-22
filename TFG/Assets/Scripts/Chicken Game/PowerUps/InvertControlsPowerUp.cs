@@ -34,7 +34,7 @@ public class InvertControlsPowerUp : PowerUp
         if (isPickedUp.Value) return;
         isPickedUp.Value = true;
         int pickerGroupId = NetworkManager.Singleton.ConnectedClients[playerClientId].PlayerObject.GetComponent<PlayerStats>().idGrupo.Value;
-        TeamMenager teamManager = FindFirstObjectByType<TeamMenager>();
+        TeamManager teamManager = FindFirstObjectByType<TeamManager>();
         if (teamManager != null)
         {
             // Afectar a los demas grupos no a mi

@@ -8,7 +8,7 @@ public class GroupBehaviour : NetworkBehaviour
 {
     private PlayerInputController player;
     [Header("Referencias")]
-    [SerializeField] private TeamMenager teamMenager;
+    [SerializeField] private TeamManager teamMenager;
     [SerializeField] private GameManagerChicken gameManager;
     [SerializeField] private ChooseGroup chooseGroup;
 

@@ -46,7 +46,7 @@ public class PlayerGenerator : NetworkBehaviour
     private void SpawnPlayerForClientRPC(ulong clientId)
     {
         int idGrupo = NetworkManager.Singleton.ConnectedClients[clientId].PlayerObject.GetComponent<PlayerStats>().idGrupo.Value;
-        TeamInfoChicken teamInfo = (TeamInfoChicken)TeamMenager.Instance.teams[idGrupo];
+        TeamInfoChicken teamInfo = (TeamInfoChicken)TeamManager.Instance.teams[idGrupo];
 
         // Si el player ya fue spawneado, no hacer nada (solo 1 por cada grupo)
         if (teamInfo.spawnedPlayer) return;
