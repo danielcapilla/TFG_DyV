@@ -1,0 +1,1 @@
+public interface IRotatableObject { void Rotate90(); }

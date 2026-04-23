@@ -34,9 +34,12 @@ public class TileSlot : InteractableObject, ICarryReceiver
         if (!CanReceive(carryObject, carrier)) return false;
         placedTile = carryObject;
         isOccupied = true;
+        // Leer la rotacion del PipeTile (multiplo de 90) e ignorar la rotacion del jugador
+        PipeTile pipeTile = carryObject.GetGameObject().GetComponent<PipeTile>();
+        int snapDeg = pipeTile != null ? pipeTile.CurrentRotation : 0;
         PlayerCarry.SetParentSafe(carryObject.GetGameObject(), transform);
         carryObject.GetGameObject().transform.localPosition = tileOffset;
-        carryObject.GetGameObject().transform.localRotation = Quaternion.identity;
+        carryObject.GetGameObject().transform.localRotation = Quaternion.Euler(0, snapDeg, 0);
         return true;
     }
 
@@ -100,9 +103,11 @@ public class TileSlot : InteractableObject, ICarryReceiver
 
         carry.DropObject();
 
+        PipeTile pipeTile = tileNet.GetComponent<PipeTile>();
+        int snapDeg = pipeTile != null ? pipeTile.CurrentRotation : 0;
         PlayerCarry.SetParentSafe(tileNet.gameObject, transform);
         tileNet.transform.localPosition = tileOffset;
-        tileNet.transform.localRotation = Quaternion.identity;
+        tileNet.transform.localRotation = Quaternion.Euler(0, snapDeg, 0);
 
         placedTile = tileNet.GetComponent<ICarryObject>();
         isOccupied = true;

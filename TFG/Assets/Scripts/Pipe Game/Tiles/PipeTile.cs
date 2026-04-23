@@ -1,35 +1,47 @@
 using Unity.Netcode;
 using UnityEngine;
 
-/// <summary>
-/// Loseta de tuberia con forma configurable.
-/// Implementa ICarryObject para poder cogerse y colocarse en TileSlots.
-/// TilePickup en el mismo GameObject permite cogerla del suelo.
-/// </summary>
 [RequireComponent(typeof(NetworkObject))]
-public class PipeTile : NetworkBehaviour, ICarryObject
+public class PipeTile : NetworkBehaviour, ICarryObject, IRotatableObject
 {
     [Header("Forma")]
     [SerializeField] private TileShapeType shapeType = TileShapeType.Straight;
 
+    // Rotacion en online (sincronizada)
     private NetworkVariable<int> rotationDegrees = new NetworkVariable<int>(
         0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+
+    // Rotacion en offline (local)
+    private int offlineRotation = 0;
+
+    private bool IsOffline => !NetworkManager.Singleton || !NetworkManager.Singleton.IsListening;
+    private bool isBeingCarried = false;
 
     // ── ICarryObject ──────────────────────────────────────────────────────────
     public string CarryType => "tile";
     public bool CanBePickedUp => true;
     public NetworkObject GetNetworkObject() => NetworkObject;
     public GameObject GetGameObject() => gameObject;
-    public void OnPickedUp(PlayerCarry carrier) { }
-    public void OnDelivered(ICarryReceiver receiver) { }
-    public void OnRejected(ICarryReceiver receiver) { }
+    public void OnPickedUp(PlayerCarry carrier) { isBeingCarried = true; }
+    public void OnDelivered(ICarryReceiver receiver) { isBeingCarried = false; }
+    public void OnRejected(ICarryReceiver receiver) { isBeingCarried = false; }
 
     // ── Aperturas ─────────────────────────────────────────────────────────────
 
     public TileShapeType ShapeType => shapeType;
 
+    public int CurrentRotation => IsOffline ? offlineRotation : rotationDegrees.Value;
+
+    private void LateUpdate()
+    {
+        // Mientras es transportado, mantener la rotacion mundial alineada
+        // al multiplo de 90 almacenado, ignorando la rotacion del jugador
+        if (!isBeingCarried) return;
+        transform.rotation = Quaternion.Euler(0, CurrentRotation, 0);
+    }
+
     public TileDirection Openings =>
-        TileShapeData.Rotate(TileShapeData.GetOpenings(shapeType), rotationDegrees.Value);
+        TileShapeData.Rotate(TileShapeData.GetOpenings(shapeType), CurrentRotation);
 
     public bool HasOpening(TileDirection dir) => (Openings & dir) != 0;
 
@@ -50,16 +62,26 @@ public class PipeTile : NetworkBehaviour, ICarryObject
 
     private void OnRotationChanged(int prev, int next) => ApplyRotationVisual(next);
 
-    private void ApplyRotationVisual(int deg) =>
+    private void ApplyRotationVisual(int deg)
+    {
         transform.localRotation = Quaternion.Euler(0, deg, 0);
+    }
 
     public void Rotate90()
     {
-        int next = (rotationDegrees.Value + 90) % 360;
-        if (IsServer || !NetworkObject.IsSpawned)
-            rotationDegrees.Value = next;
+        if (IsOffline)
+        {
+            offlineRotation = (offlineRotation + 90) % 360;
+            ApplyRotationVisual(offlineRotation);
+        }
+        else if (IsServer)
+        {
+            rotationDegrees.Value = (rotationDegrees.Value + 90) % 360;
+        }
         else
+        {
             RotateServerRpc();
+        }
     }
 
     [Rpc(SendTo.Server)]
@@ -70,7 +92,6 @@ public class PipeTile : NetworkBehaviour, ICarryObject
 
     private void OnDrawGizmos()
     {
-        // Calcular aperturas con la rotacion actual del transform (en editor puede no estar sincronizado)
         int deg = Mathf.RoundToInt(transform.eulerAngles.y / 90f) * 90;
         TileDirection openings = TileShapeData.Rotate(TileShapeData.GetOpenings(shapeType), deg);
         TileSlot.DrawOpeningGizmos(openings, transform.position + Vector3.up * 0.15f, 0.4f);
