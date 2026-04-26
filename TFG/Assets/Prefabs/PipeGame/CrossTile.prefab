@@ -166,6 +166,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   shapeType: 3
+  lockedMaterial: {fileID: 2100000, guid: 30d0b678ea379be499af287e8b4edc7a, type: 2}
 --- !u!1 &8394734565853470632
 GameObject:
   m_ObjectHideFlags: 0

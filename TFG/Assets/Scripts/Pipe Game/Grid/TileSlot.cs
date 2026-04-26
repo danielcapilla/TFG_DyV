@@ -17,10 +17,13 @@ public class TileSlot : InteractableObject, ICarryReceiver
         connectionChecker = FindFirstObjectByType<PipeConnectionChecker>();
     }
 
+
     public override bool CanInteract(GameObject player)
     {
         PlayerCarry carry = player.GetComponent<PlayerCarry>();
         if (carry == null) return false;
+        // Tile bloqueada: no se puede coger
+        if (isOccupied && PlacedTile != null && PlacedTile.IsLocked) return false;
         // Interactuable si: el slot tiene tile (para cogerla) O el jugador lleva tile (para colocarla)
         return isOccupied || (carry.isCarrying && carry.carryingObject?.CarryType == "tile");
     }
@@ -62,7 +65,6 @@ public class TileSlot : InteractableObject, ICarryReceiver
         PipeTile pt = carryObject.GetGameObject().GetComponent<PipeTile>();
         int snapDeg = pt != null ? pt.CurrentRotation : 0;
         carryObject.GetGameObject().transform.localRotation = Quaternion.Euler(0, snapDeg, 0);
-        connectionChecker?.EvaluateCircuit();
         return true;
     }
 
@@ -84,8 +86,7 @@ public class TileSlot : InteractableObject, ICarryReceiver
             Clear();
             PlayerCarry.SetParentSafe(tile.GetGameObject(), null);
             carry.TryPickUp(tile);
-            connectionChecker?.EvaluateCircuit();
-        }
+            }
     }
 
     // ── Online ────────────────────────────────────────────────────────────────
@@ -131,7 +132,6 @@ public class TileSlot : InteractableObject, ICarryReceiver
         tileNet.transform.localRotation = Quaternion.Euler(0, snapDeg, 0);
         placedTile = tileNet.GetComponent<ICarryObject>();
         isOccupied = true;
-        connectionChecker?.EvaluateCircuit();
     }
 
     [ClientRpc]
@@ -149,13 +149,13 @@ public class TileSlot : InteractableObject, ICarryReceiver
         tile.OnPickedUp(carry);
         placedTile = null;
         isOccupied = false;
-        connectionChecker?.EvaluateCircuit();
     }
 
     // ── Gizmos ────────────────────────────────────────────────────────────────
 
     private void OnDrawGizmos()
     {
+        if (placedTile == null) return;
         PipeTile tile = PlacedTile;
         if (tile == null) return;
         DrawOpeningGizmos(tile.Openings, transform.position + Vector3.up * 0.1f, 0.35f);

@@ -33,8 +33,11 @@ public class PipeConnectionChecker : NetworkBehaviour
         // Solo necesario para compatibilidad — la matriz ya la tiene GridGenerator
     }
 
+    public bool SuppressEvaluate { get; set; } = false;
+
     public void EvaluateCircuit()
     {
+        if (SuppressEvaluate) return;
         if (!IsOffline && !IsServer) return;
         if (generator == null || receiver == null || grid == null || grid.Slots == null)
         {

@@ -7,6 +7,12 @@ public class PipeTile : NetworkBehaviour, ICarryObject, IRotatableObject
     [Header("Forma")]
     [SerializeField] private TileShapeType shapeType = TileShapeType.Straight;
 
+    [Header("Bloqueo")]
+    [SerializeField] private Material lockedMaterial;
+    private Material originalMaterial;
+    private Renderer tileRenderer;
+    public bool IsLocked { get; private set; }
+
     // Rotacion en online (sincronizada)
     private NetworkVariable<int> rotationDegrees = new NetworkVariable<int>(
         0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
@@ -15,9 +21,25 @@ public class PipeTile : NetworkBehaviour, ICarryObject, IRotatableObject
     private int offlineRotation = 0;
 
     private bool IsOffline => !NetworkManager.Singleton || !NetworkManager.Singleton.IsListening;
+
+    private void Awake()
+    {
+        tileRenderer = GetComponentInChildren<Renderer>();
+        if (tileRenderer != null) originalMaterial = tileRenderer.sharedMaterial;
+    }
     private bool isBeingCarried = false;
     public TileSlot CurrentSlot { get; private set; }
     public void SetCurrentSlot(TileSlot slot) => CurrentSlot = slot;
+
+    public void SetLocked(bool locked)
+    {
+        IsLocked = locked;
+        if (tileRenderer == null) return;
+        if (locked && lockedMaterial != null)
+            tileRenderer.material = lockedMaterial;
+        else if (!locked && originalMaterial != null)
+            tileRenderer.material = originalMaterial;
+    }
 
     // ── ICarryObject ──────────────────────────────────────────────────────────
     public string CarryType => "tile";
@@ -80,7 +102,9 @@ public class PipeTile : NetworkBehaviour, ICarryObject, IRotatableObject
 
     public void Rotate90()
     {
-        if (IsOffline)
+        // Si no esta spawneado (instanciado por el filler antes de que Netcode lo registre)
+        // o estamos en offline, usar siempre el campo local
+        if (IsOffline || !NetworkObject.IsSpawned)
         {
             offlineRotation = (offlineRotation + 90) % 360;
             ApplyRotationVisual(offlineRotation);

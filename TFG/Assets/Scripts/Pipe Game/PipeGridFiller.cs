@@ -1,3 +1,4 @@
+using Unity.Netcode;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,65 +14,76 @@ public class PipeGridFiller : MonoBehaviour
 
     [Header("Configuracion")]
     [SerializeField] private int seed = 0;
-    [SerializeField] private bool randomSeed = true;
-    [SerializeField][Range(0.0f, 0.8f)] private float gapRatio = 0.35f;
-    [SerializeField][Range(0, 10)]      private int extraTiles  = 3;
+    [SerializeField] private bool useRandomSeed = true;
+    [SerializeField][Range(0.1f, 0.8f)] private float gapRatio  = 0.35f;
+    [SerializeField][Range(0f,   1f)]   private float lockRatio = 0.4f;
+    [SerializeField][Range(0, 10)]      private int   extraTiles = 3;
 
     private GridGenerator grid;
     private List<GameObject> spawned = new List<GameObject>();
     private PipeGenerator spawnedGenerator;
     private PipeReceiver  spawnedReceiver;
 
-    private void Awake() => grid = GetComponent<GridGenerator>();
-    private void Start() => Fill();
+    private bool IsOffline => !NetworkManager.Singleton || !NetworkManager.Singleton.IsListening;
 
-    public void Fill()
+    private void Awake() => grid = GetComponent<GridGenerator>();
+
+    private void Start()
+    {
+        if (IsOffline) Fill();
+        // Online: PipeSeedSync se encarga de llamar Fill con el seed correcto
+    }
+
+
+
+    public int GetSeed() => useRandomSeed ? Random.Range(1, 999999) : seed;
+    public void Fill() => Fill(GetSeed());
+
+    public void Fill(int usedSeed)
     {
         if (grid == null) grid = GetComponent<GridGenerator>();
         ClearSpawned();
-
-        // Esperar a que el grid tenga su matriz lista
         if (grid.Slots == null) { Debug.LogWarning("PipeGridFiller: Slots es null."); return; }
+
+        // Suprimir evaluaciones del checker durante el spawn
+        var checkerForSuppress = GetComponent<PipeConnectionChecker>() ?? FindFirstObjectByType<PipeConnectionChecker>();
+        if (checkerForSuppress != null) checkerForSuppress.SuppressEvaluate = true;
 
         int cols = grid.Columns;
         int rows = grid.Rows;
 
-        int usedSeed = randomSeed ? Random.Range(0, 999999) : seed;
         Random.InitState(usedSeed);
 
-        // Intentar hasta 20 veces con distintas celdas de borde hasta encontrar un camino valido
+        // 1. Buscar camino valido hasta 20 intentos
         Vector2Int genCell = default, recCell = default, pathStart = default, pathEnd = default;
         TileDirection genOutDir = default, recInDir = default;
         List<Vector2Int> path = null;
-        int maxAttempts = 20;
 
-        for (int attempt = 0; attempt < maxAttempts && path == null; attempt++)
+        for (int attempt = 0; attempt < 20 && path == null; attempt++)
         {
             int border    = Random.Range(0, 4);
             int oppBorder = (border + 2) % 4;
 
-            genCell    = RandomBorderCell(border,    cols, rows);
-            recCell    = RandomBorderCell(oppBorder, cols, rows);
-            genOutDir  = TileShapeData.Opposite(BorderOutDir(border));
-            recInDir   = TileShapeData.Opposite(BorderOutDir(oppBorder));
-            pathStart  = genCell + DirToOffset(genOutDir);
-            pathEnd    = recCell + DirToOffset(recInDir);
+            genCell   = RandomBorderCell(border,    cols, rows);
+            recCell   = RandomBorderCell(oppBorder, cols, rows);
+            genOutDir = TileShapeData.Opposite(BorderOutDir(border));
+            recInDir  = TileShapeData.Opposite(BorderOutDir(oppBorder));
+            pathStart = genCell + DirToOffset(genOutDir);
+            pathEnd   = recCell + DirToOffset(recInDir);
 
-            // Verificar que pathStart y pathEnd esten dentro del grid
             if (pathStart.x < 0 || pathStart.x >= cols || pathStart.y < 0 || pathStart.y >= rows ||
                 pathEnd.x   < 0 || pathEnd.x   >= cols || pathEnd.y   < 0 || pathEnd.y   >= rows)
                 continue;
 
-            // Evitar que gen y rec esten demasiado cerca (distancia minima de 2)
             if (Mathf.Abs(genCell.x - recCell.x) + Mathf.Abs(genCell.y - recCell.y) < 2)
                 continue;
 
             path = GeneratePath(pathStart, pathEnd, cols, rows, genCell, recCell);
         }
 
-        if (path == null) { Debug.LogWarning("PipeGridFiller: no se pudo generar camino tras 20 intentos."); return; }
+        if (path == null) { Debug.LogWarning("PipeGridFiller: no se pudo generar camino."); return; }
 
-        // 3. Spawnear generator y receiver en sus slots
+        // 2. Generator y receiver
         var checker = GetComponent<PipeConnectionChecker>() ?? FindFirstObjectByType<PipeConnectionChecker>();
 
         SpawnInSlot(generatorPrefab, genCell, go => {
@@ -90,32 +102,49 @@ public class PipeGridFiller : MonoBehaviour
             if (checker != null) checker.receiver = rec;
         });
 
-        // 4. Huecos
+        // 3. Huecos
         HashSet<int> gaps = ChooseGaps(path.Count);
 
-        // 5. Tiles del camino
+        // 4. Tiles del camino
         var used = new HashSet<Vector2Int> { genCell, recCell, pathStart, pathEnd };
+        int reserveIndex = 0;
+        TileSlot[] reserve = grid.ReserveSlots;
+
+        // Probabilidad de bloqueo inversamente proporcional a gapRatio
+        // (mas huecos = menos bloqueadas, para no hacer el puzzle imposible)
+        float effectiveLockRatio = lockRatio * (1f - gapRatio);
+
         for (int i = 0; i < path.Count; i++)
         {
-            if (gaps.Contains(i)) continue;
-
-            // entry: de donde viene la señal al entrar a esta celda
             TileDirection entry = i == 0
-                ? TileShapeData.Opposite(genOutDir)        // viene del generator
-                : TileShapeData.Opposite(DirBetween(path[i-1], path[i])); // viene del anterior
+                ? TileShapeData.Opposite(genOutDir)
+                : TileShapeData.Opposite(DirBetween(path[i-1], path[i]));
 
-            // exit: hacia donde sale la señal de esta celda
             TileDirection exit = i == path.Count - 1
-                ? TileShapeData.Opposite(recInDir)         // sale hacia el receiver
-                : DirBetween(path[i], path[i+1]);          // sale hacia el siguiente
+                ? TileShapeData.Opposite(recInDir)
+                : DirBetween(path[i], path[i+1]);
 
-            SpawnTileInSlot(path[i], entry | exit);
-            used.Add(path[i]);
+            TileDirection openings = entry | exit;
+
+            if (gaps.Contains(i))
+            {
+                if (reserve != null && reserveIndex < reserve.Length)
+                    SpawnTileInReserve(reserve[reserveIndex++], openings);
+            }
+            else
+            {
+                // Adyacentes a generator (i==0) y receiver (i==Count-1): siempre bloqueadas
+                bool locked = (i == 0 || i == path.Count - 1) || Random.value < effectiveLockRatio;
+                SpawnTileInSlot(path[i], openings, locked);
+                used.Add(path[i]);
+            }
         }
 
-        // 6. Tiles extra en celdas libres
+        // 5. Tiles extra
         SpawnExtra(used, cols, rows);
 
+        // Reactivar evaluacion al terminar el spawn
+        if (checkerForSuppress != null) checkerForSuppress.SuppressEvaluate = false;
 
         Debug.Log($"[Filler] seed={usedSeed} gen=[{genCell}] rec=[{recCell}] path={path.Count} gaps={gaps.Count}");
     }
@@ -144,8 +173,6 @@ public class PipeGridFiller : MonoBehaviour
         }
     }
 
-    // ── Camino ────────────────────────────────────────────────────────────────
-
     private Vector2Int DirToOffset(TileDirection d)
     {
         switch (d)
@@ -158,36 +185,27 @@ public class PipeGridFiller : MonoBehaviour
         }
     }
 
-    private List<Vector2Int> GeneratePath(Vector2Int start, Vector2Int target, int cols, int rows, Vector2Int blocked1 = default, Vector2Int blocked2 = default)
+    // ── Camino ────────────────────────────────────────────────────────────────
+
+    private List<Vector2Int> GeneratePath(Vector2Int start, Vector2Int target,
+        int cols, int rows, Vector2Int blocked1 = default, Vector2Int blocked2 = default)
     {
         var blocked  = new HashSet<Vector2Int> { blocked1, blocked2 };
-        int total    = cols * rows - blocked.Count;
-        // Exigir que el camino cubra al menos el 70% del grid
-        int minCells = Mathf.RoundToInt(total * 0.7f);
-
-        var path    = new List<Vector2Int> { start };
-        var visited = new HashSet<Vector2Int>(blocked) { start };
-
-        if (DFS(start, target, cols, rows, blocked, path, visited, minCells))
-            return path;
-        return null;
+        int minCells = Mathf.RoundToInt((cols * rows - blocked.Count) * 0.7f);
+        var path     = new List<Vector2Int> { start };
+        var visited  = new HashSet<Vector2Int>(blocked) { start };
+        return DFS(start, target, cols, rows, blocked, path, visited, minCells) ? path : null;
     }
 
-    private bool DFS(Vector2Int current, Vector2Int target, int cols, int rows,
+    private bool DFS(Vector2Int cur, Vector2Int target, int cols, int rows,
         HashSet<Vector2Int> blocked, List<Vector2Int> path, HashSet<Vector2Int> visited, int minCells)
     {
-        // Solo permitir llegar al objetivo si ya hemos visitado suficientes celdas
-        if (current == target && path.Count >= minCells)
-            return true;
+        if (cur == target && path.Count >= minCells) return true;
 
-        var dirs = new Vector2Int[]
-        {
-            new Vector2Int( 0,  1),
-            new Vector2Int( 0, -1),
-            new Vector2Int( 1,  0),
-            new Vector2Int(-1,  0),
+        var dirs = new[] {
+            new Vector2Int(0,1), new Vector2Int(0,-1),
+            new Vector2Int(1,0), new Vector2Int(-1,0)
         };
-        // Shuffle completo
         for (int i = dirs.Length - 1; i > 0; i--)
         {
             int j = Random.Range(0, i + 1);
@@ -196,24 +214,15 @@ public class PipeGridFiller : MonoBehaviour
 
         foreach (var d in dirs)
         {
-            var next = current + d;
+            var next = cur + d;
             if (next.x < 0 || next.x >= cols || next.y < 0 || next.y >= rows) continue;
             if (visited.Contains(next)) continue;
-
-            path.Add(next);
-            visited.Add(next);
-
-            if (DFS(next, target, cols, rows, blocked, path, visited, minCells))
-                return true;
-
-            path.RemoveAt(path.Count - 1);
-            visited.Remove(next);
+            path.Add(next); visited.Add(next);
+            if (DFS(next, target, cols, rows, blocked, path, visited, minCells)) return true;
+            path.RemoveAt(path.Count - 1); visited.Remove(next);
         }
 
-        // Si no hay mas vecinos y estamos en el target con suficientes celdas, aceptar
-        if (current == target && path.Count >= minCells)
-            return true;
-
+        if (cur == target && path.Count >= minCells) return true;
         return false;
     }
 
@@ -244,7 +253,12 @@ public class PipeGridFiller : MonoBehaviour
 
     private void ClearSpawned()
     {
-        foreach (var go in spawned) if (go != null) DestroyImmediate(go);
+        foreach (var go in spawned)
+        {
+            if (go == null) continue;
+            if (IsOffline) DestroyImmediate(go);
+            else Destroy(go);
+        }
         spawned.Clear();
         spawnedGenerator = null;
         spawnedReceiver  = null;
@@ -255,38 +269,63 @@ public class PipeGridFiller : MonoBehaviour
         if (prefab == null) return;
         TileSlot slot = grid.Slots[cell.x, cell.y];
         if (slot == null) return;
-
         GameObject go = Instantiate(prefab);
         PlayerCarry.SetParentSafe(go, slot.transform);
         go.transform.localPosition = new Vector3(0f, 0.05f, 0f);
         go.transform.localRotation = Quaternion.identity;
-
         setup(go);
         spawned.Add(go);
     }
 
-    private void SpawnTileInSlot(Vector2Int cell, TileDirection openings)
+    private void SpawnTileInSlot(Vector2Int cell, TileDirection openings, bool locked = false)
     {
         TileSlot slot = grid.Slots[cell.x, cell.y];
         if (slot == null) return;
         GameObject prefab = BestPrefab(openings, out int rotation);
         if (prefab == null) return;
 
+        bool wasActive = prefab.activeSelf;
+        prefab.SetActive(false);
         GameObject go = Instantiate(prefab);
+        prefab.SetActive(wasActive);
         PlayerCarry.SetParentSafe(go, slot.transform);
         go.transform.localPosition = new Vector3(0f, 0.05f, 0f);
         go.transform.localRotation = Quaternion.Euler(0, rotation, 0);
+        go.SetActive(true);
 
-        // Sincronizar offlineRotation
         var tile = go.GetComponent<PipeTile>();
         if (tile != null)
-            for (int r = 0; r < rotation / 90; r++)
-                tile.Rotate90();
+        {
+            for (int r = 0; r < rotation / 90; r++) tile.Rotate90();
+            if (locked) tile.SetLocked(true);
+        }
 
-        // Registrar en slot para que el sistema de carry lo reconozca
         var carryable = go.GetComponent<ICarryObject>();
         if (carryable != null) slot.ForcePlace(carryable);
+        spawned.Add(go);
+    }
 
+    private void SpawnTileInReserve(TileSlot slot, TileDirection openings)
+    {
+        if (slot == null) return;
+        GameObject prefab = BestPrefab(openings, out int rotation);
+        if (prefab == null) return;
+
+        bool wasActive = prefab.activeSelf;
+        prefab.SetActive(false);
+        GameObject go = Instantiate(prefab);
+        prefab.SetActive(wasActive);
+        PlayerCarry.SetParentSafe(go, slot.transform);
+        go.transform.localPosition = new Vector3(0f, 0.05f, 0f);
+        go.transform.localRotation = Quaternion.Euler(0, rotation, 0);
+        go.SetActive(true);
+
+        var tile = go.GetComponent<PipeTile>();
+        if (tile != null)
+            for (int r = 0; r < rotation / 90; r++) tile.Rotate90();
+
+        var carryable = go.GetComponent<ICarryObject>();
+        if (carryable != null) slot.ForcePlace(carryable);
         spawned.Add(go);
     }
 
@@ -303,7 +342,7 @@ public class PipeGridFiller : MonoBehaviour
             var tmp = free[i]; free[i] = free[j]; free[j] = tmp;
         }
 
-        var shapes = new TileDirection[] {
+        var shapes = new[] {
             TileDirection.North | TileDirection.South,
             TileDirection.North | TileDirection.East,
             TileDirection.North | TileDirection.East | TileDirection.West,
@@ -313,7 +352,7 @@ public class PipeGridFiller : MonoBehaviour
         for (int i = 0; i < count; i++)
         {
             var op = TileShapeData.Rotate(shapes[Random.Range(0, shapes.Length)], Random.Range(0, 4) * 90);
-            SpawnTileInSlot(free[i], op);
+            SpawnTileInSlot(free[i], op, false);
         }
     }
 

@@ -17,6 +17,13 @@ public class TilePickup : InteractableObject
             carryable = GetComponent<SimpleCarryable>();
     }
 
+    public override bool CanInteract(GameObject player)
+    {
+        var tile = GetComponent<PipeTile>();
+        if (tile != null && tile.IsLocked) return false;
+        return base.CanInteract(player);
+    }
+
     protected override void InteractOffline(GameObject player)
     {
         if (carryable == null) return;
