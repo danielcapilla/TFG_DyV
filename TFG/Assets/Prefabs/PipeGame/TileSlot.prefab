@@ -148,5 +148,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  color: {r: 68, g: 68, b: 68, a: 255}
+  color: {r: 0.26666668, g: 0.26666668, b: 0.26666668, a: 255}
   tileOffset: {x: 0, y: 0.05, z: 0}

@@ -100,8 +100,6 @@ GameObject:
   - component: {fileID: 1552073909632904895}
   - component: {fileID: 7734213474107540980}
   - component: {fileID: 1180145716936756003}
-  - component: {fileID: 2428013260368441109}
-  - component: {fileID: 2559666494510037917}
   m_Layer: 0
   m_Name: Receiver
   m_TagString: Untagged
@@ -238,30 +236,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   inputDirection: 1
---- !u!114 &2428013260368441109
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7582368911168231899}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 76afa266a26c08a4b8c2c9c46c3c1b6e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  color: {r: 68, g: 68, b: 68, a: 255}
---- !u!114 &2559666494510037917
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7582368911168231899}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d37b3e0814939484484ae1c7300ad19c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1

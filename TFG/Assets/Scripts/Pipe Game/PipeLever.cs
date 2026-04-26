@@ -42,6 +42,7 @@ public class PipeLever : InteractableObject
         if (animator != null)
             animator.SetTrigger(PullHash);
 
+        Debug.Log("Evaluando");
         connectionChecker?.EvaluateCircuit();
     }
 

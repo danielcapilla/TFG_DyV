@@ -33,6 +33,9 @@ public abstract class InteractableObject : NetworkBehaviour
     /// Cada implementacion hace GetComponent de lo que necesite,
     /// sin depender de una interfaz concreta.
     /// </summary>
+    /// <summary>Indica si este objeto puede interactuarse ahora. Sobrescribir para logica custom.</summary>
+    public virtual bool CanInteract(GameObject player) => true;
+
     public void Interact(GameObject player)
     {
         if (IsOffline) InteractOffline(player);

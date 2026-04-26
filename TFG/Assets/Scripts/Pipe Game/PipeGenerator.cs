@@ -44,8 +44,8 @@ public class PipeGenerator : NetworkBehaviour
     {
         Gizmos.color = IsConnected ? Color.green : Color.red;
         Vector3 dir = DirectionToVector(outputDirection);
-        Gizmos.DrawLine(transform.position, transform.position + dir * 0.6f);
-        Gizmos.DrawSphere(transform.position + dir * 0.6f, 0.1f);
+        Gizmos.DrawLine(transform.position + Vector3.up, transform.position + Vector3.up + dir * 0.6f);
+        Gizmos.DrawSphere(transform.position + Vector3.up + dir * 0.6f, 0.1f);
         Gizmos.DrawWireCube(transform.position, Vector3.one * 0.5f);
     }
 

@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 2285117345762237659}
   - component: {fileID: 3610529595972137949}
   m_Layer: 0
-  m_Name: T_Tile
+  m_Name: TSplitTile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

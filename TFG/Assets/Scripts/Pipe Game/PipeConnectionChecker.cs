@@ -1,121 +1,102 @@
-using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
-/// <summary>
-/// Evalua si hay un camino continuo de PipeTiles desde el PipeGenerator hasta el PipeReceiver.
-///
-/// Arquitectura de posiciones:
-///   - Generator y Receiver son GameObjects FUERA o EN EL BORDE de la cuadricula.
-///   - El BFS arranca desde la celda adyacente al generator en su OutputDirection.
-///   - El circuito se completa cuando el BFS alcanza la celda adyacente al receiver
-///     por el lado opuesto a su InputDirection.
-///
-/// Funciona tanto en offline como en online (en online solo el servidor cambia estado).
-/// </summary>
 public class PipeConnectionChecker : NetworkBehaviour
 {
     [Header("Referencias")]
-    [SerializeField] private PipeGenerator generator;
-    [SerializeField] private PipeReceiver  receiver;
-    [SerializeField] private GridGenerator grid;
+    [SerializeField] public PipeGenerator generator;
+    [SerializeField] public PipeReceiver  receiver;
 
-    private Dictionary<Vector2Int, TileSlot> slotMap = new Dictionary<Vector2Int, TileSlot>();
+    private GridGenerator grid;
     private bool IsOffline => !NetworkManager.Singleton || !NetworkManager.Singleton.IsListening;
 
-    private void Start() => BuildSlotMap();
+    private void Awake()
+    {
+        grid = GetComponent<GridGenerator>();
+        if (grid == null) grid = FindFirstObjectByType<GridGenerator>();
+    }
 
-    // ── Mapa de slots ─────────────────────────────────────────────────────────
+    public void SetReferences(PipeGenerator gen, PipeReceiver rec)
+    {
+        generator = gen;
+        receiver  = rec;
+        if (grid == null)
+        {
+            grid = GetComponent<GridGenerator>();
+            if (grid == null) grid = FindFirstObjectByType<GridGenerator>();
+        }
+        Debug.LogWarning($"[Checker] SetReferences: gen={gen?.name} rec={rec?.name} grid={grid?.name}");
+    }
 
     public void BuildSlotMap()
     {
-        slotMap.Clear();
-        TileSlot[] slots = grid.GetComponentsInChildren<TileSlot>();
-        float cell = grid.CellSize;
-        foreach (var slot in slots)
-        {
-            Vector3 local = grid.transform.InverseTransformPoint(slot.transform.position);
-            int col = Mathf.RoundToInt(local.x / cell);
-            int row = Mathf.RoundToInt(local.z / cell);
-            slotMap[new Vector2Int(col, row)] = slot;
-        }
-        Debug.LogWarning($"[PipeChecker] BuildSlotMap: {slotMap.Count} slots indexados");
+        // Solo necesario para compatibilidad — la matriz ya la tiene GridGenerator
     }
-
-    // ── Evaluacion ────────────────────────────────────────────────────────────
 
     public void EvaluateCircuit()
     {
-        // Offline: evaluar siempre. Online: solo el servidor cambia estado.
         if (!IsOffline && !IsServer) return;
+        if (generator == null || receiver == null || grid == null || grid.Slots == null)
+        {
+            Debug.LogWarning($"[Checker] EvaluateCircuit bloqueado: gen={generator} rec={receiver} grid={grid} slots={grid?.Slots}");
+            return;
+        }
 
         bool connected = FindPath();
-
-        Debug.LogWarning($"[PipeChecker] EvaluateCircuit: connected={connected}");
-
         generator.SetConnected(connected, IsOffline);
         receiver.SetConnected(connected, IsOffline);
+
+        Debug.Log($"[Checker] EvaluateCircuit: connected={connected}");
     }
 
     private bool FindPath()
     {
-        float cell = grid.CellSize;
+        var slots = grid.Slots;
+        int cols  = grid.Columns;
+        int rows  = grid.Rows;
 
-        // Celda de inicio: adyacente al generator en su direccion de salida
-        Vector2Int genCell = WorldToGrid(generator.transform.position);
-        Vector2Int startCell = genCell + DirToOffset(generator.OutputDirection);
+        // Encontrar celda del generator y receiver en la matriz
+        Vector2Int? genCell = FindCell(generator.gameObject);
+        Vector2Int? recCell = FindCell(receiver.gameObject);
+        if (genCell == null || recCell == null) return false;
 
-        // Celda de llegada: adyacente al receiver por el lado opuesto a su InputDirection
-        // El receiver mira hacia la cuadricula con su InputDirection,
-        // asi que la ultima loseta debe estar en la celda adyacente al receiver
-        // en la direccion opuesta a InputDirection
-        Vector2Int recCell = WorldToGrid(receiver.transform.position);
-        // targetCell: celda adyacente al receiver en la direccion de su InputDirection
-        // (la loseta que alimenta al receiver esta en esa direccion)
-        Vector2Int targetCell = recCell + DirToOffset(receiver.InputDirection);
-        // La loseta en targetCell debe tener apertura apuntando AL receiver,
-        // es decir en la direccion OPUESTA al InputDirection
-        TileDirection requiredExitDir = TileShapeData.Opposite(receiver.InputDirection);
+        TileDirection outDir = generator.OutputDirection;
+        TileDirection inDir  = receiver.InputDirection;
 
-        Debug.LogWarning($"[PipeChecker] genCell={genCell} startCell={startCell} recCell={recCell} targetCell={targetCell}");
-        Debug.LogWarning($"[PipeChecker] generator.OutputDir={generator.OutputDirection} receiver.InputDir={receiver.InputDirection}");
-        Debug.LogWarning($"[PipeChecker] slotMap tiene startCell={slotMap.ContainsKey(startCell)}, targetCell={slotMap.ContainsKey(targetCell)}");
+        // outDir apunta hacia dentro del grid
+        // start = celda adyacente al generator hacia dentro
+        Vector2Int start = genCell.Value + DirToOffset(outDir);
+        Vector2Int target = recCell.Value;
 
-        if (!slotMap.ContainsKey(startCell)) return false;
+        if (!InBounds(start, cols, rows)) return false;
 
-        // BFS
-        var visited = new HashSet<Vector2Int>();
-        var queue   = new Queue<(Vector2Int cell, TileDirection enteredFrom)>();
-        // Entramos al startCell viniendo desde el generator (opuesto a OutputDirection)
-        queue.Enqueue((startCell, TileShapeData.Opposite(generator.OutputDirection)));
+        var visited = new System.Collections.Generic.HashSet<Vector2Int>();
+        var queue   = new System.Collections.Generic.Queue<(Vector2Int pos, TileDirection from)>();
+        queue.Enqueue((start, TileShapeData.Opposite(outDir)));
 
         while (queue.Count > 0)
         {
-            var (pos, enteredFrom) = queue.Dequeue();
+            var (pos, cameFrom) = queue.Dequeue();
             if (visited.Contains(pos)) continue;
             visited.Add(pos);
 
-            if (!slotMap.TryGetValue(pos, out TileSlot slot)) continue;
-            PipeTile tile = slot.PlacedTile;
+            if (!InBounds(pos, cols, rows)) continue;
+            PipeTile tile = slots[pos.x, pos.y]?.PlacedTile;
             if (tile == null) continue;
+            if (!tile.HasOpening(cameFrom)) continue;
 
-            // La loseta debe tener apertura por donde llegamos
-            if (!tile.HasOpening(enteredFrom)) continue;
-
-            Debug.LogWarning($"[PipeChecker] BFS en {pos}, enteredFrom={enteredFrom}, openings={tile.Openings}");
-
-            // Comprobar si esta celda es la celda objetivo y tiene apertura hacia el receiver
-            if (pos == targetCell && tile.HasOpening(requiredExitDir))
-            {
-                Debug.LogWarning($"[PipeChecker] Circuito completado!");
+            // Llegamos al receiver?
+            // inDir = direccion desde la que llega la señal al receiver (desde el interior)
+            // La tile adyacente esta en pos, y recCell esta en pos + Opposite(inDir)
+            // La tile debe tener apertura en Opposite(inDir) para conectar con el receiver
+            if (pos + DirToOffset(TileShapeData.Opposite(inDir)) == target
+                && tile.HasOpening(TileShapeData.Opposite(inDir)))
                 return true;
-            }
 
-            // Propagar a vecinos
             foreach (TileDirection dir in new[]
                 { TileDirection.North, TileDirection.South, TileDirection.East, TileDirection.West })
             {
-                if (dir == enteredFrom) continue;
+                if (dir == cameFrom) continue;
                 if (!tile.HasOpening(dir)) continue;
                 Vector2Int next = pos + DirToOffset(dir);
                 if (!visited.Contains(next))
@@ -125,14 +106,26 @@ public class PipeConnectionChecker : NetworkBehaviour
         return false;
     }
 
-    // ── Utilidades ────────────────────────────────────────────────────────────
-
-    private Vector2Int WorldToGrid(Vector3 worldPos)
+    // Encuentra la celda [col,row] de un GameObject por nombre de slot
+    private Vector2Int? FindCell(GameObject go)
     {
-        float cell = grid.CellSize;
-        Vector3 local = grid.transform.InverseTransformPoint(worldPos);
-        return new Vector2Int(Mathf.RoundToInt(local.x / cell), Mathf.RoundToInt(local.z / cell));
+        if (go == null) return null;
+        // Si el GO es hijo de un slot, usar el slot padre
+        Transform slotT = go.transform.parent;
+        if (slotT == null) return null;
+        string name = slotT.name;
+        int bracket = name.IndexOf('[');
+        int comma   = name.IndexOf(',');
+        int end     = name.IndexOf(']');
+        if (bracket < 0 || comma < 0 || end < 0) return null;
+        if (int.TryParse(name.Substring(bracket + 1, comma - bracket - 1), out int col) &&
+            int.TryParse(name.Substring(comma + 1, end - comma - 1), out int row))
+            return new Vector2Int(col, row);
+        return null;
     }
+
+    private bool InBounds(Vector2Int p, int cols, int rows)
+        => p.x >= 0 && p.x < cols && p.y >= 0 && p.y < rows;
 
     private Vector2Int DirToOffset(TileDirection d)
     {

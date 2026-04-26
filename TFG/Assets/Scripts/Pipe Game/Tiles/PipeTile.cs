@@ -16,13 +16,24 @@ public class PipeTile : NetworkBehaviour, ICarryObject, IRotatableObject
 
     private bool IsOffline => !NetworkManager.Singleton || !NetworkManager.Singleton.IsListening;
     private bool isBeingCarried = false;
+    public TileSlot CurrentSlot { get; private set; }
+    public void SetCurrentSlot(TileSlot slot) => CurrentSlot = slot;
 
     // ── ICarryObject ──────────────────────────────────────────────────────────
     public string CarryType => "tile";
     public bool CanBePickedUp => true;
     public NetworkObject GetNetworkObject() => NetworkObject;
     public GameObject GetGameObject() => gameObject;
-    public void OnPickedUp(PlayerCarry carrier) { isBeingCarried = true; }
+    public void OnPickedUp(PlayerCarry carrier)
+    {
+        isBeingCarried = true;
+        // Al coger, asegurarse de que el slot anterior queda limpio
+        if (CurrentSlot != null)
+        {
+            CurrentSlot.Clear();
+            CurrentSlot = null;
+        }
+    }
     public void OnDelivered(ICarryReceiver receiver) { isBeingCarried = false; }
     public void OnRejected(ICarryReceiver receiver) { isBeingCarried = false; }
 

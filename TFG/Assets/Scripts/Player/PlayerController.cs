@@ -101,6 +101,7 @@ public class PlayerController : NetworkBehaviour
         foreach (Collider col in hits)
         {
             if (!col.TryGetComponent<InteractableObject>(out InteractableObject interactable)) continue;
+            if (!interactable.CanInteract(gameObject)) continue;
 
             Vector3 toObject = col.transform.position - transform.position;
             toObject.y = 0f;
