@@ -224,7 +224,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8696548776287242032}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8e85727c85a7b74409d07078eeb05259, type: 3}
   m_Name: 
@@ -236,6 +236,7 @@ MonoBehaviour:
   interactableInRange: {fileID: 0}
   FeetLocalizer: {fileID: 975285373122339739}
   interactionAngle: 90
+  animator: {fileID: 0}
 --- !u!114 &-8147101046939092231
 MonoBehaviour:
   m_ObjectHideFlags: 0

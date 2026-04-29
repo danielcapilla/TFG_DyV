@@ -12,7 +12,8 @@ public class RecipeRandomizer : NetworkBehaviour
 
     private NetworkVariable<int> randomSeed = new();
     CommandSpawner commandSpawner;
-    private Countdown countdown;
+    [SerializeField]
+    private CountdownIntro countdown;
 
     private bool IsOffline => !NetworkManager.Singleton || !NetworkManager.Singleton.IsListening;
 
@@ -21,17 +22,16 @@ public class RecipeRandomizer : NetworkBehaviour
         if (!IsOffline) return;
         commandSpawner = GetComponent<CommandSpawner>();
         Random.InitState(System.DateTime.Now.Millisecond);
-        RandomizeIngredients();
-        GenerateRandomRecipes();
-        commandSpawner.SpawnRecipes(recipes, pairedIngredients);
-        GenerateRandomOrder();
+        Random.InitState(System.DateTime.Now.Millisecond);
+        // En offline esperar a que termine la cuenta atras igual que en online
+        if (countdown != null)
+            countdown.OnCountdownFinished += SpawnRestaurantUI;
     }
 
     public override void OnNetworkSpawn()
     {
         commandSpawner = GetComponent<CommandSpawner>();
-        countdown = GetComponent<Countdown>();
-        countdown.OnRegresiveTimerFinished += SpawnRestaurantUI;
+        countdown.OnCountdownFinished += SpawnRestaurantUI;
         randomSeed.OnValueChanged += SetRandomSeed;
 
         if (IsServer || IsHost)
@@ -45,7 +45,7 @@ public class RecipeRandomizer : NetworkBehaviour
         base.OnNetworkDespawn();
         randomSeed.OnValueChanged -= SetRandomSeed;
         if (countdown != null)
-            countdown.OnRegresiveTimerFinished -= SpawnRestaurantUI;
+            countdown.OnCountdownFinished -= SpawnRestaurantUI;
     }
 
     private void SpawnRestaurantUI(object sender, System.EventArgs e)

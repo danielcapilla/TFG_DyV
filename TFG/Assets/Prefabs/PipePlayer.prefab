@@ -225,7 +225,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8696548776287242032}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8e85727c85a7b74409d07078eeb05259, type: 3}
   m_Name: 
@@ -411,7 +411,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02cf671862177c9479f665c6e683cdd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotateActionName: RotateTile
 --- !u!1001 &3756964421203369072
 PrefabInstance:
   m_ObjectHideFlags: 0

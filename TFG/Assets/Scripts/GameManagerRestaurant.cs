@@ -1,84 +1,49 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
-public class GameManagerRestaurant : NetworkBehaviour
+public class GameManagerRestaurant : GameManagerBase
 {
-    [Header("Tiempo")]
-    [SerializeField] private Countdown countdown;
-    [Header("Camara")]
-    [SerializeField] private CameraSelector cameraSelector;
-    [Header("Musica")]
+    [Header("Restaurante - Referencias")]
     [SerializeField] private AudioSource restaurantMusic;
+    [SerializeField] private RecipeRandomizer recipeRandomizer;
+    [SerializeField] private TeamManager teamMenager;
+    [SerializeField] private DataBaseCommander dataBaseCommander;
 
-    public override void OnNetworkSpawn()
+    private string studentClassCode = "A";
+
+    private void Start()
     {
-        base.OnNetworkSpawn();
-        if (IsServer)
-        {
-            ChooseGroup.OnGameStartEvent -= StartGame;
-            ChooseGroup.OnGameStartEvent += StartGame;
-        }
+        if (IsClient && !IsHost)
+            ClassCodeServerRPC(PlayerData.ClassCode);
     }
 
-    public override void OnNetworkDespawn()
+    [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
+    private void ClassCodeServerRPC(FixedString64Bytes classCode)
     {
-        base.OnNetworkDespawn();
-        if (IsServer)
-            ChooseGroup.OnGameStartEvent -= StartGame;
+        studentClassCode = classCode.ToString();
     }
 
-    private void StartGame()
+    protected override void OnGameStarted()
     {
-        // Copiar la lista ANTES del yield — ChooseGroup la limpia despues de disparar el evento
-        List<ulong> players = new List<ulong>(ChooseGroup.connectedPlayers ?? new List<ulong>());
-        StartCoroutine(StartGameDelayed(players));
+        restaurantMusic?.Play();
     }
 
-    private IEnumerator StartGameDelayed(List<ulong> players)
+    protected override void OnTimerFinished()
     {
-        // Esperar a que PlayerSpawner haya spawneado los jugadores
-        yield return new WaitForSeconds(0.5f);
-
-        countdown.CambiarVariable();
-
-        foreach (ulong playerId in players)
-        {
-            if (!NetworkManager.ConnectedClients.ContainsKey(playerId)) continue;
-            NetworkObject playerStats = NetworkManager.ConnectedClients[playerId].PlayerObject;
-            if (playerStats == null) continue;
-
-            SetCameraRpc(playerStats.GetComponent<PlayerStats>().idGrupo.Value, playerId);
-
-            // El jugador controlable es el hijo del PlayerObject spawneado por PlayerSpawner
-            if (playerStats.transform.childCount > 0)
-            {
-                NetworkObject playerNetObj = playerStats.transform.GetChild(0)
-                    .GetComponent<NetworkObject>();
-                if (playerNetObj != null)
-                    ActivatePlayerControllerRpc(playerNetObj);
-            }
-        }
+        dataBaseCommander.RegisterGame(
+            PlayerData.ClassCode,
+            studentClassCode,
+            recipeRandomizer.recipes,
+            recipeRandomizer.currentOrders,
+            teamMenager.teams,
+            recipeRandomizer.pairedIngredients,
+            AllowChangeScene);
     }
 
-    [Rpc(SendTo.Everyone)]
-    private void ActivatePlayerControllerRpc(NetworkObjectReference playerRef)
+    private void AllowChangeScene(int result)
     {
-        if (!playerRef.TryGet(out NetworkObject playerNetObj)) return;
-        PlayerController controller = playerNetObj.GetComponent<PlayerController>();
-        if (controller != null) controller.enabled = true;
-        ActivateRestaurantMusic();
-    }
-
-    private void ActivateRestaurantMusic() => restaurantMusic.Play();
-
-    [Rpc(SendTo.Everyone)]
-    private void SetCameraRpc(int groupID, ulong id)
-    {
-        if (id != NetworkManager.Singleton.LocalClientId) return;
-        cameraSelector.ActivateCamera(groupID);
+        NetworkManager.Singleton.SceneManager.LoadScene("Podium", LoadSceneMode.Single);
     }
 }
