@@ -24,9 +24,19 @@ public class PipeGridFiller : MonoBehaviour
     private PipeGenerator spawnedGenerator;
     private PipeReceiver  spawnedReceiver;
 
+    [Header("Configuracion (opcional)")]
+    [SerializeField] private PipeGameConfigSO config;
+
     private bool IsOffline => !NetworkManager.Singleton || !NetworkManager.Singleton.IsListening;
 
-    private void Awake() => grid = GetComponent<GridGenerator>();
+    private PipeConnectionChecker checker;
+    private System.Action onCircuitCompletedHandler;
+
+    private void Awake()
+    {
+        grid = GetComponent<GridGenerator>();
+        checker = GetComponent<PipeConnectionChecker>() ?? FindFirstObjectByType<PipeConnectionChecker>();
+    }
 
     private void Start()
     {
@@ -48,6 +58,13 @@ public class PipeGridFiller : MonoBehaviour
         // Suprimir evaluaciones del checker durante el spawn
         var checkerForSuppress = GetComponent<PipeConnectionChecker>() ?? FindFirstObjectByType<PipeConnectionChecker>();
         if (checkerForSuppress != null) checkerForSuppress.SuppressEvaluate = true;
+
+        if (config != null)
+        {
+            gapRatio   = config.gapRatio;
+            lockRatio  = config.lockRatio;
+            extraTiles = config.extraTiles;
+        }
 
         int cols = grid.Columns;
         int rows = grid.Rows;
@@ -145,6 +162,15 @@ public class PipeGridFiller : MonoBehaviour
 
         // Reactivar evaluacion al terminar el spawn
         if (checkerForSuppress != null) checkerForSuppress.SuppressEvaluate = false;
+
+        // Suscribirse al evento de circuito completado para regenerar
+        if (checker != null)
+        {
+            if (onCircuitCompletedHandler != null)
+                checker.OnCircuitCompleted -= onCircuitCompletedHandler;
+            onCircuitCompletedHandler = () => { checker.OnCircuitCompleted -= onCircuitCompletedHandler; Fill(); };
+            checker.OnCircuitCompleted += onCircuitCompletedHandler;
+        }
 
         Debug.Log($"[Filler] seed={usedSeed} gen=[{genCell}] rec=[{recCell}] path={path.Count} gaps={gaps.Count}");
     }
@@ -256,6 +282,10 @@ public class PipeGridFiller : MonoBehaviour
         foreach (var go in spawned)
         {
             if (go == null) continue;
+            // Limpiar el slot antes de destruir para evitar referencias huerfanas
+            PipeTile tile = go.GetComponent<PipeTile>();
+            if (tile != null && tile.CurrentSlot != null)
+                tile.CurrentSlot.Clear();
             if (IsOffline) DestroyImmediate(go);
             else Destroy(go);
         }

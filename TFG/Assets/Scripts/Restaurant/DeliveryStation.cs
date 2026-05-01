@@ -5,15 +5,17 @@ using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 
-public class DeliveryStation : InteractableObject
+public class DeliveryStation : InteractableObject, IScoreEvent
 {
+    public event System.Action<int> OnScorePoint;
+
     [SerializeField] RecipeRandomizer randomizer;
     [SerializeField] Transform endPos;
     [SerializeField] Transform placePosition;
     [SerializeField] float time;
     ICarryObject holdingObject;
     [SerializeField] TeamManager teamMenager;
-    [SerializeField] private TextMeshProUGUI scoreText;
+
     [SerializeField] private StatisticsBehaviour statisticsBehaviour;
     [SerializeField] AudioSource ScoreSound;
     [SerializeField] AudioSource FailSound;
@@ -34,7 +36,7 @@ public class DeliveryStation : InteractableObject
         if (correct)
         {
             offlineOrderIndex++;
-            scoreText?.SetText(offlineOrderIndex.ToString());
+            OnScorePoint?.Invoke(1);
             ScoreSound?.Play();
             // Mostrar el siguiente pedido si quedan
             if (offlineOrderIndex < randomizer.currentOrders.Count)
@@ -133,7 +135,7 @@ public class DeliveryStation : InteractableObject
     [ClientRpc]
     public void NextOrderClientRpc(int order, int teamScore, ClientRpcParams p = default)
     {
-        scoreText.text = teamScore.ToString();
+        OnScorePoint?.Invoke(1);
         ScoreSound.Play();
         if (order < randomizer.currentOrders.Count)
             randomizer.NextOrder(order);

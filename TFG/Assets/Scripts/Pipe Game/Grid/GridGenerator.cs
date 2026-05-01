@@ -2,41 +2,42 @@ using UnityEngine;
 
 public class GridGenerator : MonoBehaviour
 {
-    [Header("Cuadricula principal")]
-    [SerializeField] private int columns = 4;
-    [SerializeField] private int rows    = 4;
+    [Header("Configuracion")]
+    [SerializeField] private PipeGameConfigSO config;
+
+    [Header("Espaciado")]
     [SerializeField] private float cellSize = 1.1f;
+    [SerializeField] private float reserveGap = 2f;
+
+    [Header("Prefab")]
     [SerializeField] private GameObject tileSlotPrefab;
 
-    [Header("Zona de reserva (tiles eliminadas del camino)")]
-    [SerializeField] private int reserveSlots = 6;
-    [SerializeField] private float reserveGap = 2f; // separacion extra entre grid y reserva
+    public float CellSize   => cellSize;
+    public int   Columns    => config.columns;
+    public int   Rows       => config.rows;
 
-    public float CellSize  => cellSize;
-    public int   Columns   => columns;
-    public int   Rows      => rows;
-
-    // Matriz principal [col, row]
-    public TileSlot[,] Slots { get; private set; }
-
-    // Slots de reserva donde se colocan las tiles de los huecos
-    public TileSlot[] ReserveSlots { get; private set; }
+    public TileSlot[,] Slots        { get; private set; }
+    public TileSlot[]  ReserveSlots { get; private set; }
 
     public void GenerateGrid()
     {
         for (int i = transform.childCount - 1; i >= 0; i--)
             DestroyImmediate(transform.GetChild(i).gameObject);
 
-        Slots        = new TileSlot[columns, rows];
-        ReserveSlots = new TileSlot[reserveSlots];
+        int cols    = config.columns;
+        int rows    = config.rows;
+        int reserve = config.reserveSlots;
 
-        float offsetX = (columns - 1) * cellSize * 0.5f;
-        float offsetZ = (rows    - 1) * cellSize * 0.5f;
+        Slots        = new TileSlot[cols, rows];
+        ReserveSlots = new TileSlot[reserve];
+
+        float offsetX = (cols - 1) * cellSize * 0.5f;
+        float offsetZ = (rows - 1) * cellSize * 0.5f;
 
         // ── Grid principal ────────────────────────────────────────────────────
         for (int row = 0; row < rows; row++)
         {
-            for (int col = 0; col < columns; col++)
+            for (int col = 0; col < cols; col++)
             {
                 Vector3 localPos = new Vector3(
                     col * cellSize - offsetX,
@@ -48,14 +49,12 @@ public class GridGenerator : MonoBehaviour
             }
         }
 
-        // ── Zona de reserva (a la derecha del grid) ───────────────────────────
-        // Empieza justo despues del borde derecho del grid + reserveGap
-        float reserveStartX = offsetX + cellSize + reserveGap;
-        // Centrada verticalmente respecto al grid
-        float reserveTotalZ = (reserveSlots - 1) * cellSize;
+        // ── Zona de reserva ───────────────────────────────────────────────────
+        float reserveStartX  = offsetX + cellSize + reserveGap;
+        float reserveTotalZ  = (reserve - 1) * cellSize;
         float reserveOffsetZ = reserveTotalZ * 0.5f;
 
-        for (int i = 0; i < reserveSlots; i++)
+        for (int i = 0; i < reserve; i++)
         {
             Vector3 localPos = new Vector3(
                 reserveStartX,
@@ -66,7 +65,7 @@ public class GridGenerator : MonoBehaviour
             ReserveSlots[i] = slot;
         }
 
-        Debug.Log($"GridGenerator: {columns}x{rows} + {reserveSlots} slots de reserva.");
+        Debug.Log($"GridGenerator: {cols}x{rows} + {reserve} slots de reserva.");
 
         PipeConnectionChecker checker = FindFirstObjectByType<PipeConnectionChecker>();
         checker?.BuildSlotMap();
@@ -100,8 +99,12 @@ public class GridGenerator : MonoBehaviour
 
     public void RebuildSlotMatrix()
     {
-        Slots        = new TileSlot[columns, rows];
-        ReserveSlots = new TileSlot[reserveSlots];
+        int cols    = config.columns;
+        int rows    = config.rows;
+        int reserve = config.reserveSlots;
+
+        Slots        = new TileSlot[cols, rows];
+        ReserveSlots = new TileSlot[reserve];
 
         foreach (Transform child in transform)
         {
@@ -118,7 +121,7 @@ public class GridGenerator : MonoBehaviour
                 if (bracket < 0 || comma < 0 || end < 0) continue;
                 if (int.TryParse(name.Substring(bracket + 1, comma - bracket - 1), out int col) &&
                     int.TryParse(name.Substring(comma + 1, end - comma - 1), out int row))
-                    if (col >= 0 && col < columns && row >= 0 && row < rows)
+                    if (col >= 0 && col < cols && row >= 0 && row < rows)
                         Slots[col, row] = slot;
             }
             else if (name.StartsWith("Reserve ["))
@@ -127,7 +130,7 @@ public class GridGenerator : MonoBehaviour
                 int end     = name.IndexOf(']');
                 if (bracket < 0 || end < 0) continue;
                 if (int.TryParse(name.Substring(bracket + 1, end - bracket - 1), out int idx))
-                    if (idx >= 0 && idx < reserveSlots)
+                    if (idx >= 0 && idx < reserve)
                         ReserveSlots[idx] = slot;
             }
         }

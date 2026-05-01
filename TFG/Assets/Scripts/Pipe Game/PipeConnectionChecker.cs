@@ -1,7 +1,7 @@
 using Unity.Netcode;
 using UnityEngine;
 
-public class PipeConnectionChecker : NetworkBehaviour
+public class PipeConnectionChecker : NetworkBehaviour, IScoreEvent
 {
     [Header("Referencias")]
     [SerializeField] public PipeGenerator generator;
@@ -35,6 +35,9 @@ public class PipeConnectionChecker : NetworkBehaviour
 
     public bool SuppressEvaluate { get; set; } = false;
 
+    public event System.Action OnCircuitCompleted;
+    public event System.Action<int> OnScorePoint;
+
     public void EvaluateCircuit()
     {
         if (SuppressEvaluate) return;
@@ -48,6 +51,11 @@ public class PipeConnectionChecker : NetworkBehaviour
         bool connected = FindPath();
         generator.SetConnected(connected, IsOffline);
         receiver.SetConnected(connected, IsOffline);
+        if (connected)
+        {
+            OnCircuitCompleted?.Invoke();
+            OnScorePoint?.Invoke(1);
+        }
 
         Debug.Log($"[Checker] EvaluateCircuit: connected={connected}");
     }
@@ -58,7 +66,6 @@ public class PipeConnectionChecker : NetworkBehaviour
         int cols  = grid.Columns;
         int rows  = grid.Rows;
 
-        // Encontrar celda del generator y receiver en la matriz
         Vector2Int? genCell = FindCell(generator.gameObject);
         Vector2Int? recCell = FindCell(receiver.gameObject);
         if (genCell == null || recCell == null) return false;
@@ -66,43 +73,50 @@ public class PipeConnectionChecker : NetworkBehaviour
         TileDirection outDir = generator.OutputDirection;
         TileDirection inDir  = receiver.InputDirection;
 
-        // outDir apunta hacia dentro del grid
-        // start = celda adyacente al generator hacia dentro
-        Vector2Int start = genCell.Value + DirToOffset(outDir);
+        // Celda de inicio: adyacente al generator en su direccion de salida
+        Vector2Int start  = genCell.Value + DirToOffset(outDir);
         Vector2Int target = recCell.Value;
 
         if (!InBounds(start, cols, rows)) return false;
 
-        var visited = new System.Collections.Generic.HashSet<Vector2Int>();
-        var queue   = new System.Collections.Generic.Queue<(Vector2Int pos, TileDirection from)>();
+        // BFS — visitamos (pos, enteredFrom) como par unico
+        // Asi la misma celda puede explorarse desde distintas direcciones de entrada
+        var visited = new System.Collections.Generic.HashSet<(Vector2Int, TileDirection)>();
+        var queue   = new System.Collections.Generic.Queue<(Vector2Int pos, TileDirection enteredFrom)>();
         queue.Enqueue((start, TileShapeData.Opposite(outDir)));
 
         while (queue.Count > 0)
         {
-            var (pos, cameFrom) = queue.Dequeue();
-            if (visited.Contains(pos)) continue;
-            visited.Add(pos);
+            var (pos, enteredFrom) = queue.Dequeue();
+            var key = (pos, enteredFrom);
+            if (visited.Contains(key)) continue;
+            visited.Add(key);
 
             if (!InBounds(pos, cols, rows)) continue;
             PipeTile tile = slots[pos.x, pos.y]?.PlacedTile;
             if (tile == null) continue;
-            if (!tile.HasOpening(cameFrom)) continue;
 
-            // Llegamos al receiver?
-            // inDir = direccion desde la que llega la señal al receiver (desde el interior)
-            // La tile adyacente esta en pos, y recCell esta en pos + Opposite(inDir)
-            // La tile debe tener apertura en Opposite(inDir) para conectar con el receiver
+            // La tile debe tener apertura por donde entramos
+            if (!tile.HasOpening(enteredFrom)) continue;
+
+            // Comprobar conexion con el receiver ANTES de propagar
+            // inDir = direccion por la que entra la señal al receiver
+            // La tile adyacente esta en recCell + Opposite(inDir)
+            // y debe tener apertura Opposite(inDir) para apuntar hacia el receiver
             if (pos + DirToOffset(TileShapeData.Opposite(inDir)) == target
                 && tile.HasOpening(TileShapeData.Opposite(inDir)))
                 return true;
 
+            // Propagar a todos los vecinos por las aperturas de la tile,
+            // excepto por donde entramos (no volver atras)
             foreach (TileDirection dir in new[]
                 { TileDirection.North, TileDirection.South, TileDirection.East, TileDirection.West })
             {
-                if (dir == cameFrom) continue;
-                if (!tile.HasOpening(dir)) continue;
+                if (dir == enteredFrom) continue;          // no volver al origen
+                if (!tile.HasOpening(dir)) continue;       // la tile no sale por aqui
                 Vector2Int next = pos + DirToOffset(dir);
-                if (!visited.Contains(next))
+                if (!InBounds(next, cols, rows)) continue;
+                if (!visited.Contains((next, TileShapeData.Opposite(dir))))
                     queue.Enqueue((next, TileShapeData.Opposite(dir)));
             }
         }

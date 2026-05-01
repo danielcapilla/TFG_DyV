@@ -9,8 +9,6 @@ public class HostManager : NetworkBehaviour
     private MeshRenderer[] objetosActivos;
     public static bool activarEscena = true;
     [SerializeField]
-    private GameObject orderCanvas;
-    [SerializeField]
     private Canvas hostCanvas;
     [SerializeField]
     private CameraSelector cameraSelector;
@@ -20,6 +18,8 @@ public class HostManager : NetworkBehaviour
     private TextMeshProUGUI scoreText;
     [SerializeField]
     private RecipeRandomizer recipeRandomizer;
+
+    private bool IsOffline => !NetworkManager.Singleton || !NetworkManager.Singleton.IsListening;
     public override void OnNetworkSpawn()
     {
 
@@ -57,7 +57,7 @@ public class HostManager : NetworkBehaviour
 
     public void TurnOffVisuals()
     {
-        if (!IsServer) return;
+        if (!IsServer && !IsOffline) return;
         if (activarEscena)
         {
             activarEscena = false;
@@ -66,7 +66,7 @@ public class HostManager : NetworkBehaviour
             {
                 objeto.enabled = false;
             }
-            orderCanvas.SetActive(false);
+            //orderCanvas.SetActive(false);
             //Controles de c�mara
             hostCanvas.transform.GetChild(0).gameObject.SetActive(false);
             hostCanvas.transform.GetChild(1).gameObject.SetActive(false);
@@ -81,7 +81,7 @@ public class HostManager : NetworkBehaviour
             {
                 objeto.enabled = true;
             }
-            orderCanvas.SetActive(true);
+            //orderCanvas.SetActive(true);
             //Controles de c�mara
             hostCanvas.transform.GetChild(0).gameObject.SetActive(true);
             hostCanvas.transform.GetChild(1).gameObject.SetActive(true);

@@ -14,14 +14,17 @@ public class CommandSpawner : MonoBehaviour
     public List<Sprite> Codes;
     private GameObject instance;
 
+    [SerializeField]
+    private Transform RecipeContainer;
+
 
     public void SpawnRecipes(List<List<IngredientsScriptableObject>> recipes, Dictionary<IngredientsScriptableObject, int> codes)
     {
-        Debug.Log("Spawning recipes");
+        Debug.Log("Spawning recipes: " + recipes.Count);
         for (int i = 0; i < recipes.Count; i++)
         {
             GameObject instance = Instantiate(panel);
-            instance.transform.SetParent(this.transform.GetChild(0), false);
+            instance.transform.SetParent(RecipeContainer, false);
             RectTransform instanceRectTransform = instance.GetComponent<RectTransform>();
             //Para mover cosas en canvas usar anchoredPosition!!!!
             instanceRectTransform.anchoredPosition = new Vector3(instanceRectTransform.sizeDelta.x*i,0f,0f);
@@ -62,7 +65,7 @@ public class CommandSpawner : MonoBehaviour
 
         if (instance != null) Destroy(instance);
         instance = Instantiate(panelOrder);
-        instance.transform.SetParent(this.transform.GetChild(0), false);
+        instance.transform.SetParent(RecipeContainer, false);
         RectTransform instanceRectTransform = instance.GetComponent<RectTransform>();
         //Para mover cosas en canvas usar anchoredPosition!!!!
         instanceRectTransform.anchoredPosition = new Vector3(0f , 0f, 0f);

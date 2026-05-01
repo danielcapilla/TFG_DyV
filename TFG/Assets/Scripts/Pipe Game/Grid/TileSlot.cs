@@ -156,7 +156,10 @@ public class TileSlot : InteractableObject, ICarryReceiver
     private void OnDrawGizmos()
     {
         if (placedTile == null) return;
-        PipeTile tile = PlacedTile;
+        // Comprobar que el objeto no fue destruido (MissingReferenceException)
+        var go = placedTile.GetGameObject();
+        if (go == null) { placedTile = null; return; }
+        PipeTile tile = go.GetComponent<PipeTile>();
         if (tile == null) return;
         DrawOpeningGizmos(tile.Openings, transform.position + Vector3.up * 0.1f, 0.35f);
     }
