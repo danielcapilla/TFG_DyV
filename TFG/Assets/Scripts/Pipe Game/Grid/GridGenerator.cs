@@ -8,6 +8,7 @@ public class GridGenerator : MonoBehaviour
     [Header("Espaciado")]
     [SerializeField] private float cellSize = 1.1f;
     [SerializeField] private float reserveGap = 2f;
+    [SerializeField] private int reserveSlotsPerColumn = 4;
 
     [Header("Prefab")]
     [SerializeField] private GameObject tileSlotPrefab;
@@ -49,17 +50,26 @@ public class GridGenerator : MonoBehaviour
             }
         }
 
-        // ── Zona de reserva ───────────────────────────────────────────────────
-        float reserveStartX  = offsetX + cellSize + reserveGap;
-        float reserveTotalZ  = (reserve - 1) * cellSize;
-        float reserveOffsetZ = reserveTotalZ * 0.5f;
+        // ── Zona de reserva (multiples columnas) ─────────────────────────────
+        int slotsPerCol  = Mathf.Max(1, reserveSlotsPerColumn);
+        int numCols      = Mathf.CeilToInt((float)reserve / slotsPerCol);
+        float reserveStartX = offsetX + cellSize + reserveGap;
 
         for (int i = 0; i < reserve; i++)
         {
+            int col = i / slotsPerCol;
+            int row = i % slotsPerCol;
+
+            // Centrar verticalmente cada columna
+            int slotsInThisCol = (col == numCols - 1 && reserve % slotsPerCol != 0)
+                ? reserve % slotsPerCol
+                : slotsPerCol;
+            float colOffsetZ = (slotsInThisCol - 1) * cellSize * 0.5f;
+
             Vector3 localPos = new Vector3(
-                reserveStartX,
+                reserveStartX + col * cellSize,
                 0f,
-                i * cellSize - reserveOffsetZ);
+                row * cellSize - colOffsetZ);
 
             TileSlot slot = SpawnSlot(localPos, $"Reserve [{i}]");
             ReserveSlots[i] = slot;
@@ -91,7 +101,9 @@ public class GridGenerator : MonoBehaviour
 
     private void Awake()
     {
-        if (transform.childCount == 0)
+        // Regenerar si no hay slots o si el tamaño no coincide con el SO
+        int expectedSlots = config.columns * config.rows + config.reserveSlots;
+        if (transform.childCount == 0 || transform.childCount != expectedSlots)
             GenerateGrid();
         else
             RebuildSlotMatrix();

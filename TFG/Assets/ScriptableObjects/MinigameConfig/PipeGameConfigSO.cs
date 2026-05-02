@@ -1,11 +1,11 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "PipeGameConfig", menuName = "Pipe Game/Config")]
-public class PipeGameConfigSO : ScriptableObject
+[CreateAssetMenu(fileName = "PipeGameConfig", menuName = "Game Config/Pipe Game")]
+public class PipeGameConfigSO : GameConfigBaseSO
 {
-    [Header("Tamaño del grid")]
-    public int columns     = 4;
-    public int rows        = 4;
+    [Header("Grid")]
+    [Range(4, 8)] public int columns      = 4;
+    [Range(4, 8)] public int rows         = 4;
     public int reserveSlots = 6;
 
     [Header("Dificultad")]

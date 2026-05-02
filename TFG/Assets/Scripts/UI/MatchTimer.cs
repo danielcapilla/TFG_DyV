@@ -16,6 +16,8 @@ public class MatchTimer : NetworkBehaviour
 
     [Header("Duracion")]
     [SerializeField] private float duration = 180f;
+    [Tooltip("Opcional: sobreescribe duration con config.matchDuration")]
+    [SerializeField] private GameConfigBaseSO config;
 
     [Header("Displays (uno por cada panel de UI)")]
     [SerializeField] private List<TimerDisplay> displays = new();
@@ -39,6 +41,7 @@ public class MatchTimer : NetworkBehaviour
     private void Awake()
     {
         if (!IsOffline) return;
+        if (config != null) duration = config.matchDuration;
         remaining = duration;
         max = duration;
         UpdateDisplays();
@@ -55,6 +58,7 @@ public class MatchTimer : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
+        if (config != null) duration = config.matchDuration;
         remaining = duration;
         max = duration;
         UpdateDisplays();
@@ -81,6 +85,7 @@ public class MatchTimer : NetworkBehaviour
             return;
         }
         if (!IsServer) return;
+        if (config != null) duration = config.matchDuration;
         remaining = duration;
         max = duration;
         IsRunning.Value = true;

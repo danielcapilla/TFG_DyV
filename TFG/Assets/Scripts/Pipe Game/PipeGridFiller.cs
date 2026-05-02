@@ -216,40 +216,100 @@ public class PipeGridFiller : MonoBehaviour
     private List<Vector2Int> GeneratePath(Vector2Int start, Vector2Int target,
         int cols, int rows, Vector2Int blocked1 = default, Vector2Int blocked2 = default)
     {
-        var blocked  = new HashSet<Vector2Int> { blocked1, blocked2 };
-        int minCells = Mathf.RoundToInt((cols * rows - blocked.Count) * 0.7f);
-        var path     = new List<Vector2Int> { start };
-        var visited  = new HashSet<Vector2Int>(blocked) { start };
-        return DFS(start, target, cols, rows, blocked, path, visited, minCells) ? path : null;
+        var blocked   = new HashSet<Vector2Int> { blocked1, blocked2 };
+        int totalFree = cols * rows - blocked.Count;
+        // Intentar con 70%, si no encuentra reducir hasta 40%
+        for (float coverage = 0.7f; coverage >= 0.4f; coverage -= 0.1f)
+        {
+            int minCells = Mathf.RoundToInt(totalFree * coverage);
+            var result   = TryFindPath(start, target, cols, rows, blocked, minCells);
+            if (result != null) return result;
+        }
+        return null;
     }
 
-    private bool DFS(Vector2Int cur, Vector2Int target, int cols, int rows,
-        HashSet<Vector2Int> blocked, List<Vector2Int> path, HashSet<Vector2Int> visited, int minCells)
+    private List<Vector2Int> TryFindPath(Vector2Int start, Vector2Int target,
+        int cols, int rows, HashSet<Vector2Int> blocked, int minCells)
     {
-        if (cur == target && path.Count >= minCells) return true;
 
-        var dirs = new[] {
+        // DFS iterativo con pila explicita para evitar stack overflow en grids grandes
+        var dirs = new Vector2Int[]
+        {
             new Vector2Int(0,1), new Vector2Int(0,-1),
             new Vector2Int(1,0), new Vector2Int(-1,0)
         };
-        for (int i = dirs.Length - 1; i > 0; i--)
+
+        var path    = new List<Vector2Int> { start };
+        var visited = new HashSet<Vector2Int>(blocked) { start };
+        var stack   = new Stack<(Vector2Int pos, int[] neighborOrder, int neighborIdx)>();
+
+        int[] ShuffledOrder()
         {
-            int j = Random.Range(0, i + 1);
-            var tmp = dirs[i]; dirs[i] = dirs[j]; dirs[j] = tmp;
+            int[] idx = { 0, 1, 2, 3 };
+            for (int i = 3; i > 0; i--) { int j = Random.Range(0, i+1); int t = idx[i]; idx[i] = idx[j]; idx[j] = t; }
+            return idx;
         }
 
-        foreach (var d in dirs)
+        stack.Push((start, ShuffledOrder(), 0));
+        int maxIterations = cols * rows * cols * rows; // limite de seguridad
+        int iterations    = 0;
+
+        while (stack.Count > 0 && iterations++ < maxIterations)
         {
-            var next = cur + d;
-            if (next.x < 0 || next.x >= cols || next.y < 0 || next.y >= rows) continue;
-            if (visited.Contains(next)) continue;
-            path.Add(next); visited.Add(next);
-            if (DFS(next, target, cols, rows, blocked, path, visited, minCells)) return true;
-            path.RemoveAt(path.Count - 1); visited.Remove(next);
+            var (cur, order, nextIdx) = stack.Peek();
+
+            // Llegamos al objetivo con suficientes celdas -> exito
+            if (cur == target && path.Count >= minCells)
+                return path;
+
+            // Buscar siguiente vecino valido
+            // Si estamos en el target pero con pocas celdas, no lo contamos como bloqueado
+            // pero tampoco avanzamos hacia el — seguimos explorando otros vecinos
+            bool found = false;
+            int idx = nextIdx;
+            while (idx < 4)
+            {
+                var d    = dirs[order[idx]];
+                var next = cur + d;
+                idx++;
+                if (next.x < 0 || next.x >= cols || next.y < 0 || next.y >= rows) continue;
+                if (visited.Contains(next)) continue;
+                // Saltar el target si no tenemos suficientes celdas aun
+                if (next == target && path.Count < minCells - 1) continue;
+
+                // Actualizar indice en la pila actual
+                stack.Pop();
+                stack.Push((cur, order, idx));
+
+                // Avanzar
+                path.Add(next);
+                visited.Add(next);
+                stack.Push((next, ShuffledOrder(), 0));
+                found = true;
+                break;
+            }
+
+            if (!found)
+            {
+                // Backtrack — quitar current del path y del visited
+                stack.Pop();
+                if (path.Count > 1)
+                {
+                    var last = path[path.Count - 1];
+                    // Solo quitar del visited si no es start
+                    if (last != start)
+                        visited.Remove(last);
+                    path.RemoveAt(path.Count - 1);
+                }
+                else
+                {
+                    // No hay camino posible
+                    return null;
+                }
+            }
         }
 
-        if (cur == target && path.Count >= minCells) return true;
-        return false;
+        return null;
     }
 
     // ── Huecos ────────────────────────────────────────────────────────────────

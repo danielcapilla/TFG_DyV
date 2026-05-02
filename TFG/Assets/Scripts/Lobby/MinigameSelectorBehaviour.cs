@@ -1,59 +1,54 @@
-using UnityEngine;
 using DG.Tweening;
 using Unity.Netcode;
+using UnityEngine;
+using UnityEngine.Localization.Components;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using System.Collections.Generic;
-using UnityEngine.Localization.Components;
 
 public class MinigameSelectorBehaviour : NetworkBehaviour
 {
-    [SerializeField] GameObject minigameSelectorPanel;
-    [SerializeField] float time;
-    [SerializeField] Vector3 startPos;
-    // For Tutorials
-    [SerializeField] GameObject lobbyCamera;
-    [SerializeField] GameObject lobbyCanvas;
+    [Header("Panel selector")]
+    [SerializeField] private GameObject minigameSelectorPanel;
+    [SerializeField] private float time;
+    [SerializeField] private Vector3 startPos;
 
-    [SerializeField] Image gameImage;
+    [Header("Referencias")]
+    [SerializeField] private GameObject lobbyCamera;
+    [SerializeField] private GameObject lobbyCanvas;
+    [SerializeField] private Image gameImage;
+    [SerializeField] private GameObject PlayButton;
+    [SerializeField] private GameObject transparentPanel;
 
-    [SerializeField] string selectedGame;
-    [SerializeField] GameObject PlayButton;
-    [SerializeField] GameObject transparentPanel;
-    Button selectedButton;
+    [Header("Configuracion")]
+    [SerializeField] private Transform configPanelContainer;
+    [SerializeField] private GameObject configPanel;
 
-    [SerializeField] LocalizeStringEvent DescriptionText;
-    [SerializeField] LocalizeStringEvent TutorialText;
+    [Header("Textos")]
+    [SerializeField] private LocalizeStringEvent DescriptionText;
+    [SerializeField] private LocalizeStringEvent TutorialText;
 
-    // Loading UI
-    //[Header("Loading UI")]
-    //[SerializeField] private CanvasGroup loadingPanel;   
-    //[SerializeField] private Image loadingBarFill;       
+    private string selectedGameScene;
+    private string selectedTutorialScene;
+    private Button selectedButton;
+    private GameObject currentConfigPanel;
+    private Scene loadedTutorialScene;
 
-    // Singleton
+    private bool IsOffline => !NetworkManager.Singleton || !NetworkManager.Singleton.IsListening;
+
     public static MinigameSelectorBehaviour Instance { get; private set; }
 
-    void Awake()
+    private void Awake()
     {
-        if (Instance == null)
-            Instance = this;
-        else
-            Destroy(gameObject);
+        if (Instance == null) Instance = this;
+        else Destroy(gameObject);
     }
 
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         startPos = minigameSelectorPanel.transform.localPosition;
-
-        //loadingPanel.alpha = 0f;
-        //loadingPanel.gameObject.SetActive(false);
-        //loadingBarFill.fillAmount = 0f;
-        //if (!IsServer) 
-        //{
-        //    PlayButton.SetActive(false);
-        //}
     }
+
+    // ── Panel selector ────────────────────────────────────────────────────────
 
     public void OpenPanel()
     {
@@ -61,81 +56,127 @@ public class MinigameSelectorBehaviour : NetworkBehaviour
         transparentPanel.SetActive(true);
     }
 
-    public void ClosePanel() 
+    public void ClosePanel()
     {
         minigameSelectorPanel.transform.DOLocalMove(startPos, time);
         transparentPanel.SetActive(false);
     }
 
-    public void IrAJuego()
+    // ── Panel configuracion ───────────────────────────────────────────────────
+
+    public void OpenConfigPanel()
     {
-        //TODO If Host start game if client cast vote to poll
-        if(IsServer)
+        if (configPanel != null)
+            configPanel.SetActive(true);
+    }
+
+    public void CloseConfigPanel()
+    {
+        if (configPanel != null)
+            configPanel.SetActive(false);
+    }
+
+    // ── Seleccion de juego ────────────────────────────────────────────────────
+
+    public void SelectGame(MinigameInfoSO info)
+    {
+        // Actualizar UI
+        gameImage.sprite = info.icon;
+        DescriptionText.StringReference.SetReference(
+            info.description.TableReference, info.description.TableEntryReference);
+        TutorialText.StringReference.SetReference(
+            info.tutorialText.TableReference, info.tutorialText.TableEntryReference);
+        DescriptionText.RefreshString();
+        TutorialText.RefreshString();
+
+        selectedGameScene     = info.sceneName;
+        selectedTutorialScene = info.tutorialSceneName;
+
+        // Destruir panel de configuracion anterior e instanciar el nuevo
+        if (currentConfigPanel != null)
         {
-            if (selectedGame.Length > 0)
-            {
-                NetworkManager.Singleton.SceneManager.LoadScene(selectedGame, LoadSceneMode.Single);
-            }
-        }
-        else
-        {
-            if (selectedGame.Length > 0)
-            {
-                HideLobbyUI();
-                SceneManager.LoadSceneAsync(selectedGame, LoadSceneMode.Additive).completed += (op) =>
-                {
-                    Scene tutorialScene = SceneManager.GetSceneByName(selectedGame);
-                    if (tutorialScene.IsValid())
-                    {
-                        SceneManager.SetActiveScene(tutorialScene);
-                    }
-                };
-            }
+            Destroy(currentConfigPanel);
+            currentConfigPanel = null;
+            configPanel = null;
         }
 
-    }
-    private void HideLobbyUI()
-    {
-        lobbyCanvas.SetActive(false);
-        if (lobbyCamera != null)
-            lobbyCamera.gameObject.SetActive(false);
-    }
-    public void ReturnFromTutorial()
-    {
-        Scene tutorialScene = SceneManager.GetActiveScene();
+        if (info.configPanelPrefab != null && configPanelContainer != null)
+        {
+            currentConfigPanel = Instantiate(info.configPanelPrefab, configPanelContainer);
+            currentConfigPanel.SetActive(false);
 
-        if (tutorialScene.isLoaded)
-        {
-            SceneManager.UnloadSceneAsync(tutorialScene).completed += (op) =>
-            {
-                lobbyCanvas.SetActive(true);
-                lobbyCamera.gameObject.SetActive(true);
-            };
-        }
-        else
-        {
-            lobbyCanvas.SetActive(true);
-            lobbyCamera.gameObject.SetActive(true);
+            if (currentConfigPanel.TryGetComponent<IConfigPanel>(out var panel))
+                panel.Setup(info.config);
+
+            configPanel = currentConfigPanel;
         }
     }
-    public void SelectButton(Button pressedButton) 
+
+    public void SelectButton(Button pressedButton)
     {
-        if (selectedButton != null) 
-        {
+        if (selectedButton != null)
             selectedButton.interactable = true;
-        }
         selectedButton = pressedButton;
         selectedButton.interactable = false;
     }
 
-    public void SelectGame(MinigameInfoSO info) 
-    {
-        gameImage.sprite = info.icon;
-        DescriptionText.StringReference.SetReference(info.description.TableReference, info.description.TableEntryReference);
-        TutorialText.StringReference.SetReference(info.tutorialText.TableReference, info.tutorialText.TableEntryReference);
-        DescriptionText.RefreshString();
-        TutorialText.RefreshString();
+    // ── Ir al juego ───────────────────────────────────────────────────────────
 
-        selectedGame = IsServer ? info.sceneName : info.tutorialSceneName;
+    public void IrAJuego()
+    {
+        if (string.IsNullOrEmpty(selectedGameScene)) return;
+
+        if (IsOffline)
+        {
+            SceneManager.LoadScene(selectedGameScene, LoadSceneMode.Single);
+            return;
+        }
+
+        if (IsServer)
+            NetworkManager.Singleton.SceneManager.LoadScene(selectedGameScene, LoadSceneMode.Single);
+    }
+
+    // ── Tutorial ──────────────────────────────────────────────────────────────
+
+    public void IrAlTutorial()
+    {
+        if (string.IsNullOrEmpty(selectedTutorialScene)) return;
+
+        HideLobbyUI();
+        var op = SceneManager.LoadSceneAsync(selectedTutorialScene, LoadSceneMode.Additive);
+        op.completed += _ =>
+        {
+            loadedTutorialScene = SceneManager.GetSceneByName(selectedTutorialScene);
+            if (loadedTutorialScene.IsValid())
+                SceneManager.SetActiveScene(loadedTutorialScene);
+        };
+    }
+
+    public void ReturnFromTutorial()
+    {
+        if (loadedTutorialScene.IsValid() && loadedTutorialScene.isLoaded)
+        {
+            SceneManager.UnloadSceneAsync(loadedTutorialScene).completed += _ =>
+            {
+                loadedTutorialScene = default;
+                ShowLobbyUI();
+            };
+        }
+        else
+        {
+            ShowLobbyUI();
+        }
+    }
+
+    private void HideLobbyUI()
+    {
+        if (lobbyCanvas != null) lobbyCanvas.SetActive(false);
+        if (lobbyCamera != null) lobbyCamera.SetActive(false);
+    }
+
+    private void ShowLobbyUI()
+    {
+        if (lobbyCanvas != null) lobbyCanvas.SetActive(true);
+        if (lobbyCamera != null) lobbyCamera.SetActive(true);
     }
 }
