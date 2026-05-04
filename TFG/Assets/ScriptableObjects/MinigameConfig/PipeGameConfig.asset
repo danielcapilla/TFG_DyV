@@ -12,9 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2611ab7227eb41446a777c42e3beb80a, type: 3}
   m_Name: PipeGameConfig
   m_EditorClassIdentifier: 
-  columns: 4
-  rows: 4
+  matchDuration: 120
+  rounds: 1
+  maxPlayers: 4
+  columns: 8
+  rows: 8
   reserveSlots: 4
+  difficulty: Normal
   gapRatio: 0.35
   lockRatio: 0.4
   extraTiles: 3

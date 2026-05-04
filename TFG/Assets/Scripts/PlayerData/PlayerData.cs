@@ -5,6 +5,6 @@ public static class PlayerData
     public static string Gender;
     public static string Role;
 
-    public static string ClassCode;
+    public static string ClassCode = "Prueba";
     public static int ProfilePicID = 0;
 }

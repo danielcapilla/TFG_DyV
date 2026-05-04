@@ -31,14 +31,14 @@ public class LoginBehaviour : MonoBehaviour
     [SerializeField] TextMeshProUGUI UserNotFoundErrorText;
     [SerializeField] TextMeshProUGUI UserAlreadyExistsErrorText;
 
-    [SerializeField] DataBaseCommander commander;
+    [SerializeField] UserDatabaseService userService;
 
 
     private void Start()
     {
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
         ageRegisterText.text = age.ToString();
-        commander.DataBaseLogin();
+        // Login se gestiona automaticamente en UserDatabaseService.Start()
     }
 
     public void HideErrorTexts()
@@ -59,7 +59,7 @@ public class LoginBehaviour : MonoBehaviour
         if (usernameLogin.text.Length > 0)
         {
             //Guardar info en la clase statica
-            commander.LoadGame(usernameLogin.text, LoginError);
+            userService.LoadUser(usernameLogin.text, LoginError);
         }
         else
         {
@@ -152,7 +152,7 @@ public class LoginBehaviour : MonoBehaviour
         if (isGenderSet)
         {
             //Register
-            commander.RegisterUser(RegisterError);
+            userService.RegisterUser(RegisterError);
         }
         else
         {

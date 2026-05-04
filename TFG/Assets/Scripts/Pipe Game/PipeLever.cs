@@ -6,6 +6,7 @@ using UnityEngine;
 /// </summary>
 public class PipeLever : InteractableObject
 {
+    public event System.Action OnLeverActivated;
     [Header("Referencias")]
     [SerializeField] private PipeConnectionChecker connectionChecker;
 
@@ -43,6 +44,7 @@ public class PipeLever : InteractableObject
             animator.SetTrigger(PullHash);
 
         Debug.Log("Evaluando");
+        OnLeverActivated?.Invoke();
         connectionChecker?.EvaluateCircuit();
     }
 

@@ -30,7 +30,7 @@ public class GameManagerChicken : NetworkBehaviour
     [SerializeField] private GameObject groupPanel;
 
     [Header("Base de Datos")]
-    [SerializeField] private DataBaseCommander dataBaseCommander;
+    [SerializeField] private ChickenDatabaseService chickenService;
     private string studentClassCode = "A";
 
     // Eventos
@@ -143,7 +143,7 @@ public class GameManagerChicken : NetworkBehaviour
             yield return new WaitForSeconds(winMusic.clip.length);
         }
         // Envio de datos a la base de datos
-        dataBaseCommander.RegisterChickenGridCurrent(PlayerData.ClassCode, studentClassCode, _ =>
+        chickenService.RegisterCurrentGame(PlayerData.ClassCode, studentClassCode, _ =>
         {
             NetworkManager.Singleton.SceneManager.LoadScene("Podium", LoadSceneMode.Single);
         });

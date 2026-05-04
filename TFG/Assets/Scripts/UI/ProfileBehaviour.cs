@@ -8,7 +8,7 @@ public class ProfileBehaviour : MonoBehaviour
     [SerializeField] Image image;
 
     ProfileImageList imageList;
-    [SerializeField] DataBaseCommander commander;
+    [SerializeField] UserDatabaseService userService;
 
     [SerializeField] GameObject ProfilePicButtonPrefab;
     [SerializeField] GridLayoutGroup gridLayout;
@@ -39,6 +39,6 @@ public class ProfileBehaviour : MonoBehaviour
     public void CloseProfilePicSelector()
     {
         //Update data in DB
-        commander.UpdateGame();
+        userService.UpdateProfilePic();
     }
 }

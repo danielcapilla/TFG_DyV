@@ -4,6 +4,7 @@ using UnityEngine;
 public class TileSlot : InteractableObject, ICarryReceiver
 {
     private bool isOccupied = false;
+    private bool isPermanentlyOccupied = false;
     private ICarryObject placedTile = null;
 
     private PipeConnectionChecker connectionChecker;
@@ -22,6 +23,7 @@ public class TileSlot : InteractableObject, ICarryReceiver
     {
         PlayerCarry carry = player.GetComponent<PlayerCarry>();
         if (carry == null) return false;
+        if (isPermanentlyOccupied) return false;
         // Tile bloqueada: no se puede coger
         if (isOccupied && PlacedTile != null && PlacedTile.IsLocked) return false;
         // Interactuable si: el slot tiene tile (para cogerla) O el jugador lleva tile (para colocarla)
@@ -29,6 +31,20 @@ public class TileSlot : InteractableObject, ICarryReceiver
     }
 
     // ── ForcePlace (usado por PipeGridFiller) ─────────────────────────────────
+
+    /// <summary>Marca el slot como permanentemente ocupado (generator/receiver). No se puede colocar ni coger tiles.</summary>
+    public void ForcePermanentOccupy()
+    {
+        isPermanentlyOccupied = true;
+        isOccupied = true;
+    }
+
+    /// <summary>Resetea el estado permanente al regenerar el escenario.</summary>
+    public void ResetPermanent()
+    {
+        isPermanentlyOccupied = false;
+        isOccupied = false;
+    }
 
     public void ForcePlace(ICarryObject carry)
     {
@@ -49,7 +65,7 @@ public class TileSlot : InteractableObject, ICarryReceiver
     // ── ICarryReceiver ────────────────────────────────────────────────────────
 
     public bool CanReceive(ICarryObject carryObject, PlayerCarry carrier)
-        => !isOccupied && carryObject != null;
+        => !isOccupied && !isPermanentlyOccupied && carryObject != null;
 
     public bool Receive(ICarryObject carryObject, PlayerCarry carrier)
     {

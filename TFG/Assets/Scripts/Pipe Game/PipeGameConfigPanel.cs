@@ -42,6 +42,8 @@ public class PipeGameConfigPanel : MonoBehaviour, IConfigPanel
         }
     }
 
+    private static readonly string[] DifficultyNames = new[] { "Facil", "Normal", "Dificil", "Experto" };
+
     private static readonly DifficultyPreset[] Presets = new[]
     {
         new DifficultyPreset(0.50f, 0.10f, 5), // Facil:   muchos huecos, casi sin bloqueadas

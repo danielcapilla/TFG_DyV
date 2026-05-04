@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
@@ -24,6 +24,8 @@ public class GroupsBehaviour : MonoBehaviour
     private GameObject infoGOHamburger;
     [SerializeField]
     private GameObject infoGOChicken;
+    [SerializeField]
+    private GameObject infoGOPipe;
 
     private bool groupSelected = false;
     public string groupSelectedID;
@@ -55,6 +57,25 @@ public class GroupsBehaviour : MonoBehaviour
                     gamePrefabScript.SetObjectToActivate(infoGOHamburger);
                     gamePrefabScript.SetObjectToDesactivate(groupsGO);
                     gamePrefabScript.onClicked += ChangeBool;
+                }
+                i++;
+            }
+        }
+        else if (filtersBehaviour.selectedGameType == FiltersBehaviour.GameType.Pipe)
+        {
+            // Pipe: una tarjeta por grupo (de momento grupo 0 por defecto, preparado para mas)
+            int groupCount = 1; // TODO: extraer grupos reales cuando haya multiples
+            for (int g = 0; g < groupCount; g++)
+            {
+                int groupIndex = g;
+                GameObject partidaPrefab = Instantiate(grupoTarjetita, groupsGLG.transform);
+                partidaPrefab.GetComponentInChildren<TextMeshProUGUI>().text = (g + 1).ToString();
+                var gamePrefabScript = partidaPrefab.GetComponent<GamePrefabScript>();
+                if (gamePrefabScript != null)
+                {
+                    gamePrefabScript.SetObjectToActivate(infoGOPipe);
+                    gamePrefabScript.SetObjectToDesactivate(groupsGO);
+                    gamePrefabScript.onClicked += (s, e) => { groupSelectedID = groupIndex.ToString(); ChangeBool(s, e); };
                 }
                 i++;
             }

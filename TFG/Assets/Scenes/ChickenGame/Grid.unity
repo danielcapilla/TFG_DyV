@@ -2530,17 +2530,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  teamManager: {fileID: 1250604520}
   readyButton: {fileID: 2027876233}
   groupCanvas: {fileID: 795390958}
-  buttons:
-  - {fileID: 1109694172}
-  - {fileID: 1041663575}
-  - {fileID: 1117227792}
-  - {fileID: 641488278}
-  - {fileID: 1195980597}
-  - {fileID: 516726481}
-  - {fileID: 2027876233}
+  buttonsContainer: {fileID: 0}
+  buttonPrefab: {fileID: 0}
 --- !u!1001 &455264247
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8096,8 +8089,8 @@ GameObject:
   - component: {fileID: 1175153890}
   - component: {fileID: 1175153891}
   - component: {fileID: 1175153892}
-  - component: {fileID: 1175153893}
   - component: {fileID: 1175153894}
+  - component: {fileID: 1175153895}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -8168,19 +8161,7 @@ MonoBehaviour:
   movementPanelToggle: {fileID: 1739600011}
   hostCanvas: {fileID: 1056868266}
   groupPanel: {fileID: 879709472}
-  dataBaseCommander: {fileID: 1175153893}
---- !u!114 &1175153893
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1175153889}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6a57f39a4eb8ded40baa5078aed021b0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  chickenService: {fileID: 1175153895}
 --- !u!114 &1175153894
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8196,6 +8177,19 @@ MonoBehaviour:
   virtualCamera: {fileID: 304926009}
   grid: {fileID: 2014524305}
   marginPercentage: 0
+--- !u!114 &1175153895
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1175153889}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03c3d71069b28d347aec5bcbb4361826, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  credentials: {fileID: 11400000, guid: 08d3de537d26d4b4fac124bfbc9a69d3, type: 2}
 --- !u!1 &1184440416
 GameObject:
   m_ObjectHideFlags: 0

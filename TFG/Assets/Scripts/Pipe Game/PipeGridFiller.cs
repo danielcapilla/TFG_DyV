@@ -27,6 +27,8 @@ public class PipeGridFiller : MonoBehaviour
     [Header("Configuracion (opcional)")]
     [SerializeField] private PipeGameConfigSO config;
 
+    public event System.Action OnFillCompleted;
+
     private bool IsOffline => !NetworkManager.Singleton || !NetworkManager.Singleton.IsListening;
 
     private PipeConnectionChecker checker;
@@ -172,6 +174,7 @@ public class PipeGridFiller : MonoBehaviour
             checker.OnCircuitCompleted += onCircuitCompletedHandler;
         }
 
+        OnFillCompleted?.Invoke();
         Debug.Log($"[Filler] seed={usedSeed} gen=[{genCell}] rec=[{recCell}] path={path.Count} gaps={gaps.Count}");
     }
 
@@ -339,10 +342,14 @@ public class PipeGridFiller : MonoBehaviour
 
     private void ClearSpawned()
     {
+        // Resetear todos los slots permanentes del grid
+        if (grid?.Slots != null)
+            foreach (var slot in grid.Slots)
+                slot?.ResetPermanent();
+
         foreach (var go in spawned)
         {
             if (go == null) continue;
-            // Limpiar el slot antes de destruir para evitar referencias huerfanas
             PipeTile tile = go.GetComponent<PipeTile>();
             if (tile != null && tile.CurrentSlot != null)
                 tile.CurrentSlot.Clear();
@@ -363,6 +370,8 @@ public class PipeGridFiller : MonoBehaviour
         PlayerCarry.SetParentSafe(go, slot.transform);
         go.transform.localPosition = new Vector3(0f, 0.05f, 0f);
         go.transform.localRotation = Quaternion.identity;
+        // Marcar el slot como permanentemente ocupado (no se pueden colocar tiles aqui)
+        slot.ForcePermanentOccupy();
         setup(go);
         spawned.Add(go);
     }

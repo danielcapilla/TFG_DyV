@@ -9,7 +9,7 @@ public class GameManagerRestaurant : GameManagerBase
     [SerializeField] private AudioSource restaurantMusic;
     [SerializeField] private RecipeRandomizer recipeRandomizer;
     [SerializeField] private TeamManager teamMenager;
-    [SerializeField] private DataBaseCommander dataBaseCommander;
+    [SerializeField] private RestaurantDatabaseService restaurantService;
 
     private string studentClassCode = "A";
 
@@ -32,7 +32,7 @@ public class GameManagerRestaurant : GameManagerBase
 
     protected override void OnTimerFinished()
     {
-        dataBaseCommander.RegisterGame(
+        restaurantService.RegisterGame(
             PlayerData.ClassCode,
             studentClassCode,
             recipeRandomizer.recipes,

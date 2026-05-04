@@ -9,6 +9,7 @@ public class PipeGameConfigSO : GameConfigBaseSO
     public int reserveSlots = 6;
 
     [Header("Dificultad")]
+    [HideInInspector] public string difficulty = "Normal";
     [Range(0.1f, 0.8f)] public float gapRatio  = 0.35f;
     [Range(0f,   1f)]   public float lockRatio  = 0.4f;
     [Range(0, 10)]      public int   extraTiles  = 3;
