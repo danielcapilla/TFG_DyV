@@ -49,5 +49,7 @@ public class PipeMatchData
     public int gridRows;
     public string difficulty;
     public float matchDuration;
+    public bool infiniteTime;
+    public int maxRounds;
     public List<PipeRound> rounds = new();
 }

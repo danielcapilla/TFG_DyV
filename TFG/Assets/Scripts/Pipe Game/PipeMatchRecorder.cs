@@ -21,8 +21,11 @@ public class PipeMatchRecorder : MonoBehaviour
     private PipeRound currentRound;
     private float roundStartTime;
     private int roundNumber = 0;
+    private int roundsCompleted = 0;
     private int attemptNumber = 0;
     private bool IsOffline => !NetworkManager.Singleton || !NetworkManager.Singleton.IsListening;
+
+    public event System.Action OnMaxRoundsReached;
 
     private void Awake()
     {
@@ -49,10 +52,13 @@ public class PipeMatchRecorder : MonoBehaviour
             gridColumns   = config != null ? config.columns : grid.Columns,
             gridRows      = config != null ? config.rows    : grid.Rows,
             difficulty    = difficulty,
-            matchDuration = config != null ? config.matchDuration : 180f
+            matchDuration = config != null ? config.matchDuration : 180f,
+            infiniteTime  = config != null && config.infiniteTime,
+            maxRounds     = config != null ? config.maxRounds : 0
         };
-        roundNumber   = 0;
-        attemptNumber = 0;
+        roundNumber      = 0;
+        roundsCompleted  = 0;
+        attemptNumber    = 0;
     }
 
     private void OnNewRound()
@@ -101,9 +107,19 @@ public class PipeMatchRecorder : MonoBehaviour
     {
         if (currentRound == null) return;
         currentRound.timeSeconds = Time.time - roundStartTime;
-        // Marcar el ultimo intento como exitoso
         if (currentRound.attempts.Count > 0)
             currentRound.attempts[currentRound.attempts.Count - 1].success = true;
+
+        roundsCompleted++;
+
+        int maxR = config != null ? config.maxRounds : 0;
+        Debug.Log($"[Recorder] OnCircuitCompleted: roundsCompleted={roundsCompleted} maxR={maxR}");
+        if (maxR > 0 && roundsCompleted >= maxR)
+        {
+            Debug.Log("[Recorder] OnMaxRoundsReached disparado!");
+            if (filler != null) filler.OnFillCompleted -= OnNewRound;
+            OnMaxRoundsReached?.Invoke();
+        }
     }
 
     public void SaveMatch(string teacherCode, string classCode, System.Action<int> onComplete = null)

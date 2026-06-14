@@ -18,6 +18,7 @@ public class PlayerController : NetworkBehaviour
     public InteractableObject interactableInRange;
 
     [SerializeField] GameObject FeetLocalizer;
+    [SerializeField] float localizerScale = 0.25f;
 
     [Header("Deteccion de interactuables")]
     [SerializeField][Range(10f, 180f)] private float interactionAngle = 90f;
@@ -46,7 +47,11 @@ public class PlayerController : NetworkBehaviour
 
     private void InitializePlayer()
     {
-        if (FeetLocalizer != null) FeetLocalizer.SetActive(true);
+        if (FeetLocalizer != null)
+        {
+            FeetLocalizer.SetActive(true);
+            FeetLocalizer.transform.localScale = Vector3.one * localizerScale;
+        }
 
         playerInput = GetComponent<PlayerInput>();
         playerInput.enabled = true;

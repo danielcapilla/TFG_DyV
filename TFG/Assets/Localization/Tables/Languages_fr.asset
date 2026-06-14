@@ -400,6 +400,22 @@ MonoBehaviour:
     m_Localized: "D\xE9clenchement"
     m_Metadata:
       m_Items: []
+  - m_Id: 290919010234523648
+    m_Localized: Tuyaux
+    m_Metadata:
+      m_Items: []
+  - m_Id: 290919010247106560
+    m_Localized: "Utilisez la pens\xE9e informatique pour connecter les tuyaux et
+      travaillez en \xE9quipe pour terminer autant de niveaux que possible."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 290919010247106561
+    m_Localized: "Collectez, faites pivoter et placez les tuiles pour relier les
+      deux points. Les tuiles violettes ne peuvent pas \xEAtre modifi\xE9es. Une
+      fois le circuit termin\xE9, appuyez sur le bouton bleu pour v\xE9rifier son
+      bon fonctionnement."
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:

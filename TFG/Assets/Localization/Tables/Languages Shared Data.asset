@@ -375,6 +375,18 @@ MonoBehaviour:
     m_Key: gridPanelGenerate
     m_Metadata:
       m_Items: []
+  - m_Id: 290919010234523648
+    m_Key: pipeGameName
+    m_Metadata:
+      m_Items: []
+  - m_Id: 290919010247106560
+    m_Key: pipeGameDescription
+    m_Metadata:
+      m_Items: []
+  - m_Id: 290919010247106561
+    m_Key: pipeGameTutorial
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

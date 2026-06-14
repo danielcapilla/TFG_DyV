@@ -401,6 +401,21 @@ MonoBehaviour:
     m_Localized: Generate
     m_Metadata:
       m_Items: []
+  - m_Id: 290919010234523648
+    m_Localized: Pipes
+    m_Metadata:
+      m_Items: []
+  - m_Id: 290919010247106560
+    m_Localized: Use computational thinking to connect the pipes and work with your
+      team to complete as many levels as you can.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 290919010247106561
+    m_Localized: Collect, rotate, and place the tiles to connect both points. The
+      purple tiles cannot be modified. Once the circuit is complete, interact with
+      the blue button to check if the circuit is correct.
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:

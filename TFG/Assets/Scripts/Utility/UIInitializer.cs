@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem.UI;
 
 public static class UIInitializer
 {
@@ -10,7 +11,7 @@ public static class UIInitializer
         {
             var es = new GameObject("EventSystem");
             es.AddComponent<EventSystem>();
-            es.AddComponent<StandaloneInputModule>();
+            es.AddComponent<InputSystemUIInputModule>();
             Object.DontDestroyOnLoad(es); //stays across scenes
         }
     }

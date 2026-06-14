@@ -13,27 +13,49 @@ public class GameManagerPipes : GameManagerBase
 
     protected override void OnGameStarted()
     {
-        pipesMusic?.Play();
+        //pipesMusic?.Play();
         string difficulty = config != null ? config.difficulty : "Normal";
         recorder?.StartRecording(PlayerData.ClassCode, PlayerData.ClassCode, difficulty);
+        if (recorder != null)
+        {
+            recorder.OnMaxRoundsReached -= OnMaxRoundsHandler;
+            recorder.OnMaxRoundsReached += OnMaxRoundsHandler;
+            Debug.Log("[GameManagerPipes] Suscrito a OnMaxRoundsReached");
+        }
+        else
+            Debug.LogWarning("[GameManagerPipes] recorder es null!");
+    }
+
+    private void OnMaxRoundsHandler()
+    {
+        Debug.Log("[GameManagerPipes] OnMaxRoundsReached recibido -> OnTimerFinished");
+        OnTimerFinished();
     }
 
     protected override void OnTimerFinished()
     {
-        // Guardar partida y cambiar escena solo cuando el guardado termina
+        Debug.Log("[GameManagerPipes] OnTimerFinished");
         if (recorder != null)
             recorder.SaveMatch(PlayerData.ClassCode, PlayerData.ClassCode, OnSaveComplete);
         else
             ChangeScene();
     }
 
+    private void OnDestroy()
+    {
+        if (recorder != null)
+            recorder.OnMaxRoundsReached -= OnMaxRoundsHandler;
+    }
+
     private void OnSaveComplete(int result)
     {
+        Debug.Log("[GameManagerPipes] OnSaveComplete result=" + result);
         ChangeScene();
     }
 
     private void ChangeScene()
     {
+        Debug.Log("[GameManagerPipes] ChangeScene");
         if (IsOffline)
             SceneManager.LoadScene("Podium", LoadSceneMode.Single);
         else

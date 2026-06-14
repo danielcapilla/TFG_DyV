@@ -14,33 +14,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:1a1d6a68cf9a0fd4484609b20b2b3950
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 290919010234523648
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
   description:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:1a1d6a68cf9a0fd4484609b20b2b3950
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 290919010247106560
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
   tutorialText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:1a1d6a68cf9a0fd4484609b20b2b3950
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 290919010247106561
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
   sceneName: PipeGame
-  icon: {fileID: 21300000, guid: 36b082c82d480e942bb3c6bc94f447ef, type: 3}
+  icon: {fileID: 134194718, guid: 6fc883e2259bc4e40bfba1cfae4e5a45, type: 3}
   tutorialSceneName: 
   config: {fileID: 11400000, guid: 5e716a095a7725b44888687bad9ac82c, type: 2}
   configPanelPrefab: {fileID: 5518974866517038369, guid: 84571562055a91a43a32e7f5a4ee456b, type: 3}

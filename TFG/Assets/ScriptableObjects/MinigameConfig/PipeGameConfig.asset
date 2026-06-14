@@ -15,10 +15,12 @@ MonoBehaviour:
   matchDuration: 120
   rounds: 1
   maxPlayers: 4
-  columns: 8
-  rows: 8
-  reserveSlots: 4
+  columns: 4
+  rows: 4
+  reserveSlots: 16
+  infiniteTime: 0
+  maxRounds: 0
   difficulty: Normal
   gapRatio: 0.35
-  lockRatio: 0.4
+  lockRatio: 0.35
   extraTiles: 3

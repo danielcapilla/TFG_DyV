@@ -11,7 +11,9 @@ public class PipeGameConfigSync : GameConfigSyncBase
     private NetworkVariable<int>   netReserve    = new(6,     NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     private NetworkVariable<float> netGapRatio   = new(0.35f, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     private NetworkVariable<float> netLockRatio  = new(0.4f,  NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
-    private NetworkVariable<int>   netExtraTiles = new(3,     NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    private NetworkVariable<int>   netExtraTiles  = new(3,     NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    private NetworkVariable<bool>  netInfiniteTime = new(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    private NetworkVariable<int>   netMaxRounds    = new(0,     NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
 
     protected override void OnServerSpawn()
     {
@@ -20,7 +22,9 @@ public class PipeGameConfigSync : GameConfigSyncBase
         netReserve.Value    = config.reserveSlots;
         netGapRatio.Value   = config.gapRatio;
         netLockRatio.Value  = config.lockRatio;
-        netExtraTiles.Value = config.extraTiles;
+        netExtraTiles.Value  = config.extraTiles;
+        netInfiniteTime.Value = config.infiniteTime;
+        netMaxRounds.Value    = config.maxRounds;
     }
 
     protected override void OnClientSpawn()
@@ -30,12 +34,16 @@ public class PipeGameConfigSync : GameConfigSyncBase
         netReserve.OnValueChanged    += (_, v) => config.reserveSlots = v;
         netGapRatio.OnValueChanged   += (_, v) => config.gapRatio     = v;
         netLockRatio.OnValueChanged  += (_, v) => config.lockRatio    = v;
-        netExtraTiles.OnValueChanged += (_, v) => config.extraTiles   = v;
+        netExtraTiles.OnValueChanged  += (_, v) => config.extraTiles   = v;
+        netInfiniteTime.OnValueChanged += (_, v) => config.infiniteTime = v;
+        netMaxRounds.OnValueChanged    += (_, v) => config.maxRounds    = v;
         config.columns      = netColumns.Value;
         config.rows         = netRows.Value;
         config.reserveSlots = netReserve.Value;
         config.gapRatio     = netGapRatio.Value;
         config.lockRatio    = netLockRatio.Value;
         config.extraTiles   = netExtraTiles.Value;
+        config.infiniteTime = netInfiniteTime.Value;
+        config.maxRounds    = netMaxRounds.Value;
     }
 }

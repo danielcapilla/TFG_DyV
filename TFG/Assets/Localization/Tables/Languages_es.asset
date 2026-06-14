@@ -50,7 +50,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 26437426164707329
-    m_Localized: Introduzca texto...
+    m_Localized: Introduzca el texto...
     m_Metadata:
       m_Items: []
   - m_Id: 26437426164707330
@@ -58,7 +58,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 26437426164707331
-    m_Localized: Introduzca su nombre de usuario...
+    m_Localized: Introduce tu nombre de usuario...
     m_Metadata:
       m_Items: []
   - m_Id: 26437426164707332
@@ -82,31 +82,31 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 26437426164707337
-    m_Localized: Por favor seleccione un rol
+    m_Localized: Por favor, seleccione un rol.
     m_Metadata:
       m_Items: []
   - m_Id: 26437426164707338
-    m_Localized: "Por favor seleccione un g\xE9nero"
+    m_Localized: "Por favor, seleccione un g\xE9nero"
     m_Metadata:
       m_Items: []
   - m_Id: 26437426164707339
-    m_Localized: Por favor, rellene ambos campos
+    m_Localized: Por favor, rellene ambos campos.
     m_Metadata:
       m_Items: []
   - m_Id: 26437426164707340
-    m_Localized: "Este nombre de usuario ya est\xE1 en uso"
+    m_Localized: "Este nombre de usuario ya est\xE1 en uso."
     m_Metadata:
       m_Items: []
   - m_Id: 26437426164707341
-    m_Localized: Este nombre de usuario no existe
+    m_Localized: Este nombre de usuario no existe.
     m_Metadata:
       m_Items: []
   - m_Id: 26437426164707342
-    m_Localized: "Error de conexi\xF3n, comprueba tu conexi\xF3n a Internet"
+    m_Localized: "Error de conexi\xF3n, compruebe su conexi\xF3n a Internet."
     m_Metadata:
       m_Items: []
   - m_Id: 26437426164707343
-    m_Localized: Por favor rellene todos los campos
+    m_Localized: Por favor, rellene todos los campos.
     m_Metadata:
       m_Items: []
   - m_Id: 26437426164707344
@@ -142,11 +142,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 26437426164707352
-    m_Localized: "Selecciona un juego para mostrar su descripci\xF3n."
+    m_Localized: "Selecciona un juego para ver su descripci\xF3n."
     m_Metadata:
       m_Items: []
   - m_Id: 26437426164707353
-    m_Localized: Selecciona un juego para mostrar su tutorial.
+    m_Localized: Selecciona un juego para ver su tutorial.
     m_Metadata:
       m_Items: []
   - m_Id: 26437426164707354
@@ -396,6 +396,21 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 215179407895572480
     m_Localized: Generar
+    m_Metadata:
+      m_Items: []
+  - m_Id: 290919010234523648
+    m_Localized: Tuberias
+    m_Metadata:
+      m_Items: []
+  - m_Id: 290919010247106560
+    m_Localized: Utiliza el pensamiento computacional para unir las tuberias y trabaja
+      con tu equipo para completar tantos niveles como podais.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 290919010247106561
+    m_Localized: Recoge, rota y coloca las baldosas para unir ambos puntos, las baldosas
+      moradas no pueden ser modificadas, una vez completo el circuito, interactua
+      con el boton azul para comprobar si el circuito es correcto
     m_Metadata:
       m_Items: []
   references:

@@ -73,7 +73,13 @@ public class MatchTimer : NetworkBehaviour
             countdownIntro.OnCountdownFinished -= OnCountdownFinished;
     }
 
-    private void OnCountdownFinished(object sender, EventArgs e) => StartTimer();
+    private void OnCountdownFinished(object sender, EventArgs e)
+    {
+        // Si hay config de Pipe con tiempo infinito, no arrancar el timer
+        var pipeConfig = config as PipeGameConfigSO;
+        if (pipeConfig != null && pipeConfig.infiniteTime) return;
+        StartTimer();
+    }
 
     public void StartTimer()
     {
@@ -127,8 +133,10 @@ public class MatchTimer : NetworkBehaviour
 
     private void UpdateDisplays()
     {
-        string text = ((int)remaining).ToString();
-        float fillAmount = max > 0f ? remaining / max : 0f;
+        var pipeConfig = config as PipeGameConfigSO;
+        bool infinite  = pipeConfig != null && pipeConfig.infiniteTime;
+        string text    = infinite ? "\u221e" : ((int)remaining).ToString();
+        float fillAmount = infinite ? 1f : (max > 0f ? remaining / max : 0f);
         foreach (var d in displays)
         {
             if (d.timeText != null) d.timeText.text = text;

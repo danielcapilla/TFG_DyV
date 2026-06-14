@@ -7,6 +7,10 @@ public class PipeConnectionChecker : NetworkBehaviour, IScoreEvent
     [SerializeField] public PipeGenerator generator;
     [SerializeField] public PipeReceiver  receiver;
 
+    [Header("Sonidos")]
+    [SerializeField] private AudioSource correctSound;
+    [SerializeField] private AudioSource incorrectSound;
+
     private GridGenerator grid;
     private bool IsOffline => !NetworkManager.Singleton || !NetworkManager.Singleton.IsListening;
 
@@ -28,10 +32,7 @@ public class PipeConnectionChecker : NetworkBehaviour, IScoreEvent
         Debug.LogWarning($"[Checker] SetReferences: gen={gen?.name} rec={rec?.name} grid={grid?.name}");
     }
 
-    public void BuildSlotMap()
-    {
-        // Solo necesario para compatibilidad — la matriz ya la tiene GridGenerator
-    }
+    public void BuildSlotMap() { }
 
     public bool SuppressEvaluate { get; set; } = false;
 
@@ -51,10 +52,16 @@ public class PipeConnectionChecker : NetworkBehaviour, IScoreEvent
         bool connected = FindPath();
         generator.SetConnected(connected, IsOffline);
         receiver.SetConnected(connected, IsOffline);
+
         if (connected)
         {
+            correctSound?.Play();
             OnCircuitCompleted?.Invoke();
             OnScorePoint?.Invoke(1);
+        }
+        else
+        {
+            incorrectSound?.Play();
         }
 
         Debug.Log($"[Checker] EvaluateCircuit: connected={connected}");
@@ -73,14 +80,11 @@ public class PipeConnectionChecker : NetworkBehaviour, IScoreEvent
         TileDirection outDir = generator.OutputDirection;
         TileDirection inDir  = receiver.InputDirection;
 
-        // Celda de inicio: adyacente al generator en su direccion de salida
         Vector2Int start  = genCell.Value + DirToOffset(outDir);
         Vector2Int target = recCell.Value;
 
         if (!InBounds(start, cols, rows)) return false;
 
-        // BFS — visitamos (pos, enteredFrom) como par unico
-        // Asi la misma celda puede explorarse desde distintas direcciones de entrada
         var visited = new System.Collections.Generic.HashSet<(Vector2Int, TileDirection)>();
         var queue   = new System.Collections.Generic.Queue<(Vector2Int pos, TileDirection enteredFrom)>();
         queue.Enqueue((start, TileShapeData.Opposite(outDir)));
@@ -95,25 +99,17 @@ public class PipeConnectionChecker : NetworkBehaviour, IScoreEvent
             if (!InBounds(pos, cols, rows)) continue;
             PipeTile tile = slots[pos.x, pos.y]?.PlacedTile;
             if (tile == null) continue;
-
-            // La tile debe tener apertura por donde entramos
             if (!tile.HasOpening(enteredFrom)) continue;
 
-            // Comprobar conexion con el receiver ANTES de propagar
-            // inDir = direccion por la que entra la señal al receiver
-            // La tile adyacente esta en recCell + Opposite(inDir)
-            // y debe tener apertura Opposite(inDir) para apuntar hacia el receiver
             if (pos + DirToOffset(TileShapeData.Opposite(inDir)) == target
                 && tile.HasOpening(TileShapeData.Opposite(inDir)))
                 return true;
 
-            // Propagar a todos los vecinos por las aperturas de la tile,
-            // excepto por donde entramos (no volver atras)
             foreach (TileDirection dir in new[]
                 { TileDirection.North, TileDirection.South, TileDirection.East, TileDirection.West })
             {
-                if (dir == enteredFrom) continue;          // no volver al origen
-                if (!tile.HasOpening(dir)) continue;       // la tile no sale por aqui
+                if (dir == enteredFrom) continue;
+                if (!tile.HasOpening(dir)) continue;
                 Vector2Int next = pos + DirToOffset(dir);
                 if (!InBounds(next, cols, rows)) continue;
                 if (!visited.Contains((next, TileShapeData.Opposite(dir))))
@@ -123,11 +119,9 @@ public class PipeConnectionChecker : NetworkBehaviour, IScoreEvent
         return false;
     }
 
-    // Encuentra la celda [col,row] de un GameObject por nombre de slot
     private Vector2Int? FindCell(GameObject go)
     {
         if (go == null) return null;
-        // Si el GO es hijo de un slot, usar el slot padre
         Transform slotT = go.transform.parent;
         if (slotT == null) return null;
         string name = slotT.name;
