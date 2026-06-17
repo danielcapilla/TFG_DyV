@@ -125,7 +125,7 @@ public class PipeGameConfigPanel : MonoBehaviour, IConfigPanel
     {
         config.maxRounds = Mathf.RoundToInt(value);
         if (maxRoundsLabel != null)
-            maxRoundsLabel.text = config.maxRounds == 0 ? "Sin limite" : config.maxRounds.ToString();
+            maxRoundsLabel.text = config.maxRounds == 0 ? "Sin límite" : config.maxRounds.ToString();
     }
 
     private void SetDifficulty(int index)
